@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2CC185EC172FB3FA00FA1E28 /* CPDataKeeper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC185EB172FB3FA00FA1E28 /* CPDataKeeper.m */; };
+		2CC185ED172FB3FB00FA1E28 /* CPDataKeeper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC185EB172FB3FA00FA1E28 /* CPDataKeeper.m */; };
 		FC2E2AED172F4A7900C17486 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AEC172F4A7900C17486 /* UIKit.framework */; };
 		FC2E2AEF172F4A7900C17486 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AEE172F4A7900C17486 /* Foundation.framework */; };
 		FC2E2AF1172F4A7900C17486 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AF0172F4A7900C17486 /* CoreGraphics.framework */; };
@@ -37,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2CC185EA172FB3FA00FA1E28 /* CPDataKeeper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPDataKeeper.h; sourceTree = "<group>"; };
+		2CC185EB172FB3FA00FA1E28 /* CPDataKeeper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPDataKeeper.m; sourceTree = "<group>"; };
 		FC2E2AE9172F4A7900C17486 /* Passone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Passone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC2E2AEC172F4A7900C17486 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FC2E2AEE172F4A7900C17486 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -121,10 +125,12 @@
 			children = (
 				FC2E2AFB172F4A7900C17486 /* CPAppDelegate.h */,
 				FC2E2AFC172F4A7900C17486 /* CPAppDelegate.m */,
-				FC2E2B04172F4A7900C17486 /* MainStoryboard_iPhone.storyboard */,
-				FC2E2B07172F4A7900C17486 /* MainStoryboard_iPad.storyboard */,
+				2CC185EA172FB3FA00FA1E28 /* CPDataKeeper.h */,
+				2CC185EB172FB3FA00FA1E28 /* CPDataKeeper.m */,
 				FC2E2B0A172F4A7900C17486 /* CPViewController.h */,
 				FC2E2B0B172F4A7900C17486 /* CPViewController.m */,
+				FC2E2B07172F4A7900C17486 /* MainStoryboard_iPad.storyboard */,
+				FC2E2B04172F4A7900C17486 /* MainStoryboard_iPhone.storyboard */,
 				FC2E2AF3172F4A7900C17486 /* Supporting Files */,
 			);
 			path = Passone;
@@ -278,6 +284,7 @@
 				FC2E2AF9172F4A7900C17486 /* main.m in Sources */,
 				FC2E2AFD172F4A7900C17486 /* CPAppDelegate.m in Sources */,
 				FC2E2B0C172F4A7900C17486 /* CPViewController.m in Sources */,
+				2CC185EC172FB3FA00FA1E28 /* CPDataKeeper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC2E2B21172F4A7900C17486 /* PassoneTests.m in Sources */,
+				2CC185ED172FB3FB00FA1E28 /* CPDataKeeper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,6 +476,7 @@
 				FC2E2B26172F4A7900C17486 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FC2E2B27172F4A7900C17486 /* Build configuration list for PBXNativeTarget "PassoneTests" */ = {
 			isa = XCConfigurationList;
@@ -476,6 +485,7 @@
 				FC2E2B29172F4A7900C17486 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
