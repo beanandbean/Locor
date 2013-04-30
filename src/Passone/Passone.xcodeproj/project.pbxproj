@@ -1,0 +1,483 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FC2E2AED172F4A7900C17486 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AEC172F4A7900C17486 /* UIKit.framework */; };
+		FC2E2AEF172F4A7900C17486 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AEE172F4A7900C17486 /* Foundation.framework */; };
+		FC2E2AF1172F4A7900C17486 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AF0172F4A7900C17486 /* CoreGraphics.framework */; };
+		FC2E2AF7172F4A7900C17486 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FC2E2AF5172F4A7900C17486 /* InfoPlist.strings */; };
+		FC2E2AF9172F4A7900C17486 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FC2E2AF8172F4A7900C17486 /* main.m */; };
+		FC2E2AFD172F4A7900C17486 /* CPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FC2E2AFC172F4A7900C17486 /* CPAppDelegate.m */; };
+		FC2E2AFF172F4A7900C17486 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = FC2E2AFE172F4A7900C17486 /* Default.png */; };
+		FC2E2B01172F4A7900C17486 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FC2E2B00172F4A7900C17486 /* Default@2x.png */; };
+		FC2E2B03172F4A7900C17486 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FC2E2B02172F4A7900C17486 /* Default-568h@2x.png */; };
+		FC2E2B06172F4A7900C17486 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC2E2B04172F4A7900C17486 /* MainStoryboard_iPhone.storyboard */; };
+		FC2E2B09172F4A7900C17486 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC2E2B07172F4A7900C17486 /* MainStoryboard_iPad.storyboard */; };
+		FC2E2B0C172F4A7900C17486 /* CPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC2E2B0B172F4A7900C17486 /* CPViewController.m */; };
+		FC2E2B14172F4A7900C17486 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2B13172F4A7900C17486 /* SenTestingKit.framework */; };
+		FC2E2B15172F4A7900C17486 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AEC172F4A7900C17486 /* UIKit.framework */; };
+		FC2E2B16172F4A7900C17486 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AEE172F4A7900C17486 /* Foundation.framework */; };
+		FC2E2B1E172F4A7900C17486 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FC2E2B1C172F4A7900C17486 /* InfoPlist.strings */; };
+		FC2E2B21172F4A7900C17486 /* PassoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FC2E2B20172F4A7900C17486 /* PassoneTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FC2E2B17172F4A7900C17486 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FC2E2AE1172F4A7900C17486 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FC2E2AE8172F4A7900C17486;
+			remoteInfo = Passone;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		FC2E2AE9172F4A7900C17486 /* Passone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Passone.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC2E2AEC172F4A7900C17486 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		FC2E2AEE172F4A7900C17486 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FC2E2AF0172F4A7900C17486 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		FC2E2AF4172F4A7900C17486 /* Passone-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Passone-Info.plist"; sourceTree = "<group>"; };
+		FC2E2AF6172F4A7900C17486 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FC2E2AF8172F4A7900C17486 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FC2E2AFA172F4A7900C17486 /* Passone-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Passone-Prefix.pch"; sourceTree = "<group>"; };
+		FC2E2AFB172F4A7900C17486 /* CPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPAppDelegate.h; sourceTree = "<group>"; };
+		FC2E2AFC172F4A7900C17486 /* CPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CPAppDelegate.m; sourceTree = "<group>"; };
+		FC2E2AFE172F4A7900C17486 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		FC2E2B00172F4A7900C17486 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		FC2E2B02172F4A7900C17486 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		FC2E2B05172F4A7900C17486 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		FC2E2B08172F4A7900C17486 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		FC2E2B0A172F4A7900C17486 /* CPViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPViewController.h; sourceTree = "<group>"; };
+		FC2E2B0B172F4A7900C17486 /* CPViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CPViewController.m; sourceTree = "<group>"; };
+		FC2E2B12172F4A7900C17486 /* PassoneTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PassoneTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC2E2B13172F4A7900C17486 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		FC2E2B1B172F4A7900C17486 /* PassoneTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PassoneTests-Info.plist"; sourceTree = "<group>"; };
+		FC2E2B1D172F4A7900C17486 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FC2E2B1F172F4A7900C17486 /* PassoneTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PassoneTests.h; sourceTree = "<group>"; };
+		FC2E2B20172F4A7900C17486 /* PassoneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PassoneTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FC2E2AE6172F4A7900C17486 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC2E2AED172F4A7900C17486 /* UIKit.framework in Frameworks */,
+				FC2E2AEF172F4A7900C17486 /* Foundation.framework in Frameworks */,
+				FC2E2AF1172F4A7900C17486 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC2E2B0E172F4A7900C17486 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC2E2B14172F4A7900C17486 /* SenTestingKit.framework in Frameworks */,
+				FC2E2B15172F4A7900C17486 /* UIKit.framework in Frameworks */,
+				FC2E2B16172F4A7900C17486 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FC2E2AE0172F4A7900C17486 = {
+			isa = PBXGroup;
+			children = (
+				FC2E2AF2172F4A7900C17486 /* Passone */,
+				FC2E2B19172F4A7900C17486 /* PassoneTests */,
+				FC2E2AEB172F4A7900C17486 /* Frameworks */,
+				FC2E2AEA172F4A7900C17486 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FC2E2AEA172F4A7900C17486 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FC2E2AE9172F4A7900C17486 /* Passone.app */,
+				FC2E2B12172F4A7900C17486 /* PassoneTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FC2E2AEB172F4A7900C17486 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FC2E2AEC172F4A7900C17486 /* UIKit.framework */,
+				FC2E2AEE172F4A7900C17486 /* Foundation.framework */,
+				FC2E2AF0172F4A7900C17486 /* CoreGraphics.framework */,
+				FC2E2B13172F4A7900C17486 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FC2E2AF2172F4A7900C17486 /* Passone */ = {
+			isa = PBXGroup;
+			children = (
+				FC2E2AFB172F4A7900C17486 /* CPAppDelegate.h */,
+				FC2E2AFC172F4A7900C17486 /* CPAppDelegate.m */,
+				FC2E2B04172F4A7900C17486 /* MainStoryboard_iPhone.storyboard */,
+				FC2E2B07172F4A7900C17486 /* MainStoryboard_iPad.storyboard */,
+				FC2E2B0A172F4A7900C17486 /* CPViewController.h */,
+				FC2E2B0B172F4A7900C17486 /* CPViewController.m */,
+				FC2E2AF3172F4A7900C17486 /* Supporting Files */,
+			);
+			path = Passone;
+			sourceTree = "<group>";
+		};
+		FC2E2AF3172F4A7900C17486 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FC2E2AF4172F4A7900C17486 /* Passone-Info.plist */,
+				FC2E2AF5172F4A7900C17486 /* InfoPlist.strings */,
+				FC2E2AF8172F4A7900C17486 /* main.m */,
+				FC2E2AFA172F4A7900C17486 /* Passone-Prefix.pch */,
+				FC2E2AFE172F4A7900C17486 /* Default.png */,
+				FC2E2B00172F4A7900C17486 /* Default@2x.png */,
+				FC2E2B02172F4A7900C17486 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FC2E2B19172F4A7900C17486 /* PassoneTests */ = {
+			isa = PBXGroup;
+			children = (
+				FC2E2B1F172F4A7900C17486 /* PassoneTests.h */,
+				FC2E2B20172F4A7900C17486 /* PassoneTests.m */,
+				FC2E2B1A172F4A7900C17486 /* Supporting Files */,
+			);
+			path = PassoneTests;
+			sourceTree = "<group>";
+		};
+		FC2E2B1A172F4A7900C17486 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FC2E2B1B172F4A7900C17486 /* PassoneTests-Info.plist */,
+				FC2E2B1C172F4A7900C17486 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FC2E2AE8172F4A7900C17486 /* Passone */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FC2E2B24172F4A7900C17486 /* Build configuration list for PBXNativeTarget "Passone" */;
+			buildPhases = (
+				FC2E2AE5172F4A7900C17486 /* Sources */,
+				FC2E2AE6172F4A7900C17486 /* Frameworks */,
+				FC2E2AE7172F4A7900C17486 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Passone;
+			productName = Passone;
+			productReference = FC2E2AE9172F4A7900C17486 /* Passone.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FC2E2B11172F4A7900C17486 /* PassoneTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FC2E2B27172F4A7900C17486 /* Build configuration list for PBXNativeTarget "PassoneTests" */;
+			buildPhases = (
+				FC2E2B0D172F4A7900C17486 /* Sources */,
+				FC2E2B0E172F4A7900C17486 /* Frameworks */,
+				FC2E2B0F172F4A7900C17486 /* Resources */,
+				FC2E2B10172F4A7900C17486 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FC2E2B18172F4A7900C17486 /* PBXTargetDependency */,
+			);
+			name = PassoneTests;
+			productName = PassoneTests;
+			productReference = FC2E2B12172F4A7900C17486 /* PassoneTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FC2E2AE1172F4A7900C17486 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = CP;
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = wangyw;
+			};
+			buildConfigurationList = FC2E2AE4172F4A7900C17486 /* Build configuration list for PBXProject "Passone" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FC2E2AE0172F4A7900C17486;
+			productRefGroup = FC2E2AEA172F4A7900C17486 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FC2E2AE8172F4A7900C17486 /* Passone */,
+				FC2E2B11172F4A7900C17486 /* PassoneTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FC2E2AE7172F4A7900C17486 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC2E2AF7172F4A7900C17486 /* InfoPlist.strings in Resources */,
+				FC2E2AFF172F4A7900C17486 /* Default.png in Resources */,
+				FC2E2B01172F4A7900C17486 /* Default@2x.png in Resources */,
+				FC2E2B03172F4A7900C17486 /* Default-568h@2x.png in Resources */,
+				FC2E2B06172F4A7900C17486 /* MainStoryboard_iPhone.storyboard in Resources */,
+				FC2E2B09172F4A7900C17486 /* MainStoryboard_iPad.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC2E2B0F172F4A7900C17486 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC2E2B1E172F4A7900C17486 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FC2E2B10172F4A7900C17486 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FC2E2AE5172F4A7900C17486 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC2E2AF9172F4A7900C17486 /* main.m in Sources */,
+				FC2E2AFD172F4A7900C17486 /* CPAppDelegate.m in Sources */,
+				FC2E2B0C172F4A7900C17486 /* CPViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC2E2B0D172F4A7900C17486 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC2E2B21172F4A7900C17486 /* PassoneTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FC2E2B18172F4A7900C17486 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FC2E2AE8172F4A7900C17486 /* Passone */;
+			targetProxy = FC2E2B17172F4A7900C17486 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FC2E2AF5172F4A7900C17486 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FC2E2AF6172F4A7900C17486 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		FC2E2B04172F4A7900C17486 /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FC2E2B05172F4A7900C17486 /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		FC2E2B07172F4A7900C17486 /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FC2E2B08172F4A7900C17486 /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		FC2E2B1C172F4A7900C17486 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FC2E2B1D172F4A7900C17486 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FC2E2B22172F4A7900C17486 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FC2E2B23172F4A7900C17486 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FC2E2B25172F4A7900C17486 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Passone/Passone-Prefix.pch";
+				INFOPLIST_FILE = "Passone/Passone-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		FC2E2B26172F4A7900C17486 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Passone/Passone-Prefix.pch";
+				INFOPLIST_FILE = "Passone/Passone-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		FC2E2B28172F4A7900C17486 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Passone.app/Passone";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Passone/Passone-Prefix.pch";
+				INFOPLIST_FILE = "PassoneTests/PassoneTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		FC2E2B29172F4A7900C17486 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Passone.app/Passone";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Passone/Passone-Prefix.pch";
+				INFOPLIST_FILE = "PassoneTests/PassoneTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FC2E2AE4172F4A7900C17486 /* Build configuration list for PBXProject "Passone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC2E2B22172F4A7900C17486 /* Debug */,
+				FC2E2B23172F4A7900C17486 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FC2E2B24172F4A7900C17486 /* Build configuration list for PBXNativeTarget "Passone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC2E2B25172F4A7900C17486 /* Debug */,
+				FC2E2B26172F4A7900C17486 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		FC2E2B27172F4A7900C17486 /* Build configuration list for PBXNativeTarget "PassoneTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC2E2B28172F4A7900C17486 /* Debug */,
+				FC2E2B29172F4A7900C17486 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FC2E2AE1172F4A7900C17486 /* Project object */;
+}
