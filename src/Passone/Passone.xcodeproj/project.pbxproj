@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2CC185EC172FB3FA00FA1E28 /* CPDataKeeper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC185EB172FB3FA00FA1E28 /* CPDataKeeper.m */; };
 		2CC185ED172FB3FB00FA1E28 /* CPDataKeeper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC185EB172FB3FA00FA1E28 /* CPDataKeeper.m */; };
+		FC260F331730AA0100D4F6C1 /* CPLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = FC260F321730AA0100D4F6C1 /* CPLoginView.m */; };
 		FC2E2AED172F4A7900C17486 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AEC172F4A7900C17486 /* UIKit.framework */; };
 		FC2E2AEF172F4A7900C17486 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AEE172F4A7900C17486 /* Foundation.framework */; };
 		FC2E2AF1172F4A7900C17486 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AF0172F4A7900C17486 /* CoreGraphics.framework */; };
@@ -20,7 +21,7 @@
 		FC2E2B03172F4A7900C17486 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FC2E2B02172F4A7900C17486 /* Default-568h@2x.png */; };
 		FC2E2B06172F4A7900C17486 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC2E2B04172F4A7900C17486 /* MainStoryboard_iPhone.storyboard */; };
 		FC2E2B09172F4A7900C17486 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC2E2B07172F4A7900C17486 /* MainStoryboard_iPad.storyboard */; };
-		FC2E2B0C172F4A7900C17486 /* CPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC2E2B0B172F4A7900C17486 /* CPViewController.m */; };
+		FC2E2B0C172F4A7900C17486 /* CPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC2E2B0B172F4A7900C17486 /* CPLoginViewController.m */; };
 		FC2E2B14172F4A7900C17486 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2B13172F4A7900C17486 /* SenTestingKit.framework */; };
 		FC2E2B15172F4A7900C17486 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AEC172F4A7900C17486 /* UIKit.framework */; };
 		FC2E2B16172F4A7900C17486 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AEE172F4A7900C17486 /* Foundation.framework */; };
@@ -41,6 +42,8 @@
 /* Begin PBXFileReference section */
 		2CC185EA172FB3FA00FA1E28 /* CPDataKeeper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPDataKeeper.h; sourceTree = "<group>"; };
 		2CC185EB172FB3FA00FA1E28 /* CPDataKeeper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPDataKeeper.m; sourceTree = "<group>"; };
+		FC260F311730AA0100D4F6C1 /* CPLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPLoginView.h; sourceTree = "<group>"; };
+		FC260F321730AA0100D4F6C1 /* CPLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPLoginView.m; sourceTree = "<group>"; };
 		FC2E2AE9172F4A7900C17486 /* Passone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Passone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC2E2AEC172F4A7900C17486 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FC2E2AEE172F4A7900C17486 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -56,8 +59,8 @@
 		FC2E2B02172F4A7900C17486 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		FC2E2B05172F4A7900C17486 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		FC2E2B08172F4A7900C17486 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		FC2E2B0A172F4A7900C17486 /* CPViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPViewController.h; sourceTree = "<group>"; };
-		FC2E2B0B172F4A7900C17486 /* CPViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CPViewController.m; sourceTree = "<group>"; };
+		FC2E2B0A172F4A7900C17486 /* CPLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPLoginViewController.h; sourceTree = "<group>"; };
+		FC2E2B0B172F4A7900C17486 /* CPLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CPLoginViewController.m; sourceTree = "<group>"; };
 		FC2E2B12172F4A7900C17486 /* PassoneTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PassoneTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC2E2B13172F4A7900C17486 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		FC2E2B1B172F4A7900C17486 /* PassoneTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PassoneTests-Info.plist"; sourceTree = "<group>"; };
@@ -127,8 +130,10 @@
 				FC2E2AFC172F4A7900C17486 /* CPAppDelegate.m */,
 				2CC185EA172FB3FA00FA1E28 /* CPDataKeeper.h */,
 				2CC185EB172FB3FA00FA1E28 /* CPDataKeeper.m */,
-				FC2E2B0A172F4A7900C17486 /* CPViewController.h */,
-				FC2E2B0B172F4A7900C17486 /* CPViewController.m */,
+				FC260F311730AA0100D4F6C1 /* CPLoginView.h */,
+				FC260F321730AA0100D4F6C1 /* CPLoginView.m */,
+				FC2E2B0A172F4A7900C17486 /* CPLoginViewController.h */,
+				FC2E2B0B172F4A7900C17486 /* CPLoginViewController.m */,
 				FC2E2B07172F4A7900C17486 /* MainStoryboard_iPad.storyboard */,
 				FC2E2B04172F4A7900C17486 /* MainStoryboard_iPhone.storyboard */,
 				FC2E2AF3172F4A7900C17486 /* Supporting Files */,
@@ -216,7 +221,7 @@
 			attributes = {
 				CLASSPREFIX = CP;
 				LastUpgradeCheck = 0460;
-				ORGANIZATIONNAME = wangyw;
+				ORGANIZATIONNAME = codingpotato;
 			};
 			buildConfigurationList = FC2E2AE4172F4A7900C17486 /* Build configuration list for PBXProject "Passone" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -283,8 +288,9 @@
 			files = (
 				FC2E2AF9172F4A7900C17486 /* main.m in Sources */,
 				FC2E2AFD172F4A7900C17486 /* CPAppDelegate.m in Sources */,
-				FC2E2B0C172F4A7900C17486 /* CPViewController.m in Sources */,
+				FC2E2B0C172F4A7900C17486 /* CPLoginViewController.m in Sources */,
 				2CC185EC172FB3FA00FA1E28 /* CPDataKeeper.m in Sources */,
+				FC260F331730AA0100D4F6C1 /* CPLoginView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
