@@ -13,7 +13,10 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.backgroundColor = [UIColor lightGrayColor];
+        float red = (rand() % 256) / 256.0;
+        float green = (rand() % 256) / 256.0;
+        float blue = (rand() % 256) / 256.0;
+        self.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1];
         self.frame = CGRectMake(0, 0, 200, 200);
         [self setTranslatesAutoresizingMaskIntoConstraints:NO];
     }
