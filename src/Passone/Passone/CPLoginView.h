@@ -8,4 +8,6 @@
 
 @interface CPLoginView : UIView
 
+- (id)initWithSize:(int)size;
+
 @end
