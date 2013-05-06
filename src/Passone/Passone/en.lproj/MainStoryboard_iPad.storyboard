@@ -4,26 +4,38 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
-        <!--Login View Controller-->
+        <!--Password View Controller-->
         <scene sceneID="4">
             <objects>
-                <viewController id="2" customClass="CPLoginViewController" sceneMemberID="viewController">
+                <viewController id="2" customClass="CPPasswordViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5">
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="1" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
+                    <connections>
+                        <segue destination="IuO-ez-HNq" kind="modal" identifier="CPLoginViewController" modalPresentationStyle="formSheet" id="rCK-Z4-whO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="550" y="92"/>
+            <point key="canvasLocation" x="516" y="92"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="S5X-6G-Rjy">
+            <objects>
+                <viewController id="IuO-ez-HNq" customClass="CPLoginViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Yji-B8-mMP">
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="E78-XD-uzx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1458" y="294"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="CPLoginViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CPLoginViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -9,9 +9,7 @@
 #import "CPLoginViewController.h"
 #import "CPLoginView.h"
 
-static const int WIDTH = 200;
 static const int SPACE = 10;
-static const int WHOLE = WIDTH*2+SPACE;
 
 @interface CPLoginViewController ()
 
@@ -21,6 +19,13 @@ static const int WHOLE = WIDTH*2+SPACE;
 
 @implementation CPLoginViewController
 
+- (NSMutableArray *)loginViews {
+    if (!_loginViews) {
+        _loginViews = [[NSMutableArray alloc] init];
+    }
+    return _loginViews;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -29,31 +34,43 @@ static const int WHOLE = WIDTH*2+SPACE;
     int hSign[] = {-1, 1, -1, 1};
     int vSign[] = {-1, -1, 1, 1};
     
+    CGFloat width = fminf(self.view.frame.size.width, self.view.frame.size.height) / 2 - SPACE * 3;
+    if (width > 200.0) {
+        width = 200.0;
+    }
     for (int i = 0; i < 4; i++) {
-        CPLoginView *view = [[CPLoginView alloc] initWithSize:WIDTH];
+        CPLoginView *view = [[CPLoginView alloc] initWithSmallSize:width largeSize:(width + SPACE) * 2];
         [self.loginViews addObject:view];
         [self.view addSubview:view];
 
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:view
-                                                             attribute:hAttribute[i]
-                                                             relatedBy:NSLayoutRelationEqual
-                                                                toItem:self.view
-                                                             attribute:NSLayoutAttributeCenterX
-                                                            multiplier:1.0
-                                                               constant:hSign[i] * (WIDTH + SPACE)]];
+                                                              attribute:hAttribute[i]
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeCenterX
+                                                             multiplier:1.0
+                                                               constant:hSign[i] * (width + SPACE)]];
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:view
                                                               attribute:vAttribute[i]
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self.view
                                                               attribute:NSLayoutAttributeCenterY
                                                              multiplier:1.0
-                                                               constant:vSign[i] * (WIDTH + SPACE)]];
+                                                               constant:vSign[i] * (width + SPACE)]];
     }
+
+    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedBy:)]];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)tappedBy:(UITapGestureRecognizer *)tapGuesture {
+    for (CPLoginView *view in self.loginViews) {
+        [view shrink];
+    }
 }
 
 @end
