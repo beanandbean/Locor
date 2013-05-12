@@ -6,8 +6,10 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CPLoginViewController.h"
 
-@interface CPPasswordViewController : UIViewController
+@interface CPPasswordViewController : UIViewController <CPLoginViewControllerDelegate>
+
+@property (weak, nonatomic) IBOutlet UILabel *userName;
 
 @end

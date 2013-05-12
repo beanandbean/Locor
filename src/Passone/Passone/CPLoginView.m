@@ -10,60 +10,100 @@
 
 @interface CPLoginView ()
 
+@property (strong, nonatomic) NSString *user;
+@property (strong, nonatomic) NSString *password;
+
 @property (nonatomic) CGFloat smallSize;
 @property (nonatomic) CGFloat largeSize;
 
-@property (nonatomic, strong) NSLayoutConstraint *heightConstraint;
-@property (nonatomic, strong) NSLayoutConstraint *widthConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *heightConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *widthConstraint;
 
 @end
 
 @implementation CPLoginView
 
-- (id)initWithSmallSize:(CGFloat)smallSize largeSize:(CGFloat)largeSize {
+- (id)initWithSmallSize:(CGFloat)smallSize largeSize:(CGFloat)largeSize user:(NSString *)user password:(NSString *)password {
     self = [super init];
     if (self) {
         self.smallSize = smallSize;
         self.largeSize = largeSize;
+        self.user = user;
+        self.password = password;
         
-        float red = (rand() % 256) / 256.0;
-        float green = (rand() % 256) / 256.0;
-        float blue = (rand() % 256) / 256.0;
-        self.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1];
-        self.widthConstraint = [NSLayoutConstraint constraintWithItem:self
-                                                            attribute:NSLayoutAttributeWidth
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:nil
-                                                            attribute:NSLayoutAttributeNotAnAttribute
-                                                           multiplier:0.0
-                                                             constant:smallSize];
-        self.heightConstraint = [NSLayoutConstraint constraintWithItem:self
-                                                             attribute:NSLayoutAttributeHeight
-                                                             relatedBy:NSLayoutRelationEqual
-                                                                toItem:nil
-                                                             attribute:NSLayoutAttributeNotAnAttribute
-                                                            multiplier:0.0
-                                                              constant:smallSize];
+        self.widthConstraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:smallSize];
+        self.heightConstraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:smallSize];
         [self addConstraint:self.widthConstraint];
         [self addConstraint:self.heightConstraint];
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedBy:)]];
         
-        [self createNoUserView];
+        
+        [[NSBundle mainBundle] loadNibNamed:@"CPLoginView" owner:self options:nil];
+        [self addView:self.emptyView];
+        [self addView:self.userView];
+        [self addView:self.registerView];
+        [self addView:self.loginView];
+        
+        CGFloat red = arc4random() % 255 / 255.0;
+        CGFloat green = arc4random() % 255 / 255.0;
+        CGFloat blue = arc4random() % 255 / 255.0;
+        UIColor *color = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
+        self.emptyView.backgroundColor = color;
+        self.userView.backgroundColor = color;
+        self.registerView.backgroundColor = color;
+        self.loginView.backgroundColor = color;
+        
+        self.registerBackgroundView.layer.cornerRadius = 10.0;
+        self.registerBackgroundView.layer.borderWidth = 1;
+        self.registerBackgroundView.layer.borderColor = [[UIColor blackColor] CGColor];
+        
+        self.loginBackgroundView.layer.cornerRadius = 10.0;
+        self.loginBackgroundView.layer.borderWidth = 1;
+        self.loginBackgroundView.layer.borderColor = [[UIColor blackColor] CGColor];
+        
+        if (self.user) {
+            self.userLabel.text = self.user;
+            self.loginUserName.text = self.user;
+            [self showView:self.userView];
+        } else {
+            [self showView:self.emptyView];
+        }
     }
     return self;
 }
 
 - (void)shrink {
     if (self.frame.size.width != self.smallSize) {
+        if (self.user) {
+            [self showView:self.userView];
+        } else {
+            [self showView:self.emptyView];
+        }
         self.widthConstraint.constant = self.smallSize;
         self.heightConstraint.constant = self.smallSize;
         [UIView animateWithDuration:1.0 animations:^{
             [self layoutIfNeeded];
-        } completion:^(BOOL finished) {
-            [self createNoUserView];
         }];
+    }
+}
+
+- (IBAction)register:(id)sender {
+    if (![self.registerUserName.text isEqualToString:@""] && ![self.registerPassword.text isEqualToString:@""] && ![self.registerConfirmedPassword.text isEqualToString:@""] && [self.registerPassword.text isEqualToString:self.registerConfirmedPassword.text]) {
+        self.user = self.registerUserName.text;
+        self.password = self.registerPassword.text;
+
+        self.userLabel.text = self.user;
+        self.loginUserName.text = self.user;
+        
+        [self.loginViewDelegate addUser:self.user password:self.password fromLoginView:self];
+    }
+}
+
+- (IBAction)login:(id)sender {
+    if ([self.loginUserName.text isEqualToString:self.user] && [self.loginPassword.text isEqualToString:self.password]) {
+        [self.loginViewDelegate user:self.user loginFromLoginView:self];
     }
 }
 
@@ -75,178 +115,30 @@
         [UIView animateWithDuration:1.0 animations:^{
             [self layoutIfNeeded];
         } completion:^(BOOL finished) {
-            [self createRegisterView];
+            if (self.user) {
+                [self showView:self.loginView];
+            } else {
+                [self showView:self.registerView];
+            }
         }];
     }
 }
 
-- (void)createNoUserView {
-    for (UIView * view in self.subviews) {
-        [view removeFromSuperview];
-    }
-    
-    UILabel *add = [[UILabel alloc] init];
-    add.text = @"+";
-    add.font = [UIFont systemFontOfSize:80.0];
-    add.textColor = [UIColor whiteColor];
-    add.backgroundColor = [UIColor clearColor];
-    add.shadowColor = [UIColor blackColor];
-    add.shadowOffset = CGSizeMake(0.0, -1.0);
-    [self addSubview:add];
-    
-    add.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:add
-                                                     attribute:NSLayoutAttributeCenterX
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:self
-                                                     attribute:NSLayoutAttributeCenterX
-                                                    multiplier:1.0
-                                                      constant:0.0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:add
-                                                     attribute:NSLayoutAttributeCenterY
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:self
-                                                     attribute:NSLayoutAttributeCenterY
-                                                    multiplier:1.0
-                                                      constant:0.0]];
+- (void)showView:(UIView *)view {
+    self.emptyView.hidden = YES;
+    self.userView.hidden = YES;
+    self.registerView.hidden = YES;
+    self.loginView.hidden = YES;
+    view.hidden = NO;
 }
 
-- (void)createRegisterView {
-    for (UIView * view in self.subviews) {
-        [view removeFromSuperview];
-    }
-    
-    UIView *inputBackground = [[UIView alloc] init];
-    inputBackground.layer.borderWidth = 1.0;
-    inputBackground.layer.borderColor = [[UIColor blackColor] CGColor];
-    inputBackground.layer.cornerRadius = 10.0;
-    inputBackground.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addSubview:inputBackground];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:inputBackground
-                                                     attribute:NSLayoutAttributeCenterX
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:self
-                                                     attribute:NSLayoutAttributeCenterX
-                                                    multiplier:1.0
-                                                      constant:0.0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:inputBackground
-                                                     attribute:NSLayoutAttributeCenterY
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:self
-                                                     attribute:NSLayoutAttributeCenterY
-                                                    multiplier:1.0
-                                                      constant:-45.0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:inputBackground
-                                                     attribute:NSLayoutAttributeWidth
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:self
-                                                     attribute:NSLayoutAttributeWidth
-                                                    multiplier:1.0
-                                                      constant:-40.0]];
-    [inputBackground addConstraint:[NSLayoutConstraint constraintWithItem:inputBackground
-                                                                attribute:NSLayoutAttributeHeight
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:nil
-                                                                attribute:NSLayoutAttributeNotAnAttribute
-                                                               multiplier:1.0
-                                                                 constant:90.0]];
-    
-    UITextField *user = [[UITextField alloc] init];
-    user.placeholder = @"User Name";
-    user.translatesAutoresizingMaskIntoConstraints = NO;
-    [inputBackground addSubview:user];
-    [inputBackground addConstraint:[NSLayoutConstraint constraintWithItem:user
-                                                                attribute:NSLayoutAttributeCenterX
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:inputBackground
-                                                                attribute:NSLayoutAttributeCenterX
-                                                               multiplier:1.0
-                                                                 constant:0.0]];
-    [inputBackground addConstraint:[NSLayoutConstraint constraintWithItem:user
-                                                                attribute:NSLayoutAttributeTop
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:inputBackground
-                                                                attribute:NSLayoutAttributeTop
-                                                               multiplier:1.0
-                                                                 constant:20.0]];
-    [inputBackground addConstraint:[NSLayoutConstraint constraintWithItem:user
-                                                                attribute:NSLayoutAttributeWidth
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:inputBackground
-                                                                attribute:NSLayoutAttributeWidth
-                                                               multiplier:1.0
-                                                                 constant:-40.0]];
-    [user addConstraint:[NSLayoutConstraint constraintWithItem:user
-                                                     attribute:NSLayoutAttributeHeight
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:nil
-                                                     attribute:NSLayoutAttributeNotAnAttribute
-                                                    multiplier:0.0
-                                                      constant:20.0]];
-    UITextField *password = [[UITextField alloc] init];
-    password.placeholder = @"Password";
-    password.translatesAutoresizingMaskIntoConstraints = NO;
-    [inputBackground addSubview:password];
-    [inputBackground addConstraint:[NSLayoutConstraint constraintWithItem:password
-                                                                attribute:NSLayoutAttributeCenterX
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:inputBackground
-                                                                attribute:NSLayoutAttributeCenterX
-                                                               multiplier:1.0
-                                                                 constant:0.0]];
-    [inputBackground addConstraint:[NSLayoutConstraint constraintWithItem:password
-                                                                attribute:NSLayoutAttributeTop
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:user
-                                                                attribute:NSLayoutAttributeBottom
-                                                               multiplier:1.0
-                                                                 constant:10.0]];
-    [inputBackground addConstraint:[NSLayoutConstraint constraintWithItem:password
-                                                                attribute:NSLayoutAttributeWidth
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:inputBackground
-                                                                attribute:NSLayoutAttributeWidth
-                                                               multiplier:1.0
-                                                                 constant:-40.0]];
-    [password addConstraint:[NSLayoutConstraint constraintWithItem:password
-                                                         attribute:NSLayoutAttributeHeight
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:nil
-                                                         attribute:NSLayoutAttributeNotAnAttribute
-                                                        multiplier:0.0
-                                                          constant:20.0]];
-    UIButton *registerButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [registerButton setTitle:@"Register" forState:UIControlStateNormal];
-    registerButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addSubview:registerButton];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:registerButton
-                                                     attribute:NSLayoutAttributeCenterX
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:self
-                                                     attribute:NSLayoutAttributeCenterX
-                                                    multiplier:1.0
-                                                      constant:0.0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:registerButton
-                                                     attribute:NSLayoutAttributeCenterY
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:self
-                                                     attribute:NSLayoutAttributeCenterY
-                                                    multiplier:1.0
-                                                      constant:50.0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:registerButton
-                                                     attribute:NSLayoutAttributeWidth
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:self
-                                                     attribute:NSLayoutAttributeWidth
-                                                    multiplier:1.0
-                                                      constant:-40.0]];
-    [registerButton addConstraint:[NSLayoutConstraint constraintWithItem:registerButton
-                                                               attribute:NSLayoutAttributeHeight
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:nil
-                                                               attribute:NSLayoutAttributeNotAnAttribute
-                                                              multiplier:1.0
-                                                                constant:35.0]];
+- (void)addView:(UIView *)view {
+    view.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:view];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
 }
 
 @end
