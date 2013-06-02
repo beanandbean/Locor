@@ -7,182 +7,160 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2CC185EC172FB3FA00FA1E28 /* CPDataKeeper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC185EB172FB3FA00FA1E28 /* CPDataKeeper.m */; };
-		2CC185ED172FB3FB00FA1E28 /* CPDataKeeper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC185EB172FB3FA00FA1E28 /* CPDataKeeper.m */; };
-		FC260F331730AA0100D4F6C1 /* CPLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = FC260F321730AA0100D4F6C1 /* CPLoginView.m */; };
-		FC2E2AED172F4A7900C17486 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AEC172F4A7900C17486 /* UIKit.framework */; };
-		FC2E2AEF172F4A7900C17486 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AEE172F4A7900C17486 /* Foundation.framework */; };
-		FC2E2AF1172F4A7900C17486 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AF0172F4A7900C17486 /* CoreGraphics.framework */; };
-		FC2E2AF7172F4A7900C17486 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FC2E2AF5172F4A7900C17486 /* InfoPlist.strings */; };
-		FC2E2AF9172F4A7900C17486 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FC2E2AF8172F4A7900C17486 /* main.m */; };
-		FC2E2AFD172F4A7900C17486 /* CPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FC2E2AFC172F4A7900C17486 /* CPAppDelegate.m */; };
-		FC2E2AFF172F4A7900C17486 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = FC2E2AFE172F4A7900C17486 /* Default.png */; };
-		FC2E2B01172F4A7900C17486 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FC2E2B00172F4A7900C17486 /* Default@2x.png */; };
-		FC2E2B03172F4A7900C17486 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FC2E2B02172F4A7900C17486 /* Default-568h@2x.png */; };
-		FC2E2B06172F4A7900C17486 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC2E2B04172F4A7900C17486 /* MainStoryboard_iPhone.storyboard */; };
-		FC2E2B09172F4A7900C17486 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC2E2B07172F4A7900C17486 /* MainStoryboard_iPad.storyboard */; };
-		FC2E2B0C172F4A7900C17486 /* CPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC2E2B0B172F4A7900C17486 /* CPLoginViewController.m */; };
-		FC2E2B14172F4A7900C17486 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2B13172F4A7900C17486 /* SenTestingKit.framework */; };
-		FC2E2B15172F4A7900C17486 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AEC172F4A7900C17486 /* UIKit.framework */; };
-		FC2E2B16172F4A7900C17486 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2E2AEE172F4A7900C17486 /* Foundation.framework */; };
-		FC2E2B1E172F4A7900C17486 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FC2E2B1C172F4A7900C17486 /* InfoPlist.strings */; };
-		FC2E2B21172F4A7900C17486 /* PassoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FC2E2B20172F4A7900C17486 /* PassoneTests.m */; };
-		FC775763173E202A007A88A2 /* CPUsersController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC775762173E202A007A88A2 /* CPUsersController.m */; };
-		FC775765173E28D3007A88A2 /* CPLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC775764173E28D3007A88A2 /* CPLoginView.xib */; };
-		FCBE05B317372CC800D0D9D3 /* CPPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FCBE05B217372CC800D0D9D3 /* CPPasswordViewController.m */; };
+		FC4F2ADA1759EB0C002D9992 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2AD91759EB0C002D9992 /* UIKit.framework */; };
+		FC4F2ADC1759EB0C002D9992 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2ADB1759EB0C002D9992 /* Foundation.framework */; };
+		FC4F2ADE1759EB0C002D9992 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2ADD1759EB0C002D9992 /* CoreGraphics.framework */; };
+		FC4F2AE41759EB0C002D9992 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FC4F2AE21759EB0C002D9992 /* InfoPlist.strings */; };
+		FC4F2AE61759EB0C002D9992 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4F2AE51759EB0C002D9992 /* main.m */; };
+		FC4F2AEA1759EB0C002D9992 /* CPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4F2AE91759EB0C002D9992 /* CPAppDelegate.m */; };
+		FC4F2AEC1759EB0C002D9992 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = FC4F2AEB1759EB0C002D9992 /* Default.png */; };
+		FC4F2AEE1759EB0C002D9992 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FC4F2AED1759EB0C002D9992 /* Default@2x.png */; };
+		FC4F2AF01759EB0C002D9992 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FC4F2AEF1759EB0C002D9992 /* Default-568h@2x.png */; };
+		FC4F2AF61759EB0C002D9992 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC4F2AF41759EB0C002D9992 /* MainStoryboard.storyboard */; };
+		FC4F2B011759EB0C002D9992 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2B001759EB0C002D9992 /* SenTestingKit.framework */; };
+		FC4F2B021759EB0C002D9992 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2AD91759EB0C002D9992 /* UIKit.framework */; };
+		FC4F2B031759EB0C002D9992 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2ADB1759EB0C002D9992 /* Foundation.framework */; };
+		FC4F2B0B1759EB0C002D9992 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FC4F2B091759EB0C002D9992 /* InfoPlist.strings */; };
+		FC4F2B0E1759EB0C002D9992 /* PassoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4F2B0D1759EB0C002D9992 /* PassoneTests.m */; };
+		FC4F2B191759ECB5002D9992 /* CPMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4F2B181759ECB5002D9992 /* CPMainViewController.m */; };
+		FCA07AD8175ACEDB0052C60A /* CPPasswordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FCA07AD7175ACEDB0052C60A /* CPPasswordCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		FC2E2B17172F4A7900C17486 /* PBXContainerItemProxy */ = {
+		FC4F2B041759EB0C002D9992 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = FC2E2AE1172F4A7900C17486 /* Project object */;
+			containerPortal = FC4F2ACE1759EB0C002D9992 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = FC2E2AE8172F4A7900C17486;
+			remoteGlobalIDString = FC4F2AD51759EB0C002D9992;
 			remoteInfo = Passone;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2CC185EA172FB3FA00FA1E28 /* CPDataKeeper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPDataKeeper.h; sourceTree = "<group>"; };
-		2CC185EB172FB3FA00FA1E28 /* CPDataKeeper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPDataKeeper.m; sourceTree = "<group>"; };
-		FC260F311730AA0100D4F6C1 /* CPLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPLoginView.h; sourceTree = "<group>"; };
-		FC260F321730AA0100D4F6C1 /* CPLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPLoginView.m; sourceTree = "<group>"; };
-		FC2E2AE9172F4A7900C17486 /* Passone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Passone.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		FC2E2AEC172F4A7900C17486 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		FC2E2AEE172F4A7900C17486 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		FC2E2AF0172F4A7900C17486 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		FC2E2AF4172F4A7900C17486 /* Passone-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Passone-Info.plist"; sourceTree = "<group>"; };
-		FC2E2AF6172F4A7900C17486 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FC2E2AF8172F4A7900C17486 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		FC2E2AFA172F4A7900C17486 /* Passone-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Passone-Prefix.pch"; sourceTree = "<group>"; };
-		FC2E2AFB172F4A7900C17486 /* CPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPAppDelegate.h; sourceTree = "<group>"; };
-		FC2E2AFC172F4A7900C17486 /* CPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CPAppDelegate.m; sourceTree = "<group>"; };
-		FC2E2AFE172F4A7900C17486 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		FC2E2B00172F4A7900C17486 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		FC2E2B02172F4A7900C17486 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		FC2E2B05172F4A7900C17486 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		FC2E2B08172F4A7900C17486 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		FC2E2B0A172F4A7900C17486 /* CPLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPLoginViewController.h; sourceTree = "<group>"; };
-		FC2E2B0B172F4A7900C17486 /* CPLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CPLoginViewController.m; sourceTree = "<group>"; };
-		FC2E2B12172F4A7900C17486 /* PassoneTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PassoneTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FC2E2B13172F4A7900C17486 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		FC2E2B1B172F4A7900C17486 /* PassoneTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PassoneTests-Info.plist"; sourceTree = "<group>"; };
-		FC2E2B1D172F4A7900C17486 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FC2E2B1F172F4A7900C17486 /* PassoneTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PassoneTests.h; sourceTree = "<group>"; };
-		FC2E2B20172F4A7900C17486 /* PassoneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PassoneTests.m; sourceTree = "<group>"; };
-		FC775761173E202A007A88A2 /* CPUsersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPUsersController.h; sourceTree = "<group>"; };
-		FC775762173E202A007A88A2 /* CPUsersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPUsersController.m; sourceTree = "<group>"; };
-		FC775764173E28D3007A88A2 /* CPLoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPLoginView.xib; sourceTree = "<group>"; };
-		FCBE05B117372CC800D0D9D3 /* CPPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPasswordViewController.h; sourceTree = "<group>"; };
-		FCBE05B217372CC800D0D9D3 /* CPPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPasswordViewController.m; sourceTree = "<group>"; };
+		FC4F2AD61759EB0C002D9992 /* Passone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Passone.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC4F2AD91759EB0C002D9992 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		FC4F2ADB1759EB0C002D9992 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FC4F2ADD1759EB0C002D9992 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		FC4F2AE11759EB0C002D9992 /* Passone-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Passone-Info.plist"; sourceTree = "<group>"; };
+		FC4F2AE31759EB0C002D9992 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FC4F2AE51759EB0C002D9992 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FC4F2AE71759EB0C002D9992 /* Passone-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Passone-Prefix.pch"; sourceTree = "<group>"; };
+		FC4F2AE81759EB0C002D9992 /* CPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPAppDelegate.h; sourceTree = "<group>"; };
+		FC4F2AE91759EB0C002D9992 /* CPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CPAppDelegate.m; sourceTree = "<group>"; };
+		FC4F2AEB1759EB0C002D9992 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		FC4F2AED1759EB0C002D9992 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		FC4F2AEF1759EB0C002D9992 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		FC4F2AF51759EB0C002D9992 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		FC4F2AFF1759EB0C002D9992 /* PassoneTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PassoneTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC4F2B001759EB0C002D9992 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		FC4F2B081759EB0C002D9992 /* PassoneTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PassoneTests-Info.plist"; sourceTree = "<group>"; };
+		FC4F2B0A1759EB0C002D9992 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FC4F2B0C1759EB0C002D9992 /* PassoneTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PassoneTests.h; sourceTree = "<group>"; };
+		FC4F2B0D1759EB0C002D9992 /* PassoneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PassoneTests.m; sourceTree = "<group>"; };
+		FC4F2B171759ECB5002D9992 /* CPMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMainViewController.h; sourceTree = "<group>"; };
+		FC4F2B181759ECB5002D9992 /* CPMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMainViewController.m; sourceTree = "<group>"; };
+		FCA07AD6175ACEDB0052C60A /* CPPasswordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPasswordCell.h; sourceTree = "<group>"; };
+		FCA07AD7175ACEDB0052C60A /* CPPasswordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPasswordCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		FC2E2AE6172F4A7900C17486 /* Frameworks */ = {
+		FC4F2AD31759EB0C002D9992 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC2E2AED172F4A7900C17486 /* UIKit.framework in Frameworks */,
-				FC2E2AEF172F4A7900C17486 /* Foundation.framework in Frameworks */,
-				FC2E2AF1172F4A7900C17486 /* CoreGraphics.framework in Frameworks */,
+				FC4F2ADA1759EB0C002D9992 /* UIKit.framework in Frameworks */,
+				FC4F2ADC1759EB0C002D9992 /* Foundation.framework in Frameworks */,
+				FC4F2ADE1759EB0C002D9992 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FC2E2B0E172F4A7900C17486 /* Frameworks */ = {
+		FC4F2AFB1759EB0C002D9992 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC2E2B14172F4A7900C17486 /* SenTestingKit.framework in Frameworks */,
-				FC2E2B15172F4A7900C17486 /* UIKit.framework in Frameworks */,
-				FC2E2B16172F4A7900C17486 /* Foundation.framework in Frameworks */,
+				FC4F2B011759EB0C002D9992 /* SenTestingKit.framework in Frameworks */,
+				FC4F2B021759EB0C002D9992 /* UIKit.framework in Frameworks */,
+				FC4F2B031759EB0C002D9992 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FC2E2AE0172F4A7900C17486 = {
+		FC4F2ACD1759EB0C002D9992 = {
 			isa = PBXGroup;
 			children = (
-				FC2E2AF2172F4A7900C17486 /* Passone */,
-				FC2E2B19172F4A7900C17486 /* PassoneTests */,
-				FC2E2AEB172F4A7900C17486 /* Frameworks */,
-				FC2E2AEA172F4A7900C17486 /* Products */,
+				FC4F2AD81759EB0C002D9992 /* Frameworks */,
+				FC4F2ADF1759EB0C002D9992 /* Passone */,
+				FC4F2B061759EB0C002D9992 /* PassoneTests */,
+				FC4F2AD71759EB0C002D9992 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		FC2E2AEA172F4A7900C17486 /* Products */ = {
+		FC4F2AD71759EB0C002D9992 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FC2E2AE9172F4A7900C17486 /* Passone.app */,
-				FC2E2B12172F4A7900C17486 /* PassoneTests.octest */,
+				FC4F2AD61759EB0C002D9992 /* Passone.app */,
+				FC4F2AFF1759EB0C002D9992 /* PassoneTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FC2E2AEB172F4A7900C17486 /* Frameworks */ = {
+		FC4F2AD81759EB0C002D9992 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FC2E2AEC172F4A7900C17486 /* UIKit.framework */,
-				FC2E2AEE172F4A7900C17486 /* Foundation.framework */,
-				FC2E2AF0172F4A7900C17486 /* CoreGraphics.framework */,
-				FC2E2B13172F4A7900C17486 /* SenTestingKit.framework */,
+				FC4F2AD91759EB0C002D9992 /* UIKit.framework */,
+				FC4F2ADB1759EB0C002D9992 /* Foundation.framework */,
+				FC4F2ADD1759EB0C002D9992 /* CoreGraphics.framework */,
+				FC4F2B001759EB0C002D9992 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		FC2E2AF2172F4A7900C17486 /* Passone */ = {
+		FC4F2ADF1759EB0C002D9992 /* Passone */ = {
 			isa = PBXGroup;
 			children = (
-				FC2E2AFB172F4A7900C17486 /* CPAppDelegate.h */,
-				FC2E2AFC172F4A7900C17486 /* CPAppDelegate.m */,
-				2CC185EA172FB3FA00FA1E28 /* CPDataKeeper.h */,
-				2CC185EB172FB3FA00FA1E28 /* CPDataKeeper.m */,
-				FC260F311730AA0100D4F6C1 /* CPLoginView.h */,
-				FC260F321730AA0100D4F6C1 /* CPLoginView.m */,
-				FC775764173E28D3007A88A2 /* CPLoginView.xib */,
-				FC2E2B0A172F4A7900C17486 /* CPLoginViewController.h */,
-				FC2E2B0B172F4A7900C17486 /* CPLoginViewController.m */,
-				FCBE05B117372CC800D0D9D3 /* CPPasswordViewController.h */,
-				FCBE05B217372CC800D0D9D3 /* CPPasswordViewController.m */,
-				FC775761173E202A007A88A2 /* CPUsersController.h */,
-				FC775762173E202A007A88A2 /* CPUsersController.m */,
-				FC2E2B07172F4A7900C17486 /* MainStoryboard_iPad.storyboard */,
-				FC2E2B04172F4A7900C17486 /* MainStoryboard_iPhone.storyboard */,
-				FC2E2AF3172F4A7900C17486 /* Supporting Files */,
+				FC4F2AE81759EB0C002D9992 /* CPAppDelegate.h */,
+				FC4F2AE91759EB0C002D9992 /* CPAppDelegate.m */,
+				FC4F2B171759ECB5002D9992 /* CPMainViewController.h */,
+				FC4F2B181759ECB5002D9992 /* CPMainViewController.m */,
+				FCA07AD6175ACEDB0052C60A /* CPPasswordCell.h */,
+				FCA07AD7175ACEDB0052C60A /* CPPasswordCell.m */,
+				FC4F2AF41759EB0C002D9992 /* MainStoryboard.storyboard */,
+				FC4F2AE01759EB0C002D9992 /* Supporting Files */,
 			);
 			path = Passone;
 			sourceTree = "<group>";
 		};
-		FC2E2AF3172F4A7900C17486 /* Supporting Files */ = {
+		FC4F2AE01759EB0C002D9992 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				FC2E2AF4172F4A7900C17486 /* Passone-Info.plist */,
-				FC2E2AF5172F4A7900C17486 /* InfoPlist.strings */,
-				FC2E2AF8172F4A7900C17486 /* main.m */,
-				FC2E2AFA172F4A7900C17486 /* Passone-Prefix.pch */,
-				FC2E2AFE172F4A7900C17486 /* Default.png */,
-				FC2E2B00172F4A7900C17486 /* Default@2x.png */,
-				FC2E2B02172F4A7900C17486 /* Default-568h@2x.png */,
+				FC4F2AE11759EB0C002D9992 /* Passone-Info.plist */,
+				FC4F2AE21759EB0C002D9992 /* InfoPlist.strings */,
+				FC4F2AE51759EB0C002D9992 /* main.m */,
+				FC4F2AE71759EB0C002D9992 /* Passone-Prefix.pch */,
+				FC4F2AEB1759EB0C002D9992 /* Default.png */,
+				FC4F2AED1759EB0C002D9992 /* Default@2x.png */,
+				FC4F2AEF1759EB0C002D9992 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		FC2E2B19172F4A7900C17486 /* PassoneTests */ = {
+		FC4F2B061759EB0C002D9992 /* PassoneTests */ = {
 			isa = PBXGroup;
 			children = (
-				FC2E2B1F172F4A7900C17486 /* PassoneTests.h */,
-				FC2E2B20172F4A7900C17486 /* PassoneTests.m */,
-				FC2E2B1A172F4A7900C17486 /* Supporting Files */,
+				FC4F2B0C1759EB0C002D9992 /* PassoneTests.h */,
+				FC4F2B0D1759EB0C002D9992 /* PassoneTests.m */,
+				FC4F2B071759EB0C002D9992 /* Supporting Files */,
 			);
 			path = PassoneTests;
 			sourceTree = "<group>";
 		};
-		FC2E2B1A172F4A7900C17486 /* Supporting Files */ = {
+		FC4F2B071759EB0C002D9992 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				FC2E2B1B172F4A7900C17486 /* PassoneTests-Info.plist */,
-				FC2E2B1C172F4A7900C17486 /* InfoPlist.strings */,
+				FC4F2B081759EB0C002D9992 /* PassoneTests-Info.plist */,
+				FC4F2B091759EB0C002D9992 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -190,13 +168,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FC2E2AE8172F4A7900C17486 /* Passone */ = {
+		FC4F2AD51759EB0C002D9992 /* Passone */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FC2E2B24172F4A7900C17486 /* Build configuration list for PBXNativeTarget "Passone" */;
+			buildConfigurationList = FC4F2B111759EB0C002D9992 /* Build configuration list for PBXNativeTarget "Passone" */;
 			buildPhases = (
-				FC2E2AE5172F4A7900C17486 /* Sources */,
-				FC2E2AE6172F4A7900C17486 /* Frameworks */,
-				FC2E2AE7172F4A7900C17486 /* Resources */,
+				FC4F2AD21759EB0C002D9992 /* Sources */,
+				FC4F2AD31759EB0C002D9992 /* Frameworks */,
+				FC4F2AD41759EB0C002D9992 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -204,83 +182,81 @@
 			);
 			name = Passone;
 			productName = Passone;
-			productReference = FC2E2AE9172F4A7900C17486 /* Passone.app */;
+			productReference = FC4F2AD61759EB0C002D9992 /* Passone.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FC2E2B11172F4A7900C17486 /* PassoneTests */ = {
+		FC4F2AFE1759EB0C002D9992 /* PassoneTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FC2E2B27172F4A7900C17486 /* Build configuration list for PBXNativeTarget "PassoneTests" */;
+			buildConfigurationList = FC4F2B141759EB0C002D9992 /* Build configuration list for PBXNativeTarget "PassoneTests" */;
 			buildPhases = (
-				FC2E2B0D172F4A7900C17486 /* Sources */,
-				FC2E2B0E172F4A7900C17486 /* Frameworks */,
-				FC2E2B0F172F4A7900C17486 /* Resources */,
-				FC2E2B10172F4A7900C17486 /* ShellScript */,
+				FC4F2AFA1759EB0C002D9992 /* Sources */,
+				FC4F2AFB1759EB0C002D9992 /* Frameworks */,
+				FC4F2AFC1759EB0C002D9992 /* Resources */,
+				FC4F2AFD1759EB0C002D9992 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				FC2E2B18172F4A7900C17486 /* PBXTargetDependency */,
+				FC4F2B051759EB0C002D9992 /* PBXTargetDependency */,
 			);
 			name = PassoneTests;
 			productName = PassoneTests;
-			productReference = FC2E2B12172F4A7900C17486 /* PassoneTests.octest */;
+			productReference = FC4F2AFF1759EB0C002D9992 /* PassoneTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		FC2E2AE1172F4A7900C17486 /* Project object */ = {
+		FC4F2ACE1759EB0C002D9992 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = CP;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = codingpotato;
 			};
-			buildConfigurationList = FC2E2AE4172F4A7900C17486 /* Build configuration list for PBXProject "Passone" */;
+			buildConfigurationList = FC4F2AD11759EB0C002D9992 /* Build configuration list for PBXProject "Passone" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = FC2E2AE0172F4A7900C17486;
-			productRefGroup = FC2E2AEA172F4A7900C17486 /* Products */;
+			mainGroup = FC4F2ACD1759EB0C002D9992;
+			productRefGroup = FC4F2AD71759EB0C002D9992 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FC2E2AE8172F4A7900C17486 /* Passone */,
-				FC2E2B11172F4A7900C17486 /* PassoneTests */,
+				FC4F2AD51759EB0C002D9992 /* Passone */,
+				FC4F2AFE1759EB0C002D9992 /* PassoneTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		FC2E2AE7172F4A7900C17486 /* Resources */ = {
+		FC4F2AD41759EB0C002D9992 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC2E2AF7172F4A7900C17486 /* InfoPlist.strings in Resources */,
-				FC2E2AFF172F4A7900C17486 /* Default.png in Resources */,
-				FC2E2B01172F4A7900C17486 /* Default@2x.png in Resources */,
-				FC2E2B03172F4A7900C17486 /* Default-568h@2x.png in Resources */,
-				FC2E2B06172F4A7900C17486 /* MainStoryboard_iPhone.storyboard in Resources */,
-				FC2E2B09172F4A7900C17486 /* MainStoryboard_iPad.storyboard in Resources */,
-				FC775765173E28D3007A88A2 /* CPLoginView.xib in Resources */,
+				FC4F2AE41759EB0C002D9992 /* InfoPlist.strings in Resources */,
+				FC4F2AEC1759EB0C002D9992 /* Default.png in Resources */,
+				FC4F2AEE1759EB0C002D9992 /* Default@2x.png in Resources */,
+				FC4F2AF01759EB0C002D9992 /* Default-568h@2x.png in Resources */,
+				FC4F2AF61759EB0C002D9992 /* MainStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FC2E2B0F172F4A7900C17486 /* Resources */ = {
+		FC4F2AFC1759EB0C002D9992 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC2E2B1E172F4A7900C17486 /* InfoPlist.strings in Resources */,
+				FC4F2B0B1759EB0C002D9992 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		FC2E2B10172F4A7900C17486 /* ShellScript */ = {
+		FC4F2AFD1759EB0C002D9992 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -296,68 +272,56 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		FC2E2AE5172F4A7900C17486 /* Sources */ = {
+		FC4F2AD21759EB0C002D9992 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC2E2AF9172F4A7900C17486 /* main.m in Sources */,
-				FC2E2AFD172F4A7900C17486 /* CPAppDelegate.m in Sources */,
-				FC2E2B0C172F4A7900C17486 /* CPLoginViewController.m in Sources */,
-				2CC185EC172FB3FA00FA1E28 /* CPDataKeeper.m in Sources */,
-				FC260F331730AA0100D4F6C1 /* CPLoginView.m in Sources */,
-				FCBE05B317372CC800D0D9D3 /* CPPasswordViewController.m in Sources */,
-				FC775763173E202A007A88A2 /* CPUsersController.m in Sources */,
+				FC4F2AE61759EB0C002D9992 /* main.m in Sources */,
+				FC4F2AEA1759EB0C002D9992 /* CPAppDelegate.m in Sources */,
+				FC4F2B191759ECB5002D9992 /* CPMainViewController.m in Sources */,
+				FCA07AD8175ACEDB0052C60A /* CPPasswordCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FC2E2B0D172F4A7900C17486 /* Sources */ = {
+		FC4F2AFA1759EB0C002D9992 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC2E2B21172F4A7900C17486 /* PassoneTests.m in Sources */,
-				2CC185ED172FB3FB00FA1E28 /* CPDataKeeper.m in Sources */,
+				FC4F2B0E1759EB0C002D9992 /* PassoneTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		FC2E2B18172F4A7900C17486 /* PBXTargetDependency */ = {
+		FC4F2B051759EB0C002D9992 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FC2E2AE8172F4A7900C17486 /* Passone */;
-			targetProxy = FC2E2B17172F4A7900C17486 /* PBXContainerItemProxy */;
+			target = FC4F2AD51759EB0C002D9992 /* Passone */;
+			targetProxy = FC4F2B041759EB0C002D9992 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		FC2E2AF5172F4A7900C17486 /* InfoPlist.strings */ = {
+		FC4F2AE21759EB0C002D9992 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FC2E2AF6172F4A7900C17486 /* en */,
+				FC4F2AE31759EB0C002D9992 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		FC2E2B04172F4A7900C17486 /* MainStoryboard_iPhone.storyboard */ = {
+		FC4F2AF41759EB0C002D9992 /* MainStoryboard.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FC2E2B05172F4A7900C17486 /* en */,
+				FC4F2AF51759EB0C002D9992 /* en */,
 			);
-			name = MainStoryboard_iPhone.storyboard;
+			name = MainStoryboard.storyboard;
 			sourceTree = "<group>";
 		};
-		FC2E2B07172F4A7900C17486 /* MainStoryboard_iPad.storyboard */ = {
+		FC4F2B091759EB0C002D9992 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FC2E2B08172F4A7900C17486 /* en */,
-			);
-			name = MainStoryboard_iPad.storyboard;
-			sourceTree = "<group>";
-		};
-		FC2E2B1C172F4A7900C17486 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FC2E2B1D172F4A7900C17486 /* en */,
+				FC4F2B0A1759EB0C002D9992 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -365,7 +329,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		FC2E2B22172F4A7900C17486 /* Debug */ = {
+		FC4F2B0F1759EB0C002D9992 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -397,7 +361,7 @@
 			};
 			name = Debug;
 		};
-		FC2E2B23172F4A7900C17486 /* Release */ = {
+		FC4F2B101759EB0C002D9992 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -423,7 +387,7 @@
 			};
 			name = Release;
 		};
-		FC2E2B25172F4A7900C17486 /* Debug */ = {
+		FC4F2B121759EB0C002D9992 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -434,7 +398,7 @@
 			};
 			name = Debug;
 		};
-		FC2E2B26172F4A7900C17486 /* Release */ = {
+		FC4F2B131759EB0C002D9992 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -445,7 +409,7 @@
 			};
 			name = Release;
 		};
-		FC2E2B28172F4A7900C17486 /* Debug */ = {
+		FC4F2B151759EB0C002D9992 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Passone.app/Passone";
@@ -462,7 +426,7 @@
 			};
 			name = Debug;
 		};
-		FC2E2B29172F4A7900C17486 /* Release */ = {
+		FC4F2B161759EB0C002D9992 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Passone.app/Passone";
@@ -482,34 +446,34 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FC2E2AE4172F4A7900C17486 /* Build configuration list for PBXProject "Passone" */ = {
+		FC4F2AD11759EB0C002D9992 /* Build configuration list for PBXProject "Passone" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FC2E2B22172F4A7900C17486 /* Debug */,
-				FC2E2B23172F4A7900C17486 /* Release */,
+				FC4F2B0F1759EB0C002D9992 /* Debug */,
+				FC4F2B101759EB0C002D9992 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FC2E2B24172F4A7900C17486 /* Build configuration list for PBXNativeTarget "Passone" */ = {
+		FC4F2B111759EB0C002D9992 /* Build configuration list for PBXNativeTarget "Passone" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FC2E2B25172F4A7900C17486 /* Debug */,
-				FC2E2B26172F4A7900C17486 /* Release */,
+				FC4F2B121759EB0C002D9992 /* Debug */,
+				FC4F2B131759EB0C002D9992 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FC2E2B27172F4A7900C17486 /* Build configuration list for PBXNativeTarget "PassoneTests" */ = {
+		FC4F2B141759EB0C002D9992 /* Build configuration list for PBXNativeTarget "PassoneTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FC2E2B28172F4A7900C17486 /* Debug */,
-				FC2E2B29172F4A7900C17486 /* Release */,
+				FC4F2B151759EB0C002D9992 /* Debug */,
+				FC4F2B161759EB0C002D9992 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = FC2E2AE1172F4A7900C17486 /* Project object */;
+	rootObject = FC4F2ACE1759EB0C002D9992 /* Project object */;
 }
