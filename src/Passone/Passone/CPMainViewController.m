@@ -8,11 +8,13 @@
 
 #import "CPMainViewController.h"
 
-#import "CPPasswordCell.h"
+#import "CPPassEditViewManager.h"
 
 @interface CPMainViewController ()
 
-@property (strong, nonatomic) NSMutableArray *passwordCells;
+@property (strong, nonatomic) NSMutableArray *passCells;
+
+@property (strong, nonatomic) CPPassEditViewManager *passEditViewManager;
 
 @end
 
@@ -24,21 +26,38 @@ static const CGFloat SPACE = 10.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self createPasswordGrid];
+    [self createPassGrid];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
-- (NSMutableArray *)passwordCells {
-    if (!_passwordCells) {
-        _passwordCells = [[NSMutableArray alloc] initWithCapacity:ROWS * COLUMNS];
+#pragma mark - property methods
+
+- (NSMutableArray *)passCells {
+    if (!_passCells) {
+        _passCells = [[NSMutableArray alloc] initWithCapacity:ROWS * COLUMNS];
     }
-    return _passwordCells;
+    return _passCells;
 }
 
-- (void)createPasswordGrid {
+- (CPPassEditViewManager *)passEditViewManager {
+    if (!_passEditViewManager) {
+        _passEditViewManager = [[CPPassEditViewManager alloc] init];
+    }
+    return _passEditViewManager;
+}
+
+#pragma mark - CPPassCellDelegate implement
+
+- (void)editPassCell:(CPPassCell *)cell {
+    [self.passEditViewManager addPassEditViewInView:self.view forCell:cell inCells:self.passCells];
+}
+
+#pragma mark -
+
+- (void)createPassGrid {
     UIView *outerView = [[UIView alloc] init];
     outerView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:outerView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
@@ -51,25 +70,25 @@ static const CGFloat SPACE = 10.0;
     innerView.translatesAutoresizingMaskIntoConstraints = NO;
     [outerView addConstraint:[NSLayoutConstraint constraintWithItem:innerView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
     [outerView addConstraint:[NSLayoutConstraint constraintWithItem:innerView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:innerView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:outerView attribute:NSLayoutAttributeWidth multiplier:0.9 constant:0.0]];
-    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:innerView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:outerView attribute:NSLayoutAttributeHeight multiplier:0.9 constant:0.0]];
+    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:innerView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:outerView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
+    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:innerView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:outerView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
     // innerView.width == innerView.height
     [innerView addConstraint:[NSLayoutConstraint constraintWithItem:innerView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:innerView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
     [outerView addSubview:innerView];
     
-    [self createPasswordCells:innerView];
+    [self createPassCells:innerView];
 }
 
-- (void)createPasswordCells:(UIView *)superView {
+- (void)createPassCells:(UIView *)superView {
     for (int row = 0; row < ROWS; row++) {
         for (int column = 0; column < COLUMNS; column++) {
-            CPPasswordCell *cell = [[CPPasswordCell alloc] init];
+            CPPassCell *cell = [[CPPassCell alloc] initWithDelegate:self];
             
             if (row == 0) {
                 // cell.top = superView.top + SPACE
                 [superView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeTop multiplier:1.0 constant:SPACE]];
             } else {
-                CPPasswordCell *topCell = [self.passwordCells objectAtIndex:(row - 1) * ROWS + column];
+                CPPassCell *topCell = [self.passCells objectAtIndex:(row - 1) * ROWS + column];
                 NSAssert(topCell, @"top cell hasn't been added.");
                 // cell.top = topCell.bottom + SPACE
                 [superView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:topCell attribute:NSLayoutAttributeBottom multiplier:1.0 constant:SPACE]];
@@ -86,7 +105,7 @@ static const CGFloat SPACE = 10.0;
                 // cell.left = leftCell.left + SPACE
                 [superView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:SPACE]];
             } else {
-                CPPasswordCell *leftCell = [self.passwordCells objectAtIndex:row * ROWS + column - 1];
+                CPPassCell *leftCell = [self.passCells objectAtIndex:row * ROWS + column - 1];
                 NSAssert(leftCell, @"left cell hasn't been added.");
                 // cell.left = leftCell.right + SPACE
                 [superView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:leftCell attribute:NSLayoutAttributeRight multiplier:1.0 constant:SPACE]];
@@ -99,7 +118,7 @@ static const CGFloat SPACE = 10.0;
                 [superView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-SPACE]];
             }
             
-            [self.passwordCells addObject:cell];
+            [self.passCells addObject:cell];
             [superView addSubview:cell];
         }
     }

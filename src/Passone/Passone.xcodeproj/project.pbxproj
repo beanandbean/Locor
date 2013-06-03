@@ -23,7 +23,9 @@
 		FC4F2B0B1759EB0C002D9992 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FC4F2B091759EB0C002D9992 /* InfoPlist.strings */; };
 		FC4F2B0E1759EB0C002D9992 /* PassoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4F2B0D1759EB0C002D9992 /* PassoneTests.m */; };
 		FC4F2B191759ECB5002D9992 /* CPMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4F2B181759ECB5002D9992 /* CPMainViewController.m */; };
-		FCA07AD8175ACEDB0052C60A /* CPPasswordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FCA07AD7175ACEDB0052C60A /* CPPasswordCell.m */; };
+		FC83D48E175B20A600B59C86 /* CPPassEditView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC83D48D175B20A600B59C86 /* CPPassEditView.xib */; };
+		FCA07AD8175ACEDB0052C60A /* CPPassCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FCA07AD7175ACEDB0052C60A /* CPPassCell.m */; };
+		FCB034F9175C154D008D1DC8 /* CPPassEditViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB034F8175C154D008D1DC8 /* CPPassEditViewManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,8 +61,11 @@
 		FC4F2B0D1759EB0C002D9992 /* PassoneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PassoneTests.m; sourceTree = "<group>"; };
 		FC4F2B171759ECB5002D9992 /* CPMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMainViewController.h; sourceTree = "<group>"; };
 		FC4F2B181759ECB5002D9992 /* CPMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMainViewController.m; sourceTree = "<group>"; };
-		FCA07AD6175ACEDB0052C60A /* CPPasswordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPasswordCell.h; sourceTree = "<group>"; };
-		FCA07AD7175ACEDB0052C60A /* CPPasswordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPasswordCell.m; sourceTree = "<group>"; };
+		FC83D48D175B20A600B59C86 /* CPPassEditView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPPassEditView.xib; sourceTree = "<group>"; };
+		FCA07AD6175ACEDB0052C60A /* CPPassCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPassCell.h; sourceTree = "<group>"; };
+		FCA07AD7175ACEDB0052C60A /* CPPassCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPassCell.m; sourceTree = "<group>"; };
+		FCB034F7175C154D008D1DC8 /* CPPassEditViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPassEditViewManager.h; sourceTree = "<group>"; };
+		FCB034F8175C154D008D1DC8 /* CPPassEditViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPassEditViewManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,8 +129,11 @@
 				FC4F2AE91759EB0C002D9992 /* CPAppDelegate.m */,
 				FC4F2B171759ECB5002D9992 /* CPMainViewController.h */,
 				FC4F2B181759ECB5002D9992 /* CPMainViewController.m */,
-				FCA07AD6175ACEDB0052C60A /* CPPasswordCell.h */,
-				FCA07AD7175ACEDB0052C60A /* CPPasswordCell.m */,
+				FCA07AD6175ACEDB0052C60A /* CPPassCell.h */,
+				FCA07AD7175ACEDB0052C60A /* CPPassCell.m */,
+				FC83D48D175B20A600B59C86 /* CPPassEditView.xib */,
+				FCB034F7175C154D008D1DC8 /* CPPassEditViewManager.h */,
+				FCB034F8175C154D008D1DC8 /* CPPassEditViewManager.m */,
 				FC4F2AF41759EB0C002D9992 /* MainStoryboard.storyboard */,
 				FC4F2AE01759EB0C002D9992 /* Supporting Files */,
 			);
@@ -242,6 +250,7 @@
 				FC4F2AEE1759EB0C002D9992 /* Default@2x.png in Resources */,
 				FC4F2AF01759EB0C002D9992 /* Default-568h@2x.png in Resources */,
 				FC4F2AF61759EB0C002D9992 /* MainStoryboard.storyboard in Resources */,
+				FC83D48E175B20A600B59C86 /* CPPassEditView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,7 +288,8 @@
 				FC4F2AE61759EB0C002D9992 /* main.m in Sources */,
 				FC4F2AEA1759EB0C002D9992 /* CPAppDelegate.m in Sources */,
 				FC4F2B191759ECB5002D9992 /* CPMainViewController.m in Sources */,
-				FCA07AD8175ACEDB0052C60A /* CPPasswordCell.m in Sources */,
+				FCA07AD8175ACEDB0052C60A /* CPPassCell.m in Sources */,
+				FCB034F9175C154D008D1DC8 /* CPPassEditViewManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
