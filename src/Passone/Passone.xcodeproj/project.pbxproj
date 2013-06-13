@@ -23,6 +23,7 @@
 		FC4F2B0B1759EB0C002D9992 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FC4F2B091759EB0C002D9992 /* InfoPlist.strings */; };
 		FC4F2B0E1759EB0C002D9992 /* PassoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4F2B0D1759EB0C002D9992 /* PassoneTests.m */; };
 		FC4F2B191759ECB5002D9992 /* CPMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4F2B181759ECB5002D9992 /* CPMainViewController.m */; };
+		FC501F5A17680E1300E987B5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC501F5917680E1300E987B5 /* CoreData.framework */; };
 		FC83D48E175B20A600B59C86 /* CPPassEditView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC83D48D175B20A600B59C86 /* CPPassEditView.xib */; };
 		FCA07AD8175ACEDB0052C60A /* CPPassCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FCA07AD7175ACEDB0052C60A /* CPPassCell.m */; };
 		FCB034F9175C154D008D1DC8 /* CPPassEditViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB034F8175C154D008D1DC8 /* CPPassEditViewManager.m */; };
@@ -61,6 +62,7 @@
 		FC4F2B0D1759EB0C002D9992 /* PassoneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PassoneTests.m; sourceTree = "<group>"; };
 		FC4F2B171759ECB5002D9992 /* CPMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMainViewController.h; sourceTree = "<group>"; };
 		FC4F2B181759ECB5002D9992 /* CPMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMainViewController.m; sourceTree = "<group>"; };
+		FC501F5917680E1300E987B5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		FC83D48D175B20A600B59C86 /* CPPassEditView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPPassEditView.xib; sourceTree = "<group>"; };
 		FCA07AD6175ACEDB0052C60A /* CPPassCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPassCell.h; sourceTree = "<group>"; };
 		FCA07AD7175ACEDB0052C60A /* CPPassCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPassCell.m; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC501F5A17680E1300E987B5 /* CoreData.framework in Frameworks */,
 				FC4F2ADA1759EB0C002D9992 /* UIKit.framework in Frameworks */,
 				FC4F2ADC1759EB0C002D9992 /* Foundation.framework in Frameworks */,
 				FC4F2ADE1759EB0C002D9992 /* CoreGraphics.framework in Frameworks */,
@@ -114,6 +117,7 @@
 		FC4F2AD81759EB0C002D9992 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FC501F5917680E1300E987B5 /* CoreData.framework */,
 				FC4F2AD91759EB0C002D9992 /* UIKit.framework */,
 				FC4F2ADB1759EB0C002D9992 /* Foundation.framework */,
 				FC4F2ADD1759EB0C002D9992 /* CoreGraphics.framework */,

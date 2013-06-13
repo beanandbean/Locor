@@ -16,6 +16,8 @@
 
 @property (strong, nonatomic) CPPassEditViewManager *passEditViewManager;
 
+@property (strong, nonatomic) UIView *passGridView;
+
 @end
 
 @implementation CPMainViewController
@@ -26,7 +28,7 @@ static const CGFloat SPACE = 10.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self createPassGrid];
+    [self createPassGridView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -52,12 +54,12 @@ static const CGFloat SPACE = 10.0;
 #pragma mark - CPPassCellDelegate implement
 
 - (void)editPassCell:(CPPassCell *)cell {
-    [self.passEditViewManager addPassEditViewInView:self.view forCell:cell inCells:self.passCells];
+    [self.passEditViewManager addPassEditViewInView:self.passGridView forCell:cell inCells:self.passCells];
 }
 
 #pragma mark -
 
-- (void)createPassGrid {
+- (void)createPassGridView {
     UIView *outerView = [[UIView alloc] init];
     outerView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:outerView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
@@ -66,17 +68,23 @@ static const CGFloat SPACE = 10.0;
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:outerView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
     [self.view addSubview:outerView];
 
-    UIView *innerView = [[UIView alloc] init];
-    innerView.translatesAutoresizingMaskIntoConstraints = NO;
-    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:innerView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:innerView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:innerView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:outerView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
-    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:innerView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:outerView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
+    self.passGridView = [[UIView alloc] init];
+    self.passGridView.translatesAutoresizingMaskIntoConstraints = NO;
+    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:outerView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
+    NSLayoutConstraint *lowPriorityEqualConstraint = [NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0];
+    lowPriorityEqualConstraint.priority = 999;
+    [outerView addConstraint:lowPriorityEqualConstraint];
+    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:outerView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
+    lowPriorityEqualConstraint = [NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0];
+    lowPriorityEqualConstraint.priority = 999;
+    [outerView addConstraint:lowPriorityEqualConstraint];
     // innerView.width == innerView.height
-    [innerView addConstraint:[NSLayoutConstraint constraintWithItem:innerView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:innerView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
-    [outerView addSubview:innerView];
+    [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.passGridView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
+    [outerView addSubview:self.passGridView];
     
-    [self createPassCells:innerView];
+    [self createPassCells:self.passGridView];
 }
 
 - (void)createPassCells:(UIView *)superView {

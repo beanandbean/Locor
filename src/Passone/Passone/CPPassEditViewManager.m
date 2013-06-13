@@ -10,10 +10,7 @@
 
 @interface CPPassEditViewManager ()
 
-@property (strong, nonatomic) NSLayoutConstraint *passwordEditViewLeftConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *passwordEditViewTopConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *passwordEditViewWidthConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *passwordEditViewHeightConstraint;
+@property (strong, nonatomic) NSArray *constraints;
 
 @end
 
@@ -28,25 +25,39 @@
     return _passwordEditView;
 }
 
+- (NSArray *)constraints {
+    if (!_constraints) {
+        _constraints = [[NSArray alloc] init];
+    }
+    return _constraints;
+}
+
 - (void)addPassEditViewInView:(UIView *)view forCell:(UIView *)cell inCells:(NSMutableArray *)cells {
-    [view addSubview:self.passwordEditView];    
+    [view addSubview:self.passwordEditView];
     
-    [self.passwordEditView removeConstraint:self.passwordEditViewLeftConstraint];
-    [self.passwordEditView removeConstraint:self.passwordEditViewTopConstraint];
-    [self.passwordEditView removeConstraint:self.passwordEditViewWidthConstraint];
-    [self.passwordEditView removeConstraint:self.passwordEditViewHeightConstraint];
-    
-    self.passwordEditViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.passwordEditView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
-    [view addConstraint:self.passwordEditViewLeftConstraint];
-    self.passwordEditViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.passwordEditView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
-    [view addConstraint:self.passwordEditViewTopConstraint];
-    self.passwordEditViewWidthConstraint = [NSLayoutConstraint constraintWithItem:self.passwordEditView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0];
-    [view addConstraint:self.passwordEditViewWidthConstraint];
-    self.passwordEditViewHeightConstraint = [NSLayoutConstraint constraintWithItem:self.passwordEditView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0];
-    [view addConstraint:self.passwordEditViewHeightConstraint];
+    // align with cell
+    [view removeConstraints:self.constraints];
+    self.constraints = [[NSArray alloc] initWithObjects:
+                        [NSLayoutConstraint constraintWithItem:self.passwordEditView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0],
+                        [NSLayoutConstraint constraintWithItem:self.passwordEditView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0],
+                        [NSLayoutConstraint constraintWithItem:self.passwordEditView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0],
+                        [NSLayoutConstraint constraintWithItem:self.passwordEditView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0],
+                        nil];
+    [view addConstraints:self.constraints];
     [view layoutIfNeeded];
+
+    // enlarge to align with all cells
+    [view removeConstraints:self.constraints];
     
-    self.passwordEditViewWidthConstraint.constant = 100;
+    UIView *leftTopCell = [cells objectAtIndex:0];
+    UIView *rightBottomCell = [cells lastObject];
+    self.constraints = [[NSArray alloc] initWithObjects:
+                        [NSLayoutConstraint constraintWithItem:self.passwordEditView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:leftTopCell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0],
+                        [NSLayoutConstraint constraintWithItem:self.passwordEditView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:leftTopCell attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0],
+                        [NSLayoutConstraint constraintWithItem:self.passwordEditView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:rightBottomCell attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0],
+                        [NSLayoutConstraint constraintWithItem:self.passwordEditView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:rightBottomCell attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0],
+                        nil];
+    [view addConstraints:self.constraints];
     [UIView animateWithDuration:0.5 animations:^{
         [view layoutIfNeeded];
     }];
