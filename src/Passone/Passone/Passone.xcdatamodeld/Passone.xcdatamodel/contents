@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12E55" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Hint" representedClassName="CPHint" syncable="YES">
+        <attribute name="date" attributeType="Date" syncable="YES"/>
+        <attribute name="text" attributeType="String" syncable="YES"/>
+        <relationship name="password" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Password" inverseName="hints" inverseEntity="Password" syncable="YES"/>
+    </entity>
+    <entity name="Password" representedClassName="CPPassword" syncable="YES">
+        <attribute name="date" attributeType="Date" syncable="YES"/>
+        <attribute name="index" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="text" attributeType="String" syncable="YES"/>
+        <relationship name="hints" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Hint" inverseName="password" inverseEntity="Hint" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Hint" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="Password" positionX="0" positionY="0" width="128" height="105"/>
+    </elements>
+</model>

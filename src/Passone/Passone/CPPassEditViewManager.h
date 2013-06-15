@@ -14,4 +14,6 @@
 
 - (void)addPassEditViewInView:(UIView *)view forCell:(UIView *)cell inCells:(NSMutableArray *)cells;
 
+- (void)removePassEditView;
+
 @end
