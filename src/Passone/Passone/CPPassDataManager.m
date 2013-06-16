@@ -36,18 +36,29 @@ static CPPassDataManager *_defaultManager = nil;
     if (!_passwords) {
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setEntity:[NSEntityDescription entityForName:@"Password" inManagedObjectContext:self.managedObjectContext]];
-        [request setSortDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc]                                                                                     initWithKey:@"index" ascending:YES], nil]];
+        [request setSortDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES], nil]];
         _passwords = [self.managedObjectContext executeFetchRequest:request error:nil];
         if (!_passwords.count) {
             // TODO: 9
+            static const CGFloat colors[] = {
+                1.0, 0.0, 0.0,
+                1.0, 0.89, 0.0,
+                0.22, 0.08, 0.68,
+                0.0, 0.8, 0.0,
+                1.0, 0.57, 0.0,
+                0.8, 0.96, 0.0,
+                0.65, 0.0, 0.65,
+                0.04, 0.38, 0.64,
+                0.0, 0.32, 1.0
+            };
             for (int index = 0; index < 9; index++) {
                 CPPassword *password = [NSEntityDescription insertNewObjectForEntityForName:@"Password" inManagedObjectContext:self.managedObjectContext];
-                password.text = @"";
+                password.text = nil;
                 password.index = [NSNumber numberWithInteger:index];
                 password.date = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
-                password.red = [NSNumber numberWithFloat:0.7];
-                password.green = [NSNumber numberWithFloat:0.7];
-                password.blue = [NSNumber numberWithFloat:0.7];
+                password.red = [NSNumber numberWithFloat:colors[index * 3]];
+                password.green = [NSNumber numberWithFloat:colors[index * 3 + 1]];
+                password.blue = [NSNumber numberWithFloat:colors[index * 3 + 2]];
             }
             _passwords = [self.managedObjectContext executeFetchRequest:request error:nil];
         }
@@ -73,14 +84,11 @@ static CPPassDataManager *_defaultManager = nil;
     }
 }
 
-- (void)setPasswordText:(NSString *)text red:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue atIndex:(NSInteger)index {
+- (void)setPasswordText:(NSString *)text atIndex:(NSInteger)index {
     CPPassword *password = [self passwordAtIndex:index];
     NSAssert(password, @"");
     
     password.text = text;
-    password.red = [NSNumber numberWithFloat:red];
-    password.green = [NSNumber numberWithFloat:green];
-    password.blue = [NSNumber numberWithFloat:blue];
 }
 
 - (void)addHintText:(NSString *)text intoIndex:(NSInteger)index {

@@ -12,9 +12,9 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 
-- (void)addPassEditViewInView:(UIView *)view forCell:(UIView *)cell inCells:(NSArray *)cells;
+- (void)addPassEditViewInView:(UIView *)view index:(NSUInteger)index inCells:(NSArray *)cells;
 
-- (void)removePassEditViewFromView:(UIView *)view forCell:(UIView *)cell;
+- (void)removePassEditViewFromView:(UIView *)view index:(NSUInteger)index inCells:(NSArray *)cells;
 
 - (void)setPasswordForIndex:(NSUInteger)index;
 

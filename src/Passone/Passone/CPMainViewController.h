@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-#import "CPPassCell.h"
-
-@interface CPMainViewController : UIViewController <CPPassCellDelegate>
+@interface CPMainViewController : UIViewController
 
 @end

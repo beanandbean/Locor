@@ -11,7 +11,7 @@
         <attribute name="green" attributeType="Float" defaultValueString="0" syncable="YES"/>
         <attribute name="index" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="red" attributeType="Float" defaultValueString="0" syncable="YES"/>
-        <attribute name="text" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="hints" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Hint" inverseName="password" inverseEntity="Hint" syncable="YES"/>
     </entity>
     <elements>

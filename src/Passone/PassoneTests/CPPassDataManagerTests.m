@@ -33,7 +33,7 @@
 - (void)testSetPasswordTextAtIndex {
     NSArray *passwordsText = [[NSArray alloc] initWithObjects:@"password1", @"password2", @"password3", nil];
     for (int index = 0; index < passwordsText.count; index++) {
-        [self.passDataManager setPasswordText:[passwordsText objectAtIndex:index] red:1.0 green:1.0 blue:1.0 atIndex:index];
+        [self.passDataManager setPasswordText:[passwordsText objectAtIndex:index] atIndex:index];
     }
     
     STAssertEquals((NSUInteger)9, self.passDataManager.passwords.count, @"");
@@ -43,7 +43,7 @@
     }
     
     // TODO: use variable for @"changed"
-    [self.passDataManager setPasswordText:@"changed" red:1.0 green:1.0 blue:1.0 atIndex:0];
+    [self.passDataManager setPasswordText:@"changed" atIndex:0];
     
     STAssertEquals((NSUInteger)9, self.passDataManager.passwords.count, @"");
     for (int index = 0; index < passwordsText.count; index++) {

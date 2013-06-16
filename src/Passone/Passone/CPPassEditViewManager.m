@@ -9,6 +9,7 @@
 #import "CPPassEditViewManager.h"
 
 #import "CPPassDataManager.h"
+#import "CPPassword.h"
 
 @interface CPPassEditViewManager ()
 
@@ -26,10 +27,6 @@
     if (!_passwordEditView) {
         [[NSBundle mainBundle] loadNibNamed:@"CPPassEditView" owner:self options:nil];
         _passwordEditView.translatesAutoresizingMaskIntoConstraints = NO;
-        self.red = ((CGFloat)arc4random()) / 0xffffffff;
-        self.green = ((CGFloat)arc4random()) / 0xffffffff;
-        self.blue = ((CGFloat)arc4random()) / 0xffffffff;
-        _passwordEditView.backgroundColor = [UIColor colorWithRed:self.red green:self.green blue:self.blue alpha:1.0];
     }
     return _passwordEditView;
 }
@@ -41,14 +38,14 @@
     return _constraints;
 }
 
-- (void)addPassEditViewInView:(UIView *)view forCell:(UIView *)cell inCells:(NSArray *)cells {
-    self.red = ((CGFloat)arc4random()) / 0xffffffff;
-    self.green = ((CGFloat)arc4random()) / 0xffffffff;
-    self.blue = ((CGFloat)arc4random()) / 0xffffffff;
-    _passwordEditView.backgroundColor = [UIColor colorWithRed:self.red green:self.green blue:self.blue alpha:1.0];
+- (void)addPassEditViewInView:(UIView *)view index:(NSUInteger)index inCells:(NSArray *)cells {
+    CPPassword *password = [[CPPassDataManager defaultManager].passwords objectAtIndex:index];
+    self.passwordEditView.backgroundColor = [UIColor colorWithRed:password.red.floatValue green:password.green.floatValue blue:password.blue.floatValue alpha:1.0];
+    self.passwordTextField.text = password.text;
     
     [view addSubview:self.passwordEditView];
     
+    UIView *cell = [cells objectAtIndex:index];
     // align with cell
     [view removeConstraints:self.constraints];
     self.constraints = [[NSArray alloc] initWithObjects:
@@ -77,7 +74,8 @@
     }];
 }
 
-- (void)removePassEditViewFromView:(UIView *)view forCell:(UIView *)cell {
+- (void)removePassEditViewFromView:(UIView *)view index:(NSUInteger)index inCells:(NSArray *)cells {
+    UIView *cell = [cells objectAtIndex:index];
     [view removeConstraints:self.constraints];
     self.constraints = [[NSArray alloc] initWithObjects:
                         [NSLayoutConstraint constraintWithItem:self.passwordEditView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0],
@@ -96,7 +94,7 @@
 
 - (void)setPasswordForIndex:(NSUInteger)index {
     if (self.passwordTextField.text && ![self.passwordTextField.text isEqualToString:@""]) {
-        [[CPPassDataManager defaultManager] setPasswordText:self.passwordTextField.text red:self.red green:self.green blue:self.blue atIndex:index];
+        [[CPPassDataManager defaultManager] setPasswordText:self.passwordTextField.text atIndex:index];
     }
 }
 
