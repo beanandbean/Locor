@@ -18,6 +18,12 @@
 
 @dynamic date;
 
+@dynamic red;
+
+@dynamic green;
+
+@dynamic blue;
+
 @dynamic hints;
 
 @end

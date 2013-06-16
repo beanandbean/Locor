@@ -14,6 +14,12 @@
 
 @property (strong, nonatomic) NSNumber *index;
 
+@property (strong, nonatomic) NSNumber *red;
+
+@property (strong, nonatomic) NSNumber *green;
+
+@property (strong, nonatomic) NSNumber *blue;
+
 @property (strong, nonatomic) NSDate *date;
 
 @property (strong, nonatomic) NSSet *hints;

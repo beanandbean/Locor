@@ -24,7 +24,6 @@
     [super setUp];
     
     self.passDataManager = [CPPassDataManager defaultManager];
-    [self.passDataManager removeAllPasswords];
 }
 
 - (void)tearDown {
@@ -34,21 +33,23 @@
 - (void)testSetPasswordTextAtIndex {
     NSArray *passwordsText = [[NSArray alloc] initWithObjects:@"password1", @"password2", @"password3", nil];
     for (int index = 0; index < passwordsText.count; index++) {
-        [self.passDataManager setPasswordText:[passwordsText objectAtIndex:index] atIndex:index];
+        [self.passDataManager setPasswordText:[passwordsText objectAtIndex:index] red:1.0 green:1.0 blue:1.0 atIndex:index];
     }
     
-    STAssertEquals(passwordsText.count, self.passDataManager.passwords.count, @"");
-    for (CPPassword *password in self.passDataManager.passwords) {
-        STAssertEquals([passwordsText objectAtIndex:password.index.intValue], password.text, @"");
+    STAssertEquals((NSUInteger)9, self.passDataManager.passwords.count, @"");
+    for (int index = 0; index < passwordsText.count; index++) {
+        CPPassword *password = [self.passDataManager.passwords objectAtIndex:index];
+        STAssertEquals([passwordsText objectAtIndex:index], password.text, @"");
     }
     
     // TODO: use variable for @"changed"
-    [self.passDataManager setPasswordText:@"changed" atIndex:0];
+    [self.passDataManager setPasswordText:@"changed" red:1.0 green:1.0 blue:1.0 atIndex:0];
     
-    STAssertEquals(passwordsText.count, self.passDataManager.passwords.count, @"");
-    for (CPPassword *password in self.passDataManager.passwords) {
-        if (password.index.intValue) {
-            STAssertEquals([passwordsText objectAtIndex:password.index.intValue], password.text, @"");
+    STAssertEquals((NSUInteger)9, self.passDataManager.passwords.count, @"");
+    for (int index = 0; index < passwordsText.count; index++) {
+        CPPassword *password = [self.passDataManager.passwords objectAtIndex:index];
+        if (index) {
+            STAssertEquals([passwordsText objectAtIndex:index], password.text, @"");
         } else {
             STAssertEquals(@"changed", password.text, @"");
         }

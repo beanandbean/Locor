@@ -8,7 +8,9 @@
 
 #import "CPMainViewController.h"
 
+#import "CPPassDataManager.h"
 #import "CPPassEditViewManager.h"
+#import "CPPassword.h"
 
 @interface CPMainViewController ()
 
@@ -17,6 +19,8 @@
 @property (strong, nonatomic) CPPassEditViewManager *passEditViewManager;
 
 @property (strong, nonatomic) UIView *passGridView;
+
+@property (weak, nonatomic) UIView *currentEditCell;
 
 @end
 
@@ -54,13 +58,38 @@ static const CGFloat SPACE = 10.0;
 #pragma mark - CPPassCellDelegate implement
 
 - (void)editPassCell:(CPPassCell *)cell {
-    [self.passEditViewManager addPassEditViewInView:self.passGridView forCell:cell inCells:self.passCells];
+    if (!self.currentEditCell) {
+        self.currentEditCell = cell;
+        [self.passEditViewManager addPassEditViewInView:self.passGridView forCell:cell inCells:self.passCells];
+    }
 }
 
 #pragma mark -
 
+- (void)refrushPassCellColor {
+    NSArray *passwords = [CPPassDataManager defaultManager].passwords;
+    for (int index = 0; index < self.passCells.count; index++) {
+        UIView *cell = [self.passCells objectAtIndex:index];
+        CPPassword *password = [passwords objectAtIndex:index];
+        UIColor *color = [UIColor colorWithRed:password.red.floatValue green:password.green.floatValue blue:password.blue.floatValue alpha:1.0];
+        cell.backgroundColor = color;
+    }
+}
+
 - (void)tappedBy:(UITapGestureRecognizer *)tapGuestureRecognizer {
-    [self.passEditViewManager removePassEditView];
+    if (self.currentEditCell) {
+        NSUInteger index = 0;
+        for (UIView *cell in self.passCells) {
+            if (cell == self.currentEditCell) {
+                break;
+            }
+            index++;
+        }
+        [self.passEditViewManager setPasswordForIndex:index];
+        [self.passEditViewManager removePassEditViewFromView:self.passGridView forCell:self.currentEditCell];
+        [self refrushPassCellColor];
+        self.currentEditCell = nil;
+    }
 }
 
 - (void)createPassGridView {
@@ -140,6 +169,7 @@ static const CGFloat SPACE = 10.0;
             [superView addSubview:cell];
         }
     }
+    [self refrushPassCellColor];
 }
 
 @end

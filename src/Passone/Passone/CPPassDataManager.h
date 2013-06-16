@@ -16,10 +16,8 @@
 
 - (void)saveContext;
 
-- (void)setPasswordText:(NSString *)text atIndex:(NSInteger)index;
+- (void)setPasswordText:(NSString *)text red:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue atIndex:(NSInteger)index;
 
 - (void)addHintText:(NSString *)text intoIndex:(NSInteger)index;
-
-- (void)removeAllPasswords;
 
 @end
