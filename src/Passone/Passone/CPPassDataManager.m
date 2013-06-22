@@ -55,7 +55,7 @@ static CPPassDataManager *_defaultManager = nil;
                 CPPassword *password = [NSEntityDescription insertNewObjectForEntityForName:@"Password" inManagedObjectContext:self.managedObjectContext];
                 password.text = nil;
                 password.index = [NSNumber numberWithInteger:index];
-                password.date = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
+                password.date = [[NSDate alloc] initWithTimeIntervalSince1970:0];
                 password.red = [NSNumber numberWithFloat:colors[index * 3]];
                 password.green = [NSNumber numberWithFloat:colors[index * 3 + 1]];
                 password.blue = [NSNumber numberWithFloat:colors[index * 3 + 2]];
@@ -85,31 +85,26 @@ static CPPassDataManager *_defaultManager = nil;
 }
 
 - (void)setPasswordText:(NSString *)text atIndex:(NSInteger)index {
-    CPPassword *password = [self passwordAtIndex:index];
+    CPPassword *password = [self.passwords objectAtIndex:index];
     NSAssert(password, @"");
+    
+    if ([password.text isEqualToString:@""]) {
+        password.date = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
+    } else if ([text isEqualToString:@""]) {
+        password.date = [[NSDate alloc] initWithTimeIntervalSince1970:0];
+    }
     
     password.text = text;
 }
 
 - (void)addHintText:(NSString *)text intoIndex:(NSInteger)index {
-    CPPassword *password = [self passwordAtIndex:index];
+    CPPassword *password = [self.passwords objectAtIndex:index];
     NSAssert(password, @"");
     
     CPHint *hint = [NSEntityDescription insertNewObjectForEntityForName:@"Hint" inManagedObjectContext:self.managedObjectContext];
     hint.text = text;
     hint.password = password;
     [password addHintsObject:hint];
-}
-
-- (CPPassword *)passwordAtIndex:(NSInteger)index {
-    CPPassword *result = nil;
-    for (CPPassword *password in self.passwords) {
-        if (password.index.intValue == index) {
-            result = password;
-            break;
-        }
-    }
-    return result;
 }
 
 #pragma mark - Core Data stack
