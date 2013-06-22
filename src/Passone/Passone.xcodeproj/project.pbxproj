@@ -33,6 +33,7 @@
 		FC791750176DFE0800CCF63B /* CPPassGridManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC79174F176DFE0800CCF63B /* CPPassGridManager.m */; };
 		FC83D48E175B20A600B59C86 /* CPPassEditView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC83D48D175B20A600B59C86 /* CPPassEditView.xib */; };
 		FCB034F9175C154D008D1DC8 /* CPPassEditViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB034F8175C154D008D1DC8 /* CPPassEditViewManager.m */; };
+		FCBB156917709854005DC611 /* CPPassCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FCBB156817709854005DC611 /* CPPassCell.m */; };
 		FCBF1E26176966E80014E56F /* CPPassDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FCBF1E25176966E80014E56F /* CPPassDataManager.m */; };
 		FCBF1E2917696C1A0014E56F /* Passone.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FCBF1E2717696C1A0014E56F /* Passone.xcdatamodeld */; };
 /* End PBXBuildFile section */
@@ -80,6 +81,8 @@
 		FC83D48D175B20A600B59C86 /* CPPassEditView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPPassEditView.xib; sourceTree = "<group>"; };
 		FCB034F7175C154D008D1DC8 /* CPPassEditViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPassEditViewManager.h; sourceTree = "<group>"; };
 		FCB034F8175C154D008D1DC8 /* CPPassEditViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPassEditViewManager.m; sourceTree = "<group>"; };
+		FCBB156717709854005DC611 /* CPPassCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPassCell.h; sourceTree = "<group>"; };
+		FCBB156817709854005DC611 /* CPPassCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPassCell.m; sourceTree = "<group>"; };
 		FCBF1E24176966E80014E56F /* CPPassDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPassDataManager.h; sourceTree = "<group>"; };
 		FCBF1E25176966E80014E56F /* CPPassDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPassDataManager.m; sourceTree = "<group>"; };
 		FCBF1E2817696C1A0014E56F /* Passone.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Passone.xcdatamodel; sourceTree = "<group>"; };
@@ -151,6 +154,8 @@
 				FC369DEB176AF62500EAD7D1 /* CPHint.m */,
 				FC4F2B171759ECB5002D9992 /* CPMainViewController.h */,
 				FC4F2B181759ECB5002D9992 /* CPMainViewController.m */,
+				FCBB156717709854005DC611 /* CPPassCell.h */,
+				FCBB156817709854005DC611 /* CPPassCell.m */,
 				FCBF1E24176966E80014E56F /* CPPassDataManager.h */,
 				FCBF1E25176966E80014E56F /* CPPassDataManager.m */,
 				FC83D48D175B20A600B59C86 /* CPPassEditView.xib */,
@@ -321,6 +326,7 @@
 				FC369DE9176AF56A00EAD7D1 /* CPPassword.m in Sources */,
 				FC369DEC176AF62500EAD7D1 /* CPHint.m in Sources */,
 				FC791750176DFE0800CCF63B /* CPPassGridManager.m in Sources */,
+				FCBB156917709854005DC611 /* CPPassCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

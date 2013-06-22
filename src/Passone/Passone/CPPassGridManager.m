@@ -8,6 +8,7 @@
 
 #import "CPPassGridManager.h"
 
+#import "CPPassCell.h"
 #import "CPPassDataManager.h"
 #import "CPPassEditViewManager.h"
 #import "CPPassword.h"
@@ -125,16 +126,42 @@
     }
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if (([gestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]] && [otherGestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) || ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]] && [otherGestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]])) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+- (void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPressGesture {
+    if (longPressGesture.state == UIGestureRecognizerStateBegan) {
+    } else if (longPressGesture.state == UIGestureRecognizerStateEnded || longPressGesture.state == UIGestureRecognizerStateCancelled || longPressGesture.state == UIGestureRecognizerStateFailed) {
+    }
+}
+
+- (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture {
+    if (panGesture.state == UIGestureRecognizerStateBegan) {
+        NSLog(@"pan begin");
+    } else if (panGesture.state == UIGestureRecognizerStateChanged) {
+        CGPoint location = [panGesture locationInView:panGesture.view];
+        CGPoint translation = [panGesture translationInView:panGesture.view];
+        [panGesture setTranslation:CGPointZero inView:panGesture.view];
+    } else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled || panGesture.state == UIGestureRecognizerStateFailed) {
+    }
+}
+
 static const int ROWS = 3, COLUMNS = 3;
 static const CGFloat SPACE = 10.0;
 
 - (void)createPassCells {
     for (int row = 0; row < ROWS; row++) {
         for (int column = 0; column < COLUMNS; column++) {
-            UIView *cell = [[UIView alloc] init];
-            cell.translatesAutoresizingMaskIntoConstraints = NO;
+            CPPassCell *cell = [[CPPassCell alloc] init];
             [cell addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)]];
             [cell addGestureRecognizer:[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeGesture:)]];
+            [cell addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)]];
+            [cell addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)]];
             
             if (row == 0) {
                 // cell.top = superView.top + SPACE
