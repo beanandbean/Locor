@@ -16,6 +16,6 @@
     </entity>
     <elements>
         <element name="Hint" positionX="0" positionY="0" width="128" height="90"/>
-        <element name="Password" positionX="0" positionY="0" width="128" height="150"/>
+        <element name="Password" positionX="-459" positionY="117" width="128" height="150"/>
     </elements>
 </model>
