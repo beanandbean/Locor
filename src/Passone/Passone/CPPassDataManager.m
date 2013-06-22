@@ -36,7 +36,7 @@ static CPPassDataManager *_defaultManager = nil;
     if (!_passwords) {
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setEntity:[NSEntityDescription entityForName:@"Password" inManagedObjectContext:self.managedObjectContext]];
-        [request setSortDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES], nil]];
+        [request setSortDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc]                                                                                     initWithKey:@"index" ascending:YES], nil]];
         _passwords = [self.managedObjectContext executeFetchRequest:request error:nil];
         if (!_passwords.count) {
             // TODO: 9
@@ -44,7 +44,7 @@ static CPPassDataManager *_defaultManager = nil;
                 CPPassword *password = [NSEntityDescription insertNewObjectForEntityForName:@"Password" inManagedObjectContext:self.managedObjectContext];
                 password.text = @"";
                 password.index = [NSNumber numberWithInteger:index];
-                password.date = [[NSDate alloc] initWithTimeIntervalSince1970:0];
+                password.date = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
                 password.red = [NSNumber numberWithFloat:0.7];
                 password.green = [NSNumber numberWithFloat:0.7];
                 password.blue = [NSNumber numberWithFloat:0.7];
@@ -74,14 +74,8 @@ static CPPassDataManager *_defaultManager = nil;
 }
 
 - (void)setPasswordText:(NSString *)text red:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue atIndex:(NSInteger)index {
-    CPPassword *password = [self.passwords objectAtIndex:index];
+    CPPassword *password = [self passwordAtIndex:index];
     NSAssert(password, @"");
-    
-    if ([password.text isEqualToString:@""]) {
-        password.date = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
-    } else if ([text isEqualToString:@""]) {
-        password.date = [[NSDate alloc] initWithTimeIntervalSince1970:0];
-    }
     
     password.text = text;
     password.red = [NSNumber numberWithFloat:red];
@@ -90,13 +84,24 @@ static CPPassDataManager *_defaultManager = nil;
 }
 
 - (void)addHintText:(NSString *)text intoIndex:(NSInteger)index {
-    CPPassword *password = [self.passwords objectAtIndex:index];
+    CPPassword *password = [self passwordAtIndex:index];
     NSAssert(password, @"");
     
     CPHint *hint = [NSEntityDescription insertNewObjectForEntityForName:@"Hint" inManagedObjectContext:self.managedObjectContext];
     hint.text = text;
     hint.password = password;
     [password addHintsObject:hint];
+}
+
+- (CPPassword *)passwordAtIndex:(NSInteger)index {
+    CPPassword *result = nil;
+    for (CPPassword *password in self.passwords) {
+        if (password.index.intValue == index) {
+            result = password;
+            break;
+        }
+    }
+    return result;
 }
 
 #pragma mark - Core Data stack
