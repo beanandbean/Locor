@@ -27,6 +27,8 @@
 }
 
 - (void)tearDown {
+    self.passDataManager = nil;
+    
     [super tearDown];
 }
 
@@ -54,6 +56,10 @@
             STAssertEquals(@"changed", password.text, @"");
         }
     }
+}
+
+- (void)testAddHint {
+    [self.passDataManager addHintText:@"hint1" intoIndex:0];
 }
 
 @end

@@ -7,12 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FC1BE40A176B69150072171A /* CPHint.m in Sources */ = {isa = PBXBuildFile; fileRef = FC369DEB176AF62500EAD7D1 /* CPHint.m */; };
 		FC1BE40B176B69210072171A /* CPPassDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FCBF1E25176966E80014E56F /* CPPassDataManager.m */; };
-		FC1BE40C176B69260072171A /* CPPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = FC369DE8176AF56A00EAD7D1 /* CPPassword.m */; };
 		FC1BE40D176B69610072171A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC501F5917680E1300E987B5 /* CoreData.framework */; };
-		FC369DE9176AF56A00EAD7D1 /* CPPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = FC369DE8176AF56A00EAD7D1 /* CPPassword.m */; };
-		FC369DEC176AF62500EAD7D1 /* CPHint.m in Sources */ = {isa = PBXBuildFile; fileRef = FC369DEB176AF62500EAD7D1 /* CPHint.m */; };
 		FC4F2ADA1759EB0C002D9992 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2AD91759EB0C002D9992 /* UIKit.framework */; };
 		FC4F2ADC1759EB0C002D9992 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2ADB1759EB0C002D9992 /* Foundation.framework */; };
 		FC4F2ADE1759EB0C002D9992 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2ADD1759EB0C002D9992 /* CoreGraphics.framework */; };
@@ -31,6 +27,8 @@
 		FC4F2B191759ECB5002D9992 /* CPMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4F2B181759ECB5002D9992 /* CPMainViewController.m */; };
 		FC501F5A17680E1300E987B5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC501F5917680E1300E987B5 /* CoreData.framework */; };
 		FC791750176DFE0800CCF63B /* CPPassGridManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC79174F176DFE0800CCF63B /* CPPassGridManager.m */; };
+		FC80BE5A17791438007BDC13 /* CPHint.m in Sources */ = {isa = PBXBuildFile; fileRef = FC80BE5917791438007BDC13 /* CPHint.m */; };
+		FC80BE5D17791438007BDC13 /* CPPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = FC80BE5C17791438007BDC13 /* CPPassword.m */; };
 		FC83D48E175B20A600B59C86 /* CPPassEditView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC83D48D175B20A600B59C86 /* CPPassEditView.xib */; };
 		FCB034F9175C154D008D1DC8 /* CPPassEditViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB034F8175C154D008D1DC8 /* CPPassEditViewManager.m */; };
 		FCBB156917709854005DC611 /* CPPassCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FCBB156817709854005DC611 /* CPPassCell.m */; };
@@ -49,10 +47,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		FC369DE7176AF56A00EAD7D1 /* CPPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPassword.h; sourceTree = "<group>"; };
-		FC369DE8176AF56A00EAD7D1 /* CPPassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPassword.m; sourceTree = "<group>"; };
-		FC369DEA176AF62500EAD7D1 /* CPHint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPHint.h; sourceTree = "<group>"; };
-		FC369DEB176AF62500EAD7D1 /* CPHint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPHint.m; sourceTree = "<group>"; };
 		FC4F2AD61759EB0C002D9992 /* Passone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Passone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC4F2AD91759EB0C002D9992 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FC4F2ADB1759EB0C002D9992 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -78,6 +72,10 @@
 		FC501F5917680E1300E987B5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		FC79174E176DFE0800CCF63B /* CPPassGridManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPassGridManager.h; sourceTree = "<group>"; };
 		FC79174F176DFE0800CCF63B /* CPPassGridManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPassGridManager.m; sourceTree = "<group>"; };
+		FC80BE5817791438007BDC13 /* CPHint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPHint.h; sourceTree = "<group>"; };
+		FC80BE5917791438007BDC13 /* CPHint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPHint.m; sourceTree = "<group>"; };
+		FC80BE5B17791438007BDC13 /* CPPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPassword.h; sourceTree = "<group>"; };
+		FC80BE5C17791438007BDC13 /* CPPassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPassword.m; sourceTree = "<group>"; };
 		FC83D48D175B20A600B59C86 /* CPPassEditView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPPassEditView.xib; sourceTree = "<group>"; };
 		FCB034F7175C154D008D1DC8 /* CPPassEditViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPassEditViewManager.h; sourceTree = "<group>"; };
 		FCB034F8175C154D008D1DC8 /* CPPassEditViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPassEditViewManager.m; sourceTree = "<group>"; };
@@ -150,8 +148,8 @@
 			children = (
 				FC4F2AE81759EB0C002D9992 /* CPAppDelegate.h */,
 				FC4F2AE91759EB0C002D9992 /* CPAppDelegate.m */,
-				FC369DEA176AF62500EAD7D1 /* CPHint.h */,
-				FC369DEB176AF62500EAD7D1 /* CPHint.m */,
+				FC80BE5817791438007BDC13 /* CPHint.h */,
+				FC80BE5917791438007BDC13 /* CPHint.m */,
 				FC4F2B171759ECB5002D9992 /* CPMainViewController.h */,
 				FC4F2B181759ECB5002D9992 /* CPMainViewController.m */,
 				FCBB156717709854005DC611 /* CPPassCell.h */,
@@ -163,8 +161,8 @@
 				FCB034F8175C154D008D1DC8 /* CPPassEditViewManager.m */,
 				FC79174E176DFE0800CCF63B /* CPPassGridManager.h */,
 				FC79174F176DFE0800CCF63B /* CPPassGridManager.m */,
-				FC369DE7176AF56A00EAD7D1 /* CPPassword.h */,
-				FC369DE8176AF56A00EAD7D1 /* CPPassword.m */,
+				FC80BE5B17791438007BDC13 /* CPPassword.h */,
+				FC80BE5C17791438007BDC13 /* CPPassword.m */,
 				FC4F2AF41759EB0C002D9992 /* MainStoryboard.storyboard */,
 				FCBF1E2717696C1A0014E56F /* Passone.xcdatamodeld */,
 				FC4F2AE01759EB0C002D9992 /* Supporting Files */,
@@ -323,10 +321,10 @@
 				FCB034F9175C154D008D1DC8 /* CPPassEditViewManager.m in Sources */,
 				FCBF1E26176966E80014E56F /* CPPassDataManager.m in Sources */,
 				FCBF1E2917696C1A0014E56F /* Passone.xcdatamodeld in Sources */,
-				FC369DE9176AF56A00EAD7D1 /* CPPassword.m in Sources */,
-				FC369DEC176AF62500EAD7D1 /* CPHint.m in Sources */,
 				FC791750176DFE0800CCF63B /* CPPassGridManager.m in Sources */,
 				FCBB156917709854005DC611 /* CPPassCell.m in Sources */,
+				FC80BE5A17791438007BDC13 /* CPHint.m in Sources */,
+				FC80BE5D17791438007BDC13 /* CPPassword.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,9 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC4F2B0E1759EB0C002D9992 /* CPPassDataManagerTests.m in Sources */,
-				FC1BE40A176B69150072171A /* CPHint.m in Sources */,
 				FC1BE40B176B69210072171A /* CPPassDataManager.m in Sources */,
-				FC1BE40C176B69260072171A /* CPPassword.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
+@class CPHint;
+
 @interface CPPassDataManager : NSObject
 
 @property (strong, nonatomic) NSArray *passwords;
@@ -18,6 +20,6 @@
 
 - (void)setPasswordText:(NSString *)text atIndex:(NSInteger)index;
 
-- (void)addHintText:(NSString *)text intoIndex:(NSInteger)index;
+- (CPHint *)addHintText:(NSString *)text intoIndex:(NSInteger)index;
 
 @end

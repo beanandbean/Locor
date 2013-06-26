@@ -6,16 +6,26 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-@interface CPPassEditViewManager : NSObject <UITextFieldDelegate>
+@interface CPPassEditViewManager : NSObject <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+
+@property (nonatomic) NSInteger index;
 
 @property (strong, nonatomic) IBOutlet UIView *passwordEditView;
 
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 
-- (void)addPassEditViewInView:(UIView *)view index:(NSUInteger)index inCells:(NSArray *)cells;
+@property (weak, nonatomic) IBOutlet UITableView *hintsTableView;
 
-- (void)removePassEditViewFromView:(UIView *)view index:(NSUInteger)index inCells:(NSArray *)cells;
+@property (strong, nonatomic) IBOutlet UITableViewCell *hintEditorCell;
 
-- (void)setPasswordForIndex:(NSUInteger)index;
+- (id)initWithSuperView:(UIView *)superView cells:(NSArray *)cells;
+
+- (void)showPassEditViewForCellAtIndex:(NSUInteger)index;
+
+- (void)hidePassEditView;
+
+- (void)setPassword;
+
+- (IBAction)addHint:(id)sender;
 
 @end

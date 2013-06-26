@@ -53,12 +53,13 @@ static CPPassDataManager *_defaultManager = nil;
             };
             for (int index = 0; index < 9; index++) {
                 CPPassword *password = [NSEntityDescription insertNewObjectForEntityForName:@"Password" inManagedObjectContext:self.managedObjectContext];
-                password.text = nil;
+                password.isUsed = [NSNumber numberWithBool:NO];
+                password.text = @"";
                 password.index = [NSNumber numberWithInteger:index];
-                password.date = [[NSDate alloc] initWithTimeIntervalSince1970:0];
-                password.red = [NSNumber numberWithFloat:colors[index * 3]];
-                password.green = [NSNumber numberWithFloat:colors[index * 3 + 1]];
-                password.blue = [NSNumber numberWithFloat:colors[index * 3 + 2]];
+                password.creationDate = [[NSDate alloc] initWithTimeIntervalSince1970:0];
+                password.colorRed = [NSNumber numberWithFloat:colors[index * 3]];
+                password.colorGreen = [NSNumber numberWithFloat:colors[index * 3 + 1]];
+                password.colorBlue = [NSNumber numberWithFloat:colors[index * 3 + 2]];
             }
             _passwords = [self.managedObjectContext executeFetchRequest:request error:nil];
         }
@@ -89,22 +90,26 @@ static CPPassDataManager *_defaultManager = nil;
     NSAssert(password, @"");
     
     if ([password.text isEqualToString:@""]) {
-        password.date = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
+        password.creationDate = [[NSDate alloc] init];
     } else if ([text isEqualToString:@""]) {
-        password.date = [[NSDate alloc] initWithTimeIntervalSince1970:0];
+        password.creationDate = [[NSDate alloc] initWithTimeIntervalSince1970:0];
     }
     
     password.text = text;
+    password.isUsed = [NSNumber numberWithBool:YES];
 }
 
-- (void)addHintText:(NSString *)text intoIndex:(NSInteger)index {
+- (CPHint *)addHintText:(NSString *)text intoIndex:(NSInteger)index {
     CPPassword *password = [self.passwords objectAtIndex:index];
     NSAssert(password, @"");
     
     CPHint *hint = [NSEntityDescription insertNewObjectForEntityForName:@"Hint" inManagedObjectContext:self.managedObjectContext];
     hint.text = text;
+    hint.creationDate = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
     hint.password = password;
     [password addHintsObject:hint];
+    
+    return hint;
 }
 
 #pragma mark - Core Data stack

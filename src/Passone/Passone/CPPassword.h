@@ -2,7 +2,7 @@
 //  CPPassword.h
 //  Passone
 //
-//  Created by wangyw on 6/14/13.
+//  Created by wangyw on 6/25/13.
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
@@ -10,30 +10,21 @@
 
 @interface CPPassword : NSManagedObject
 
-@property (strong, nonatomic) NSString *text;
-
-@property (strong, nonatomic) NSNumber *index;
-
-@property (strong, nonatomic) NSNumber *red;
-
-@property (strong, nonatomic) NSNumber *green;
-
-@property (strong, nonatomic) NSNumber *blue;
-
-@property (strong, nonatomic) NSDate *date;
-
-@property (strong, nonatomic) NSSet *hints;
-
+@property (nonatomic, retain) NSNumber *colorBlue;
+@property (nonatomic, retain) NSDate *creationDate;
+@property (nonatomic, retain) NSNumber *colorGreen;
+@property (nonatomic, retain) NSNumber *index;
+@property (nonatomic, retain) NSNumber *colorRed;
+@property (nonatomic, retain) NSString *text;
+@property (nonatomic, retain) NSNumber *isUsed;
+@property (nonatomic, retain) NSSet *hints;
 @end
 
-@interface CPPassword (HintsAccessors)
+@interface CPPassword (CoreDataGeneratedAccessors)
 
 - (void)addHintsObject:(CPHint *)value;
-
 - (void)removeHintsObject:(CPHint *)value;
-
-- (void)addHints:(NSSet *)value;
-
-- (void)removeHints:(NSSet *)value;
+- (void)addHints:(NSSet *)values;
+- (void)removeHints:(NSSet *)values;
 
 @end

@@ -21,8 +21,6 @@
 
 @property (strong, nonatomic) UIView *passGridView;
 
-@property (nonatomic) NSInteger editCellIndex;
-
 @end
 
 @implementation CPPassGridManager
@@ -36,7 +34,7 @@
 
 - (CPPassEditViewManager *)passEditViewManager {
     if (!_passEditViewManager) {
-        _passEditViewManager = [[CPPassEditViewManager alloc] init];
+        _passEditViewManager = [[CPPassEditViewManager alloc] initWithSuperView:self.passGridView cells:self.passCells];
     }
     return _passEditViewManager;
 }
@@ -75,8 +73,6 @@
         [outerView addSubview:self.passGridView];
         
         [self createPassCells];
-        
-        self.editCellIndex = -1;
     }
     return self;
 }
@@ -86,13 +82,13 @@
     for (int index = 0; index < self.passCells.count; index++) {
         UIView *cell = [self.passCells objectAtIndex:index];
         CPPassword *password = [passwords objectAtIndex:index];
-        UIColor *color = password.text ? [UIColor colorWithRed:password.red.floatValue green:password.green.floatValue blue:password.blue.floatValue alpha:1.0] : [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1.0];
+        UIColor *color = password.isUsed.boolValue ? [[UIColor alloc] initWithRed:password.colorRed.floatValue green:password.colorGreen.floatValue blue:password.colorBlue.floatValue alpha:1.0] : [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1.0];
         cell.backgroundColor = color;
     }
 }
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
-    if (self.editCellIndex == -1) {
+    if (self.passEditViewManager.index == -1) {
         NSUInteger index = 0;
         for (UIView *cell in self.passCells) {
             if (cell == tapGestureRecognizer.view) {
@@ -100,8 +96,7 @@
             }
             index++;
         }
-        self.editCellIndex = index;
-        [self.passEditViewManager addPassEditViewInView:self.passGridView index:self.editCellIndex inCells:self.passCells];
+        [self.passEditViewManager showPassEditViewForCellAtIndex:index];
     }
 }
 
@@ -118,11 +113,10 @@
 }
 
 - (void)tappedBy:(UITapGestureRecognizer *)tapGuestureRecognizer {
-    if (self.editCellIndex != -1) {
-        [self.passEditViewManager setPasswordForIndex:self.editCellIndex];
-        [self.passEditViewManager removePassEditViewFromView:self.passGridView index:self.editCellIndex inCells:self.passCells];
+    if (self.passEditViewManager.index != -1) {
+        [self.passEditViewManager setPassword];
+        [self.passEditViewManager hidePassEditView];
         [self refrushPassCellColor];
-        self.editCellIndex = -1;
     }
 }
 
@@ -134,7 +128,7 @@
     }
 }
 
-- (void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPressGesture {
+/*- (void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPressGesture {
     if (longPressGesture.state == UIGestureRecognizerStateBegan) {
     } else if (longPressGesture.state == UIGestureRecognizerStateEnded || longPressGesture.state == UIGestureRecognizerStateCancelled || longPressGesture.state == UIGestureRecognizerStateFailed) {
     }
@@ -149,7 +143,7 @@
         [panGesture setTranslation:CGPointZero inView:panGesture.view];
     } else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled || panGesture.state == UIGestureRecognizerStateFailed) {
     }
-}
+}*/
 
 static const int ROWS = 3, COLUMNS = 3;
 static const CGFloat SPACE = 10.0;
@@ -160,8 +154,8 @@ static const CGFloat SPACE = 10.0;
             CPPassCell *cell = [[CPPassCell alloc] init];
             [cell addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)]];
             [cell addGestureRecognizer:[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeGesture:)]];
-            [cell addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)]];
-            [cell addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)]];
+            // [cell addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)]];
+            // [cell addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)]];
             
             if (row == 0) {
                 // cell.top = superView.top + SPACE
