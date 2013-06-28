@@ -10,6 +10,8 @@
 
 #import "CPPassGridManager.h"
 
+#import "CPNotificationCenter.h"
+
 @interface CPMainViewController ()
 
 @property (strong, nonatomic) CPPassGridManager *passGridManager;
@@ -22,6 +24,8 @@
     [super viewDidLoad];
 
     self.passGridManager = [[CPPassGridManager alloc] initWithSuperView:self.view];
+    
+    [CPNotificationCenter createNotificationCenterWithSuperView:self.view];
 }
 
 - (void)didReceiveMemoryWarning {

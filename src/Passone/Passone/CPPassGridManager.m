@@ -13,6 +13,8 @@
 #import "CPPassEditViewManager.h"
 #import "CPPassword.h"
 
+#import "CPNotificationCenter.h"
+
 @interface CPPassGridManager ()
 
 @property (strong, nonatomic) NSMutableArray *passCells;
@@ -97,6 +99,9 @@
             index++;
         }
         [self.passEditViewManager showPassEditViewForCellAtIndex:index];
+        
+        //This is just a test!!
+        [CPNotificationCenter insertNotification:@"A test of notification!!"];
     }
 }
 

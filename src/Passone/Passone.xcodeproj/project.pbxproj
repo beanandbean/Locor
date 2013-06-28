@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2CBDF767177DB96E00BC9E3E /* CPNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */; };
 		FC1BE40B176B69210072171A /* CPPassDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FCBF1E25176966E80014E56F /* CPPassDataManager.m */; };
 		FC1BE40D176B69610072171A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC501F5917680E1300E987B5 /* CoreData.framework */; };
 		FC4F2ADA1759EB0C002D9992 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2AD91759EB0C002D9992 /* UIKit.framework */; };
@@ -47,6 +48,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2CBDF765177DB96E00BC9E3E /* CPNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPNotificationCenter.h; sourceTree = "<group>"; };
+		2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPNotificationCenter.m; sourceTree = "<group>"; };
 		FC4F2AD61759EB0C002D9992 /* Passone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Passone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC4F2AD91759EB0C002D9992 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FC4F2ADB1759EB0C002D9992 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -152,6 +155,8 @@
 				FC80BE5917791438007BDC13 /* CPHint.m */,
 				FC4F2B171759ECB5002D9992 /* CPMainViewController.h */,
 				FC4F2B181759ECB5002D9992 /* CPMainViewController.m */,
+				2CBDF765177DB96E00BC9E3E /* CPNotificationCenter.h */,
+				2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */,
 				FCBB156717709854005DC611 /* CPPassCell.h */,
 				FCBB156817709854005DC611 /* CPPassCell.m */,
 				FCBF1E24176966E80014E56F /* CPPassDataManager.h */,
@@ -325,6 +330,7 @@
 				FCBB156917709854005DC611 /* CPPassCell.m in Sources */,
 				FC80BE5A17791438007BDC13 /* CPHint.m in Sources */,
 				FC80BE5D17791438007BDC13 /* CPPassword.m in Sources */,
+				2CBDF767177DB96E00BC9E3E /* CPNotificationCenter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
