@@ -41,7 +41,6 @@ static CPPassDataManager *_defaultManager = nil;
         [request setSortDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES], nil]];
         _passwords = [self.managedObjectContext executeFetchRequest:request error:nil];
         if (!_passwords.count) {
-            // TODO: 9
             static const CGFloat colors[] = {
                 1.0, 0.0, 0.0,
                 1.0, 0.89, 0.0,
@@ -53,6 +52,7 @@ static CPPassDataManager *_defaultManager = nil;
                 0.04, 0.38, 0.64,
                 0.0, 0.32, 1.0
             };
+            // TODO: The third and last two colors for cells are too similar, so they need to be changed.
             for (NSUInteger index = 0; index < 9; index++) {
                 CPPassword *password = [NSEntityDescription insertNewObjectForEntityForName:@"Password" inManagedObjectContext:self.managedObjectContext];
                 password.isUsed = [NSNumber numberWithBool:NO];
@@ -79,8 +79,11 @@ static CPPassDataManager *_defaultManager = nil;
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if (managedObjectContext != nil) {
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-            // TODO: Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            /*
+             TODO: MAY ABORT! Handle the error appropriately when saving context.
+            
+             abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+             */
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
@@ -173,7 +176,7 @@ static CPPassDataManager *_defaultManager = nil;
         _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
         if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
             /*
-             TODO: Replace this implementation with code to handle the error appropriately.
+             TODO: MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.
              
              abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
              

@@ -1,0 +1,195 @@
+(lp0
+(dp1
+S'author'
+p2
+S'TODO grabber'
+p3
+sS'text'
+p4
+S'Add padding to notification labels, maybe also border radius.'
+p5
+sS'detail'
+p6
+S'TODO grabbed from /Users/wangsw/Workspace/ObjectC/Passone/src/Passone/Passone/CPNotificationCenter.m, line 65.'
+p7
+sS'exported'
+p8
+I00
+sS'time'
+p9
+S'2013-06-29 18:42:26'
+p10
+sS'path'
+p11
+S'/Users/wangsw/Workspace/ObjectC/Passone/src/Passone/Passone/CPNotificationCenter.m'
+p12
+sS'condition'
+p13
+S'open'
+p14
+sa(dp15
+g2
+g3
+sg4
+S'Determine how long a notification should stay on the screen.'
+p16
+sg6
+S'TODO grabbed from /Users/wangsw/Workspace/ObjectC/Passone/src/Passone/Passone/CPNotificationCenter.m, line 102.'
+p17
+sg8
+I00
+sg9
+S'2013-06-29 18:42:26'
+p18
+sg11
+g12
+sg13
+g14
+sa(dp19
+g2
+g3
+sg4
+S'The third and last two colors for cells are too similar, so they need to be changed.'
+p20
+sg6
+S'TODO grabbed from /Users/wangsw/Workspace/ObjectC/Passone/src/Passone/Passone/CPPassDataManager.m, line 55.'
+p21
+sg8
+I00
+sg9
+S'2013-06-29 18:42:26'
+p22
+sg11
+S'/Users/wangsw/Workspace/ObjectC/Passone/src/Passone/Passone/CPPassDataManager.m'
+p23
+sg13
+g14
+sa(dp24
+g2
+g3
+sg4
+S'MAY ABORT! Handle the error appropriately when saving context.'
+p25
+sg6
+S'TODO grabbed from /Users/wangsw/Workspace/ObjectC/Passone/src/Passone/Passone/CPPassDataManager.m, line 83.'
+p26
+sg8
+I00
+sg9
+S'2013-06-29 18:42:26'
+p27
+sg11
+g23
+sg13
+g14
+sa(dp28
+g2
+g3
+sg4
+S'MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.'
+p29
+sg6
+S'TODO grabbed from /Users/wangsw/Workspace/ObjectC/Passone/src/Passone/Passone/CPPassDataManager.m, line 179.'
+p30
+sg8
+I00
+sg9
+S'2013-06-29 18:42:26'
+p31
+sg11
+g23
+sg13
+g14
+sa(dp32
+g2
+g3
+sg4
+S'When showing pass edit view, if the cell is unset, focus on the text field.'
+p33
+sg6
+S'TODO grabbed from /Users/wangsw/Workspace/ObjectC/Passone/src/Passone/Passone/CPPassEditViewManager.m, line 65.'
+p34
+sg8
+I00
+sg9
+S'2013-06-29 18:42:26'
+p35
+sg11
+S'/Users/wangsw/Workspace/ObjectC/Passone/src/Passone/Passone/CPPassEditViewManager.m'
+p36
+sg13
+g14
+sa(dp37
+g2
+g3
+sg4
+S'When showing pass edit view, if the cell has been set, hide the password for security.'
+p38
+sg6
+S'TODO grabbed from /Users/wangsw/Workspace/ObjectC/Passone/src/Passone/Passone/CPPassEditViewManager.m, line 66.'
+p39
+sg8
+I00
+sg9
+S'2013-06-29 18:42:26'
+p40
+sg11
+g36
+sg13
+g14
+sa(dp41
+g2
+g3
+sg4
+S'Show the password edit view with an animation of alpha from 0.0 to 1.0.'
+p42
+sg6
+S'TODO grabbed from /Users/wangsw/Workspace/ObjectC/Passone/src/Passone/Passone/CPPassEditViewManager.m, line 74.'
+p43
+sg8
+I00
+sg9
+S'2013-06-29 18:42:26'
+p44
+sg11
+g36
+sg13
+g14
+sa(dp45
+g2
+g3
+sg4
+S'Remove password edit view with an animation of alpha from 0.0 to 1.0.'
+p46
+sg6
+S'TODO grabbed from /Users/wangsw/Workspace/ObjectC/Passone/src/Passone/Passone/CPPassEditViewManager.m, line 120.'
+p47
+sg8
+I00
+sg9
+S'2013-06-29 18:42:26'
+p48
+sg11
+g36
+sg13
+g14
+sa(dp49
+g2
+g3
+sg4
+S'(IN UNIT TEST) Use changable data to replace @"changed".'
+p50
+sg6
+S'TODO grabbed from /Users/wangsw/Workspace/ObjectC/Passone/src/Passone/PassoneTests/CPPassDataManagerTests.m, line 47.'
+p51
+sg8
+I00
+sg9
+S'2013-06-29 18:42:26'
+p52
+sg11
+S'/Users/wangsw/Workspace/ObjectC/Passone/src/Passone/PassoneTests/CPPassDataManagerTests.m'
+p53
+sg13
+g14
+sa.

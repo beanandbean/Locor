@@ -44,7 +44,7 @@
         STAssertEquals([passwordsText objectAtIndex:index], password.text, @"");
     }
     
-    // TODO: use variable for @"changed"
+    // TODO: (IN UNIT TEST) Use changable data to replace @"changed".
     [self.passDataManager setPasswordText:@"changed" atIndex:0];
     
     STAssertEquals((NSUInteger)9, self.passDataManager.passwords.count, @"");

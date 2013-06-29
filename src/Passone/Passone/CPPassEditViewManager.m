@@ -61,12 +61,17 @@
     CPPassword *password = [[CPPassDataManager defaultManager].passwords objectAtIndex:self.index];
     self.passwordEditView.backgroundColor = [[UIColor alloc] initWithRed:password.colorRed.floatValue green:password.colorGreen.floatValue blue:password.colorBlue.floatValue alpha:1.0];
     self.passwordTextField.text = password.text;
+    
+    // TODO: When showing pass edit view, if the cell is unset, focus on the text field.
+    // TODO: When showing pass edit view, if the cell has been set, hide the password for security.
 	
 	self.hints = [[NSMutableArray alloc] initWithArray:[password.hints sortedArrayUsingDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:NO], nil]]];
 
     [self.hintsTableView reloadData];
     
     [self.superView addSubview:self.passwordEditView];
+    
+    // TODO: Show the password edit view with an animation of alpha from 0.0 to 1.0.
     
     UIView *cell = [self.passCells objectAtIndex:self.index];
     // align with cell
@@ -112,6 +117,7 @@
     } completion:^(BOOL finished) {
         [self.superView removeConstraints:self.constraints];
         [self.passwordEditView removeFromSuperview];
+        // TODO: Remove password edit view with an animation of alpha from 0.0 to 1.0.
         self.index = -1;
     }];
 }

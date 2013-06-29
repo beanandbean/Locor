@@ -62,6 +62,7 @@ static CPNotificationCenter *center;
 - (void)insertNotification:(NSString *)notification {
     [self.notifications addObject:notification];
     
+    // TODO: Add padding to notification labels, maybe also border radius.
     UILabel *notificationLabel = [[UILabel alloc] init];
     notificationLabel.translatesAutoresizingMaskIntoConstraints = NO;
     notificationLabel.text = notification;
@@ -70,7 +71,7 @@ static CPNotificationCenter *center;
     notificationLabel.alpha = 0.0;
     [self.superView addSubview:notificationLabel];
     [self.views addObject:notificationLabel];
-    
+
     NSLayoutConstraint *centerConstraint = [NSLayoutConstraint constraintWithItem:notificationLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0];
     [self.superView addConstraint:centerConstraint];
     [self.centerConstraints addObject:centerConstraint];
@@ -97,6 +98,8 @@ static CPNotificationCenter *center;
             notificationLabel.alpha = 1.0;
         }completion:^(BOOL finished){
             NSLog(@"Add: %@", notification);
+            
+            // TODO: Determine how long a notification should stay on the screen.
             [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(notificationFired:) userInfo:nil repeats:NO];
         }];
     }];
