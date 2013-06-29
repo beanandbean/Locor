@@ -22,4 +22,8 @@
 
 - (CPHint *)addHintText:(NSString *)text intoIndex:(NSInteger)index;
 
+- (void)toggleRemoveStateOfPasswordAtIndex:(NSInteger)index;
+
+- (void)exchangePasswordAtIndex1:(NSUInteger)index1 index2:(NSUInteger)index2;
+
 @end

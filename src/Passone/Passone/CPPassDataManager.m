@@ -11,6 +11,8 @@
 #import "CPHint.h"
 #import "CPPassword.h"
 
+#import "CPNotificationCenter.h"
+
 @interface CPPassDataManager ()
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
@@ -51,11 +53,11 @@ static CPPassDataManager *_defaultManager = nil;
                 0.04, 0.38, 0.64,
                 0.0, 0.32, 1.0
             };
-            for (int index = 0; index < 9; index++) {
+            for (NSUInteger index = 0; index < 9; index++) {
                 CPPassword *password = [NSEntityDescription insertNewObjectForEntityForName:@"Password" inManagedObjectContext:self.managedObjectContext];
                 password.isUsed = [NSNumber numberWithBool:NO];
                 password.text = @"";
-                password.index = [NSNumber numberWithInteger:index];
+                password.index = [NSNumber numberWithUnsignedInteger:index];
                 password.creationDate = [[NSDate alloc] initWithTimeIntervalSince1970:0];
                 password.colorRed = [NSNumber numberWithFloat:colors[index * 3]];
                 password.colorGreen = [NSNumber numberWithFloat:colors[index * 3 + 1]];
@@ -97,6 +99,8 @@ static CPPassDataManager *_defaultManager = nil;
     
     password.text = text;
     password.isUsed = [NSNumber numberWithBool:YES];
+    
+    [self saveContext];
 }
 
 - (CPHint *)addHintText:(NSString *)text intoIndex:(NSInteger)index {
@@ -109,7 +113,35 @@ static CPPassDataManager *_defaultManager = nil;
     hint.password = password;
     [password addHintsObject:hint];
     
+    [self saveContext];
     return hint;
+}
+
+- (void)toggleRemoveStateOfPasswordAtIndex:(NSInteger)index {
+    CPPassword *password = [self.passwords objectAtIndex:index];
+    NSAssert(password, @"");
+    
+    password.isUsed = [NSNumber numberWithBool:!password.isUsed.boolValue];
+    [self saveContext];
+    
+    NSString *notification = nil;
+    if (password.isUsed.boolValue) {
+        notification = [[NSString alloc] initWithFormat:@"Password No %d is recovered.", index];
+    } else {
+        notification = [[NSString alloc] initWithFormat:@"Password No %d is removed, swipe again to recover it.", index];
+    }
+    [CPNotificationCenter insertNotification:notification];
+}
+
+- (void)exchangePasswordAtIndex1:(NSUInteger)index1 index2:(NSUInteger)index2 {
+    CPPassword *password = [self.passwords objectAtIndex:index1];
+    password.index = [NSNumber numberWithUnsignedInteger:index2];
+    password = [self.passwords objectAtIndex:index2];
+    password.index = [NSNumber numberWithUnsignedInteger:index1];
+    [self saveContext];
+    
+    // make passwords reload
+    self.passwords = nil;
 }
 
 #pragma mark - Core Data stack

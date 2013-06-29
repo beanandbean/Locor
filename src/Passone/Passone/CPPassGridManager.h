@@ -6,7 +6,9 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-@interface CPPassGridManager : NSObject
+#import "CPPassCell.h"
+
+@interface CPPassGridManager : NSObject <CPPassCellDelegate>
 
 - (id)initWithSuperView:(UIView *)superView;
 
