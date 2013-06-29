@@ -69,9 +69,10 @@
 
     [self.hintsTableView reloadData];
     
+    for (UIView *subview in self.passwordEditView.subviews) {
+        subview.alpha = 0.0;
+    }
     [self.superView addSubview:self.passwordEditView];
-    
-    // TODO: Show the password edit view with an animation of alpha from 0.0 to 1.0.
     
     UIView *cell = [self.passCells objectAtIndex:self.index];
     // align with cell
@@ -84,7 +85,7 @@
                         nil];
     [self.superView addConstraints:self.constraints];
     [self.superView layoutIfNeeded];
-
+    
     // enlarge to align with all cells
     [self.superView removeConstraints:self.constraints];
     
@@ -100,6 +101,12 @@
     [UIView animateWithDuration:0.5 animations:^{
         [self.superView layoutIfNeeded];
     }];
+    sleep(0.25);
+    [UIView animateWithDuration:0.25 animations:^{
+        for (UIView *subView in self.passwordEditView.subviews) {
+            subView.alpha = 1.0;
+        }        
+    }];
 }
 
 - (void)hidePassEditView {
@@ -112,12 +119,16 @@
                         [NSLayoutConstraint constraintWithItem:self.passwordEditView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0],
                         nil];
     [self.superView addConstraints:self.constraints];
+    [UIView animateWithDuration:0.25 animations:^{
+        for (UIView *subview in self.passwordEditView.subviews) {
+            subview.alpha = 0.0;
+        }
+    }];
     [UIView animateWithDuration:0.5 animations:^{
         [self.superView layoutIfNeeded];
     } completion:^(BOOL finished) {
         [self.superView removeConstraints:self.constraints];
         [self.passwordEditView removeFromSuperview];
-        // TODO: Remove password edit view with an animation of alpha from 0.0 to 1.0.
         self.index = -1;
     }];
 }

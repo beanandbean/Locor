@@ -154,42 +154,43 @@ p44
 sg11
 g36
 sg13
-g14
-sa(dp45
+S'done'
+p45
+sa(dp46
 g2
 g3
 sg4
 S'Remove password edit view with an animation of alpha from 0.0 to 1.0.'
-p46
+p47
 sg6
 S'TODO grabbed from /Users/wangsw/Workspace/ObjectC/Passone/src/Passone/Passone/CPPassEditViewManager.m, line 120.'
-p47
+p48
 sg8
 I00
 sg9
 S'2013-06-29 18:42:26'
-p48
+p49
 sg11
 g36
 sg13
-g14
-sa(dp49
+g45
+sa(dp50
 g2
 g3
 sg4
 S'(IN UNIT TEST) Use changable data to replace @"changed".'
-p50
+p51
 sg6
 S'TODO grabbed from /Users/wangsw/Workspace/ObjectC/Passone/src/Passone/PassoneTests/CPPassDataManagerTests.m, line 47.'
-p51
+p52
 sg8
 I00
 sg9
 S'2013-06-29 18:42:26'
-p52
+p53
 sg11
 S'/Users/wangsw/Workspace/ObjectC/Passone/src/Passone/PassoneTests/CPPassDataManagerTests.m'
-p53
+p54
 sg13
 g14
 sa.
