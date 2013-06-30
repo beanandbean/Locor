@@ -81,6 +81,8 @@
         [outerView addSubview:self.passGridView];
         
         [self createPassCells];
+        
+        [CPNotificationCenter createNotificationCenterWithSuperView:superView labelLeft:[self.passCells objectAtIndex:0] andLabelRight:[self.passCells objectAtIndex:2]];
     }
     return self;
 }
@@ -171,7 +173,13 @@ static const CGFloat SPACE = 10.0;
         [self.passEditViewManager showPassEditViewForCellAtIndex:[self indexOfPassCell:passCell]];
         
         //This is just a test!!
-        [CPNotificationCenter insertNotification:@"A test of notification!!"];
+        NSString *string = @"Notification!! This is a bit longer";
+        int count = rand() % 6;
+        for (int i = 0; i < count; i++) {
+            string = [string stringByAppendingString:@" and longer"];
+        }
+        string = [string stringByAppendingString:@"!!"];
+        [CPNotificationCenter insertNotification:string];
     }
 }
 

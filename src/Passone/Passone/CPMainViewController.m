@@ -24,8 +24,6 @@
     [super viewDidLoad];
 
     self.passGridManager = [[CPPassGridManager alloc] initWithSuperView:self.view];
-    
-    [CPNotificationCenter createNotificationCenterWithSuperView:self.view];
 }
 
 - (void)didReceiveMemoryWarning {
