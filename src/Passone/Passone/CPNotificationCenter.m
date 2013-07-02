@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-#import <QuartzCore/QuartzCore.h>
-
 #import "CPNotificationCenter.h"
 
 static CPNotificationCenter *center;

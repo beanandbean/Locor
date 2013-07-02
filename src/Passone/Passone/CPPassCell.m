@@ -24,11 +24,6 @@
         self.delegate = delegate;
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
-        // TODO: Adjust pass cell shadow.
-        self.layer.shadowColor = [UIColor blackColor].CGColor;
-        self.layer.shadowOffset = CGSizeMake(0.0, 0.0);
-        self.layer.shadowOpacity = 0.6;
-
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)]];
         
         UISwipeGestureRecognizer *swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeGesture:)];

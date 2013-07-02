@@ -140,18 +140,18 @@ sS'condition'
 p56
 S'done'
 p57
-sa(dp58
+saNaNa(dp58
 S'author'
 p59
 S'TODO grabber'
 p60
 sS'text'
 p61
-S'Limit the number of notifications.'
+S'Adjust pass cell shadow.'
 p62
 sS'detail'
 p63
-S'TODO grabbed from /Users/codingpotato/Development/Passone/src/Passone/Passone/CPNotificationCenter.m, line 63.'
+S'TODO grabbed from /Users/codingpotato/Development/Passone/src/Passone/Passone/CPPassCell.m, line 27.'
 p64
 sS'exported'
 p65
@@ -162,193 +162,203 @@ S'2013-07-02 13:21:38'
 p67
 sS'path'
 p68
-S'/Users/codingpotato/Development/Passone/src/Passone/Passone/CPNotificationCenter.m'
+S'/Users/codingpotato/Development/Passone/src/Passone/Passone/CPPassCell.m'
 p69
 sS'condition'
 p70
-S'open'
+S'remv'
 p71
-sa(dp72
-g59
-g60
-sg61
-S'Determine how long a notification should stay on the screen.'
+saNaNaNaNaNaNaNaNa(dp72
+S'author'
 p73
-sg63
-S'TODO grabbed from /Users/codingpotato/Development/Passone/src/Passone/Passone/CPNotificationCenter.m, line 113.'
+S'TODO grabber'
 p74
-sg65
-I00
-sg66
-S'2013-07-02 13:21:38'
+sS'text'
 p75
-sg68
-g69
-sg70
-g71
-sa(dp76
-g59
-g60
-sg61
-S'Adjust pass cell shadow.'
+S'Limit the number of notifications.'
+p76
+sS'detail'
 p77
-sg63
-S'TODO grabbed from /Users/codingpotato/Development/Passone/src/Passone/Passone/CPPassCell.m, line 27.'
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 61.'
 p78
-sg65
-I00
-sg66
-S'2013-07-02 13:21:38'
+sS'exported'
 p79
-sg68
-S'/Users/codingpotato/Development/Passone/src/Passone/Passone/CPPassCell.m'
+I00
+sS'time'
 p80
-sg70
-g71
-sa(dp81
-g59
-g60
-sg61
-S'Now use long press to simulate two-finger swipe, change it later.'
+S'2013-07-02 21:16:13'
+p81
+sS'path'
 p82
-sg63
-S'TODO grabbed from /Users/codingpotato/Development/Passone/src/Passone/Passone/CPPassCell.m, line 62.'
+S'src/Passone/Passone/CPNotificationCenter.m'
 p83
-sg65
-I00
-sg66
-S'2013-07-02 13:21:38'
+sS'condition'
 p84
-sg68
-g80
-sg70
-g71
-sa(dp85
-g59
-g60
-sg61
-S'The third and last two colors for cells are too similar, so they need to be changed.'
-p86
-sg63
-S'TODO grabbed from /Users/codingpotato/Development/Passone/src/Passone/Passone/CPPassDataManager.m, line 57.'
+S'open'
+p85
+sa(dp86
+g73
+g74
+sg75
+S'Determine how long a notification should stay on the screen.'
 p87
-sg65
-I00
-sg66
-S'2013-07-02 13:21:38'
+sg77
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 111.'
 p88
-sg68
-S'/Users/codingpotato/Development/Passone/src/Passone/Passone/CPPassDataManager.m'
+sg79
+I00
+sg80
+S'2013-07-02 21:16:13'
 p89
-sg70
-g71
+sg82
+g83
+sg84
+g85
 sa(dp90
-g59
-g60
-sg61
-S'BUG! cannot undo before setPasswordText.'
+g73
+g74
+sg75
+S'Now use long press to simulate two-finger swipe, change it later.'
 p91
-sg63
-S'TODO grabbed from /Users/codingpotato/Development/Passone/src/Passone/Passone/CPPassDataManager.m, line 115.'
+sg77
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 57.'
 p92
-sg65
+sg79
 I00
-sg66
-S'2013-07-02 13:21:38'
+sg80
+S'2013-07-02 21:16:13'
 p93
-sg68
-g89
-sg70
-g71
-sa(dp94
-g59
-g60
-sg61
-S'MAY ABORT! Handle the error appropriately when saving context.'
-p95
-sg63
-S'TODO grabbed from /Users/codingpotato/Development/Passone/src/Passone/Passone/CPPassDataManager.m, line 148.'
+sg82
+S'src/Passone/Passone/CPPassCell.m'
+p94
+sg84
+g85
+sa(dp95
+g73
+g74
+sg75
+S'The third and last two colors for cells are too similar, so they need to be changed.'
 p96
-sg65
-I00
-sg66
-S'2013-07-02 13:21:38'
+sg77
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 57.'
 p97
-sg68
-g89
-sg70
-g71
-sa(dp98
-g59
-g60
-sg61
-S'MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.'
+sg79
+I00
+sg80
+S'2013-07-02 21:16:13'
+p98
+sg82
+S'src/Passone/Passone/CPPassDataManager.m'
 p99
-sg63
-S'TODO grabbed from /Users/codingpotato/Development/Passone/src/Passone/Passone/CPPassDataManager.m, line 185.'
-p100
-sg65
-I00
-sg66
-S'2013-07-02 13:21:38'
+sg84
+g85
+sa(dp100
+g73
+g74
+sg75
+S'BUG! cannot undo before setPasswordText.'
 p101
-sg68
-g89
-sg70
-g71
-sa(dp102
-g59
-g60
-sg61
-S"When showing pass edit view, check 'password.isUsed'."
+sg77
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 115.'
+p102
+sg79
+I00
+sg80
+S'2013-07-02 21:16:13'
 p103
-sg63
-S'TODO grabbed from /Users/codingpotato/Development/Passone/src/Passone/Passone/CPPassEditViewManager.m, line 61.'
-p104
-sg65
-I00
-sg66
-S'2013-07-02 13:21:38'
+sg82
+g99
+sg84
+g85
+sa(dp104
+g73
+g74
+sg75
+S'MAY ABORT! Handle the error appropriately when saving context.'
 p105
-sg68
-S'/Users/codingpotato/Development/Passone/src/Passone/Passone/CPPassEditViewManager.m'
+sg77
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 148.'
 p106
-sg70
-g71
-sa(dp107
-g59
-g60
-sg61
-S'When showing pass edit view, if the cell is unset, focus on the text field.'
-p108
-sg63
-S'TODO grabbed from /Users/codingpotato/Development/Passone/src/Passone/Passone/CPPassEditViewManager.m, line 67.'
+sg79
+I00
+sg80
+S'2013-07-02 21:16:13'
+p107
+sg82
+g99
+sg84
+g85
+sa(dp108
+g73
+g74
+sg75
+S'MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.'
 p109
-sg65
-I00
-sg66
-S'2013-07-02 13:21:38'
+sg77
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 185.'
 p110
-sg68
-g106
-sg70
-g71
-sa(dp111
-g59
-g60
-sg61
-S'When showing pass edit view, if the cell has been set, hide the password for security.'
-p112
-sg63
-S'TODO grabbed from /Users/codingpotato/Development/Passone/src/Passone/Passone/CPPassEditViewManager.m, line 68.'
-p113
-sg65
+sg79
 I00
-sg66
-S'2013-07-02 13:21:38'
+sg80
+S'2013-07-02 21:16:13'
+p111
+sg82
+g99
+sg84
+g85
+sa(dp112
+g73
+g74
+sg75
+S"When showing pass edit view, check 'password.isUsed'."
+p113
+sg77
+S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 61.'
 p114
-sg68
-g106
-sg70
-g71
+sg79
+I00
+sg80
+S'2013-07-02 21:16:13'
+p115
+sg82
+S'src/Passone/Passone/CPPassEditViewManager.m'
+p116
+sg84
+g85
+sa(dp117
+g73
+g74
+sg75
+S'When showing pass edit view, if the cell is unset, focus on the text field.'
+p118
+sg77
+S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 67.'
+p119
+sg79
+I00
+sg80
+S'2013-07-02 21:16:13'
+p120
+sg82
+g116
+sg84
+g85
+sa(dp121
+g73
+g74
+sg75
+S'When showing pass edit view, if the cell has been set, hide the password for security.'
+p122
+sg77
+S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 68.'
+p123
+sg79
+I00
+sg80
+S'2013-07-02 21:16:13'
+p124
+sg82
+g116
+sg84
+g85
 sa.

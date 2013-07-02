@@ -175,9 +175,13 @@ static const CGFloat SPACE = 10.0;
     self.dragSourceCell.hidden = YES;
     
     self.dragView = [[UIView alloc] init];
+    
     self.dragView.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.dragView.layer.shadowOffset = CGSizeMake(5.0, 5.0);
-    self.dragView.layer.shadowOpacity = 0.6;
+    self.dragView.layer.shadowOffset = CGSizeMake(0.0, 0.0);
+    self.dragView.layer.shadowOpacity = 0.8;
+    self.dragView.layer.shadowRadius = 5.0;
+    self.dragView.layer.masksToBounds = NO;
+    
     self.dragView.translatesAutoresizingMaskIntoConstraints = NO;
     self.dragView.backgroundColor = self.dragSourceCell.backgroundColor;
     [self.passGridView addSubview:self.dragView];
@@ -189,6 +193,11 @@ static const CGFloat SPACE = 10.0;
     
     [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:self.dragView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.dragSourceCell attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
     [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:self.dragView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.dragSourceCell attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
+    
+    [self.passGridView layoutIfNeeded];
+    
+    UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRect:CGRectInset(self.dragView.bounds, -1.0, -1.0)];
+    self.dragView.layer.shadowPath = bezierPath.CGPath;
 }
 
 - (void)dragPassCell:(CPPassCell *)passCell location:(CGPoint)location translation:(CGPoint)translation {
