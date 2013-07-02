@@ -7,6 +7,7 @@
 //
 
 @class CPPassCell;
+@class CPPassword;
 
 @protocol CPPassCellDelegate <NSObject>
 
@@ -21,6 +22,8 @@
 
 @interface CPPassCell : UIView
 
-- (id)initWithDelegate:(id<CPPassCellDelegate>)delegate;
+@property (nonatomic) NSUInteger index;
+
+- (id)initWithIndex:(NSUInteger)index color:(UIColor *)color delegate:(id<CPPassCellDelegate>)delegate;
 
 @end

@@ -26,12 +26,16 @@
 @property (strong, nonatomic) UIView *dragView;
 @property (weak, nonatomic) CPPassCell *dragSourceCell;
 @property (weak, nonatomic) CPPassCell *dragDestinationCell;
+@property (strong, nonatomic) UIColor *dragSourceBackgroundColor;
 @property (strong, nonatomic) NSLayoutConstraint *dragViewLeftConstraint;
 @property (strong, nonatomic) NSLayoutConstraint *dragViewTopConstraint;
 
 @end
 
 @implementation CPPassGridManager
+
+static const int ROWS = 3, COLUMNS = 3;
+static const CGFloat SPACE = 10.0;
 
 - (NSMutableArray *)passCells {
     if (!_passCells) {
@@ -50,6 +54,8 @@
 - (id)initWithSuperView:(UIView *)superView {
     self = [super init];
     if (self) {
+        [CPPassDataManager defaultManager].passwordsController.delegate = self;
+        
         UIView *outerView = [[UIView alloc] init];
         outerView.translatesAutoresizingMaskIntoConstraints = NO;
 
@@ -87,32 +93,20 @@
     return self;
 }
 
-- (void)refreshPassCellColor {
-    NSArray *passwords = [CPPassDataManager defaultManager].passwords;
-    for (int index = 0; index < self.passCells.count; index++) {
-        UIView *cell = [self.passCells objectAtIndex:index];
-        CPPassword *password = [passwords objectAtIndex:index];
-        UIColor *color = password.isUsed.boolValue ? [[UIColor alloc] initWithRed:password.colorRed.floatValue green:password.colorGreen.floatValue blue:password.colorBlue.floatValue alpha:1.0] : [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1.0];
-        cell.backgroundColor = color;
-        cell.alpha = 1.0;
-    }
-}
-
 - (void)tappedBy:(UITapGestureRecognizer *)tapGuestureRecognizer {
     if (self.passEditViewManager.index != -1) {
         [self.passEditViewManager setPassword];
         [self.passEditViewManager hidePassEditView];
-        [self refreshPassCellColor];
     }
 }
 
-static const int ROWS = 3, COLUMNS = 3;
-static const CGFloat SPACE = 10.0;
-
 - (void)createPassCells {
+    NSFetchedResultsController *passwordsController = [CPPassDataManager defaultManager].passwordsController;
     for (int row = 0; row < ROWS; row++) {
         for (int column = 0; column < COLUMNS; column++) {
-            CPPassCell *cell = [[CPPassCell alloc] initWithDelegate:self];
+            NSUInteger index = row * COLUMNS + column;
+            CPPassword *password = [passwordsController.fetchedObjects objectAtIndex:index];
+            CPPassCell *cell = [[CPPassCell alloc] initWithIndex:index color:[self backgroundColorOfPassword:password] delegate:self];
             
             if (row == 0) {
                 // cell.top = superView.top + SPACE
@@ -152,40 +146,22 @@ static const CGFloat SPACE = 10.0;
             [self.passGridView addSubview:cell];
         }
     }
-    [self refreshPassCellColor];
 }
 
-- (NSUInteger)indexOfPassCell:(CPPassCell *)passCell {
-    NSUInteger index = 0;
-    for (CPPassCell *cell in self.passCells) {
-        if (cell == passCell) {
-            break;
-        }
-        index++;
-    }
-    return index;
+- (UIColor *)backgroundColorOfPassword:(CPPassword *)password {
+    return password.isUsed.boolValue ? password.color : [[UIColor alloc] initWithRed:0.7 green:0.7 blue:0.7 alpha:1.0];
 }
 
 #pragma mark - CPPassCellDelegate
 
 - (void)tapPassCell:(CPPassCell *)passCell {
     if (self.passEditViewManager.index == -1) {
-        [self.passEditViewManager showPassEditViewForCellAtIndex:[self indexOfPassCell:passCell]];
-        
-        //This is just a test!!
-        NSString *string = @"Notification!! This is a bit longer";
-        int count = rand() % 6;
-        for (int i = 0; i < count; i++) {
-            string = [string stringByAppendingString:@" and longer"];
-        }
-        string = [string stringByAppendingString:@"!!"];
-        [CPNotificationCenter insertNotification:string];
+        [self.passEditViewManager showPassEditViewForCellAtIndex:passCell.index];        
     }
 }
 
 - (void)swipePassCell:(CPPassCell *)passCell {
-    [[CPPassDataManager defaultManager] toggleRemoveStateOfPasswordAtIndex:[self indexOfPassCell:passCell]];
-    [self refreshPassCellColor];
+    [[CPPassDataManager defaultManager] toggleRemoveStateOfPasswordAtIndex:passCell.index];
 }
 
 - (void)startDragPassCell:(CPPassCell *)passCell {
@@ -195,11 +171,15 @@ static const CGFloat SPACE = 10.0;
     NSAssert(!self.dragViewTopConstraint, @"");
     
     self.dragSourceCell = passCell;
-    self.dragSourceCell.alpha = 0.5;
+    self.dragSourceBackgroundColor = self.dragSourceCell.backgroundColor;
+    self.dragSourceCell.hidden = YES;
     
     self.dragView = [[UIView alloc] init];
+    self.dragView.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.dragView.layer.shadowOffset = CGSizeMake(5.0, 5.0);
+    self.dragView.layer.shadowOpacity = 0.6;
     self.dragView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.dragView.backgroundColor = self.dragSourceCell.backgroundColor;    
+    self.dragView.backgroundColor = self.dragSourceCell.backgroundColor;
     [self.passGridView addSubview:self.dragView];
     
     self.dragViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.dragView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.dragSourceCell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
@@ -221,26 +201,28 @@ static const CGFloat SPACE = 10.0;
     self.dragViewTopConstraint.constant += translation.y;
     [self.passGridView layoutIfNeeded];
 
-    if (self.dragDestinationCell) {
-        UIColor *sourceColor = self.dragSourceCell.backgroundColor;
-        self.dragSourceCell.backgroundColor = self.dragDestinationCell.backgroundColor;
-        self.dragDestinationCell.backgroundColor = sourceColor;
-        self.dragDestinationCell.alpha = 1.0;
-        self.dragDestinationCell = nil;
-    }
-
+    CPPassCell *newDragDestinationCell = nil;
     for (CPPassCell *cell in self.passCells) {
         if (cell != self.dragSourceCell && CGRectContainsPoint(cell.frame, self.dragView.center)) {
-            self.dragDestinationCell = cell;
+            newDragDestinationCell = cell;
             break;
         }
     }
     
-    if (self.dragDestinationCell) {
-        UIColor *sourceColor = self.dragSourceCell.backgroundColor;
-        self.dragSourceCell.backgroundColor = self.dragDestinationCell.backgroundColor;
-        self.dragDestinationCell.backgroundColor = sourceColor;
-        self.dragDestinationCell.alpha = 0.5;
+    if (newDragDestinationCell != self.dragDestinationCell) {
+        if (self.dragDestinationCell) {
+            self.dragDestinationCell.hidden = NO;
+        }
+
+        self.dragDestinationCell = newDragDestinationCell;
+        if (self.dragDestinationCell) {
+            self.dragSourceCell.backgroundColor = self.dragDestinationCell.backgroundColor;
+            self.dragSourceCell.hidden = NO;
+            self.dragDestinationCell.hidden = YES;
+        } else {
+            self.dragSourceCell.backgroundColor = self.dragSourceBackgroundColor;
+            self.dragSourceCell.hidden = YES;
+        }
     }
 }
 
@@ -251,20 +233,42 @@ static const CGFloat SPACE = 10.0;
     NSAssert(self.dragViewTopConstraint, @"");
 
     if (self.dragDestinationCell) {
-        NSUInteger dragSourceIndex = [self indexOfPassCell:self.dragSourceCell];
-        NSUInteger dragDestinationIndex = [self indexOfPassCell:self.dragDestinationCell];
-        [[CPPassDataManager defaultManager] exchangePasswordAtIndex1:dragSourceIndex index2:dragDestinationIndex];
-        [self refreshPassCellColor];
+        self.dragDestinationCell.hidden = NO;
+        [[CPPassDataManager defaultManager] exchangePasswordBetweenIndex1:self.dragSourceCell.index andIndex2:self.dragDestinationCell.index];
+    } else {
+        self.dragSourceCell.backgroundColor = self.dragSourceBackgroundColor;
+        self.dragSourceCell.hidden = NO;
     }
     
-    self.dragSourceCell.alpha = 1.0;
-    self.dragDestinationCell.alpha = 1.0;
     [self.dragView removeFromSuperview];
     
     self.dragView = nil;
     self.dragSourceCell = nil;
     self.dragViewLeftConstraint = nil;
     self.dragViewTopConstraint = nil;
+}
+
+#pragma mark - NSFetchedResultsControllerDelegate
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+    CPPassword *password = nil;
+    CPPassCell *cell;
+    switch (type) {
+        case NSFetchedResultsChangeUpdate:
+            password = [controller.fetchedObjects objectAtIndex:indexPath.row];
+            cell = [self.passCells objectAtIndex:indexPath.row];
+            cell.backgroundColor = [self backgroundColorOfPassword:password];
+            break;
+        case NSFetchedResultsChangeMove:
+            password = [controller.fetchedObjects objectAtIndex:indexPath.row];
+            cell = [self.passCells objectAtIndex:indexPath.row];
+            cell.backgroundColor = [self backgroundColorOfPassword:password];
+            password = [controller.fetchedObjects objectAtIndex:newIndexPath.row];
+            cell = [self.passCells objectAtIndex:newIndexPath.row];
+            cell.backgroundColor = [self backgroundColorOfPassword:password];
+        default:
+            break;
+    }
 }
 
 @end

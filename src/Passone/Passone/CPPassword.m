@@ -7,7 +7,7 @@
 //
 
 #import "CPPassword.h"
-#import "CPHint.h"
+#import "CPMemo.h"
 
 @implementation CPPassword
 
@@ -18,6 +18,10 @@
 @dynamic colorRed;
 @dynamic text;
 @dynamic isUsed;
-@dynamic hints;
+@dynamic memos;
+
+- (UIColor *)color {
+    return [[UIColor alloc] initWithRed:self.colorRed.floatValue green:self.colorGreen.floatValue blue:self.colorBlue.floatValue alpha:1.0];
+}
 
 @end

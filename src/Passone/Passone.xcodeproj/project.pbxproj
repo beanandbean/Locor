@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2CBDF767177DB96E00BC9E3E /* CPNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */; };
-		FC1BE40B176B69210072171A /* CPPassDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FCBF1E25176966E80014E56F /* CPPassDataManager.m */; };
-		FC1BE40D176B69610072171A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC501F5917680E1300E987B5 /* CoreData.framework */; };
 		FC4F2ADA1759EB0C002D9992 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2AD91759EB0C002D9992 /* UIKit.framework */; };
 		FC4F2ADC1759EB0C002D9992 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2ADB1759EB0C002D9992 /* Foundation.framework */; };
 		FC4F2ADE1759EB0C002D9992 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2ADD1759EB0C002D9992 /* CoreGraphics.framework */; };
@@ -20,15 +18,10 @@
 		FC4F2AEE1759EB0C002D9992 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FC4F2AED1759EB0C002D9992 /* Default@2x.png */; };
 		FC4F2AF01759EB0C002D9992 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FC4F2AEF1759EB0C002D9992 /* Default-568h@2x.png */; };
 		FC4F2AF61759EB0C002D9992 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC4F2AF41759EB0C002D9992 /* MainStoryboard.storyboard */; };
-		FC4F2B011759EB0C002D9992 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2B001759EB0C002D9992 /* SenTestingKit.framework */; };
-		FC4F2B021759EB0C002D9992 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2AD91759EB0C002D9992 /* UIKit.framework */; };
-		FC4F2B031759EB0C002D9992 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2ADB1759EB0C002D9992 /* Foundation.framework */; };
-		FC4F2B0B1759EB0C002D9992 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FC4F2B091759EB0C002D9992 /* InfoPlist.strings */; };
-		FC4F2B0E1759EB0C002D9992 /* CPPassDataManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4F2B0D1759EB0C002D9992 /* CPPassDataManagerTests.m */; };
 		FC4F2B191759ECB5002D9992 /* CPMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4F2B181759ECB5002D9992 /* CPMainViewController.m */; };
 		FC501F5A17680E1300E987B5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC501F5917680E1300E987B5 /* CoreData.framework */; };
 		FC791750176DFE0800CCF63B /* CPPassGridManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC79174F176DFE0800CCF63B /* CPPassGridManager.m */; };
-		FC80BE5A17791438007BDC13 /* CPHint.m in Sources */ = {isa = PBXBuildFile; fileRef = FC80BE5917791438007BDC13 /* CPHint.m */; };
+		FC80BE5A17791438007BDC13 /* CPMemo.m in Sources */ = {isa = PBXBuildFile; fileRef = FC80BE5917791438007BDC13 /* CPMemo.m */; };
 		FC80BE5D17791438007BDC13 /* CPPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = FC80BE5C17791438007BDC13 /* CPPassword.m */; };
 		FC83D48E175B20A600B59C86 /* CPPassEditView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC83D48D175B20A600B59C86 /* CPPassEditView.xib */; };
 		FCB034F9175C154D008D1DC8 /* CPPassEditViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB034F8175C154D008D1DC8 /* CPPassEditViewManager.m */; };
@@ -36,16 +29,6 @@
 		FCBF1E26176966E80014E56F /* CPPassDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FCBF1E25176966E80014E56F /* CPPassDataManager.m */; };
 		FCBF1E2917696C1A0014E56F /* Passone.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FCBF1E2717696C1A0014E56F /* Passone.xcdatamodeld */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		FC4F2B041759EB0C002D9992 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FC4F2ACE1759EB0C002D9992 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FC4F2AD51759EB0C002D9992;
-			remoteInfo = Passone;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		2CBDF765177DB96E00BC9E3E /* CPNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPNotificationCenter.h; sourceTree = "<group>"; };
@@ -64,22 +47,17 @@
 		FC4F2AED1759EB0C002D9992 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		FC4F2AEF1759EB0C002D9992 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		FC4F2AF51759EB0C002D9992 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		FC4F2AFF1759EB0C002D9992 /* PassoneTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PassoneTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FC4F2B001759EB0C002D9992 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		FC4F2B081759EB0C002D9992 /* PassoneTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PassoneTests-Info.plist"; sourceTree = "<group>"; };
-		FC4F2B0A1759EB0C002D9992 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FC4F2B0C1759EB0C002D9992 /* CPPassDataManagerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPPassDataManagerTests.h; sourceTree = "<group>"; };
-		FC4F2B0D1759EB0C002D9992 /* CPPassDataManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CPPassDataManagerTests.m; sourceTree = "<group>"; };
 		FC4F2B171759ECB5002D9992 /* CPMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMainViewController.h; sourceTree = "<group>"; };
 		FC4F2B181759ECB5002D9992 /* CPMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMainViewController.m; sourceTree = "<group>"; };
 		FC501F5917680E1300E987B5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		FC79174E176DFE0800CCF63B /* CPPassGridManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPassGridManager.h; sourceTree = "<group>"; };
 		FC79174F176DFE0800CCF63B /* CPPassGridManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPassGridManager.m; sourceTree = "<group>"; };
-		FC80BE5817791438007BDC13 /* CPHint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPHint.h; sourceTree = "<group>"; };
-		FC80BE5917791438007BDC13 /* CPHint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPHint.m; sourceTree = "<group>"; };
+		FC80BE5817791438007BDC13 /* CPMemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMemo.h; sourceTree = "<group>"; };
+		FC80BE5917791438007BDC13 /* CPMemo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMemo.m; sourceTree = "<group>"; };
 		FC80BE5B17791438007BDC13 /* CPPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPassword.h; sourceTree = "<group>"; };
 		FC80BE5C17791438007BDC13 /* CPPassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPassword.m; sourceTree = "<group>"; };
 		FC83D48D175B20A600B59C86 /* CPPassEditView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPPassEditView.xib; sourceTree = "<group>"; };
+		FC982CED17824842009CC784 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FCB034F7175C154D008D1DC8 /* CPPassEditViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPassEditViewManager.h; sourceTree = "<group>"; };
 		FCB034F8175C154D008D1DC8 /* CPPassEditViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPassEditViewManager.m; sourceTree = "<group>"; };
 		FCBB156717709854005DC611 /* CPPassCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPassCell.h; sourceTree = "<group>"; };
@@ -101,17 +79,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FC4F2AFB1759EB0C002D9992 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FC4F2B011759EB0C002D9992 /* SenTestingKit.framework in Frameworks */,
-				FC4F2B021759EB0C002D9992 /* UIKit.framework in Frameworks */,
-				FC4F2B031759EB0C002D9992 /* Foundation.framework in Frameworks */,
-				FC1BE40D176B69610072171A /* CoreData.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -120,7 +87,6 @@
 			children = (
 				FC4F2AD81759EB0C002D9992 /* Frameworks */,
 				FC4F2ADF1759EB0C002D9992 /* Passone */,
-				FC4F2B061759EB0C002D9992 /* PassoneTests */,
 				FC4F2AD71759EB0C002D9992 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -129,7 +95,6 @@
 			isa = PBXGroup;
 			children = (
 				FC4F2AD61759EB0C002D9992 /* Passone.app */,
-				FC4F2AFF1759EB0C002D9992 /* PassoneTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -137,11 +102,11 @@
 		FC4F2AD81759EB0C002D9992 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FC982CED17824842009CC784 /* QuartzCore.framework */,
 				FC501F5917680E1300E987B5 /* CoreData.framework */,
 				FC4F2AD91759EB0C002D9992 /* UIKit.framework */,
 				FC4F2ADB1759EB0C002D9992 /* Foundation.framework */,
 				FC4F2ADD1759EB0C002D9992 /* CoreGraphics.framework */,
-				FC4F2B001759EB0C002D9992 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -151,8 +116,8 @@
 			children = (
 				FC4F2AE81759EB0C002D9992 /* CPAppDelegate.h */,
 				FC4F2AE91759EB0C002D9992 /* CPAppDelegate.m */,
-				FC80BE5817791438007BDC13 /* CPHint.h */,
-				FC80BE5917791438007BDC13 /* CPHint.m */,
+				FC80BE5817791438007BDC13 /* CPMemo.h */,
+				FC80BE5917791438007BDC13 /* CPMemo.m */,
 				FC4F2B171759ECB5002D9992 /* CPMainViewController.h */,
 				FC4F2B181759ECB5002D9992 /* CPMainViewController.m */,
 				2CBDF765177DB96E00BC9E3E /* CPNotificationCenter.h */,
@@ -189,25 +154,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		FC4F2B061759EB0C002D9992 /* PassoneTests */ = {
-			isa = PBXGroup;
-			children = (
-				FC4F2B0C1759EB0C002D9992 /* CPPassDataManagerTests.h */,
-				FC4F2B0D1759EB0C002D9992 /* CPPassDataManagerTests.m */,
-				FC4F2B071759EB0C002D9992 /* Supporting Files */,
-			);
-			path = PassoneTests;
-			sourceTree = "<group>";
-		};
-		FC4F2B071759EB0C002D9992 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				FC4F2B081759EB0C002D9992 /* PassoneTests-Info.plist */,
-				FC4F2B091759EB0C002D9992 /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -227,25 +173,6 @@
 			productName = Passone;
 			productReference = FC4F2AD61759EB0C002D9992 /* Passone.app */;
 			productType = "com.apple.product-type.application";
-		};
-		FC4F2AFE1759EB0C002D9992 /* PassoneTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FC4F2B141759EB0C002D9992 /* Build configuration list for PBXNativeTarget "PassoneTests" */;
-			buildPhases = (
-				FC4F2AFA1759EB0C002D9992 /* Sources */,
-				FC4F2AFB1759EB0C002D9992 /* Frameworks */,
-				FC4F2AFC1759EB0C002D9992 /* Resources */,
-				FC4F2AFD1759EB0C002D9992 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				FC4F2B051759EB0C002D9992 /* PBXTargetDependency */,
-			);
-			name = PassoneTests;
-			productName = PassoneTests;
-			productReference = FC4F2AFF1759EB0C002D9992 /* PassoneTests.octest */;
-			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -270,7 +197,6 @@
 			projectRoot = "";
 			targets = (
 				FC4F2AD51759EB0C002D9992 /* Passone */,
-				FC4F2AFE1759EB0C002D9992 /* PassoneTests */,
 			);
 		};
 /* End PBXProject section */
@@ -289,31 +215,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FC4F2AFC1759EB0C002D9992 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FC4F2B0B1759EB0C002D9992 /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		FC4F2AFD1759EB0C002D9992 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FC4F2AD21759EB0C002D9992 /* Sources */ = {
@@ -328,30 +230,13 @@
 				FCBF1E2917696C1A0014E56F /* Passone.xcdatamodeld in Sources */,
 				FC791750176DFE0800CCF63B /* CPPassGridManager.m in Sources */,
 				FCBB156917709854005DC611 /* CPPassCell.m in Sources */,
-				FC80BE5A17791438007BDC13 /* CPHint.m in Sources */,
+				FC80BE5A17791438007BDC13 /* CPMemo.m in Sources */,
 				FC80BE5D17791438007BDC13 /* CPPassword.m in Sources */,
 				2CBDF767177DB96E00BC9E3E /* CPNotificationCenter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FC4F2AFA1759EB0C002D9992 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FC4F2B0E1759EB0C002D9992 /* CPPassDataManagerTests.m in Sources */,
-				FC1BE40B176B69210072171A /* CPPassDataManager.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		FC4F2B051759EB0C002D9992 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FC4F2AD51759EB0C002D9992 /* Passone */;
-			targetProxy = FC4F2B041759EB0C002D9992 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		FC4F2AE21759EB0C002D9992 /* InfoPlist.strings */ = {
@@ -368,14 +253,6 @@
 				FC4F2AF51759EB0C002D9992 /* en */,
 			);
 			name = MainStoryboard.storyboard;
-			sourceTree = "<group>";
-		};
-		FC4F2B091759EB0C002D9992 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FC4F2B0A1759EB0C002D9992 /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -463,40 +340,6 @@
 			};
 			name = Release;
 		};
-		FC4F2B151759EB0C002D9992 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Passone.app/Passone";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Passone/Passone-Prefix.pch";
-				INFOPLIST_FILE = "PassoneTests/PassoneTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Debug;
-		};
-		FC4F2B161759EB0C002D9992 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Passone.app/Passone";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Passone/Passone-Prefix.pch";
-				INFOPLIST_FILE = "PassoneTests/PassoneTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -514,15 +357,6 @@
 			buildConfigurations = (
 				FC4F2B121759EB0C002D9992 /* Debug */,
 				FC4F2B131759EB0C002D9992 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		FC4F2B141759EB0C002D9992 /* Build configuration list for PBXNativeTarget "PassoneTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FC4F2B151759EB0C002D9992 /* Debug */,
-				FC4F2B161759EB0C002D9992 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

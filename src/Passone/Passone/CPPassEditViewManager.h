@@ -14,7 +14,7 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 
-@property (weak, nonatomic) IBOutlet UITableView *hintsTableView;
+@property (weak, nonatomic) IBOutlet UITableView *memosTableView;
 
 @property (strong, nonatomic) IBOutlet UITableViewCell *hintEditorCell;
 
@@ -26,6 +26,6 @@
 
 - (void)setPassword;
 
-- (IBAction)addHint:(id)sender;
+- (IBAction)addMemo:(id)sender;
 
 @end

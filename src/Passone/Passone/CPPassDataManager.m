@@ -8,7 +8,7 @@
 
 #import "CPPassDataManager.h"
 
-#import "CPHint.h"
+#import "CPMemo.h"
 #import "CPPassword.h"
 
 #import "CPNotificationCenter.h"
@@ -34,13 +34,15 @@ static CPPassDataManager *_defaultManager = nil;
     return _defaultManager;
 }
 
-- (NSArray *)passwords {
-    if (!_passwords) {
+- (NSFetchedResultsController *)passwordsController {
+    if (!_passwordsController) {
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setEntity:[NSEntityDescription entityForName:@"Password" inManagedObjectContext:self.managedObjectContext]];
         [request setSortDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES], nil]];
-        _passwords = [self.managedObjectContext executeFetchRequest:request error:nil];
-        if (!_passwords.count) {
+        _passwordsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"PasswordCache"];
+        [_passwordsController performFetch:nil];
+        
+        if (!_passwordsController.fetchedObjects.count) {
             static const CGFloat colors[] = {
                 1.0, 0.0, 0.0,
                 1.0, 0.89, 0.0,
@@ -63,35 +65,14 @@ static CPPassDataManager *_defaultManager = nil;
                 password.colorGreen = [NSNumber numberWithFloat:colors[index * 3 + 1]];
                 password.colorBlue = [NSNumber numberWithFloat:colors[index * 3 + 2]];
             }
-            _passwords = [self.managedObjectContext executeFetchRequest:request error:nil];
+            [_passwordsController performFetch:nil];
         }
     }
-    return _passwords;
+    return _passwordsController;
 }
 
-// Returns the URL to the application's Documents directory.
-- (NSURL *)applicationDocumentsDirectory {
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-}
-
-- (void)saveContext {
-    NSError *error = nil;
-    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
-    if (managedObjectContext != nil) {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-            /*
-             TODO: MAY ABORT! Handle the error appropriately when saving context.
-            
-             abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-             */
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }
-}
-
-- (void)setPasswordText:(NSString *)text atIndex:(NSInteger)index {
-    CPPassword *password = [self.passwords objectAtIndex:index];
+- (void)setPasswordText:(NSString *)text atIndex:(NSUInteger)index {
+    CPPassword *password = [self.passwordsController.fetchedObjects objectAtIndex:index];
     NSAssert(password, @"");
     
     if ([password.text isEqualToString:@""]) {
@@ -103,27 +84,35 @@ static CPPassDataManager *_defaultManager = nil;
     password.text = text;
     password.isUsed = [NSNumber numberWithBool:YES];
     
+    if (![password.text isEqualToString:@""]) {
+        [password removeMemos:password.memos];
+        for (CPMemo *memo in password.memos) {
+            [self.managedObjectContext deleteObject:memo];
+        }
+    }
+    
     [self saveContext];
 }
 
-- (CPHint *)addHintText:(NSString *)text intoIndex:(NSInteger)index {
-    CPPassword *password = [self.passwords objectAtIndex:index];
+- (CPMemo *)addMemoText:(NSString *)text intoIndex:(NSUInteger)index {
+    CPPassword *password = [self.passwordsController.fetchedObjects objectAtIndex:index];
     NSAssert(password, @"");
     
-    CPHint *hint = [NSEntityDescription insertNewObjectForEntityForName:@"Hint" inManagedObjectContext:self.managedObjectContext];
-    hint.text = text;
-    hint.creationDate = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
-    hint.password = password;
-    [password addHintsObject:hint];
+    CPMemo *memo = [NSEntityDescription insertNewObjectForEntityForName:@"Memo" inManagedObjectContext:self.managedObjectContext];
+    memo.text = text;
+    memo.creationDate = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
+    memo.password = password;
+    [password addMemosObject:memo];
     
     [self saveContext];
-    return hint;
+    return memo;
 }
 
-- (void)toggleRemoveStateOfPasswordAtIndex:(NSInteger)index {
-    CPPassword *password = [self.passwords objectAtIndex:index];
+- (void)toggleRemoveStateOfPasswordAtIndex:(NSUInteger)index {
+    CPPassword *password = [self.passwordsController.fetchedObjects objectAtIndex:index];
     NSAssert(password, @"");
     
+    // TODO: BUG! cannot undo before setPasswordText.
     password.isUsed = [NSNumber numberWithBool:!password.isUsed.boolValue];
     [self saveContext];
     
@@ -136,18 +125,35 @@ static CPPassDataManager *_defaultManager = nil;
     [CPNotificationCenter insertNotification:notification];
 }
 
-- (void)exchangePasswordAtIndex1:(NSUInteger)index1 index2:(NSUInteger)index2 {
-    CPPassword *password = [self.passwords objectAtIndex:index1];
+- (void)exchangePasswordBetweenIndex1:(NSUInteger)index1 andIndex2:(NSUInteger)index2 {
+    CPPassword *password = [self.passwordsController.fetchedObjects objectAtIndex:index1];
     password.index = [NSNumber numberWithUnsignedInteger:index2];
-    password = [self.passwords objectAtIndex:index2];
+    password = [self.passwordsController.fetchedObjects objectAtIndex:index2];
     password.index = [NSNumber numberWithUnsignedInteger:index1];
     [self saveContext];
-    
-    // make passwords reload
-    self.passwords = nil;
 }
 
 #pragma mark - Core Data stack
+
+- (NSURL *)applicationDocumentsDirectory {
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+- (void)saveContext {
+    NSError *error = nil;
+    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
+    if (managedObjectContext != nil) {
+        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
+            /*
+             TODO: MAY ABORT! Handle the error appropriately when saving context.
+             
+             abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+             */
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+    }
+}
 
 - (NSManagedObjectContext *)managedObjectContext {
     if (!_managedObjectContext) {

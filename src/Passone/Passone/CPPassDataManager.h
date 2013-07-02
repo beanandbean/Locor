@@ -6,24 +6,20 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-@class CPHint;
+@class CPMemo;
 
 @interface CPPassDataManager : NSObject
 
-@property (strong, nonatomic) NSArray *passwords;
+@property (strong, nonatomic) NSFetchedResultsController *passwordsController;
 
 + (CPPassDataManager *)defaultManager;
 
-- (NSURL *)applicationDocumentsDirectory;
+- (void)setPasswordText:(NSString *)text atIndex:(NSUInteger)index;
 
-- (void)saveContext;
+- (CPMemo *)addMemoText:(NSString *)text intoIndex:(NSUInteger)index;
 
-- (void)setPasswordText:(NSString *)text atIndex:(NSInteger)index;
+- (void)toggleRemoveStateOfPasswordAtIndex:(NSUInteger)index;
 
-- (CPHint *)addHintText:(NSString *)text intoIndex:(NSInteger)index;
-
-- (void)toggleRemoveStateOfPasswordAtIndex:(NSInteger)index;
-
-- (void)exchangePasswordAtIndex1:(NSUInteger)index1 index2:(NSUInteger)index2;
+- (void)exchangePasswordBetweenIndex1:(NSUInteger)index1 andIndex2:(NSUInteger)index2;
 
 @end

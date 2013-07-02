@@ -8,7 +8,7 @@
 
 #import "CPPassEditViewManager.h"
 
-#import "CPHint.h"
+#import "CPMemo.h"
 #import "CPPassDataManager.h"
 #import "CPPassword.h"
 
@@ -20,7 +20,7 @@
 
 @property (weak, nonatomic) NSArray *passCells;
 
-@property (strong, nonatomic) NSMutableArray *hints;
+@property (strong, nonatomic) NSMutableArray *memos;
 
 @property (nonatomic) BOOL editingNewHint;
 
@@ -58,16 +58,18 @@
     
     self.index = index;
     
-    CPPassword *password = [[CPPassDataManager defaultManager].passwords objectAtIndex:self.index];
-    self.passwordEditView.backgroundColor = [[UIColor alloc] initWithRed:password.colorRed.floatValue green:password.colorGreen.floatValue blue:password.colorBlue.floatValue alpha:1.0];
+    // TODO: When showing pass edit view, check 'password.isUsed'.
+    
+    CPPassword *password = [[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index];
+    self.passwordEditView.backgroundColor = password.color;
     self.passwordTextField.text = password.text;
     
     // TODO: When showing pass edit view, if the cell is unset, focus on the text field.
     // TODO: When showing pass edit view, if the cell has been set, hide the password for security.
 	
-	self.hints = [[NSMutableArray alloc] initWithArray:[password.hints sortedArrayUsingDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:NO], nil]]];
+	self.memos = [[NSMutableArray alloc] initWithArray:[password.memos sortedArrayUsingDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:NO], nil]]];
 
-    [self.hintsTableView reloadData];
+    [self.memosTableView reloadData];
     
     for (UIView *subview in self.passwordEditView.subviews) {
         subview.alpha = 0.0;
@@ -139,15 +141,15 @@
     }
 }
 
-- (IBAction)addHint:(id)sender {
+- (IBAction)addMemo:(id)sender {
     self.editingNewHint = YES;
-    [self.hintsTableView reloadData];
+    [self.memosTableView reloadData];
 }
 
 #pragma mark - UITableViewDataSource implement
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger count = self.hints.count;
+    NSInteger count = self.memos.count;
     if (self.editingNewHint) {
         count++;
     }
@@ -159,7 +161,7 @@
     if (self.editingNewHint && indexPath.row == 0) {
         cell = self.hintEditorCell;
     } else {
-        static NSString *CellIdentifier = @"HintCell";
+        static NSString *CellIdentifier = @"MemoCell";
         
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
@@ -169,7 +171,7 @@
         if (self.editingNewHint) {
             index--;
         }
-        CPHint *hint = [self.hints objectAtIndex:index];
+        CPMemo *hint = [self.memos objectAtIndex:index];
         cell.textLabel.text = hint.text;
     }
     return cell;
@@ -179,13 +181,13 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (self.editingNewHint && textField != self.passwordTextField) {
-        NSString *hintText = textField.text;
-        if (hintText && ![hintText isEqualToString:@""]) {
-            CPHint * hint = [[CPPassDataManager defaultManager] addHintText:hintText intoIndex:self.index];
-            [self.hints insertObject:hint atIndex:0];
+        NSString *memoText = textField.text;
+        if (memoText && ![memoText isEqualToString:@""]) {
+            CPMemo *memo = [[CPPassDataManager defaultManager] addMemoText:memoText intoIndex:self.index];
+            [self.memos insertObject:memo atIndex:0];
         }
         self.editingNewHint = NO;
-        [self.hintsTableView reloadData];
+        [self.memosTableView reloadData];
     }
     return YES;
 }

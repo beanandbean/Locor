@@ -8,7 +8,7 @@
 
 #import "CPPassCell.h"
 
-@interface CPPassGridManager : NSObject <CPPassCellDelegate>
+@interface CPPassGridManager : NSObject <CPPassCellDelegate, NSFetchedResultsControllerDelegate>
 
 - (id)initWithSuperView:(UIView *)superView;
 

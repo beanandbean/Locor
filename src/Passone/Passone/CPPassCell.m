@@ -16,11 +16,18 @@
 
 @implementation CPPassCell
 
-- (id)initWithDelegate:(id<CPPassCellDelegate>)delegate {
+- (id)initWithIndex:(NSUInteger)index color:(UIColor *)color delegate:(id<CPPassCellDelegate>)delegate {
     self = [super init];
     if (self) {
+        self.index = index;
+        self.backgroundColor = color;
         self.delegate = delegate;
         self.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        // TODO: Adjust pass cell shadow.
+        self.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.layer.shadowOffset = CGSizeMake(0.0, 0.0);
+        self.layer.shadowOpacity = 0.6;
 
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)]];
         
@@ -52,9 +59,11 @@
 
 - (void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPressGesture {
     if (longPressGesture.state == UIGestureRecognizerStateBegan) {
-        [self.delegate startDragPassCell:self];
+        // TODO: Now use long press to simulate two-finger swipe, change it later.
+        [self.delegate swipePassCell:self];
+        // [self.delegate startDragPassCell:self];
     } else if (longPressGesture.state == UIGestureRecognizerStateEnded || longPressGesture.state == UIGestureRecognizerStateCancelled || longPressGesture.state == UIGestureRecognizerStateFailed) {
-        [self.delegate stopDragPassCell:self];
+        // [self.delegate stopDragPassCell:self];
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  CPHint.h
+//  CPMemo.h
 //  Passone
 //
 //  Created by wangyw on 6/25/13.
@@ -8,7 +8,7 @@
 
 @class CPPassword;
 
-@interface CPHint : NSManagedObject
+@interface CPMemo : NSManagedObject
 
 @property (nonatomic, retain) NSDate *creationDate;
 @property (nonatomic, retain) NSString *text;
