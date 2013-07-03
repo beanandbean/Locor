@@ -262,103 +262,104 @@ sg77
 S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 115.'
 p102
 sg79
-I00
+I01
 sg80
 S'2013-07-02 21:16:13'
 p103
 sg82
 g99
 sg84
-g85
-sa(dp104
+S'done'
+p104
+sa(dp105
 g73
 g74
 sg75
 S'MAY ABORT! Handle the error appropriately when saving context.'
-p105
-sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 148.'
 p106
+sg77
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 151.'
+p107
 sg79
 I00
 sg80
 S'2013-07-02 21:16:13'
-p107
+p108
 sg82
 g99
 sg84
 g85
-sa(dp108
+sa(dp109
 g73
 g74
 sg75
 S'MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.'
-p109
-sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 185.'
 p110
+sg77
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 188.'
+p111
 sg79
 I00
 sg80
 S'2013-07-02 21:16:13'
-p111
+p112
 sg82
 g99
 sg84
 g85
-sa(dp112
+sa(dp113
 g73
 g74
 sg75
 S"When showing pass edit view, check 'password.isUsed'."
-p113
+p114
 sg77
 S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 61.'
-p114
+p115
 sg79
 I00
 sg80
 S'2013-07-02 21:16:13'
-p115
+p116
 sg82
 S'src/Passone/Passone/CPPassEditViewManager.m'
-p116
+p117
 sg84
 g85
-sa(dp117
+sa(dp118
 g73
 g74
 sg75
 S'When showing pass edit view, if the cell is unset, focus on the text field.'
-p118
+p119
 sg77
 S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 67.'
-p119
+p120
 sg79
 I00
 sg80
 S'2013-07-02 21:16:13'
-p120
+p121
 sg82
-g116
+g117
 sg84
 g85
-sa(dp121
+sa(dp122
 g73
 g74
 sg75
 S'When showing pass edit view, if the cell has been set, hide the password for security.'
-p122
+p123
 sg77
 S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 68.'
-p123
+p124
 sg79
 I00
 sg80
 S'2013-07-02 21:16:13'
-p124
+p125
 sg82
-g116
+g117
 sg84
 g85
 sa.

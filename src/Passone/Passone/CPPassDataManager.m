@@ -112,15 +112,18 @@ static CPPassDataManager *_defaultManager = nil;
     CPPassword *password = [self.passwordsController.fetchedObjects objectAtIndex:index];
     NSAssert(password, @"");
     
-    // TODO: BUG! cannot undo before setPasswordText.
-    password.isUsed = [NSNumber numberWithBool:!password.isUsed.boolValue];
-    [self saveContext];
-    
     NSString *notification = nil;
-    if (password.isUsed.boolValue) {
-        notification = [[NSString alloc] initWithFormat:@"Password No %d is recovered.", index];
+    if ([password.text isEqualToString:@""]) {
+        notification = [[NSString alloc] initWithFormat:@"Password No %d cannot be recovered as it is empty.", index];
     } else {
-        notification = [[NSString alloc] initWithFormat:@"Password No %d is removed, swipe again to recover it.", index];
+        password.isUsed = [NSNumber numberWithBool:!password.isUsed.boolValue];
+        [self saveContext];
+        
+        if (password.isUsed.boolValue) {
+            notification = [[NSString alloc] initWithFormat:@"Password No %d is recovered.", index];
+        } else {
+            notification = [[NSString alloc] initWithFormat:@"Password No %d is removed, swipe again to recover it.", index];
+        }
     }
     [CPNotificationCenter insertNotification:notification];
 }
