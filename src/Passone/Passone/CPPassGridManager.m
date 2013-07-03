@@ -172,7 +172,8 @@ static const CGFloat SPACE = 10.0;
     
     self.dragSourceCell = passCell;
     self.dragSourceBackgroundColor = self.dragSourceCell.backgroundColor;
-    self.dragSourceCell.hidden = YES;
+    self.dragSourceCell.alpha = 0.0;
+    //self.dragSourceCell.hidden = YES;
     
     self.dragView = [[UIView alloc] init];
     
@@ -209,29 +210,49 @@ static const CGFloat SPACE = 10.0;
     self.dragViewLeftConstraint.constant += translation.x;
     self.dragViewTopConstraint.constant += translation.y;
     [self.passGridView layoutIfNeeded];
-
+    
     CPPassCell *newDragDestinationCell = nil;
-    for (CPPassCell *cell in self.passCells) {
-        if (cell != self.dragSourceCell && CGRectContainsPoint(cell.frame, self.dragView.center)) {
-            newDragDestinationCell = cell;
-            break;
+    if (CGRectContainsPoint(self.passGridView.bounds, self.dragView.center)) {
+        newDragDestinationCell = [self.passCells objectAtIndex:0];
+        float distance = hypotf(newDragDestinationCell.center.x - self.dragView.center.x, newDragDestinationCell.center.y - self.dragView.center.y);
+        for (CPPassCell *cell in self.passCells) {
+            float newDistance = hypotf(cell.center.x - self.dragView.center.x, cell.center.y - self.dragView.center.y);
+            if (newDistance < distance) {
+                newDragDestinationCell = cell;
+                distance = newDistance;
+            }
+        }
+        if (newDragDestinationCell == self.dragSourceCell) {
+            newDragDestinationCell = nil;
         }
     }
     
     if (newDragDestinationCell != self.dragDestinationCell) {
         if (self.dragDestinationCell) {
-            self.dragDestinationCell.hidden = NO;
+            self.dragDestinationCell.alpha = 1.0;
         }
-
+        
         self.dragDestinationCell = newDragDestinationCell;
         if (self.dragDestinationCell) {
             self.dragSourceCell.backgroundColor = self.dragDestinationCell.backgroundColor;
-            self.dragSourceCell.hidden = NO;
-            self.dragDestinationCell.hidden = YES;
         } else {
             self.dragSourceCell.backgroundColor = self.dragSourceBackgroundColor;
-            self.dragSourceCell.hidden = YES;
+            self.dragSourceCell.alpha = 0.0;
         }
+    }
+    
+    if (self.dragDestinationCell) {
+        float range = 0.7;
+        float baseDistance = self.dragView.bounds.size.width;
+        float xDistance = fabsf(self.dragDestinationCell.center.x - self.dragView.center.x);
+        float yDistance = fabsf(self.dragDestinationCell.center.y - self.dragView.center.y);
+        float maxDistance = xDistance > yDistance ? xDistance : yDistance;
+        maxDistance = maxDistance - baseDistance * (1 - range);
+        maxDistance = maxDistance > 0 ? maxDistance : 0;
+        float alpha = 2 * maxDistance / baseDistance / range;
+        alpha = alpha < 1 ? alpha : 1;
+        self.dragDestinationCell.alpha = alpha;
+        self.dragSourceCell.alpha = 1 - alpha;
     }
 }
 
@@ -242,11 +263,12 @@ static const CGFloat SPACE = 10.0;
     NSAssert(self.dragViewTopConstraint, @"");
 
     if (self.dragDestinationCell) {
-        self.dragDestinationCell.hidden = NO;
+        self.dragDestinationCell.alpha = 1.0;
+        self.dragSourceCell.alpha = 1.0;
         [[CPPassDataManager defaultManager] exchangePasswordBetweenIndex1:self.dragSourceCell.index andIndex2:self.dragDestinationCell.index];
     } else {
         self.dragSourceCell.backgroundColor = self.dragSourceBackgroundColor;
-        self.dragSourceCell.hidden = NO;
+        self.dragSourceCell.alpha = 1.0;
     }
     
     [self.dragView removeFromSuperview];
