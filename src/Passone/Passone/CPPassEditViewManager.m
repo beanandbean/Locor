@@ -136,7 +136,8 @@
 }
 
 - (void)setPassword {
-    if (self.passwordTextField.text && ![self.passwordTextField.text isEqualToString:@""]) {
+    CPPassword *password = [[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index];
+    if (self.passwordTextField.text && ![self.passwordTextField.text isEqualToString:@""] && ![self.passwordTextField.text isEqualToString:password.text]) {
         [[CPPassDataManager defaultManager] setPasswordText:self.passwordTextField.text atIndex:self.index];
     }
 }

@@ -75,21 +75,16 @@ static CPPassDataManager *_defaultManager = nil;
     CPPassword *password = [self.passwordsController.fetchedObjects objectAtIndex:index];
     NSAssert(password, @"");
     
-    if ([password.text isEqualToString:@""]) {
-        password.creationDate = [[NSDate alloc] init];
-    } else if ([text isEqualToString:@""]) {
-        password.creationDate = [[NSDate alloc] initWithTimeIntervalSince1970:0];
-    }
-    
-    password.text = text;
-    password.isUsed = [NSNumber numberWithBool:YES];
-    
-    if (![password.text isEqualToString:@""]) {
-        [password removeMemos:password.memos];
+    if (!password.isUsed.boolValue) {
         for (CPMemo *memo in password.memos) {
             [self.managedObjectContext deleteObject:memo];
         }
+        [password removeMemos:password.memos];
     }
+    
+    password.text = text;
+    password.creationDate = [[NSDate alloc] init];
+    password.isUsed = [NSNumber numberWithBool:YES];
     
     [self saveContext];
 }
@@ -100,7 +95,7 @@ static CPPassDataManager *_defaultManager = nil;
     
     CPMemo *memo = [NSEntityDescription insertNewObjectForEntityForName:@"Memo" inManagedObjectContext:self.managedObjectContext];
     memo.text = text;
-    memo.creationDate = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
+    memo.creationDate = [[NSDate alloc] init];
     memo.password = password;
     [password addMemosObject:memo];
     
