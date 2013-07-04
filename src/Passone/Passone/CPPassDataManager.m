@@ -75,16 +75,19 @@ static CPPassDataManager *_defaultManager = nil;
     CPPassword *password = [self.passwordsController.fetchedObjects objectAtIndex:index];
     NSAssert(password, @"");
     
-    if (!password.isUsed.boolValue) {
-        for (CPMemo *memo in password.memos) {
-            [self.managedObjectContext deleteObject:memo];
+    if ([text isEqualToString:@""]) {
+        password.isUsed = [NSNumber numberWithBool:NO];
+    } else {
+        if (!password.isUsed.boolValue) {
+            for (CPMemo *memo in password.memos) {
+                [self.managedObjectContext deleteObject:memo];
+            }
+            [password removeMemos:password.memos];
         }
-        [password removeMemos:password.memos];
+        password.text = text;
+        password.creationDate = [[NSDate alloc] init];
+        password.isUsed = [NSNumber numberWithBool:YES];
     }
-    
-    password.text = text;
-    password.creationDate = [[NSDate alloc] init];
-    password.isUsed = [NSNumber numberWithBool:![text isEqualToString:@""]];
     
     [self saveContext];
 }
