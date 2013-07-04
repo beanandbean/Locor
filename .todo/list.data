@@ -232,247 +232,275 @@ sg82
 S'src/Passone/Passone/CPPassCell.m'
 p94
 sg84
-g85
-sa(dp95
+S'remv'
+p95
+sa(dp96
 g73
 g74
 sg75
 S'The third and last two colors for cells are too similar, so they need to be changed.'
-p96
+p97
 sg77
 S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 57.'
-p97
+p98
 sg79
 I00
 sg80
 S'2013-07-02 21:16:13'
-p98
+p99
 sg82
 S'src/Passone/Passone/CPPassDataManager.m'
-p99
+p100
 sg84
 g85
-sa(dp100
+sa(dp101
 g73
 g74
 sg75
-S'BUG! cannot undo before setPasswordText.'
-p101
+S'BUG! Cannot undo before setPasswordText.'
+p102
 sg77
 S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 115.'
-p102
+p103
 sg79
 I01
 sg80
 S'2013-07-02 21:16:13'
-p103
+p104
 sg82
-g99
+g100
 sg84
 S'done'
-p104
-sa(dp105
+p105
+sa(dp106
 g73
 g74
 sg75
 S'MAY ABORT! Handle the error appropriately when saving context.'
-p106
-sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 146.'
 p107
+sg77
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 149.'
+p108
 sg79
 I00
 sg80
 S'2013-07-02 21:16:13'
-p108
+p109
 sg82
-g99
+g100
 sg84
 g85
-sa(dp109
+sa(dp110
 g73
 g74
 sg75
 S'MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.'
-p110
-sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 183.'
 p111
+sg77
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 186.'
+p112
 sg79
 I00
 sg80
 S'2013-07-02 21:16:13'
-p112
+p113
 sg82
-g99
+g100
 sg84
 g85
-sa(dp113
+sa(dp114
 g73
 g74
 sg75
 S"When showing pass edit view, check 'password.isUsed'."
-p114
+p115
 sg77
 S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 61.'
-p115
+p116
 sg79
 I01
 sg80
 S'2013-07-02 21:16:13'
-p116
+p117
 sg82
 S'src/Passone/Passone/CPPassEditViewManager.m'
-p117
+p118
 sg84
 S'done'
-p118
-sa(dp119
+p119
+sa(dp120
 g73
 g74
 sg75
 S'When showing pass edit view, if the cell is unset, focus on the text field.'
-p120
+p121
 sg77
 S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 72.'
-p121
+p122
 sg79
 I01
 sg80
 S'2013-07-02 21:16:13'
-p122
+p123
 sg82
-g117
+g118
 sg84
 S'done'
-p123
-sa(dp124
+p124
+sa(dp125
 g73
 g74
 sg75
 S'When showing pass edit view, if the cell has been set, hide the password for security.'
-p125
+p126
 sg77
 S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 73.'
-p126
+p127
 sg79
 I00
 sg80
 S'2013-07-02 21:16:13'
-p127
+p128
 sg82
-g117
+g118
 sg84
 g85
-sa(dp128
+sa(dp129
 S'author'
-p129
-S'TODO grabber'
 p130
-sS'text'
+S'TODO grabber'
 p131
-S'When showing pass edit view, animate its background color if pass cell is gray.'
+sS'text'
 p132
-sS'detail'
+S'When showing pass edit view, animate its background color if pass cell is gray.'
 p133
-S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 61.'
+sS'detail'
 p134
-sS'exported'
+S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 61.'
 p135
-I01
-sS'time'
+sS'exported'
 p136
-S'2013-07-04 17:52:44'
+I01
+sS'time'
 p137
-sS'path'
+S'2013-07-04 17:52:44'
 p138
-S'src/Passone/Passone/CPPassEditViewManager.m'
+sS'path'
 p139
-sS'condition'
-p140
-S'done'
-p141
-sa(dp142
-S'author'
-p143
-S'TODO grabber'
-p144
-sS'text'
-p145
-S"Move 'backgroundColorOfPassword:' into CPPassword"
-p146
-sS'detail'
-p147
-S'TODO grabbed from src/Passone/Passone/CPPassGridManager.m, line 151.'
-p148
-sS'exported'
-p149
-I01
-sS'time'
-p150
-S'2013-07-04 17:55:52'
-p151
-sS'path'
-p152
-S'src/Passone/Passone/CPPassGridManager.m'
-p153
-sS'condition'
-p154
-g141
-sa(dp155
-S'author'
-p156
-S'TODO grabber'
-p157
-sS'text'
-p158
-S'If password text is set to empty, mark it with not used.'
-p159
-sS'detail'
-p160
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 89.'
-p161
-sS'exported'
-p162
-I01
-sS'time'
-p163
-S'2013-07-04 18:05:54'
-p164
-sS'path'
-p165
-S'src/Passone/Passone/CPPassDataManager.m'
-p166
-sS'condition'
-p167
-S'done'
-p168
-sa(dp169
-S'author'
-p170
-S'TODO grabber'
-p171
-sS'text'
-p172
-S'When hiding pass edit view, animate its background color if pass cell is gray.'
-p173
-sS'detail'
-p174
-S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 135.'
-p175
-sS'exported'
-p176
-I01
-sS'time'
-p177
-S'2013-07-04 18:07:51'
-p178
-sS'path'
-p179
 S'src/Passone/Passone/CPPassEditViewManager.m'
-p180
+p140
 sS'condition'
-p181
+p141
 S'done'
+p142
+sa(dp143
+S'author'
+p144
+S'TODO grabber'
+p145
+sS'text'
+p146
+S"Move 'backgroundColorOfPassword:' into CPPassword"
+p147
+sS'detail'
+p148
+S'TODO grabbed from src/Passone/Passone/CPPassGridManager.m, line 151.'
+p149
+sS'exported'
+p150
+I01
+sS'time'
+p151
+S'2013-07-04 17:55:52'
+p152
+sS'path'
+p153
+S'src/Passone/Passone/CPPassGridManager.m'
+p154
+sS'condition'
+p155
+g142
+sa(dp156
+S'author'
+p157
+S'TODO grabber'
+p158
+sS'text'
+p159
+S'If password text is set to empty, mark it with not used.'
+p160
+sS'detail'
+p161
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 89.'
+p162
+sS'exported'
+p163
+I01
+sS'time'
+p164
+S'2013-07-04 18:05:54'
+p165
+sS'path'
+p166
+S'src/Passone/Passone/CPPassDataManager.m'
+p167
+sS'condition'
+p168
+S'done'
+p169
+sa(dp170
+S'author'
+p171
+S'TODO grabber'
+p172
+sS'text'
+p173
+S'When hiding pass edit view, animate its background color if pass cell is gray.'
+p174
+sS'detail'
+p175
+S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 135.'
+p176
+sS'exported'
+p177
+I01
+sS'time'
+p178
+S'2013-07-04 18:07:51'
+p179
+sS'path'
+p180
+S'src/Passone/Passone/CPPassEditViewManager.m'
+p181
+sS'condition'
 p182
+S'done'
+p183
+sa(dp184
+S'author'
+p185
+S'TODO grabber'
+p186
+sS'text'
+p187
+S'Tap once on pass cell to copy password. Tap twice to show pass edit view.'
+p188
+sS'detail'
+p189
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 36.'
+p190
+sS'exported'
+p191
+I00
+sS'time'
+p192
+S'2013-07-04 18:32:57'
+p193
+sS'path'
+p194
+S'src/Passone/Passone/CPPassCell.m'
+p195
+sS'condition'
+p196
+g85
 sa.

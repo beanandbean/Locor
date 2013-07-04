@@ -6,9 +6,16 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
+enum CPPassCellState {
+    CPPassCellStateNormal,
+    CPPassCellStateDrugging
+};
+
 #import "CPPassCell.h"
 
 @interface CPPassCell ()
+
+@property (nonatomic) int state;
 
 @property (weak, nonatomic) id<CPPassCellDelegate> delegate;
 
@@ -24,14 +31,21 @@
         self.delegate = delegate;
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
+        self.state = CPPassCellStateNormal;
+        
+        // TODO: Tap once on pass cell to copy password. Tap twice to show pass edit view.
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)]];
         
         UISwipeGestureRecognizer *swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeGesture:)];
         swipeGestureRecognizer.numberOfTouchesRequired = 2;
         [self addGestureRecognizer:swipeGestureRecognizer];
         
-        [self addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)]];
-        [self addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)]];
+        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
+        longPress.delegate = self;
+        [self addGestureRecognizer: longPress];
+        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
+        pan.delegate = self;
+        [self addGestureRecognizer: pan];
     }
     return self;
 }
@@ -53,25 +67,36 @@
 }
 
 - (void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPressGesture {
+    NSLog(@"(%d, %d, %d, %d), %d", UIGestureRecognizerStateBegan, UIGestureRecognizerStateEnded, UIGestureRecognizerStateCancelled, UIGestureRecognizerStateFailed, longPressGesture.state);
     if (longPressGesture.state == UIGestureRecognizerStateBegan) {
-        // TODO: Now use long press to simulate two-finger swipe, change it later.
-        [self.delegate swipePassCell:self];
-        // [self.delegate startDragPassCell:self];
+        // [self.delegate swipePassCell:self];
+        if (self.state == CPPassCellStateNormal) {
+            [self.delegate startDragPassCell:self];
+            self.state = CPPassCellStateDrugging;
+        }
     } else if (longPressGesture.state == UIGestureRecognizerStateEnded || longPressGesture.state == UIGestureRecognizerStateCancelled || longPressGesture.state == UIGestureRecognizerStateFailed) {
-        // [self.delegate stopDragPassCell:self];
+        if (self.state == CPPassCellStateDrugging) {
+            [self.delegate stopDragPassCell:self];
+            self.state = CPPassCellStateNormal;
+        }
     }
 }
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture {
     if (panGesture.state == UIGestureRecognizerStateBegan) {
-        [self.delegate startDragPassCell:self];
+        // [self.delegate startDragPassCell:self];
     } else if (panGesture.state == UIGestureRecognizerStateChanged) {
-        CGPoint location = [panGesture locationInView:panGesture.view];
-        CGPoint translation = [panGesture translationInView:panGesture.view];
-        [self.delegate dragPassCell:self location:location translation:translation];
-        [panGesture setTranslation:CGPointZero inView:panGesture.view];
+        if (self.state == CPPassCellStateDrugging) {
+            CGPoint location = [panGesture locationInView:panGesture.view];
+            CGPoint translation = [panGesture translationInView:panGesture.view];
+            [self.delegate dragPassCell:self location:location translation:translation];
+            [panGesture setTranslation:CGPointZero inView:panGesture.view];
+        }
     } else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled || panGesture.state == UIGestureRecognizerStateFailed) {
-        [self.delegate stopDragPassCell:self];
+        if (self.state == CPPassCellStateDrugging) {
+            [self.delegate stopDragPassCell:self];
+            self.state = CPPassCellStateNormal;
+        }
     }
 }
 

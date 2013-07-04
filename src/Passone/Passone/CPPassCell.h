@@ -20,7 +20,7 @@
 
 @end
 
-@interface CPPassCell : UIView
+@interface CPPassCell : UIView <UIGestureRecognizerDelegate>
 
 @property (nonatomic) NSUInteger index;
 

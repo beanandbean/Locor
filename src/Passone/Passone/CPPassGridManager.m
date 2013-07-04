@@ -160,7 +160,7 @@ static const CGFloat SPACE = 10.0;
     [[CPPassDataManager defaultManager] toggleRemoveStateOfPasswordAtIndex:passCell.index];
 }
 
-- (void)startDragPassCell:(CPPassCell *)passCell {
+- (void)startDragPassCell:(CPPassCell *)passCell {    
     NSAssert(!self.dragSourceCell, @"");
     NSAssert(!self.dragView, @"");
     NSAssert(!self.dragViewLeftConstraint, @"");
