@@ -58,17 +58,20 @@
     
     self.index = index;
     
-    // TODO: When showing pass edit view, check 'password.isUsed'.
-    
     CPPassword *password = [[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index];
-    self.passwordEditView.backgroundColor = password.color;
-    self.passwordTextField.text = password.text;
+    self.passwordEditView.backgroundColor = password.displayColor;
     
-    // TODO: When showing pass edit view, if the cell is unset, focus on the text field.
+    if (password.isUsed.boolValue) {
+        self.passwordTextField.text = password.text;
+        self.memos = [[NSMutableArray alloc] initWithArray:[password.memos sortedArrayUsingDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:NO], nil]]];
+    } else {
+        self.passwordTextField.text = @"";
+        [self.passwordTextField becomeFirstResponder];
+        self.memos = [[NSMutableArray alloc] init];
+    }
+    
     // TODO: When showing pass edit view, if the cell has been set, hide the password for security.
 	
-	self.memos = [[NSMutableArray alloc] initWithArray:[password.memos sortedArrayUsingDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:NO], nil]]];
-
     [self.memosTableView reloadData];
     
     for (UIView *subview in self.passwordEditView.subviews) {
@@ -77,6 +80,7 @@
     [self.superView addSubview:self.passwordEditView];
     
     UIView *cell = [self.passCells objectAtIndex:self.index];
+    
     // align with cell
     [self.superView removeConstraints:self.constraints];
     self.constraints = [[NSArray alloc] initWithObjects:
@@ -102,6 +106,7 @@
     [self.superView addConstraints:self.constraints];
     [UIView animateWithDuration:0.5 animations:^{
         [self.superView layoutIfNeeded];
+        self.passwordEditView.backgroundColor = password.color;
     }];
     sleep(0.25);
     [UIView animateWithDuration:0.25 animations:^{
@@ -128,6 +133,7 @@
     }];
     [UIView animateWithDuration:0.5 animations:^{
         [self.superView layoutIfNeeded];
+        self.passwordEditView.backgroundColor = cell.backgroundColor;
     } completion:^(BOOL finished) {
         [self.superView removeConstraints:self.constraints];
         [self.passwordEditView removeFromSuperview];
@@ -137,7 +143,7 @@
 
 - (void)setPassword {
     CPPassword *password = [[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index];
-    if (self.passwordTextField.text && ![self.passwordTextField.text isEqualToString:@""] && ![self.passwordTextField.text isEqualToString:password.text]) {
+    if (self.passwordTextField.text && ![self.passwordTextField.text isEqualToString:password.text]) {
         [[CPPassDataManager defaultManager] setPasswordText:self.passwordTextField.text atIndex:self.index];
     }
 }

@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSSet *memos;
 
 - (UIColor *)color;
+- (UIColor *)displayColor;
 
 @end
 

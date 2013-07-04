@@ -106,7 +106,7 @@ static const CGFloat SPACE = 10.0;
         for (int column = 0; column < COLUMNS; column++) {
             NSUInteger index = row * COLUMNS + column;
             CPPassword *password = [passwordsController.fetchedObjects objectAtIndex:index];
-            CPPassCell *cell = [[CPPassCell alloc] initWithIndex:index color:[self backgroundColorOfPassword:password] delegate:self];
+            CPPassCell *cell = [[CPPassCell alloc] initWithIndex:index color:password.displayColor delegate:self];
             
             if (row == 0) {
                 // cell.top = superView.top + SPACE
@@ -146,10 +146,6 @@ static const CGFloat SPACE = 10.0;
             [self.passGridView addSubview:cell];
         }
     }
-}
-
-- (UIColor *)backgroundColorOfPassword:(CPPassword *)password {
-    return password.isUsed.boolValue ? password.color : [[UIColor alloc] initWithRed:0.7 green:0.7 blue:0.7 alpha:1.0];
 }
 
 #pragma mark - CPPassCellDelegate
@@ -288,15 +284,15 @@ static const CGFloat SPACE = 10.0;
         case NSFetchedResultsChangeUpdate:
             password = [controller.fetchedObjects objectAtIndex:indexPath.row];
             cell = [self.passCells objectAtIndex:indexPath.row];
-            cell.backgroundColor = [self backgroundColorOfPassword:password];
+            cell.backgroundColor = password.displayColor;
             break;
         case NSFetchedResultsChangeMove:
             password = [controller.fetchedObjects objectAtIndex:indexPath.row];
             cell = [self.passCells objectAtIndex:indexPath.row];
-            cell.backgroundColor = [self backgroundColorOfPassword:password];
+            cell.backgroundColor = password.displayColor;
             password = [controller.fetchedObjects objectAtIndex:newIndexPath.row];
             cell = [self.passCells objectAtIndex:newIndexPath.row];
-            cell.backgroundColor = [self backgroundColorOfPassword:password];
+            cell.backgroundColor = password.displayColor;
         default:
             break;
     }

@@ -24,4 +24,8 @@
     return [[UIColor alloc] initWithRed:self.colorRed.floatValue green:self.colorGreen.floatValue blue:self.colorBlue.floatValue alpha:1.0];
 }
 
+- (UIColor *)displayColor {
+    return self.isUsed.boolValue ? self.color : [[UIColor alloc] initWithRed:0.7 green:0.7 blue:0.7 alpha:1.0];
+}
+
 @end

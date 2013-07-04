@@ -84,7 +84,7 @@ static CPPassDataManager *_defaultManager = nil;
     
     password.text = text;
     password.creationDate = [[NSDate alloc] init];
-    password.isUsed = [NSNumber numberWithBool:YES];
+    password.isUsed = [NSNumber numberWithBool:![text isEqualToString:@""]];
     
     [self saveContext];
 }
