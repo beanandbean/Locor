@@ -75,6 +75,7 @@ static CPPassDataManager *_defaultManager = nil;
     CPPassword *password = [self.passwordsController.fetchedObjects objectAtIndex:index];
     NSAssert(password, @"");
     
+    // TODO: Show notification when removing a pass cell by setting an empty text.
     if ([text isEqualToString:@""]) {
         password.isUsed = [NSNumber numberWithBool:NO];
     } else {

@@ -6,16 +6,13 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-enum CPPassCellState {
-    CPPassCellStateNormal,
-    CPPassCellStateDrugging
-};
-
 #import "CPPassCell.h"
 
-@interface CPPassCell ()
+#import "CPProcessManager.h"
+#import "CPDraggingPassCellProcess.h"
+#import "CPRemovingPassCellProcess.h"
 
-@property (nonatomic) int state;
+@interface CPPassCell ()
 
 @property (weak, nonatomic) id<CPPassCellDelegate> delegate;
 
@@ -30,9 +27,7 @@ enum CPPassCellState {
         self.backgroundColor = color;
         self.delegate = delegate;
         self.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        self.state = CPPassCellStateNormal;
-        
+                
         // TODO: Tap once on pass cell to copy password. Tap twice to show pass edit view.
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)]];
         
@@ -67,35 +62,40 @@ enum CPPassCellState {
 }
 
 - (void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPressGesture {
-    NSLog(@"(%d, %d, %d, %d), %d", UIGestureRecognizerStateBegan, UIGestureRecognizerStateEnded, UIGestureRecognizerStateCancelled, UIGestureRecognizerStateFailed, longPressGesture.state);
     if (longPressGesture.state == UIGestureRecognizerStateBegan) {
         // [self.delegate swipePassCell:self];
-        if (self.state == CPPassCellStateNormal) {
+        if ([CPProcessManager startProcess:[CPDraggingPassCellProcess process]]) {
             [self.delegate startDragPassCell:self];
-            self.state = CPPassCellStateDrugging;
         }
     } else if (longPressGesture.state == UIGestureRecognizerStateEnded || longPressGesture.state == UIGestureRecognizerStateCancelled || longPressGesture.state == UIGestureRecognizerStateFailed) {
-        if (self.state == CPPassCellStateDrugging) {
+        if ([CPProcessManager stopProcess:[CPDraggingPassCellProcess process]]) {
             [self.delegate stopDragPassCell:self];
-            self.state = CPPassCellStateNormal;
         }
     }
 }
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture {
     if (panGesture.state == UIGestureRecognizerStateBegan) {
-        // [self.delegate startDragPassCell:self];
+        if ([CPProcessManager startProcess:[CPRemovingPassCellProcess process]]) {
+            // TODO: Handling pass cell pan began, start removing animation.
+        }
     } else if (panGesture.state == UIGestureRecognizerStateChanged) {
-        if (self.state == CPPassCellStateDrugging) {
+        if ([CPProcessManager isInProcess:[CPDraggingPassCellProcess process]]) {
             CGPoint location = [panGesture locationInView:panGesture.view];
             CGPoint translation = [panGesture translationInView:panGesture.view];
             [self.delegate dragPassCell:self location:location translation:translation];
             [panGesture setTranslation:CGPointZero inView:panGesture.view];
+        } else if ([CPProcessManager isInProcess:[CPRemovingPassCellProcess process]]) {
+            // TODO: Handling pass cell pan changed, record translation and animate.
         }
     } else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled || panGesture.state == UIGestureRecognizerStateFailed) {
-        if (self.state == CPPassCellStateDrugging) {
+        if ([CPProcessManager stopProcess:[CPDraggingPassCellProcess process]]) {
             [self.delegate stopDragPassCell:self];
-            self.state = CPPassCellStateNormal;
+        } else if ([CPProcessManager stopProcess:[CPRemovingPassCellProcess process]]) {
+            // TODO: Handling pass cell pan ended, stop removing animation.
+            // TODO: Handling pass cell pan ended, check if translation reach 50%.
+            // TODO: Handling pass cell pan ended, may directly access model instead of delegate.
+            [self.delegate swipePassCell:self];
         }
     }
 }

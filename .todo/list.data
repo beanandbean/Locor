@@ -279,7 +279,7 @@ sg75
 S'MAY ABORT! Handle the error appropriately when saving context.'
 p107
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 149.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 150.'
 p108
 sg79
 I00
@@ -297,7 +297,7 @@ sg75
 S'MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.'
 p111
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 186.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 187.'
 p112
 sg79
 I00
@@ -487,7 +487,7 @@ S'Tap once on pass cell to copy password. Tap twice to show pass edit view.'
 p188
 sS'detail'
 p189
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 36.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 31.'
 p190
 sS'exported'
 p191
@@ -502,5 +502,131 @@ S'src/Passone/Passone/CPPassCell.m'
 p195
 sS'condition'
 p196
+g85
+sa(dp197
+S'author'
+p198
+S'TODO grabber'
+p199
+sS'text'
+p200
+S'Show notification when removing a pass cell by setting an empty text.'
+p201
+sS'detail'
+p202
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 78.'
+p203
+sS'exported'
+p204
+I00
+sS'time'
+p205
+S'2013-07-05 18:28:53'
+p206
+sS'path'
+p207
+S'src/Passone/Passone/CPPassDataManager.m'
+p208
+sS'condition'
+p209
+g85
+sa(dp210
+S'author'
+p211
+S'TODO grabber'
+p212
+sS'text'
+p213
+S'Handling pass cell pan began, start removing animation.'
+p214
+sS'detail'
+p215
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 80.'
+p216
+sS'exported'
+p217
+I00
+sS'time'
+p218
+S'2013-07-05 18:38:36'
+p219
+sS'path'
+p220
+S'src/Passone/Passone/CPPassCell.m'
+p221
+sS'condition'
+p222
+g85
+sa(dp223
+g211
+g212
+sg213
+S'Handling pass cell pan changed, record translation and animate.'
+p224
+sg215
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 89.'
+p225
+sg217
+I00
+sg218
+S'2013-07-05 18:38:36'
+p226
+sg220
+g221
+sg222
+g85
+sa(dp227
+g211
+g212
+sg213
+S'Handling pass cell pan ended, stop removing animation.'
+p228
+sg215
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 95.'
+p229
+sg217
+I00
+sg218
+S'2013-07-05 18:38:36'
+p230
+sg220
+g221
+sg222
+g85
+sa(dp231
+g211
+g212
+sg213
+S'Handling pass cell pan ended, check if translation reach 50%.'
+p232
+sg215
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 96.'
+p233
+sg217
+I00
+sg218
+S'2013-07-05 18:38:36'
+p234
+sg220
+g221
+sg222
+g85
+sa(dp235
+g211
+g212
+sg213
+S'Handling pass cell pan ended, may directly access model instead of delegate.'
+p236
+sg215
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 97.'
+p237
+sg217
+I00
+sg218
+S'2013-07-05 18:38:36'
+p238
+sg220
+g221
+sg222
 g85
 sa.

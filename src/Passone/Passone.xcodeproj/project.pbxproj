@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C6143601786D1C100430C64 /* CPProcessManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C61435F1786D1C100430C64 /* CPProcessManager.m */; };
+		2C6143651786D26100430C64 /* CPApplicationProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6143641786D26100430C64 /* CPApplicationProcess.m */; };
+		2C6143681786D59D00430C64 /* CPDraggingPassCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6143671786D59D00430C64 /* CPDraggingPassCellProcess.m */; };
+		2C61436B1786D7AC00430C64 /* CPRemovingPassCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C61436A1786D7AC00430C64 /* CPRemovingPassCellProcess.m */; };
 		2CBDF767177DB96E00BC9E3E /* CPNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */; };
 		FC4F2ADA1759EB0C002D9992 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2AD91759EB0C002D9992 /* UIKit.framework */; };
 		FC4F2ADC1759EB0C002D9992 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2ADB1759EB0C002D9992 /* Foundation.framework */; };
@@ -31,6 +35,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C61435E1786D1C100430C64 /* CPProcessManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPProcessManager.h; sourceTree = "<group>"; };
+		2C61435F1786D1C100430C64 /* CPProcessManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPProcessManager.m; sourceTree = "<group>"; };
+		2C6143611786D1E300430C64 /* CPProcess.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPProcess.h; sourceTree = "<group>"; };
+		2C6143631786D26100430C64 /* CPApplicationProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPApplicationProcess.h; sourceTree = "<group>"; };
+		2C6143641786D26100430C64 /* CPApplicationProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPApplicationProcess.m; sourceTree = "<group>"; };
+		2C6143661786D59D00430C64 /* CPDraggingPassCellProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPDraggingPassCellProcess.h; sourceTree = "<group>"; };
+		2C6143671786D59D00430C64 /* CPDraggingPassCellProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPDraggingPassCellProcess.m; sourceTree = "<group>"; };
+		2C6143691786D7AC00430C64 /* CPRemovingPassCellProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPRemovingPassCellProcess.h; sourceTree = "<group>"; };
+		2C61436A1786D7AC00430C64 /* CPRemovingPassCellProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPRemovingPassCellProcess.m; sourceTree = "<group>"; };
 		2CBDF765177DB96E00BC9E3E /* CPNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPNotificationCenter.h; sourceTree = "<group>"; };
 		2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPNotificationCenter.m; sourceTree = "<group>"; };
 		FC4F2AD61759EB0C002D9992 /* Passone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Passone.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,6 +95,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C6143621786D23000430C64 /* Process */ = {
+			isa = PBXGroup;
+			children = (
+				2C6143631786D26100430C64 /* CPApplicationProcess.h */,
+				2C6143641786D26100430C64 /* CPApplicationProcess.m */,
+				2C6143661786D59D00430C64 /* CPDraggingPassCellProcess.h */,
+				2C6143671786D59D00430C64 /* CPDraggingPassCellProcess.m */,
+				2C6143691786D7AC00430C64 /* CPRemovingPassCellProcess.h */,
+				2C61436A1786D7AC00430C64 /* CPRemovingPassCellProcess.m */,
+			);
+			name = Process;
+			sourceTree = "<group>";
+		};
 		FC4F2ACD1759EB0C002D9992 = {
 			isa = PBXGroup;
 			children = (
@@ -116,10 +142,10 @@
 			children = (
 				FC4F2AE81759EB0C002D9992 /* CPAppDelegate.h */,
 				FC4F2AE91759EB0C002D9992 /* CPAppDelegate.m */,
-				FC80BE5817791438007BDC13 /* CPMemo.h */,
-				FC80BE5917791438007BDC13 /* CPMemo.m */,
 				FC4F2B171759ECB5002D9992 /* CPMainViewController.h */,
 				FC4F2B181759ECB5002D9992 /* CPMainViewController.m */,
+				FC80BE5817791438007BDC13 /* CPMemo.h */,
+				FC80BE5917791438007BDC13 /* CPMemo.m */,
 				2CBDF765177DB96E00BC9E3E /* CPNotificationCenter.h */,
 				2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */,
 				FCBB156717709854005DC611 /* CPPassCell.h */,
@@ -133,8 +159,12 @@
 				FC79174F176DFE0800CCF63B /* CPPassGridManager.m */,
 				FC80BE5B17791438007BDC13 /* CPPassword.h */,
 				FC80BE5C17791438007BDC13 /* CPPassword.m */,
+				2C6143611786D1E300430C64 /* CPProcess.h */,
+				2C61435E1786D1C100430C64 /* CPProcessManager.h */,
+				2C61435F1786D1C100430C64 /* CPProcessManager.m */,
 				FC4F2AF41759EB0C002D9992 /* MainStoryboard.storyboard */,
 				FCBF1E2717696C1A0014E56F /* Passone.xcdatamodeld */,
+				2C6143621786D23000430C64 /* Process */,
 				FC4F2AE01759EB0C002D9992 /* Supporting Files */,
 			);
 			path = Passone;
@@ -233,6 +263,10 @@
 				FC80BE5A17791438007BDC13 /* CPMemo.m in Sources */,
 				FC80BE5D17791438007BDC13 /* CPPassword.m in Sources */,
 				2CBDF767177DB96E00BC9E3E /* CPNotificationCenter.m in Sources */,
+				2C6143601786D1C100430C64 /* CPProcessManager.m in Sources */,
+				2C6143651786D26100430C64 /* CPApplicationProcess.m in Sources */,
+				2C6143681786D59D00430C64 /* CPDraggingPassCellProcess.m in Sources */,
+				2C61436B1786D7AC00430C64 /* CPRemovingPassCellProcess.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
