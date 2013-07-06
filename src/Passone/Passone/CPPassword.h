@@ -21,6 +21,7 @@
 
 - (UIColor *)color;
 - (UIColor *)displayColor;
+- (UIColor *)reversedColor;
 
 @end
 

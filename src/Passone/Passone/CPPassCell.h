@@ -12,7 +12,6 @@
 @protocol CPPassCellDelegate <NSObject>
 
 - (void)tapPassCell:(CPPassCell *)passCell;
-- (void)swipePassCell:(CPPassCell *)passCell;
 
 - (void)startDragPassCell:(CPPassCell *)passCell;
 - (void)dragPassCell:(CPPassCell *)passCell location:(CGPoint)location translation:(CGPoint)translation;

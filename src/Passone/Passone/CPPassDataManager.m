@@ -107,6 +107,13 @@ static CPPassDataManager *_defaultManager = nil;
     return memo;
 }
 
+- (BOOL)canToggleRemoveStateOfPasswordAtIndex:(NSUInteger)index {
+    CPPassword *password = [self.passwordsController.fetchedObjects objectAtIndex:index];
+    NSAssert(password, @"");
+
+    return ![password.text isEqualToString:@""];
+}
+
 - (void)toggleRemoveStateOfPasswordAtIndex:(NSUInteger)index {
     CPPassword *password = [self.passwordsController.fetchedObjects objectAtIndex:index];
     NSAssert(password, @"");

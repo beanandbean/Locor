@@ -78,7 +78,7 @@ static const CGFloat SPACE = 10.0;
         
         [self createPassCells];
         
-        // TODO: move creation of CPNotificationCenter to proper place
+        // TODO: Move creation of CPNotificationCenter to proper place.
         [CPNotificationCenter createNotificationCenterWithSuperView:superView.superview labelLeft:[self.passCells objectAtIndex:0] andLabelRight:[self.passCells objectAtIndex:2]];
     }
     return self;
@@ -145,10 +145,6 @@ static const CGFloat SPACE = 10.0;
     if (self.passEditViewManager.index == -1) {
         [self.passEditViewManager showPassEditViewForCellAtIndex:passCell.index];        
     }
-}
-
-- (void)swipePassCell:(CPPassCell *)passCell {
-    [[CPPassDataManager defaultManager] toggleRemoveStateOfPasswordAtIndex:passCell.index];
 }
 
 - (void)startDragPassCell:(CPPassCell *)passCell {    
