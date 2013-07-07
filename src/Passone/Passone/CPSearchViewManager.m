@@ -8,6 +8,8 @@
 
 #import "CPSearchViewManager.h"
 
+#import "CPMarginStandard.h"
+
 @interface CPSearchViewManager ()
 
 @property (weak, nonatomic) UISearchBar *searchBar;
@@ -34,9 +36,9 @@
     if (!_resultTableViewConstraints) {
         _resultTableViewConstraints = [[NSArray alloc] initWithObjects:
                                        [NSLayoutConstraint constraintWithItem:self.resultTableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5.0],
-                                       [NSLayoutConstraint constraintWithItem:self.resultTableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:10.0],
-                                       [NSLayoutConstraint constraintWithItem:self.resultTableView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-10.0],
                                        [NSLayoutConstraint constraintWithItem:self.resultTableView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0],
+                                       [CPMarginStandard constraintWithItem:self.resultTableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft],
+                                       [CPMarginStandard constraintWithItem:self.resultTableView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight],
                                        nil];
     }
     return _resultTableViewConstraints;

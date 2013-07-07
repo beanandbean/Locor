@@ -179,7 +179,7 @@ S'Limit the number of notifications.'
 p76
 sS'detail'
 p77
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 61.'
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 59.'
 p78
 sS'exported'
 p79
@@ -203,7 +203,7 @@ sg75
 S'Determine how long a notification should stay on the screen.'
 p87
 sg77
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 111.'
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 109.'
 p88
 sg79
 I00
@@ -669,7 +669,7 @@ sg246
 S'TODO grabbed from src/Passone/Passone/CPPassGridManager.m, line 81.'
 p257
 sg248
-I00
+I01
 sg249
 S'2013-07-06 18:23:11'
 p258
@@ -677,59 +677,60 @@ sg251
 S'src/Passone/Passone/CPPassGridManager.m'
 p259
 sg253
-g85
-sa(dp260
+S'done'
+p260
+sa(dp261
 S'author'
-p261
-S'TODO grabber'
 p262
-sS'text'
-p263
-S'Adjust font of pass cell removing label.'
-p264
-sS'detail'
-p265
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 103.'
-p266
-sS'exported'
-p267
-I00
-sS'time'
-p268
-S'2013-07-06 21:10:14'
-p269
-sS'path'
-p270
-S'src/Passone/Passone/CPPassCell.m'
-p271
-sS'condition'
-p272
-g85
-sa(dp273
-S'author'
-p274
 S'TODO grabber'
-p275
+p263
 sS'text'
-p276
-S'Change behavior of pass cell removing view & label if cannot toggle remove state.'
-p277
+p264
+S'Adjust font of pass cell removing label.'
+p265
 sS'detail'
-p278
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 159.'
-p279
+p266
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 103.'
+p267
 sS'exported'
-p280
+p268
 I00
 sS'time'
-p281
-S'2013-07-06 21:28:07'
-p282
+p269
+S'2013-07-06 21:10:14'
+p270
 sS'path'
-p283
+p271
 S'src/Passone/Passone/CPPassCell.m'
-p284
+p272
 sS'condition'
+p273
+g85
+sa(dp274
+S'author'
+p275
+S'TODO grabber'
+p276
+sS'text'
+p277
+S'Change behavior of pass cell removing view & label if cannot toggle remove state.'
+p278
+sS'detail'
+p279
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 159.'
+p280
+sS'exported'
+p281
+I00
+sS'time'
+p282
+S'2013-07-06 21:28:07'
+p283
+sS'path'
+p284
+S'src/Passone/Passone/CPPassCell.m'
 p285
+sS'condition'
+p286
 g85
 sa.

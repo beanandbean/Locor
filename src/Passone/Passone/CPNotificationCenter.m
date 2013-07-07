@@ -8,20 +8,20 @@
 
 #import "CPNotificationCenter.h"
 
+#import "CPMarginStandard.h"
+
 static CPNotificationCenter *center;
 
 @interface CPNotificationCenter ()
 
 @property (weak, nonatomic) UIView *superView;
-@property (weak, nonatomic) UIView *labelLeft;
-@property (weak, nonatomic) UIView *labelRight;
 @property (strong, nonatomic) NSMutableArray *notifications;
 @property (strong, nonatomic) NSMutableArray *views;
 @property (strong, nonatomic) NSMutableArray *leftConstraints;
 @property (strong, nonatomic) NSMutableArray *rightConstraints;
 @property (strong, nonatomic) NSMutableArray *bottomConstraints;
 
-- (id)initWithSuperView:(UIView *)superView labelLeft:(UIView *)left andLabelRight:(UIView *)right;
+- (id)initWithSuperView:(UIView *)superView;
 
 - (void)insertNotification:(NSString *)notification;
 
@@ -31,8 +31,8 @@ static CPNotificationCenter *center;
 
 @implementation CPNotificationCenter
 
-+ (void)createNotificationCenterWithSuperView:(UIView *)superView labelLeft:(UIView *)left andLabelRight:(UIView *)right {
-    center = [[CPNotificationCenter alloc] initWithSuperView:superView labelLeft:left andLabelRight:right];
++ (void)createNotificationCenterWithSuperView:(UIView *)superView {
+    center = [[CPNotificationCenter alloc] initWithSuperView:superView];
 }
 
 + (void)insertNotification:(NSString *)notification {
@@ -41,12 +41,10 @@ static CPNotificationCenter *center;
     }
 }
 
-- (id)initWithSuperView:(UIView *)superView labelLeft:(UIView *)left andLabelRight:(UIView *)right {
+- (id)initWithSuperView:(UIView *)superView {
     self = [super init];
     if (self) {
         self.superView = superView;
-        self.labelLeft = left;
-        self.labelRight = right;
         
         self.notifications = [[NSMutableArray alloc] init];
         self.views = [[NSMutableArray alloc] init];
@@ -75,11 +73,11 @@ static CPNotificationCenter *center;
     [self.superView addSubview:notificationLabel];
     [self.views addObject:notificationLabel];
     
-    NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:notificationLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.labelLeft attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
+    NSLayoutConstraint *leftConstraint = [CPMarginStandard constraintWithItem:notificationLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft];
     [self.superView addConstraint:leftConstraint];
     [self.leftConstraints addObject:leftConstraint];
     
-    NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:notificationLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.labelRight attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0];
+    NSLayoutConstraint *rightConstraint = [CPMarginStandard constraintWithItem:notificationLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight];
     [self.superView addConstraint:rightConstraint];
     [self.rightConstraints addObject:rightConstraint];
     

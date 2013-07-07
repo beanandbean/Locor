@@ -12,6 +12,7 @@
 #import "CPSearchViewManager.h"
 
 #import "CPNotificationCenter.h"
+#import "CPMarginStandard.h"
 
 @interface CPMainViewController ()
 
@@ -39,8 +40,6 @@
     [searchBar setSearchFieldBackgroundImage:bg forState:UIControlStateNormal];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:searchBar attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:5.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:searchBar attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:5.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:searchBar attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:-5.0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:searchBar attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:44.0]];
     [self.view addSubview:searchBar];
     
@@ -54,6 +53,11 @@
     [self.view addSubview:contentView];
 
     self.passGridManager = [[CPPassGridManager alloc] initWithSuperView:contentView];
+    [CPNotificationCenter createNotificationCenterWithSuperView:self.view];
+    
+    [self.view addConstraint:[CPMarginStandard constraintWithItem:searchBar attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:-5.0 toEdge:CPMarginEdgeLeft]];
+    [self.view addConstraint:[CPMarginStandard constraintWithItem:searchBar attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:5.0 toEdge:CPMarginEdgeRight]];
+    
     self.searchViewManager = [[CPSearchViewManager alloc] initWithSearchBar:searchBar superView:self.view];
 }
 

@@ -13,6 +13,7 @@
 #import "CPPassEditViewManager.h"
 #import "CPPassword.h"
 
+#import "CPMarginStandard.h"
 #import "CPNotificationCenter.h"
 
 @interface CPPassGridManager ()
@@ -77,9 +78,8 @@ static const CGFloat SPACE = 10.0;
         [superView addSubview:self.passGridView];
         
         [self createPassCells];
-        
-        // TODO: Move creation of CPNotificationCenter to proper place.
-        [CPNotificationCenter createNotificationCenterWithSuperView:superView.superview labelLeft:[self.passCells objectAtIndex:0] andLabelRight:[self.passCells objectAtIndex:2]];
+        [CPMarginStandard registerStandardForEdge:CPMarginEdgeLeft asItem:[self.passCells objectAtIndex:0] attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
+        [CPMarginStandard registerStandardForEdge:CPMarginEdgeRight asItem:[self.passCells objectAtIndex:2] attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0];
     }
     return self;
 }

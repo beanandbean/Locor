@@ -10,7 +10,7 @@
 
 @interface CPNotificationCenter : NSObject
 
-+ (void)createNotificationCenterWithSuperView:(UIView *)superView labelLeft:(UIView *)left andLabelRight:(UIView *)right;
++ (void)createNotificationCenterWithSuperView:(UIView *)superView;
 
 + (void)insertNotification:(NSString *)notification;
 
