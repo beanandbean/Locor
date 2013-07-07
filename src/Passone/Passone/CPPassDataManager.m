@@ -37,8 +37,8 @@ static CPPassDataManager *_defaultManager = nil;
 - (NSFetchedResultsController *)passwordsController {
     if (!_passwordsController) {
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        [request setEntity:[NSEntityDescription entityForName:@"Password" inManagedObjectContext:self.managedObjectContext]];
-        [request setSortDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES], nil]];
+        request.entity = [NSEntityDescription entityForName:@"Password" inManagedObjectContext:self.managedObjectContext];
+        request.sortDescriptors = [[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES], nil];
         _passwordsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"PasswordCache"];
         [_passwordsController performFetch:nil];
         
@@ -140,6 +140,19 @@ static CPPassDataManager *_defaultManager = nil;
     password = [self.passwordsController.fetchedObjects objectAtIndex:index2];
     password.index = [NSNumber numberWithUnsignedInteger:index1];
     [self saveContext];
+}
+
+- (NSArray *)memosContainText:(NSString *)text {
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:[NSEntityDescription entityForName:@"Memo" inManagedObjectContext:self.managedObjectContext]];
+    
+    if (text && ![text isEqualToString:@""]) {
+        request.predicate = [NSPredicate predicateWithFormat:@"password.isUsed = YES && text contains %@", text];
+    } else {
+        request.predicate = [NSPredicate predicateWithFormat:@"password.isUsed = YES", text];
+    }
+    request.sortDescriptors = [[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"text" ascending:YES], nil];
+    return [self.managedObjectContext executeFetchRequest:request error:nil];
 }
 
 #pragma mark - Core Data stack

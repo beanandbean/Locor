@@ -23,4 +23,6 @@
 
 - (void)exchangePasswordBetweenIndex1:(NSUInteger)index1 andIndex2:(NSUInteger)index2;
 
+- (NSArray *)memosContainText:(NSString *)text;
+
 @end
