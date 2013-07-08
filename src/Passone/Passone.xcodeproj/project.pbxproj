@@ -15,6 +15,7 @@
 		2C6143681786D59D00430C64 /* CPDraggingPassCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6143671786D59D00430C64 /* CPDraggingPassCellProcess.m */; };
 		2C61436B1786D7AC00430C64 /* CPRemovingPassCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C61436A1786D7AC00430C64 /* CPRemovingPassCellProcess.m */; };
 		2CBDF767177DB96E00BC9E3E /* CPNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */; };
+		FC03FCDA178AF99A004C2B15 /* CPMemoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FC03FCD9178AF99A004C2B15 /* CPMemoCell.m */; };
 		FC4F2ADA1759EB0C002D9992 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2AD91759EB0C002D9992 /* UIKit.framework */; };
 		FC4F2ADC1759EB0C002D9992 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2ADB1759EB0C002D9992 /* Foundation.framework */; };
 		FC4F2ADE1759EB0C002D9992 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2ADD1759EB0C002D9992 /* CoreGraphics.framework */; };
@@ -56,6 +57,8 @@
 		2C61436A1786D7AC00430C64 /* CPRemovingPassCellProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPRemovingPassCellProcess.m; sourceTree = "<group>"; };
 		2CBDF765177DB96E00BC9E3E /* CPNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPNotificationCenter.h; sourceTree = "<group>"; };
 		2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPNotificationCenter.m; sourceTree = "<group>"; };
+		FC03FCD8178AF99A004C2B15 /* CPMemoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMemoCell.h; sourceTree = "<group>"; };
+		FC03FCD9178AF99A004C2B15 /* CPMemoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMemoCell.m; sourceTree = "<group>"; };
 		FC4F2AD61759EB0C002D9992 /* Passone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Passone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC4F2AD91759EB0C002D9992 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FC4F2ADB1759EB0C002D9992 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -158,12 +161,14 @@
 			children = (
 				FC4F2AE81759EB0C002D9992 /* CPAppDelegate.h */,
 				FC4F2AE91759EB0C002D9992 /* CPAppDelegate.m */,
-				FC4F2B171759ECB5002D9992 /* CPMainViewController.h */,
-				FC4F2B181759ECB5002D9992 /* CPMainViewController.m */,
 				2C57A043178979A2004F1547 /* CPAppearanceManager.h */,
 				2C57A044178979A2004F1547 /* CPAppearanceManager.m */,
+				FC4F2B171759ECB5002D9992 /* CPMainViewController.h */,
+				FC4F2B181759ECB5002D9992 /* CPMainViewController.m */,
 				FC80BE5817791438007BDC13 /* CPMemo.h */,
 				FC80BE5917791438007BDC13 /* CPMemo.m */,
+				FC03FCD8178AF99A004C2B15 /* CPMemoCell.h */,
+				FC03FCD9178AF99A004C2B15 /* CPMemoCell.m */,
 				2CBDF765177DB96E00BC9E3E /* CPNotificationCenter.h */,
 				2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */,
 				FCBB156717709854005DC611 /* CPPassCell.h */,
@@ -291,6 +296,7 @@
 				2C57A045178979A2004F1547 /* CPAppearanceManager.m in Sources */,
 				2C0D2D8D178AC72600485CE5 /* CPSearchingProcess.m in Sources */,
 				2C0D2D90178ACA0C00485CE5 /* CPAnimationProcess.m in Sources */,
+				FC03FCDA178AF99A004C2B15 /* CPMemoCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

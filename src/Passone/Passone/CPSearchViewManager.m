@@ -10,8 +10,11 @@
 
 #import "CPAppearanceManager.h"
 
-#import "CPMemo.h"
 #import "CPPassDataManager.h"
+#import "CPMemo.h"
+#import "CPPassword.h"
+
+#import "CPMemoCell.h"
 
 #import "CPProcessManager.h"
 #import "CPSearchingProcess.h"
@@ -190,12 +193,13 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"SearchMemoCell";
+    CPMemo *memo = [self.resultMemos objectAtIndex:indexPath.row];
+
+    static NSString *CellIdentifier = @"CPMemoCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[CPMemoCell alloc] initWithColor:memo.password.color reuseIdentifier:CellIdentifier];
     }
-    CPMemo *memo = [self.resultMemos objectAtIndex:indexPath.row];
     cell.textLabel.text = memo.text;
     return cell;
 }
