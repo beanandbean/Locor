@@ -8,7 +8,10 @@
 
 #import "CPDraggingPassCellProcess.h"
 
+#import "CPAnimationProcess.h"
+
 static CPDraggingPassCellProcess *process;
+static NSArray *allowedProcess;
 
 @implementation CPDraggingPassCellProcess
 
@@ -20,7 +23,10 @@ static CPDraggingPassCellProcess *process;
 }
 
 - (bool)allowSubprocess:(id<CPProcess>)process {
-    return NO;
+    if (!allowedProcess) {
+        allowedProcess = [NSArray arrayWithObjects:[CPAnimationProcess process], nil];
+    }
+    return [allowedProcess indexOfObject:process] != NSNotFound;
 }
 
 @end

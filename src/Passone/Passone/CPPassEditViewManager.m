@@ -8,9 +8,11 @@
 
 #import "CPPassEditViewManager.h"
 
-#import "CPMemo.h"
 #import "CPPassDataManager.h"
 #import "CPPassword.h"
+#import "CPMemo.h"
+
+#import "CPAppearanceManager.h"
 
 @interface CPPassEditViewManager ()
 
@@ -104,11 +106,12 @@
                         [NSLayoutConstraint constraintWithItem:self.passwordEditView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:rightBottomCell attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0],
                         nil];
     [self.superView addConstraints:self.constraints];
-    [UIView animateWithDuration:0.5 animations:^{
+    [CPAppearanceManager animateWithDuration:0.5 animations:^{
         [self.superView layoutIfNeeded];
         self.passwordEditView.backgroundColor = password.color;
     }];
     sleep(0.25);
+    // This animation is contained in previous one, not needing to use CPAppearanceManager's animation
     [UIView animateWithDuration:0.25 animations:^{
         for (UIView *subView in self.passwordEditView.subviews) {
             subView.alpha = 1.0;
@@ -126,12 +129,14 @@
                         [NSLayoutConstraint constraintWithItem:self.passwordEditView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0],
                         nil];
     [self.superView addConstraints:self.constraints];
+    
+    // This animation is contained in next one, not needing to use CPAppearanceManager's animation
     [UIView animateWithDuration:0.25 animations:^{
         for (UIView *subview in self.passwordEditView.subviews) {
             subview.alpha = 0.0;
         }
     }];
-    [UIView animateWithDuration:0.5 animations:^{
+    [CPAppearanceManager animateWithDuration:0.5 animations:^{
         [self.superView layoutIfNeeded];
         self.passwordEditView.backgroundColor = cell.backgroundColor;
     } completion:^(BOOL finished) {

@@ -6,17 +6,20 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-#import "CPMarginStandard.h"
+#import "CPAppearanceManager.h"
+
+#import "CPProcessManager.h"
+#import "CPAnimationProcess.h"
 
 static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *standardConstants;
 
-@interface CPMarginStandard ()
+@interface CPAppearanceManager ()
 
 + (NSMutableArray *)arrayWithInitialValue:(id)value;
 
 @end
 
-@implementation CPMarginStandard
+@implementation CPAppearanceManager
 
 + (NSMutableArray *)arrayWithInitialValue:(id)value {
     NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:CPMarginEdgeCount];
@@ -28,16 +31,16 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
 
 + (void)registerStandardForEdge:(CPMarginEdge)edge asItem:(id)view attribute:(NSLayoutAttribute)attr multiplier:(CGFloat)multiplier constant:(CGFloat)c {
     if (!standardViews) {
-        standardViews = [CPMarginStandard arrayWithInitialValue:[NSNull null]];
+        standardViews = [CPAppearanceManager arrayWithInitialValue:[NSNull null]];
     }
     if (!standardAttrs) {
-        standardAttrs = [CPMarginStandard arrayWithInitialValue:[NSNumber numberWithInt:NSLayoutAttributeNotAnAttribute]];
+        standardAttrs = [CPAppearanceManager arrayWithInitialValue:[NSNumber numberWithInt:NSLayoutAttributeNotAnAttribute]];
     }
     if (!standardMultipliers) {
-        standardMultipliers = [CPMarginStandard arrayWithInitialValue:[NSNumber numberWithFloat:0.0]];
+        standardMultipliers = [CPAppearanceManager arrayWithInitialValue:[NSNumber numberWithFloat:0.0]];
     }
     if (!standardConstants) {
-        standardConstants = [CPMarginStandard arrayWithInitialValue:[NSNumber numberWithFloat:0.0]];
+        standardConstants = [CPAppearanceManager arrayWithInitialValue:[NSNumber numberWithFloat:0.0]];
     }
     if (view) {
         [standardViews replaceObjectAtIndex:edge withObject:view];
@@ -59,6 +62,23 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
     CGFloat standardConstant = ((NSNumber *)[standardConstants objectAtIndex:edge]).floatValue;
     CGFloat finalConstant = standardConstant + c;
     return [NSLayoutConstraint constraintWithItem:view attribute:attr relatedBy:relation toItem:toView attribute:toAttr multiplier:multiplier constant:finalConstant];
+}
+
++ (void)animateWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations {
+    if ([CPProcessManager startProcess:[CPAnimationProcess process]]) {
+        [UIView animateWithDuration:duration animations:animations completion:^(BOOL finished) {
+            [CPProcessManager stopProcess:[CPAnimationProcess process]];
+        }];
+    }
+}
+
++ (void)animateWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations completion:(void (^)(BOOL))completion {
+    if ([CPProcessManager startProcess:[CPAnimationProcess process]]) {
+        [UIView animateWithDuration:duration animations:animations completion:^(BOOL finished) {
+            [CPProcessManager stopProcess:[CPAnimationProcess process]];
+            completion(finished);
+        }];
+    }
 }
 
 @end

@@ -11,6 +11,8 @@
 #import "CPPassDataManager.h"
 #import "CPPassword.h"
 
+#import "CPAppearanceManager.h"
+
 #import "CPProcessManager.h"
 #import "CPDraggingPassCellProcess.h"
 #import "CPRemovingPassCellProcess.h"
@@ -204,7 +206,7 @@
                         constant = translation.y >= 0 ? self.bounds.size.height : -self.bounds.size.height;
                     }
                     ((NSLayoutConstraint *)[self.removingConstraints objectAtIndex:self.removingDirection]).constant = constant;
-                    [UIView animateWithDuration:0.3 animations:^{
+                    [CPAppearanceManager animateWithDuration:0.3 animations:^{
                         [self layoutIfNeeded];
                         self.removingLabel1.alpha = 0.0;
                         self.removingLabel2.alpha = 0.0;
@@ -226,7 +228,7 @@
                     }];
                 } else {
                     ((NSLayoutConstraint *)[self.removingConstraints objectAtIndex:self.removingDirection]).constant = 0;
-                    [UIView animateWithDuration:0.3 animations:^{
+                    [CPAppearanceManager animateWithDuration:0.3 animations:^{
                         [self layoutIfNeeded];
                         self.removingLabel1.alpha = 0.0;
                         self.removingLabel2.alpha = 0.0;
@@ -253,7 +255,7 @@
                 [[CPPassDataManager defaultManager] toggleRemoveStateOfPasswordAtIndex:self.index];
              } else {
                 ((NSLayoutConstraint *)[self.removingConstraints objectAtIndex:self.removingDirection]).constant = 0;
-                [UIView animateWithDuration:0.3 animations:^{
+                [CPAppearanceManager animateWithDuration:0.3 animations:^{
                     [self layoutIfNeeded];
                     self.removingLabel1.alpha = 0.0;
                     self.removingLabel2.alpha = 0.0;

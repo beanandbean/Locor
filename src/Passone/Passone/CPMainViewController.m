@@ -12,7 +12,7 @@
 #import "CPSearchViewManager.h"
 
 #import "CPNotificationCenter.h"
-#import "CPMarginStandard.h"
+#import "CPAppearanceManager.h"
 
 @interface CPMainViewController ()
 

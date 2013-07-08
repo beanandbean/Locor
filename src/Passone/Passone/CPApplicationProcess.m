@@ -8,6 +8,7 @@
 
 #import "CPApplicationProcess.h"
 
+#import "CPAnimationProcess.h"
 #import "CPDraggingPassCellProcess.h"
 #import "CPRemovingPassCellProcess.h"
 #import "CPSearchingProcess.h"
@@ -26,7 +27,7 @@ static NSArray *allowedProcess;
 
 - (bool)allowSubprocess:(id<CPProcess>)process {
     if (!allowedProcess) {
-        allowedProcess = [NSArray arrayWithObjects:[CPDraggingPassCellProcess process], [CPRemovingPassCellProcess process], [CPSearchingProcess process], nil];
+        allowedProcess = [NSArray arrayWithObjects:[CPDraggingPassCellProcess process], [CPRemovingPassCellProcess process], [CPSearchingProcess process], [CPAnimationProcess process], nil];
     }
     return [allowedProcess indexOfObject:process] != NSNotFound;
 }

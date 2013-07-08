@@ -8,7 +8,10 @@
 
 #import "CPSearchingProcess.h"
 
+#import "CPAnimationProcess.h"
+
 static CPSearchingProcess *process;
+static NSArray *allowedProcess;
 
 @implementation CPSearchingProcess
 
@@ -20,7 +23,10 @@ static CPSearchingProcess *process;
 }
 
 - (bool)allowSubprocess:(id<CPProcess>)process {
-    return NO;
+    if (!allowedProcess) {
+        allowedProcess = [NSArray arrayWithObjects:[CPAnimationProcess process], nil];
+    }
+    return [allowedProcess indexOfObject:process] != NSNotFound;
 }
 
 @end

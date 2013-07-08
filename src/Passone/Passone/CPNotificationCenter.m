@@ -8,7 +8,7 @@
 
 #import "CPNotificationCenter.h"
 
-#import "CPMarginStandard.h"
+#import "CPAppearanceManager.h"
 
 static CPNotificationCenter *center;
 
@@ -73,11 +73,11 @@ static CPNotificationCenter *center;
     [self.superView addSubview:notificationLabel];
     [self.views addObject:notificationLabel];
     
-    NSLayoutConstraint *leftConstraint = [CPMarginStandard constraintWithItem:notificationLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft];
+    NSLayoutConstraint *leftConstraint = [CPAppearanceManager constraintWithItem:notificationLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft];
     [self.superView addConstraint:leftConstraint];
     [self.leftConstraints addObject:leftConstraint];
     
-    NSLayoutConstraint *rightConstraint = [CPMarginStandard constraintWithItem:notificationLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight];
+    NSLayoutConstraint *rightConstraint = [CPAppearanceManager constraintWithItem:notificationLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight];
     [self.superView addConstraint:rightConstraint];
     [self.rightConstraints addObject:rightConstraint];
     
@@ -100,10 +100,10 @@ static CPNotificationCenter *center;
         [self.bottomConstraints replaceObjectAtIndex:self.views.count - 2 withObject:secondBottomConstraint];
     }
     
-    [UIView animateWithDuration:0.5 animations:^{
+    [CPAppearanceManager animateWithDuration:0.5 animations:^{
         [self.superView layoutIfNeeded];
     } completion:^(BOOL finished){
-        [UIView animateWithDuration:0.5 animations:^{
+        [CPAppearanceManager animateWithDuration:0.5 animations:^{
             notificationLabel.alpha = 1.0;
         }completion:^(BOOL finished){
             // TODO: Determine how long a notification should stay on the screen.
@@ -113,7 +113,7 @@ static CPNotificationCenter *center;
 }
 
 - (void)notificationFired:(NSTimer *)timer {
-    [UIView animateWithDuration:0.5 animations:^{
+    [CPAppearanceManager animateWithDuration:0.5 animations:^{
         ((UIView *)[self.views objectAtIndex:0]).alpha = 0.0;
     }completion:^(BOOL finished){
         [self.superView removeConstraint:[self.leftConstraints objectAtIndex:0]];

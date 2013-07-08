@@ -8,7 +8,7 @@
 
 #import "CPSearchViewManager.h"
 
-#import "CPMarginStandard.h"
+#import "CPAppearanceManager.h"
 
 #import "CPMemo.h"
 #import "CPPassDataManager.h"
@@ -57,7 +57,7 @@
 
 - (NSLayoutConstraint *)searchBarRightConstraint {
     if (!_searchBarRightConstraint) {
-        _searchBarRightConstraint = [CPMarginStandard constraintWithItem:self.searchBar attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight];
+        _searchBarRightConstraint = [CPAppearanceManager constraintWithItem:self.searchBar attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight];
     }
     return _searchBarRightConstraint;
 }
@@ -81,7 +81,7 @@
                                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeTop multiplier:1.0 constant:10.0],
                                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:44.0],
                                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeRight multiplier:1.0 constant:10.0],
-                                   [CPMarginStandard constraintWithItem:self.closeButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight],
+                                   [CPAppearanceManager constraintWithItem:self.closeButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight],
                                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:predictedSize.width + 20.0],
                                    nil];
     }
@@ -105,8 +105,8 @@
         _resultTableViewConstraints = [[NSArray alloc] initWithObjects:
                                        [NSLayoutConstraint constraintWithItem:self.resultTableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:10.0],
                                        [NSLayoutConstraint constraintWithItem:self.resultTableView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0],
-                                       [CPMarginStandard constraintWithItem:self.resultTableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft],
-                                       [CPMarginStandard constraintWithItem:self.resultTableView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight],
+                                       [CPAppearanceManager constraintWithItem:self.resultTableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft],
+                                       [CPAppearanceManager constraintWithItem:self.resultTableView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight],
                                        nil];
     }
     return _resultTableViewConstraints;
@@ -120,7 +120,7 @@
         
         [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.searchBar attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeTop multiplier:1.0 constant:10.0]];
         [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.searchBar attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:44.0]];
-        [self.superView addConstraint:[CPMarginStandard constraintWithItem:self.searchBar attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft]];
+        [self.superView addConstraint:[CPAppearanceManager constraintWithItem:self.searchBar attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft]];
         [self.superView addConstraint:self.searchBarRightConstraint];
     }
     return self;
@@ -128,7 +128,7 @@
 
 - (IBAction)closeButtonTouched:(id)sender {
     if ([CPProcessManager stopProcess:[CPSearchingProcess process]]) {
-        [UIView animateWithDuration:0.3 animations:^{
+        [CPAppearanceManager animateWithDuration:0.3 animations:^{
             self.closeButton.alpha = 0.0;
             self.resultTableView.alpha = 0.0;
         } completion:^(BOOL finished) {
@@ -142,7 +142,7 @@
                 [self.searchBar resignFirstResponder];
             }
             self.resultMemos = nil;
-            [UIView animateWithDuration:0.5 animations:^{
+            [CPAppearanceManager animateWithDuration:0.5 animations:^{
                 [self.superView layoutIfNeeded];
             }];
         }];
@@ -165,10 +165,10 @@
         [self.superView removeConstraint:self.searchBarRightConstraint];
         [self.superView addConstraints:self.closeButtonConstraints];
         [self.superView addConstraints:self.resultTableViewConstraints];
-        [UIView animateWithDuration:0.5 animations:^{
+        [CPAppearanceManager animateWithDuration:0.5 animations:^{
             [self.superView layoutIfNeeded];
         } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.3 animations:^{
+            [CPAppearanceManager animateWithDuration:0.3 animations:^{
                 self.closeButton.alpha = 1.0;
                 self.resultTableView.alpha = 1.0;
             }];
