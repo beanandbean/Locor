@@ -279,7 +279,7 @@ sg75
 S'MAY ABORT! Handle the error appropriately when saving context.'
 p107
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 157.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 170.'
 p108
 sg79
 I00
@@ -297,7 +297,7 @@ sg75
 S'MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.'
 p111
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 194.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 207.'
 p112
 sg79
 I00

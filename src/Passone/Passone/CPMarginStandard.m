@@ -26,7 +26,7 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
     return result;
 }
 
-+ (void)registerStandardForEdge:(CPMarginEdges)edge asItem:(id)view attribute:(NSLayoutAttribute)attr multiplier:(CGFloat)multiplier constant:(CGFloat)c {
++ (void)registerStandardForEdge:(CPMarginEdge)edge asItem:(id)view attribute:(NSLayoutAttribute)attr multiplier:(CGFloat)multiplier constant:(CGFloat)c {
     if (!standardViews) {
         standardViews = [CPMarginStandard arrayWithInitialValue:[NSNull null]];
     }
@@ -49,7 +49,7 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
     [standardConstants replaceObjectAtIndex:edge withObject:[NSNumber numberWithFloat:c]];
 }
 
-+ (NSLayoutConstraint *)constraintWithItem:(id)view attribute:(NSLayoutAttribute)attr relatedBy:(NSLayoutRelation)relation constant:(CGFloat)c toEdge:(CPMarginEdges)edge {
++ (NSLayoutConstraint *)constraintWithItem:(id)view attribute:(NSLayoutAttribute)attr relatedBy:(NSLayoutRelation)relation constant:(CGFloat)c toEdge:(CPMarginEdge)edge {
     id toView = [standardViews objectAtIndex:edge];
     if (toView == [NSNull null]) {
         toView = nil;

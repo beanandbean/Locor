@@ -10,12 +10,12 @@ typedef enum {
     CPMarginEdgeLeft,
     CPMarginEdgeRight,
     CPMarginEdgeCount
-} CPMarginEdges;
+} CPMarginEdge;
 
 @interface CPMarginStandard : NSObject
 
-+ (void)registerStandardForEdge:(CPMarginEdges)edge asItem:(id)view attribute:(NSLayoutAttribute)attr multiplier:(CGFloat)multiplier constant:(CGFloat)c;
++ (void)registerStandardForEdge:(CPMarginEdge)edge asItem:(id)view attribute:(NSLayoutAttribute)attr multiplier:(CGFloat)multiplier constant:(CGFloat)c;
 
-+ (NSLayoutConstraint *)constraintWithItem:(id)view attribute:(NSLayoutAttribute)attr relatedBy:(NSLayoutRelation)relation constant:(CGFloat)c toEdge:(CPMarginEdges)edge;
++ (NSLayoutConstraint *)constraintWithItem:(id)view attribute:(NSLayoutAttribute)attr relatedBy:(NSLayoutRelation)relation constant:(CGFloat)c toEdge:(CPMarginEdge)edge;
 
 @end
