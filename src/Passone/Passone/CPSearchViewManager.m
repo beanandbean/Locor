@@ -9,8 +9,12 @@
 #import "CPSearchViewManager.h"
 
 #import "CPMarginStandard.h"
+
 #import "CPMemo.h"
 #import "CPPassDataManager.h"
+
+#import "CPProcessManager.h"
+#import "CPSearchingProcess.h"
 
 @interface CPSearchViewManager ()
 
@@ -123,24 +127,26 @@
 }
 
 - (IBAction)closeButtonTouched:(id)sender {
-    [UIView animateWithDuration:0.3 animations:^{
-        self.closeButton.alpha = 0.0;
-        self.resultTableView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        [self.superView removeConstraints:self.closeButtonConstraints];
-        [self.superView removeConstraints:self.resultTableViewConstraints];
-        [self.superView addConstraint:self.searchBarRightConstraint];
-        [self.closeButton removeFromSuperview];
-        [self.resultTableView removeFromSuperview];
-        self.searchBar.text = @"";
-        if ([self.searchBar isFirstResponder]) {
-            [self.searchBar resignFirstResponder];
-        }
-        self.resultMemos = nil;
-        [UIView animateWithDuration:0.5 animations:^{
-            [self.superView layoutIfNeeded];
+    if ([CPProcessManager stopProcess:[CPSearchingProcess process]]) {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.closeButton.alpha = 0.0;
+            self.resultTableView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [self.superView removeConstraints:self.closeButtonConstraints];
+            [self.superView removeConstraints:self.resultTableViewConstraints];
+            [self.superView addConstraint:self.searchBarRightConstraint];
+            [self.closeButton removeFromSuperview];
+            [self.resultTableView removeFromSuperview];
+            self.searchBar.text = @"";
+            if ([self.searchBar isFirstResponder]) {
+                [self.searchBar resignFirstResponder];
+            }
+            self.resultMemos = nil;
+            [UIView animateWithDuration:0.5 animations:^{
+                [self.superView layoutIfNeeded];
+            }];
         }];
-    }];
+    }
 }
 
 #pragma mark - UISearchBarDelegate implement
@@ -150,22 +156,24 @@
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    self.resultMemos = [[CPPassDataManager defaultManager] memosContainText:searchBar.text];
-    self.closeButton.alpha = 0.0;
-    self.resultTableView.alpha = 0.0;
-    [self.superView addSubview:self.closeButton];
-    [self.superView addSubview:self.resultTableView];
-    [self.superView removeConstraint:self.searchBarRightConstraint];
-    [self.superView addConstraints:self.closeButtonConstraints];
-    [self.superView addConstraints:self.resultTableViewConstraints];
-    [UIView animateWithDuration:0.5 animations:^{
-        [self.superView layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.3 animations:^{
-            self.closeButton.alpha = 1.0;
-            self.resultTableView.alpha = 1.0;
+    if ([CPProcessManager startProcess:[CPSearchingProcess process]]) {
+        self.resultMemos = [[CPPassDataManager defaultManager] memosContainText:searchBar.text];
+        self.closeButton.alpha = 0.0;
+        self.resultTableView.alpha = 0.0;
+        [self.superView addSubview:self.closeButton];
+        [self.superView addSubview:self.resultTableView];
+        [self.superView removeConstraint:self.searchBarRightConstraint];
+        [self.superView addConstraints:self.closeButtonConstraints];
+        [self.superView addConstraints:self.resultTableViewConstraints];
+        [UIView animateWithDuration:0.5 animations:^{
+            [self.superView layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.3 animations:^{
+                self.closeButton.alpha = 1.0;
+                self.resultTableView.alpha = 1.0;
+            }];
         }];
-    }];
+    }
 }
 
 - (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {

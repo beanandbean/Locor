@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C0D2D8D178AC72600485CE5 /* CPSearchingProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D2D8C178AC72600485CE5 /* CPSearchingProcess.m */; };
 		2C57A045178979A2004F1547 /* CPMarginStandard.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C57A044178979A2004F1547 /* CPMarginStandard.m */; };
 		2C6143601786D1C100430C64 /* CPProcessManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C61435F1786D1C100430C64 /* CPProcessManager.m */; };
 		2C6143651786D26100430C64 /* CPApplicationProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6143641786D26100430C64 /* CPApplicationProcess.m */; };
@@ -37,6 +38,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C0D2D8B178AC72600485CE5 /* CPSearchingProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPSearchingProcess.h; sourceTree = "<group>"; };
+		2C0D2D8C178AC72600485CE5 /* CPSearchingProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPSearchingProcess.m; sourceTree = "<group>"; };
 		2C57A043178979A2004F1547 /* CPMarginStandard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMarginStandard.h; sourceTree = "<group>"; };
 		2C57A044178979A2004F1547 /* CPMarginStandard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMarginStandard.m; sourceTree = "<group>"; };
 		2C61435E1786D1C100430C64 /* CPProcessManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPProcessManager.h; sourceTree = "<group>"; };
@@ -110,6 +113,8 @@
 				2C6143671786D59D00430C64 /* CPDraggingPassCellProcess.m */,
 				2C6143691786D7AC00430C64 /* CPRemovingPassCellProcess.h */,
 				2C61436A1786D7AC00430C64 /* CPRemovingPassCellProcess.m */,
+				2C0D2D8B178AC72600485CE5 /* CPSearchingProcess.h */,
+				2C0D2D8C178AC72600485CE5 /* CPSearchingProcess.m */,
 			);
 			name = Process;
 			sourceTree = "<group>";
@@ -279,6 +284,7 @@
 				2C61436B1786D7AC00430C64 /* CPRemovingPassCellProcess.m in Sources */,
 				FCA400A117896F000087AECF /* CPSearchViewManager.m in Sources */,
 				2C57A045178979A2004F1547 /* CPMarginStandard.m in Sources */,
+				2C0D2D8D178AC72600485CE5 /* CPSearchingProcess.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
