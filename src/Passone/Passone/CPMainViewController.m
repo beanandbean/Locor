@@ -14,6 +14,9 @@
 #import "CPNotificationCenter.h"
 #import "CPAppearanceManager.h"
 
+#import "CPProcessManager.h"
+#import "CPPreparationProcess.h"
+
 @interface CPMainViewController ()
 
 @property (strong, nonatomic) CPPassGridManager *passGridManager;
@@ -25,7 +28,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
+    // Preparation process provides not REQUIRED protect, so there's no need to check if it is started successfully.
+    [CPProcessManager startProcess:[CPPreparationProcess process]];
+    
     UIView *contentView = [[UIView alloc] init];
     contentView.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -40,6 +46,8 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0]];
     [self.view addSubview:contentView];
+    
+    [CPProcessManager stopProcess:[CPPreparationProcess process]];
 }
 
 - (void)didReceiveMemoryWarning {

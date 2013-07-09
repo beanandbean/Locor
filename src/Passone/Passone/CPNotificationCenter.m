@@ -100,10 +100,11 @@ static CPNotificationCenter *center;
         [self.bottomConstraints replaceObjectAtIndex:self.views.count - 2 withObject:secondBottomConstraint];
     }
     
-    [CPAppearanceManager animateWithDuration:0.5 animations:^{
+    // Not protectiong the animation which doesn't affect main view
+    [UIView animateWithDuration:0.5 animations:^{
         [self.superView layoutIfNeeded];
     } completion:^(BOOL finished){
-        [CPAppearanceManager animateWithDuration:0.5 animations:^{
+        [UIView animateWithDuration:0.5 animations:^{
             notificationLabel.alpha = 1.0;
         }completion:^(BOOL finished){
             // TODO: Determine how long a notification should stay on the screen.
@@ -113,7 +114,7 @@ static CPNotificationCenter *center;
 }
 
 - (void)notificationFired:(NSTimer *)timer {
-    [CPAppearanceManager animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.5 animations:^{
         ((UIView *)[self.views objectAtIndex:0]).alpha = 0.0;
     }completion:^(BOOL finished){
         [self.superView removeConstraint:[self.leftConstraints objectAtIndex:0]];

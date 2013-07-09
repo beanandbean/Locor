@@ -14,6 +14,8 @@
 
 + (bool)isInProcess:(id<CPProcess>)process;
 + (bool)startProcess:(id<CPProcess>)process;
++ (bool)startProcess:(id<CPProcess>)process withPreparation:(void (^)(void))preparation;
 + (bool)stopProcess:(id<CPProcess>)process;
++ (bool)stopProcess:(id<CPProcess>)process withPreparation:(void (^)(void))preparation;
 
 @end

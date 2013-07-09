@@ -40,7 +40,7 @@
         self.delegate = delegate;
         self.clipsToBounds = YES;
         self.translatesAutoresizingMaskIntoConstraints = NO;
-                
+        
         // TODO: Tap once on pass cell to copy password. Tap twice to show pass edit view.
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)]];
         
@@ -70,19 +70,21 @@
 - (void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPressGesture {
     if (longPressGesture.state == UIGestureRecognizerStateBegan) {
         // [self.delegate swipePassCell:self];
-        if ([CPProcessManager startProcess:[CPDraggingPassCellProcess process]]) {
+        [CPProcessManager startProcess:[CPDraggingPassCellProcess process] withPreparation:^{
             [self.delegate startDragPassCell:self];
-        }
+        }];
     } else if (longPressGesture.state == UIGestureRecognizerStateEnded || longPressGesture.state == UIGestureRecognizerStateCancelled || longPressGesture.state == UIGestureRecognizerStateFailed) {
-        if ([CPProcessManager stopProcess:[CPDraggingPassCellProcess process]]) {
+        [CPProcessManager stopProcess:[CPDraggingPassCellProcess process] withPreparation:^{
             [self.delegate stopDragPassCell:self];
-        }
+        }];
     }
 }
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture {
+    NSLog(@"(%d, %d, %d, %d, %d) %d", UIGestureRecognizerStateBegan, UIGestureRecognizerStateChanged, UIGestureRecognizerStateEnded, UIGestureRecognizerStateCancelled, UIGestureRecognizerStateFailed, panGesture.state);
+    NSLog(@"%@", [NSValue valueWithCGPoint:[panGesture locationInView:panGesture.view]]);
     if (panGesture.state == UIGestureRecognizerStateBegan) {
-        if ([CPProcessManager startProcess:[CPRemovingPassCellProcess process]]) {
+        [CPProcessManager startProcess:[CPRemovingPassCellProcess process] withPreparation:^{
             self.removingView = [[UIView alloc] init];
             [self addSubview:self.removingView];
             
@@ -113,7 +115,7 @@
             self.removingLabel2.translatesAutoresizingMaskIntoConstraints = NO;
             
             self.removingDirection = -1;
-        }
+        }];
     } else if (panGesture.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [panGesture translationInView:panGesture.view];
         if ([CPProcessManager isInProcess:[CPDraggingPassCellProcess process]]) {
@@ -193,9 +195,10 @@
             [self layoutIfNeeded];
         }
     } else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled || panGesture.state == UIGestureRecognizerStateFailed) {
-        if ([CPProcessManager stopProcess:[CPDraggingPassCellProcess process]]) {
+        [CPProcessManager stopProcess:[CPDraggingPassCellProcess process] withPreparation:^{
             [self.delegate stopDragPassCell:self];
-        } else if ([CPProcessManager stopProcess:[CPRemovingPassCellProcess process]]) {
+        }];
+        [CPProcessManager stopProcess:[CPRemovingPassCellProcess process] withPreparation:^{
             CGPoint translation = [panGesture translationInView:panGesture.view];
             if ((self.removingDirection % 2 && abs(translation.x) >= self.bounds.size.width / 2) || (!self.removingDirection % 2 && abs(translation.y) >= self.bounds.size.height / 2)) {
                 if ([[CPPassDataManager defaultManager] canToggleRemoveStateOfPasswordAtIndex:self.index]) {
@@ -205,6 +208,7 @@
                     } else {
                         constant = translation.y >= 0 ? self.bounds.size.height : -self.bounds.size.height;
                     }
+                    NSLog(@"%@, %d", self.removingConstraints, self.removingDirection);
                     ((NSLayoutConstraint *)[self.removingConstraints objectAtIndex:self.removingDirection]).constant = constant;
                     [CPAppearanceManager animateWithDuration:0.3 animations:^{
                         [self layoutIfNeeded];
@@ -253,7 +257,7 @@
                     }];
                 }
                 [[CPPassDataManager defaultManager] toggleRemoveStateOfPasswordAtIndex:self.index];
-             } else {
+            } else {
                 ((NSLayoutConstraint *)[self.removingConstraints objectAtIndex:self.removingDirection]).constant = 0;
                 [CPAppearanceManager animateWithDuration:0.3 animations:^{
                     [self layoutIfNeeded];
@@ -279,7 +283,7 @@
                     }
                 }];
             }
-        }
+        }];
     }
 }
 

@@ -1,31 +1,30 @@
 //
-//  CPSearchingProcess.m
+//  CPPreparationProcess.m
 //  Passone
 //
-//  Created by wangsw on 7/8/13.
+//  Created by wangsw on 7/9/13.
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-#import "CPSearchingProcess.h"
-
-#import "CPAnimationProcess.h"
 #import "CPPreparationProcess.h"
 
-static CPSearchingProcess *process;
+#import "CPAnimationProcess.h"
+
+static CPPreparationProcess *process;
 static NSArray *allowedProcess;
 
-@implementation CPSearchingProcess
+@implementation CPPreparationProcess
 
 + (id<CPProcess>)process {
     if (!process) {
-        process = [[CPSearchingProcess alloc] init];
+        process = [[CPPreparationProcess alloc] init];
     }
     return process;
 }
 
 - (bool)allowSubprocess:(id<CPProcess>)process {
     if (!allowedProcess) {
-        allowedProcess = [NSArray arrayWithObjects:[CPAnimationProcess process], [CPPreparationProcess process], nil];
+        allowedProcess = [NSArray arrayWithObjects:[CPAnimationProcess process], nil];
     }
     return [allowedProcess indexOfObject:process] != NSNotFound;
 }

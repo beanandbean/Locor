@@ -131,7 +131,7 @@
 }
 
 - (IBAction)closeButtonTouched:(id)sender {
-    if ([CPProcessManager stopProcess:[CPSearchingProcess process]]) {
+    [CPProcessManager stopProcess:[CPSearchingProcess process] withPreparation:^{
         [CPAppearanceManager animateWithDuration:0.3 animations:^{
             self.closeButton.alpha = 0.0;
             self.resultCollectionView.alpha = 0.0;
@@ -150,17 +150,13 @@
                 [self.superView layoutIfNeeded];
             }];
         }];
-    }
+    }];
 }
 
 #pragma mark - UISearchBarDelegate implement
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-    return YES;
-}
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    if ([CPProcessManager startProcess:[CPSearchingProcess process]]) {
+    return [CPProcessManager startProcess:[CPSearchingProcess process] withPreparation:^{
         self.resultMemos = [[CPPassDataManager defaultManager] memosContainText:searchBar.text];
         self.closeButton.alpha = 0.0;
         self.resultCollectionView.alpha = 0.0;
@@ -177,7 +173,7 @@
                 self.resultCollectionView.alpha = 1.0;
             }];
         }];
-    }
+    }];
 }
 
 - (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {

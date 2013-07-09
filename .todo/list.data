@@ -203,7 +203,7 @@ sg75
 S'Determine how long a notification should stay on the screen.'
 p87
 sg77
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 109.'
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 110.'
 p88
 sg79
 I00
@@ -354,7 +354,7 @@ sg75
 S'When showing pass edit view, if the cell has been set, hide the password for security.'
 p126
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 73.'
+S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 75.'
 p127
 sg79
 I00
@@ -487,7 +487,7 @@ S'Tap once on pass cell to copy password. Tap twice to show pass edit view.'
 p188
 sS'detail'
 p189
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 42.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 44.'
 p190
 sS'exported'
 p191
@@ -690,7 +690,7 @@ S'Adjust font of pass cell removing label.'
 p265
 sS'detail'
 p266
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 103.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 107.'
 p267
 sS'exported'
 p268
@@ -717,7 +717,7 @@ S'Change behavior of pass cell removing view & label if cannot toggle remove sta
 p278
 sS'detail'
 p279
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 159.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 163.'
 p280
 sS'exported'
 p281
