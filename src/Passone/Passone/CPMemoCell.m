@@ -10,7 +10,7 @@
 
 @implementation CPMemoCell
 
-- (id)initWithColor:(UIColor *)color reuseIdentifier:(NSString *)reuseIdentifier {
+/*- (id)initWithColor:(UIColor *)color reuseIdentifier:(NSString  {
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
     if (self) {
         self.textLabel.backgroundColor = [UIColor clearColor];
@@ -28,6 +28,6 @@
                                           nil]];
     }
     return self;
-}
+}*/
 
 @end

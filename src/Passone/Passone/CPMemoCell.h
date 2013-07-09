@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-@interface CPMemoCell : UITableViewCell
-
-- (id)initWithColor:(UIColor *)color reuseIdentifier:(NSString *)reuseIdentifier;
+@interface CPMemoCell : UICollectionViewCell
 
 @end

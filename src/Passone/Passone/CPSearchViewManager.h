@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-@interface CPSearchViewManager : NSObject <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface CPSearchViewManager : NSObject <UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (strong, nonatomic) UISearchBar *searchBar;
 

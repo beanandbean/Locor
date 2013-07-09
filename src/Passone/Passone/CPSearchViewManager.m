@@ -28,8 +28,8 @@
 @property (strong, nonatomic) UIButton *closeButton;
 @property (strong, nonatomic) NSArray *closeButtonConstraints;
 
-@property (strong, nonatomic) UITableView *resultTableView;
-@property (strong, nonatomic) NSArray *resultTableViewConstraints;
+@property (strong, nonatomic) UICollectionView *resultCollectionView;
+@property (strong, nonatomic) NSArray *resultCollectionViewConstraints;
 
 @property (strong, nonatomic) NSArray *resultMemos;
 
@@ -91,28 +91,29 @@
     return _closeButtonConstraints;
 }
 
-- (UITableView *)resultTableView {
-    if (!_resultTableView) {
-        _resultTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-        _resultTableView.translatesAutoresizingMaskIntoConstraints = NO;
-        _resultTableView.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.7];
-        _resultTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _resultTableView.dataSource = self;
-        _resultTableView.delegate = self;
+- (UICollectionView *)resultCollectionView {
+    if (!_resultCollectionView) {
+        _resultCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
+        _resultCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
+        _resultCollectionView.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.7];
+        _resultCollectionView.dataSource = self;
+        _resultCollectionView.delegate = self;
+        
+        [_resultCollectionView registerClass:[CPMemoCell class] forCellWithReuseIdentifier:@"CPMemoCell"];
     }
-    return _resultTableView;
+    return _resultCollectionView;
 }
 
-- (NSArray *)resultTableViewConstraints {
-    if (!_resultTableViewConstraints) {
-        _resultTableViewConstraints = [[NSArray alloc] initWithObjects:
-                                       [NSLayoutConstraint constraintWithItem:self.resultTableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:10.0],
-                                       [NSLayoutConstraint constraintWithItem:self.resultTableView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0],
-                                       [CPAppearanceManager constraintWithItem:self.resultTableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft],
-                                       [CPAppearanceManager constraintWithItem:self.resultTableView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight],
+- (NSArray *)resultCollectionViewConstraints {
+    if (!_resultCollectionViewConstraints) {
+        _resultCollectionViewConstraints = [[NSArray alloc] initWithObjects:
+                                       [NSLayoutConstraint constraintWithItem:self.resultCollectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:10.0],
+                                       [NSLayoutConstraint constraintWithItem:self.resultCollectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0],
+                                       [CPAppearanceManager constraintWithItem:self.resultCollectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft],
+                                       [CPAppearanceManager constraintWithItem:self.resultCollectionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight],
                                        nil];
     }
-    return _resultTableViewConstraints;
+    return _resultCollectionViewConstraints;
 }
 
 - (id)initWithSuperView:(UIView *)superView {
@@ -133,13 +134,13 @@
     if ([CPProcessManager stopProcess:[CPSearchingProcess process]]) {
         [CPAppearanceManager animateWithDuration:0.3 animations:^{
             self.closeButton.alpha = 0.0;
-            self.resultTableView.alpha = 0.0;
+            self.resultCollectionView.alpha = 0.0;
         } completion:^(BOOL finished) {
             [self.superView removeConstraints:self.closeButtonConstraints];
-            [self.superView removeConstraints:self.resultTableViewConstraints];
+            [self.superView removeConstraints:self.resultCollectionViewConstraints];
             [self.superView addConstraint:self.searchBarRightConstraint];
             [self.closeButton removeFromSuperview];
-            [self.resultTableView removeFromSuperview];
+            [self.resultCollectionView removeFromSuperview];
             self.searchBar.text = @"";
             if ([self.searchBar isFirstResponder]) {
                 [self.searchBar resignFirstResponder];
@@ -162,18 +163,18 @@
     if ([CPProcessManager startProcess:[CPSearchingProcess process]]) {
         self.resultMemos = [[CPPassDataManager defaultManager] memosContainText:searchBar.text];
         self.closeButton.alpha = 0.0;
-        self.resultTableView.alpha = 0.0;
+        self.resultCollectionView.alpha = 0.0;
         [self.superView addSubview:self.closeButton];
-        [self.superView addSubview:self.resultTableView];
+        [self.superView addSubview:self.resultCollectionView];
         [self.superView removeConstraint:self.searchBarRightConstraint];
         [self.superView addConstraints:self.closeButtonConstraints];
-        [self.superView addConstraints:self.resultTableViewConstraints];
+        [self.superView addConstraints:self.resultCollectionViewConstraints];
         [CPAppearanceManager animateWithDuration:0.5 animations:^{
             [self.superView layoutIfNeeded];
         } completion:^(BOOL finished) {
             [CPAppearanceManager animateWithDuration:0.3 animations:^{
                 self.closeButton.alpha = 1.0;
-                self.resultTableView.alpha = 1.0;
+                self.resultCollectionView.alpha = 1.0;
             }];
         }];
     }
@@ -182,25 +183,23 @@
 - (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     NSString *searchText = [searchBar.text stringByReplacingCharactersInRange:range withString:text];
     self.resultMemos = [[CPPassDataManager defaultManager] memosContainText:searchText];
-    [self.resultTableView reloadData];
+    [self.resultCollectionView reloadData];
     return YES;
 }
 
-#pragma mark - UITableViewDataSource implement
+#pragma mark - UICollectionViewDataSource implement
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.resultMemos.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CPMemo *memo = [self.resultMemos objectAtIndex:indexPath.row];
 
     static NSString *CellIdentifier = @"CPMemoCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[CPMemoCell alloc] initWithColor:memo.password.color reuseIdentifier:CellIdentifier];
-    }
-    cell.textLabel.text = memo.text;
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+
+    cell.backgroundColor = memo.password.color;
     return cell;
 }
 
