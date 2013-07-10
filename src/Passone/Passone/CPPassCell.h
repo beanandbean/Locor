@@ -15,6 +15,7 @@
 
 - (void)startDragPassCell:(CPPassCell *)passCell;
 - (void)dragPassCell:(CPPassCell *)passCell location:(CGPoint)location translation:(CGPoint)translation;
+- (BOOL)canStopDragPassCell:(CPPassCell *)passCell;
 - (void)stopDragPassCell:(CPPassCell *)passCell;
 
 @end

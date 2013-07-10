@@ -185,58 +185,64 @@ static const CGFloat SPACE = 10.0;
 }
 
 - (void)dragPassCell:(CPPassCell *)passCell location:(CGPoint)location translation:(CGPoint)translation {
-    NSAssert(passCell == self.dragSourceCell, @"");
     NSAssert(self.dragView, @"");
     NSAssert(self.dragViewLeftConstraint, @"");
     NSAssert(self.dragViewTopConstraint, @"");
-    
-    self.dragViewLeftConstraint.constant += translation.x;
-    self.dragViewTopConstraint.constant += translation.y;
-    [self.passGridView layoutIfNeeded];
-    
-    CPPassCell *newDragDestinationCell = nil;
-    if (CGRectContainsPoint(self.passGridView.bounds, self.dragView.center)) {
-        newDragDestinationCell = [self.passCells objectAtIndex:0];
-        float distance = hypotf(newDragDestinationCell.center.x - self.dragView.center.x, newDragDestinationCell.center.y - self.dragView.center.y);
-        for (CPPassCell *cell in self.passCells) {
-            float newDistance = hypotf(cell.center.x - self.dragView.center.x, cell.center.y - self.dragView.center.y);
-            if (newDistance < distance) {
-                newDragDestinationCell = cell;
-                distance = newDistance;
+
+    if (passCell == self.dragSourceCell) {
+        self.dragViewLeftConstraint.constant += translation.x;
+        self.dragViewTopConstraint.constant += translation.y;
+        [self.passGridView layoutIfNeeded];
+        
+        CPPassCell *newDragDestinationCell = nil;
+        if (CGRectContainsPoint(self.passGridView.bounds, self.dragView.center)) {
+            newDragDestinationCell = [self.passCells objectAtIndex:0];
+            float distance = hypotf(newDragDestinationCell.center.x - self.dragView.center.x, newDragDestinationCell.center.y - self.dragView.center.y);
+            for (CPPassCell *cell in self.passCells) {
+                float newDistance = hypotf(cell.center.x - self.dragView.center.x, cell.center.y - self.dragView.center.y);
+                if (newDistance < distance) {
+                    newDragDestinationCell = cell;
+                    distance = newDistance;
+                }
+            }
+            if (newDragDestinationCell == self.dragSourceCell) {
+                newDragDestinationCell = nil;
             }
         }
-        if (newDragDestinationCell == self.dragSourceCell) {
-            newDragDestinationCell = nil;
-        }
-    }
-    
-    if (newDragDestinationCell != self.dragDestinationCell) {
-        if (self.dragDestinationCell) {
-            self.dragDestinationCell.alpha = 1.0;
+        
+        if (newDragDestinationCell != self.dragDestinationCell) {
+            if (self.dragDestinationCell) {
+                self.dragDestinationCell.alpha = 1.0;
+            }
+            
+            self.dragDestinationCell = newDragDestinationCell;
+            if (self.dragDestinationCell) {
+                self.dragSourceCell.backgroundColor = self.dragDestinationCell.backgroundColor;
+            } else {
+                self.dragSourceCell.backgroundColor = self.dragSourceBackgroundColor;
+                self.dragSourceCell.alpha = 0.0;
+            }
         }
         
-        self.dragDestinationCell = newDragDestinationCell;
         if (self.dragDestinationCell) {
-            self.dragSourceCell.backgroundColor = self.dragDestinationCell.backgroundColor;
-        } else {
-            self.dragSourceCell.backgroundColor = self.dragSourceBackgroundColor;
-            self.dragSourceCell.alpha = 0.0;
+            float range = 0.7;
+            float baseDistance = self.dragView.bounds.size.width;
+            float xDistance = fabsf(self.dragDestinationCell.center.x - self.dragView.center.x);
+            float yDistance = fabsf(self.dragDestinationCell.center.y - self.dragView.center.y);
+            float maxDistance = xDistance > yDistance ? xDistance : yDistance;
+            maxDistance = maxDistance - baseDistance * (1 - range);
+            maxDistance = maxDistance > 0 ? maxDistance : 0;
+            float alpha = 2 * maxDistance / baseDistance / range;
+            alpha = alpha < 1 ? alpha : 1;
+            self.dragDestinationCell.alpha = alpha;
+            self.dragSourceCell.alpha = 1 - alpha;
         }
+
     }
-    
-    if (self.dragDestinationCell) {
-        float range = 0.7;
-        float baseDistance = self.dragView.bounds.size.width;
-        float xDistance = fabsf(self.dragDestinationCell.center.x - self.dragView.center.x);
-        float yDistance = fabsf(self.dragDestinationCell.center.y - self.dragView.center.y);
-        float maxDistance = xDistance > yDistance ? xDistance : yDistance;
-        maxDistance = maxDistance - baseDistance * (1 - range);
-        maxDistance = maxDistance > 0 ? maxDistance : 0;
-        float alpha = 2 * maxDistance / baseDistance / range;
-        alpha = alpha < 1 ? alpha : 1;
-        self.dragDestinationCell.alpha = alpha;
-        self.dragSourceCell.alpha = 1 - alpha;
-    }
+}
+
+- (BOOL)canStopDragPassCell:(CPPassCell *)passCell {
+    return passCell == self.dragSourceCell;
 }
 
 - (void)stopDragPassCell:(CPPassCell *)passCell {
