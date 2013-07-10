@@ -93,7 +93,11 @@
 
 - (UICollectionView *)resultCollectionView {
     if (!_resultCollectionView) {
-        _resultCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
+        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        flowLayout.sectionInset = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
+        flowLayout.minimumLineSpacing = 10.0;
+        flowLayout.itemSize = CGSizeMake(self.searchBar.bounds.size.width - 20.0, 66.0);
+        _resultCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
         _resultCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
         _resultCollectionView.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.7];
         _resultCollectionView.dataSource = self;
@@ -193,9 +197,11 @@
     CPMemo *memo = [self.resultMemos objectAtIndex:indexPath.row];
 
     static NSString *CellIdentifier = @"CPMemoCell";
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
-
+    CPMemoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+    
     cell.backgroundColor = memo.password.color;
+    cell.label.text = memo.text;
+    
     return cell;
 }
 

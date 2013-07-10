@@ -8,4 +8,6 @@
 
 @interface CPMemoCell : UICollectionViewCell
 
+@property (strong, nonatomic) UILabel* label;
+
 @end

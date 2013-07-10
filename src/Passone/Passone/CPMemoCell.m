@@ -30,4 +30,21 @@
     return self;
 }*/
 
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    
+    if (self) {
+        self.label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, frame.size.width, frame.size.height)];
+        self.label.textAlignment = NSTextAlignmentCenter;
+        self.label.textColor = [UIColor blackColor];
+        self.label.font = [UIFont boldSystemFontOfSize:35.0];
+        self.label.backgroundColor = [UIColor clearColor];
+        
+        [self.contentView addSubview:self.label];;
+    }
+    return self;
+}
+
+
 @end
