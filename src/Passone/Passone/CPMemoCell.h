@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-@interface CPMemoCell : UICollectionViewCell
+@interface CPMemoCell : UICollectionViewCell <UITextFieldDelegate>
 
-@property (strong, nonatomic) UILabel* label;
+@property (strong, nonatomic) UILabel *label;
 
 @end

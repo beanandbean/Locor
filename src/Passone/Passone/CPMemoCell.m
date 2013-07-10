@@ -8,43 +8,60 @@
 
 #import "CPMemoCell.h"
 
+@interface CPMemoCell ()
+
+@property (strong, nonatomic) UITextField *textField;
+
+@end
+
 @implementation CPMemoCell
 
-/*- (id)initWithColor:(UIColor *)color reuseIdentifier:(NSString  {
-    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
-    if (self) {
-        self.textLabel.backgroundColor = [UIColor clearColor];
-        UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
-        view.backgroundColor = color;
-        view.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.contentView addSubview:view];
-        [self.contentView bringSubviewToFront:self.textLabel];
-        
-        [self.contentView addConstraints:[[NSArray alloc] initWithObjects:
-                                          [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:1.0],
-                                          [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:1.0],
-                                          [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-1.0],
-                                          [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-1.0],
-                                          nil]];
-    }
-    return self;
-}*/
-
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
     if (self) {
-        self.label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, frame.size.width, frame.size.height)];
-        self.label.textAlignment = NSTextAlignmentCenter;
-        self.label.textColor = [UIColor blackColor];
+        self.label = [[UILabel alloc] init];
+        self.label.translatesAutoresizingMaskIntoConstraints = NO;
+        self.label.textColor = [UIColor whiteColor];
         self.label.font = [UIFont boldSystemFontOfSize:35.0];
         self.label.backgroundColor = [UIColor clearColor];
+
+        [self addConstraints:[[NSArray alloc] initWithObjects:
+                              [NSLayoutConstraint constraintWithItem:self.label attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:5.0],
+                              [NSLayoutConstraint constraintWithItem:self.label attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:5.0],
+                              [NSLayoutConstraint constraintWithItem:self.label attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1.0 constant:-5.0],
+                              [NSLayoutConstraint constraintWithItem:self.label attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-5.0],
+                              nil]];
         
-        [self.contentView addSubview:self.label];;
+        [self.contentView addSubview:self.label];
+
+        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)]];
     }
     return self;
 }
 
+- (void)handleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
+    self.textField = [[UITextField alloc] init];
+    self.textField.translatesAutoresizingMaskIntoConstraints = NO;
+    self.textField.text = self.label.text;
+    self.textField.delegate = self;
+    [self addSubview:self.textField];
+
+    [self addConstraints:[[NSArray alloc] initWithObjects:
+                          [NSLayoutConstraint constraintWithItem:self.textField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:5.0],
+                          [NSLayoutConstraint constraintWithItem:self.textField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:5.0],
+                          [NSLayoutConstraint constraintWithItem:self.textField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1.0 constant:-5.0],
+                          [NSLayoutConstraint constraintWithItem:self.textField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-5.0],
+                          nil]];
+    
+    [self.textField becomeFirstResponder];
+}
+
+#pragma mark - UITextFieldDelegate implement
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    NSLog(@".......");
+    return YES;
+}
 
 @end
