@@ -10,4 +10,12 @@
 
 @property (strong, nonatomic) UILabel *label;
 
++ (void)setTextFieldContainer:(UIView *)container;
++ (CPMemoCell *)editingCell;
+
+- (void)refreshingConstriants;
+
+- (BOOL)isEditing;
+- (void)endEditing;
+
 @end

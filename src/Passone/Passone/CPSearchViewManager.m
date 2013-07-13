@@ -33,6 +33,9 @@
 
 @property (strong, nonatomic) NSArray *resultMemos;
 
+@property (strong, nonatomic) UIView *textFieldContainer;
+@property (strong, nonatomic) NSArray *textFieldContainerConstraints;
+
 - (IBAction)closeButtonTouched:(id)sender;
 
 @end
@@ -93,11 +96,11 @@
 
 - (UICollectionView *)resultCollectionView {
     if (!_resultCollectionView) {
-        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        flowLayout.sectionInset = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
-        flowLayout.minimumLineSpacing = 10.0;
-        flowLayout.itemSize = CGSizeMake(self.searchBar.bounds.size.width - 20.0, 66.0);
-        _resultCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.sectionInset = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
+        layout.minimumLineSpacing = 10.0;
+        layout.itemSize = CGSizeMake(self.searchBar.bounds.size.width - 20.0, 66.0);
+        _resultCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _resultCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
         _resultCollectionView.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.7];
         _resultCollectionView.dataSource = self;
@@ -111,13 +114,35 @@
 - (NSArray *)resultCollectionViewConstraints {
     if (!_resultCollectionViewConstraints) {
         _resultCollectionViewConstraints = [[NSArray alloc] initWithObjects:
-                                       [NSLayoutConstraint constraintWithItem:self.resultCollectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:10.0],
-                                       [NSLayoutConstraint constraintWithItem:self.resultCollectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0],
-                                       [CPAppearanceManager constraintWithItem:self.resultCollectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft],
-                                       [CPAppearanceManager constraintWithItem:self.resultCollectionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight],
-                                       nil];
+                                            [NSLayoutConstraint constraintWithItem:self.resultCollectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:10.0],
+                                            [NSLayoutConstraint constraintWithItem:self.resultCollectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0],
+                                            [CPAppearanceManager constraintWithItem:self.resultCollectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft],
+                                            [CPAppearanceManager constraintWithItem:self.resultCollectionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight],
+                                            nil];
     }
     return _resultCollectionViewConstraints;
+}
+
+- (UIView *)textFieldContainer {
+    if (!_textFieldContainer) {
+        _textFieldContainer = [[UIView alloc] init];
+        _textFieldContainer.translatesAutoresizingMaskIntoConstraints = NO;
+        _textFieldContainer.userInteractionEnabled = NO;
+        _textFieldContainer.clipsToBounds = YES;
+    }
+    return _textFieldContainer;
+}
+
+- (NSArray *)textFieldContainerConstraints {
+    if (!_textFieldContainerConstraints) {
+        _textFieldContainerConstraints = [[NSArray alloc] initWithObjects:
+                                          [NSLayoutConstraint constraintWithItem:self.textFieldContainer attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.resultCollectionView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0],
+                                          [NSLayoutConstraint constraintWithItem:self.textFieldContainer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.resultCollectionView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0],
+                                          [NSLayoutConstraint constraintWithItem:self.textFieldContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.resultCollectionView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0],
+                                          [NSLayoutConstraint constraintWithItem:self.textFieldContainer attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.resultCollectionView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0],
+                                          nil];
+    }
+    return _textFieldContainerConstraints;
 }
 
 - (id)initWithSuperView:(UIView *)superView {
@@ -136,6 +161,12 @@
 
 - (IBAction)closeButtonTouched:(id)sender {
     [CPProcessManager stopProcess:[CPSearchingProcess process] withPreparation:^{
+        [self.superView removeConstraints:self.textFieldContainerConstraints];
+        [self.textFieldContainer removeFromSuperview];
+        
+        self.textFieldContainer = nil;
+        self.textFieldContainerConstraints = nil;
+        
         [CPAppearanceManager animateWithDuration:0.3 animations:^{
             self.closeButton.alpha = 0.0;
             self.resultCollectionView.alpha = 0.0;
@@ -145,6 +176,10 @@
             [self.superView addConstraint:self.searchBarRightConstraint];
             [self.closeButton removeFromSuperview];
             [self.resultCollectionView removeFromSuperview];
+            
+            self.resultCollectionView = nil;
+            self.resultCollectionViewConstraints = nil;
+            
             self.searchBar.text = @"";
             if ([self.searchBar isFirstResponder]) {
                 [self.searchBar resignFirstResponder];
@@ -164,17 +199,23 @@
         self.resultMemos = [[CPPassDataManager defaultManager] memosContainText:searchBar.text];
         self.closeButton.alpha = 0.0;
         self.resultCollectionView.alpha = 0.0;
+        
         [self.superView addSubview:self.closeButton];
         [self.superView addSubview:self.resultCollectionView];
         [self.superView removeConstraint:self.searchBarRightConstraint];
         [self.superView addConstraints:self.closeButtonConstraints];
         [self.superView addConstraints:self.resultCollectionViewConstraints];
+        
         [CPAppearanceManager animateWithDuration:0.5 animations:^{
             [self.superView layoutIfNeeded];
         } completion:^(BOOL finished) {
             [CPAppearanceManager animateWithDuration:0.3 animations:^{
                 self.closeButton.alpha = 1.0;
                 self.resultCollectionView.alpha = 1.0;
+            } completion:^(BOOL finished) {
+                [self.superView addSubview:self.textFieldContainer];
+                [self.superView addConstraints:self.textFieldContainerConstraints];
+                [CPMemoCell setTextFieldContainer:self.textFieldContainer];
             }];
         }];
     }];
@@ -205,6 +246,23 @@
     return cell;
 }
 
-#pragma mark - UITableViewDelegate implement
+#pragma mark - UICollectionViewDelegate implement
+
+- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"%@, %@", cell, ((CPMemoCell *)cell).label.text);
+    NSLog(@"%@", [self.resultCollectionView visibleCells]);
+    if ([(CPMemoCell *)cell isEditing]) {
+        [(CPMemoCell *)cell endEditing];
+    }
+}
+
+#pragma mark - UIScrollViewDelegate implement
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if ([CPMemoCell editingCell]) {
+        [[CPMemoCell editingCell] refreshingConstriants];
+    }
+    [self.superView layoutIfNeeded];
+}
 
 @end
