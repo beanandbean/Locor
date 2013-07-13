@@ -86,6 +86,13 @@ static UIView *textFieldContainer;
     return self;
 }
 
+- (void)dealloc {
+    if (textFieldContainer) {
+        [textFieldContainer removeConstraints:self.textFieldConstraints];
+        [self.textField removeFromSuperview];
+    }
+}
+
 - (void)handleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
     if (editingCell) {
         [editingCell endEditing];
@@ -97,10 +104,8 @@ static UIView *textFieldContainer;
     self.textField.enabled = YES;
     self.textField.text = self.label.text;
     
+    [self refreshingConstriants];
     [self.textField becomeFirstResponder];
-    
-    NSLog(@"%@, %@", self, self.label.text);
-    NSLog(@"%@", [(UICollectionView *)self.superview visibleCells]);
 }
 
 - (void)refreshingConstriants {
@@ -124,11 +129,15 @@ static UIView *textFieldContainer;
         if ([self.textField isFirstResponder]) {
             [self.textField resignFirstResponder];
         }
-        NSLog(@"!!!!!!");
     }
 }
 
 #pragma mark - UITextFieldDelegate implement
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self endEditing];
+    return YES;
+}
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     [self endEditing];

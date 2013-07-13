@@ -47,6 +47,7 @@
         _searchBar = [[UISearchBar alloc] init];
         _searchBar.delegate = self;
         _searchBar.translatesAutoresizingMaskIntoConstraints = NO;
+        _searchBar.autocapitalizationType = NO;
         
         UIGraphicsBeginImageContext(CGSizeMake(15.0, 34.0));
         CGContextRef context = UIGraphicsGetCurrentContext();
@@ -195,7 +196,7 @@
 #pragma mark - UISearchBarDelegate implement
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-    return [CPProcessManager startProcess:[CPSearchingProcess process] withPreparation:^{
+    return [CPProcessManager isInProcess:[CPSearchingProcess process]] || [CPProcessManager startProcess:[CPSearchingProcess process] withPreparation:^{
         self.resultMemos = [[CPPassDataManager defaultManager] memosContainText:searchBar.text];
         self.closeButton.alpha = 0.0;
         self.resultCollectionView.alpha = 0.0;
@@ -221,11 +222,16 @@
     }];
 }
 
-- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    NSString *searchText = [searchBar.text stringByReplacingCharactersInRange:range withString:text];
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     self.resultMemos = [[CPPassDataManager defaultManager] memosContainText:searchText];
     [self.resultCollectionView reloadData];
-    return YES;
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+    if ([CPMemoCell editingCell].isEditing) {
+        [[CPMemoCell editingCell] endEditing];
+    }
 }
 
 #pragma mark - UICollectionViewDataSource implement
@@ -249,8 +255,6 @@
 #pragma mark - UICollectionViewDelegate implement
 
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"%@, %@", cell, ((CPMemoCell *)cell).label.text);
-    NSLog(@"%@", [self.resultCollectionView visibleCells]);
     if ([(CPMemoCell *)cell isEditing]) {
         [(CPMemoCell *)cell endEditing];
     }
