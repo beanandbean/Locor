@@ -241,7 +241,7 @@ sg75
 S'The third and last two colors for cells are too similar, so they need to be changed.'
 p97
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 57.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 59.'
 p98
 sg79
 I00
@@ -279,7 +279,7 @@ sg75
 S'MAY ABORT! Handle the error appropriately when saving context.'
 p107
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 170.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 172.'
 p108
 sg79
 I00
@@ -297,7 +297,7 @@ sg75
 S'MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.'
 p111
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 207.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 209.'
 p112
 sg79
 I00
@@ -514,7 +514,7 @@ S'Show notification when removing a pass cell by setting an empty text.'
 p201
 sS'detail'
 p202
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 78.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 80.'
 p203
 sS'exported'
 p204

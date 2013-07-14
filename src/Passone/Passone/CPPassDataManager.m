@@ -27,6 +27,8 @@
 
 static CPPassDataManager *_defaultManager = nil;
 
+static NSString *_passwordCacheName = @"PasswordCache";
+
 + (CPPassDataManager *)defaultManager {
     if (!_defaultManager) {
         _defaultManager = [[CPPassDataManager alloc] init];
@@ -39,7 +41,7 @@ static CPPassDataManager *_defaultManager = nil;
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         request.entity = [NSEntityDescription entityForName:@"Password" inManagedObjectContext:self.managedObjectContext];
         request.sortDescriptors = [[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES], nil];
-        _passwordsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"PasswordCache"];
+        _passwordsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:_passwordCacheName];
         [_passwordsController performFetch:nil];
         
         if (!_passwordsController.fetchedObjects.count) {

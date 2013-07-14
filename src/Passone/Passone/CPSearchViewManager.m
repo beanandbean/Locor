@@ -193,45 +193,17 @@
     }];
 }
 
-#pragma mark - UISearchBarDelegate implement
+#pragma mark - CPMemoCellDelegate implement
 
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-    return [CPProcessManager isInProcess:[CPSearchingProcess process]] || [CPProcessManager startProcess:[CPSearchingProcess process] withPreparation:^{
-        self.resultMemos = [[CPPassDataManager defaultManager] memosContainText:searchBar.text];
-        self.closeButton.alpha = 0.0;
-        self.resultCollectionView.alpha = 0.0;
-        
-        [self.superView addSubview:self.closeButton];
-        [self.superView addSubview:self.resultCollectionView];
-        [self.superView removeConstraint:self.searchBarRightConstraint];
-        [self.superView addConstraints:self.closeButtonConstraints];
-        [self.superView addConstraints:self.resultCollectionViewConstraints];
-        
-        [CPAppearanceManager animateWithDuration:0.5 animations:^{
-            [self.superView layoutIfNeeded];
-        } completion:^(BOOL finished) {
-            [CPAppearanceManager animateWithDuration:0.3 animations:^{
-                self.closeButton.alpha = 1.0;
-                self.resultCollectionView.alpha = 1.0;
-            } completion:^(BOOL finished) {
-                [self.superView addSubview:self.textFieldContainer];
-                [self.superView addConstraints:self.textFieldContainerConstraints];
-                [CPMemoCell setTextFieldContainer:self.textFieldContainer];
-            }];
-        }];
-    }];
-}
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    self.resultMemos = [[CPPassDataManager defaultManager] memosContainText:searchText];
-    [self.resultCollectionView reloadData];
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    [searchBar resignFirstResponder];
-    if ([CPMemoCell editingCell].isEditing) {
-        [[CPMemoCell editingCell] endEditing];
-    }
+- (void)memoCell:(CPMemoCell *)memoCell updateText:(NSString *)text {
+    NSAssert(memoCell, @"");
+    NSAssert(text, @"");
+    
+    NSIndexPath *indexPath = [self.resultCollectionView indexPathForCell:memoCell];
+    CPMemo *memo = [self.resultMemos objectAtIndex:indexPath.row];
+    memo.text = text;
+    
+    [[CPPassDataManager defaultManager] saveContext];
 }
 
 #pragma mark - UICollectionViewDataSource implement
@@ -243,9 +215,10 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CPMemo *memo = [self.resultMemos objectAtIndex:indexPath.row];
 
-    static NSString *CellIdentifier = @"CPMemoCell";
-    CPMemoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+    static NSString *cellIdentifier = @"CPMemoCell";
+    CPMemoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
+    cell.delegate = self;
     cell.backgroundColor = memo.password.color;
     cell.label.text = memo.text;
     
@@ -267,6 +240,54 @@
         [[CPMemoCell editingCell] refreshingConstriants];
     }
     [self.superView layoutIfNeeded];
+}
+
+#pragma mark - UISearchBarDelegate implement
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+    if ([CPProcessManager isInProcess:[CPSearchingProcess process]]) {
+        self.resultMemos = [[CPPassDataManager defaultManager] memosContainText:searchBar.text];
+        [self.resultCollectionView reloadData];
+        return YES;
+    } else {
+        return [CPProcessManager startProcess:[CPSearchingProcess process] withPreparation:^{
+            self.resultMemos = [[CPPassDataManager defaultManager] memosContainText:searchBar.text];
+            
+            self.closeButton.alpha = 0.0;
+            self.resultCollectionView.alpha = 0.0;
+            
+            [self.superView addSubview:self.closeButton];
+            [self.superView addSubview:self.resultCollectionView];
+            [self.superView removeConstraint:self.searchBarRightConstraint];
+            [self.superView addConstraints:self.closeButtonConstraints];
+            [self.superView addConstraints:self.resultCollectionViewConstraints];
+            
+            [CPAppearanceManager animateWithDuration:0.5 animations:^{
+                [self.superView layoutIfNeeded];
+            } completion:^(BOOL finished) {
+                [CPAppearanceManager animateWithDuration:0.3 animations:^{
+                    self.closeButton.alpha = 1.0;
+                    self.resultCollectionView.alpha = 1.0;
+                } completion:^(BOOL finished) {
+                    [self.superView addSubview:self.textFieldContainer];
+                    [self.superView addConstraints:self.textFieldContainerConstraints];
+                    [CPMemoCell setTextFieldContainer:self.textFieldContainer];
+                }];
+            }];
+        }];
+    }
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    self.resultMemos = [[CPPassDataManager defaultManager] memosContainText:searchText];
+    [self.resultCollectionView reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+    if ([CPMemoCell editingCell].isEditing) {
+        [[CPMemoCell editingCell] endEditing];
+    }
 }
 
 @end

@@ -6,7 +6,9 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-@interface CPSearchViewManager : NSObject <UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate>
+#import "CPMemoCell.h"
+
+@interface CPSearchViewManager : NSObject <CPMemoCellDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate, UISearchBarDelegate>
 
 @property (strong, nonatomic) UISearchBar *searchBar;
 

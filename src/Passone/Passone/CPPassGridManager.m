@@ -268,7 +268,7 @@ static const CGFloat SPACE = 10.0;
     self.dragViewTopConstraint = nil;
 }
 
-#pragma mark - NSFetchedResultsControllerDelegate
+#pragma mark - NSFetchedResultsControllerDelegate implement
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
     CPPassword *password = nil;
@@ -286,7 +286,9 @@ static const CGFloat SPACE = 10.0;
             password = [controller.fetchedObjects objectAtIndex:newIndexPath.row];
             cell = [self.passCells objectAtIndex:newIndexPath.row];
             cell.backgroundColor = password.displayColor;
+            break;
         default:
+            NSAssert(NO, @"");
             break;
     }
 }

@@ -25,4 +25,6 @@
 
 - (NSArray *)memosContainText:(NSString *)text;
 
+- (void)saveContext;
+
 @end

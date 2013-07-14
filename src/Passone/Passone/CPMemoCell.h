@@ -6,8 +6,17 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
+@class CPMemoCell;
+
+@protocol CPMemoCellDelegate <NSObject>
+
+- (void)memoCell:(CPMemoCell *)memoCell updateText:(NSString *)text;
+
+@end
+
 @interface CPMemoCell : UICollectionViewCell <UITextFieldDelegate>
 
+@property (weak, nonatomic) id<CPMemoCellDelegate> delegate;
 @property (strong, nonatomic) UILabel *label;
 
 + (void)setTextFieldContainer:(UIView *)container;

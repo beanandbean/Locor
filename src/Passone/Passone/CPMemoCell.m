@@ -68,10 +68,10 @@ static UIView *textFieldContainer;
         float offset = ((UIScrollView *)self.superview).contentOffset.y;
         
         _textFieldConstraints = [[NSArray alloc] initWithObjects:
-                                 [NSLayoutConstraint constraintWithItem:_textField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:12.0 - offset],
-                                 [NSLayoutConstraint constraintWithItem:_textField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:10.0],
-                                 [NSLayoutConstraint constraintWithItem:_textField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1.0 constant:10.0],
-                                 [NSLayoutConstraint constraintWithItem:_textField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-5.0 - offset],
+                                 [NSLayoutConstraint constraintWithItem:self.textField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:12.0 - offset],
+                                 [NSLayoutConstraint constraintWithItem:self.textField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:10.0],
+                                 [NSLayoutConstraint constraintWithItem:self.textField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1.0 constant:10.0],
+                                 [NSLayoutConstraint constraintWithItem:self.textField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-5.0 - offset],
                                  nil];
     }
     return _textFieldConstraints;
@@ -88,8 +88,12 @@ static UIView *textFieldContainer;
 
 - (void)dealloc {
     if (textFieldContainer) {
-        [textFieldContainer removeConstraints:self.textFieldConstraints];
-        [self.textField removeFromSuperview];
+        if (_textFieldConstraints) {
+            [textFieldContainer removeConstraints:_textFieldConstraints];
+        }
+        if (_textField) {
+            [_textField removeFromSuperview];
+        }
     }
 }
 
@@ -99,8 +103,8 @@ static UIView *textFieldContainer;
     }
     editingCell = self;
     
-    self.label.alpha = 0.0;
-    self.textField.alpha = 1.0;
+    self.label.hidden = YES;
+    self.textField.hidden = NO;
     self.textField.enabled = YES;
     self.textField.text = self.label.text;
     
@@ -122,9 +126,13 @@ static UIView *textFieldContainer;
 - (void)endEditing {
     if ([self isEditing]) {
         editingCell = nil;
-        self.label.alpha = 1.0;
-        self.textField.alpha = 0.0;
+        self.label.hidden = NO;
+        self.textField.hidden = YES;
         self.textField.enabled = NO;
+        
+        self.label.text = self.textField.text;
+        
+        [self.delegate memoCell:self updateText:self.textField.text];
         
         if ([self.textField isFirstResponder]) {
             [self.textField resignFirstResponder];
