@@ -10,7 +10,7 @@
 
 @protocol CPMemoCellDelegate <NSObject>
 
-- (void)memoCell:(CPMemoCell *)memoCell updateText:(NSString *)text;
+- (void)memoCellAtIndexPath:(NSIndexPath *)indexPath updateText:(NSString *)text;
 
 @end
 
@@ -25,6 +25,6 @@
 - (void)refreshingConstriants;
 
 - (BOOL)isEditing;
-- (void)endEditing;
+- (void)endEditingAtIndexPath:(NSIndexPath *)indexPath;
 
 @end

@@ -99,7 +99,7 @@ static UIView *textFieldContainer;
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
     if (editingCell) {
-        [editingCell endEditing];
+        [editingCell endEditingAtIndexPath:[(UICollectionView *)self.superview indexPathForCell:self]];
     }
     editingCell = self;
     
@@ -123,7 +123,7 @@ static UIView *textFieldContainer;
     return editingCell == self;
 }
 
-- (void)endEditing {
+- (void)endEditingAtIndexPath:(NSIndexPath *)indexPath {
     if ([self isEditing]) {
         editingCell = nil;
         self.label.hidden = NO;
@@ -132,7 +132,7 @@ static UIView *textFieldContainer;
         
         self.label.text = self.textField.text;
         
-        [self.delegate memoCell:self updateText:self.textField.text];
+        [self.delegate memoCellAtIndexPath:indexPath updateText:self.textField.text];
         
         if ([self.textField isFirstResponder]) {
             [self.textField resignFirstResponder];
@@ -143,12 +143,12 @@ static UIView *textFieldContainer;
 #pragma mark - UITextFieldDelegate implement
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [self endEditing];
+    [self endEditingAtIndexPath:[(UICollectionView *)self.superview indexPathForCell:self]];
     return YES;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    [self endEditing];
+    [self endEditingAtIndexPath:[(UICollectionView *)self.superview indexPathForCell:self]];
 }
 
 @end
