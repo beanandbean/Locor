@@ -19,24 +19,11 @@
 #import "CPProcessManager.h"
 #import "CPSearchingProcess.h"
 
-static int showIndicatorTag = 988182;
-
-@implementation UIImageView (ForScrollViewIndicators)
-
-- (void)setAlpha:(CGFloat)alpha {
-    if (self.superview.tag == showIndicatorTag) {
-        [super setAlpha:1.0];
-    } else {
-        [super setAlpha:alpha];
-    }
-}
-
-@end
-
 @interface CPSearchViewManager ()
 
 @property (weak, nonatomic) UIView *superView;
 
+@property (weak, nonatomic) UITextField *searchBarTextField;
 @property (strong, nonatomic) NSLayoutConstraint *searchBarRightConstraint;
 
 @property (strong, nonatomic) UIButton *closeButton;
@@ -52,6 +39,8 @@ static int showIndicatorTag = 988182;
 @property (strong, nonatomic) NSArray *textFieldContainerConstraints;
 
 - (IBAction)closeButtonTouched:(id)sender;
+
+- (void)handleTapOnSearchBar:(UITapGestureRecognizer *)tapGesture;
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture;
 
@@ -75,6 +64,14 @@ static int showIndicatorTag = 988182;
         
         _searchBar.backgroundImage = backgroundImage;
         [_searchBar setSearchFieldBackgroundImage:backgroundImage forState:UIControlStateNormal];
+        [self.searchBar addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapOnSearchBar:)]];
+        
+        for (UIView *view in _searchBar.subviews) {
+            if ([view.class isSubclassOfClass:[UITextField class]]) {
+                self.searchBarTextField = (UITextField *)view;
+                self.searchBarTextField.enabled = NO;
+            }
+        }
     }
     return _searchBar;
 }
@@ -226,6 +223,16 @@ static int showIndicatorTag = 988182;
     }];
 }
 
+- (void)handleTapOnSearchBar:(UITapGestureRecognizer *)tapGesture {
+    self.searchBarTextField.enabled = YES;
+    if (![self.searchBar isFirstResponder]) {
+        if ([CPMemoCell editingCell]) {
+            [[CPMemoCell editingCell] endEditingAtIndexPath:[self.resultCollectionView indexPathForCell:[CPMemoCell editingCell]]];
+        }
+        [self.searchBar becomeFirstResponder];
+    }
+}
+
 static CGPoint basicOffset;
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture {
@@ -347,6 +354,10 @@ static CGPoint basicOffset;
             }];
         }];
     }
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    self.searchBarTextField.enabled = NO;
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {

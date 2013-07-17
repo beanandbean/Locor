@@ -99,7 +99,7 @@ static UIView *textFieldContainer;
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
     if (editingCell) {
-        [editingCell endEditingAtIndexPath:[(UICollectionView *)self.superview indexPathForCell:self]];
+        [editingCell endEditingAtIndexPath:[(UICollectionView *)self.superview indexPathForCell:editingCell]];
     }
     editingCell = self;
     
