@@ -17,6 +17,8 @@
 #import "CPMemoCell.h"
 
 #import "CPProcessManager.h"
+#import "CPRemovingMemoCellProcess.h"
+#import "CPScrollingCollectionViewProcess.h"
 #import "CPSearchingProcess.h"
 
 @interface CPSearchViewManager ()
@@ -37,6 +39,8 @@
 
 @property (strong, nonatomic) UIView *textFieldContainer;
 @property (strong, nonatomic) NSArray *textFieldContainerConstraints;
+
+@property (nonatomic) CGPoint draggingBasicOffset;
 
 - (IBAction)closeButtonTouched:(id)sender;
 
@@ -233,42 +237,61 @@
     }
 }
 
-static CGPoint basicOffset;
-
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture {
-    if (panGesture.state == UIGestureRecognizerStateBegan) {
-        basicOffset = self.resultCollectionView.contentOffset;
-
-        if (self.resultCollectionViewScrollIndicator) {
-            self.resultCollectionViewScrollIndicator.alpha = 0.8;
-            self.resultCollectionViewScrollIndicator.frame = CGRectMake(self.resultCollectionViewScrollIndicator.frame.origin.x, self.resultCollectionView.contentOffset.y * self.resultCollectionView.contentSize.height / (self.resultCollectionView.contentSize.height - self.resultCollectionView.frame.size.height), self.resultCollectionViewScrollIndicator.frame.size.width, powf(self.resultCollectionView.frame.size.height, 2.0) / self.resultCollectionView.contentSize.height);
-        }
-    } else if (panGesture.state == UIGestureRecognizerStateChanged) {
+    if (panGesture.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [panGesture translationInView:panGesture.view];
-        CGPoint offset = CGPointMake(basicOffset.x, basicOffset.y - translation.y);
-        [self.resultCollectionView setContentOffset:offset animated:NO];
-        if (self.resultCollectionViewScrollIndicator) {
-            self.resultCollectionViewScrollIndicator.alpha = 0.8;
-            self.resultCollectionViewScrollIndicator.frame = CGRectMake(self.resultCollectionViewScrollIndicator.frame.origin.x, offset.y * self.resultCollectionView.contentSize.height / (self.resultCollectionView.contentSize.height - self.resultCollectionView.frame.size.height), self.resultCollectionViewScrollIndicator.frame.size.width, powf(self.resultCollectionView.frame.size.height, 2.0) / self.resultCollectionView.contentSize.height);
+        if ((![CPProcessManager isInProcess:[CPRemovingMemoCellProcess process]] && (![CPProcessManager isInProcess:[CPScrollingCollectionViewProcess process]]))) {
+            CGPoint location = [panGesture locationInView:panGesture.view];
+            NSIndexPath *panningCellIndex = [self.resultCollectionView indexPathForItemAtPoint:location];
+            if (fabsf(translation.x) > fabsf(translation.y) && panningCellIndex) {
+                [CPProcessManager startProcess:[CPRemovingMemoCellProcess process] withPreparation:^{
+                    // TODO: Write code to start removing a memo cell.
+                }];
+            } else {
+                [CPProcessManager startProcess:[CPScrollingCollectionViewProcess process] withPreparation:^{
+                    self.draggingBasicOffset = self.resultCollectionView.contentOffset;
+                    
+                    if (self.resultCollectionViewScrollIndicator) {
+                        self.resultCollectionViewScrollIndicator.alpha = 0.8;
+                        self.resultCollectionViewScrollIndicator.frame = CGRectMake(self.resultCollectionViewScrollIndicator.frame.origin.x, self.resultCollectionView.contentOffset.y * self.resultCollectionView.contentSize.height / (self.resultCollectionView.contentSize.height - self.resultCollectionView.frame.size.height), self.resultCollectionViewScrollIndicator.frame.size.width, powf(self.resultCollectionView.frame.size.height, 2.0) / self.resultCollectionView.contentSize.height);
+                    }
+                }];
+            }
+        }
+        if ([CPProcessManager isInProcess:[CPRemovingMemoCellProcess process]]) {
+            // TODO: Write code to continue removing a memo cell.
+        }
+        if ([CPProcessManager isInProcess:[CPScrollingCollectionViewProcess process]]) {
+            CGPoint offset = CGPointMake(self.draggingBasicOffset.x, self.draggingBasicOffset.y - translation.y);
+            [self.resultCollectionView setContentOffset:offset animated:NO];
+            if (self.resultCollectionViewScrollIndicator) {
+                self.resultCollectionViewScrollIndicator.alpha = 0.8;
+                self.resultCollectionViewScrollIndicator.frame = CGRectMake(self.resultCollectionViewScrollIndicator.frame.origin.x, offset.y * self.resultCollectionView.contentSize.height / (self.resultCollectionView.contentSize.height - self.resultCollectionView.frame.size.height), self.resultCollectionViewScrollIndicator.frame.size.width, powf(self.resultCollectionView.frame.size.height, 2.0) / self.resultCollectionView.contentSize.height);
+            }
         }
     } else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled || panGesture.state == UIGestureRecognizerStateFailed) {
-        CGPoint translation = [panGesture translationInView:panGesture.view];
-        [panGesture setTranslation:CGPointZero inView:panGesture.view];
-        CGPoint offset = CGPointMake(basicOffset.x, basicOffset.y - translation.y);
-        [self.resultCollectionView setContentOffset:offset animated:NO];
-        if (offset.y < 0.0) {
-            offset.y = 0.0;
-            [self.resultCollectionView setContentOffset:offset animated:YES];
-        } else if (offset.y > self.resultCollectionView.contentSize.height - self.resultCollectionView.frame.size.height) {
-            offset.y = self.resultCollectionView.contentSize.height - self.resultCollectionView.frame.size.height;
-            [self.resultCollectionView setContentOffset:offset animated:YES];
-        }
-        if (self.resultCollectionViewScrollIndicator) {
-            // Decorative animation. Not protecting in CPAppearanceManager
-            [UIView animateWithDuration:0.3 animations:^{
-                self.resultCollectionViewScrollIndicator.alpha = 0.0;
-            }];
-        }
+        [CPProcessManager stopProcess:[CPRemovingMemoCellProcess process] withPreparation:^{
+            // TODO: Write code to stop removing a memo cell.
+        }];
+        [CPProcessManager stopProcess:[CPScrollingCollectionViewProcess process] withPreparation:^{
+            CGPoint translation = [panGesture translationInView:panGesture.view];
+            [panGesture setTranslation:CGPointZero inView:panGesture.view];
+            CGPoint offset = CGPointMake(self.draggingBasicOffset.x, self.draggingBasicOffset.y - translation.y);
+            [self.resultCollectionView setContentOffset:offset animated:NO];
+            if (offset.y < 0.0) {
+                offset.y = 0.0;
+                [self.resultCollectionView setContentOffset:offset animated:YES];
+            } else if (offset.y > self.resultCollectionView.contentSize.height - self.resultCollectionView.frame.size.height) {
+                offset.y = self.resultCollectionView.contentSize.height - self.resultCollectionView.frame.size.height;
+                [self.resultCollectionView setContentOffset:offset animated:YES];
+            }
+            if (self.resultCollectionViewScrollIndicator) {
+                // Decorative animation. Not protecting in CPAppearanceManager
+                [UIView animateWithDuration:0.3 animations:^{
+                    self.resultCollectionViewScrollIndicator.alpha = 0.0;
+                }];
+            }
+        }];
     }
 }
 

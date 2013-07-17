@@ -733,4 +733,67 @@ p285
 sS'condition'
 p286
 g85
+sa(dp287
+S'author'
+p288
+S'TODO grabber'
+p289
+sS'text'
+p290
+S'Write code to start removing a memo cell.'
+p291
+sS'detail'
+p292
+S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 248.'
+p293
+sS'exported'
+p294
+I00
+sS'time'
+p295
+S'2013-07-17 18:37:03'
+p296
+sS'path'
+p297
+S'src/Passone/Passone/CPSearchViewManager.m'
+p298
+sS'condition'
+p299
+g85
+sa(dp300
+g288
+g289
+sg290
+S'Write code to continue removing a memo cell.'
+p301
+sg292
+S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 262.'
+p302
+sg294
+I00
+sg295
+S'2013-07-17 18:37:03'
+p303
+sg297
+g298
+sg299
+g85
+sa(dp304
+g288
+g289
+sg290
+S'Write code to stop removing a memo cell.'
+p305
+sg292
+S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 274.'
+p306
+sg294
+I00
+sg295
+S'2013-07-17 18:37:03'
+p307
+sg297
+g298
+sg299
+g85
 sa.
