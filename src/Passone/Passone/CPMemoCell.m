@@ -8,6 +8,9 @@
 
 #import "CPMemoCell.h"
 
+#import "CPProcessManager.h"
+#import "CPEditingMemoCellProcess.h"
+
 static CPMemoCell *editingCell;
 static UIView *textFieldContainer;
 
@@ -101,15 +104,18 @@ static UIView *textFieldContainer;
     if (editingCell) {
         [editingCell endEditingAtIndexPath:[(UICollectionView *)self.superview indexPathForCell:editingCell]];
     }
-    editingCell = self;
     
-    self.label.hidden = YES;
-    self.textField.hidden = NO;
-    self.textField.enabled = YES;
-    self.textField.text = self.label.text;
-    
-    [self refreshingConstriants];
-    [self.textField becomeFirstResponder];
+    [CPProcessManager startProcess:[CPEditingMemoCellProcess process] withPreparation:^{
+        editingCell = self;
+        
+        self.label.hidden = YES;
+        self.textField.hidden = NO;
+        self.textField.enabled = YES;
+        self.textField.text = self.label.text;
+        
+        [self refreshingConstriants];
+        [self.textField becomeFirstResponder];
+    }];
 }
 
 - (void)refreshingConstriants {
@@ -125,18 +131,20 @@ static UIView *textFieldContainer;
 
 - (void)endEditingAtIndexPath:(NSIndexPath *)indexPath {
     if ([self isEditing]) {
-        editingCell = nil;
-        self.label.hidden = NO;
-        self.textField.hidden = YES;
-        self.textField.enabled = NO;
-        
-        self.label.text = self.textField.text;
-        
-        [self.delegate memoCellAtIndexPath:indexPath updateText:self.textField.text];
-        
-        if ([self.textField isFirstResponder]) {
-            [self.textField resignFirstResponder];
-        }
+        [CPProcessManager stopProcess:[CPEditingMemoCellProcess process] withPreparation:^{
+            editingCell = nil;
+            self.label.hidden = NO;
+            self.textField.hidden = YES;
+            self.textField.enabled = NO;
+            
+            self.label.text = self.textField.text;
+            
+            [self.delegate memoCellAtIndexPath:indexPath updateText:self.textField.text];
+            
+            if ([self.textField isFirstResponder]) {
+                [self.textField resignFirstResponder];
+            }
+        }];
     }
 }
 

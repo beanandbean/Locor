@@ -1,32 +1,31 @@
 //
-//  CPSearchingProcess.m
+//  CPEditingMemoCellProcess.m
 //  Passone
 //
-//  Created by wangsw on 7/8/13.
+//  Created by wangsw on 7/17/13.
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-#import "CPSearchingProcess.h"
+#import "CPEditingMemoCellProcess.h"
 
 #import "CPAnimationProcess.h"
-#import "CPEditingMemoCellProcess.h"
 #import "CPPreparationProcess.h"
 
-static CPSearchingProcess *process;
+static CPEditingMemoCellProcess *process;
 static NSArray *allowedProcess;
 
-@implementation CPSearchingProcess
+@implementation CPEditingMemoCellProcess
 
 + (id<CPProcess>)process {
     if (!process) {
-        process = [[CPSearchingProcess alloc] init];
+        process = [[CPEditingMemoCellProcess alloc] init];
     }
     return process;
 }
 
 - (bool)allowSubprocess:(id<CPProcess>)process {
     if (!allowedProcess) {
-        allowedProcess = [NSArray arrayWithObjects:[CPAnimationProcess process], [CPEditingMemoCellProcess process], [CPPreparationProcess process], nil];
+        allowedProcess = [NSArray arrayWithObjects:[CPAnimationProcess process], [CPPreparationProcess process], nil];
     }
     return [allowedProcess indexOfObject:process] != NSNotFound;
 }
