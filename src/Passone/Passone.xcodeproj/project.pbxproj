@@ -19,6 +19,7 @@
 		2CE543A41796A207004CF538 /* CPEditingMemoCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE543A31796A207004CF538 /* CPEditingMemoCellProcess.m */; };
 		2CE543A71796A585004CF538 /* CPScrollingCollectionViewProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE543A61796A585004CF538 /* CPScrollingCollectionViewProcess.m */; };
 		2CE543AA1796A781004CF538 /* CPRemovingMemoCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE543A91796A781004CF538 /* CPRemovingMemoCellProcess.m */; };
+		2CF920151797F10C00637B7D /* CPMemoCellRemoving.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF920141797F10C00637B7D /* CPMemoCellRemoving.m */; };
 		FC03FCDA178AF99A004C2B15 /* CPMemoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FC03FCD9178AF99A004C2B15 /* CPMemoCell.m */; };
 		FC4F2ADA1759EB0C002D9992 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2AD91759EB0C002D9992 /* UIKit.framework */; };
 		FC4F2ADC1759EB0C002D9992 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2ADB1759EB0C002D9992 /* Foundation.framework */; };
@@ -69,6 +70,8 @@
 		2CE543A61796A585004CF538 /* CPScrollingCollectionViewProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPScrollingCollectionViewProcess.m; sourceTree = "<group>"; };
 		2CE543A81796A780004CF538 /* CPRemovingMemoCellProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPRemovingMemoCellProcess.h; sourceTree = "<group>"; };
 		2CE543A91796A781004CF538 /* CPRemovingMemoCellProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPRemovingMemoCellProcess.m; sourceTree = "<group>"; };
+		2CF920131797F10C00637B7D /* CPMemoCellRemoving.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMemoCellRemoving.h; sourceTree = "<group>"; };
+		2CF920141797F10C00637B7D /* CPMemoCellRemoving.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMemoCellRemoving.m; sourceTree = "<group>"; };
 		FC03FCD8178AF99A004C2B15 /* CPMemoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMemoCell.h; sourceTree = "<group>"; };
 		FC03FCD9178AF99A004C2B15 /* CPMemoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMemoCell.m; sourceTree = "<group>"; };
 		FC4F2AD61759EB0C002D9992 /* Passone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Passone.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,6 +192,8 @@
 				FC80BE5917791438007BDC13 /* CPMemo.m */,
 				FC03FCD8178AF99A004C2B15 /* CPMemoCell.h */,
 				FC03FCD9178AF99A004C2B15 /* CPMemoCell.m */,
+				2CF920131797F10C00637B7D /* CPMemoCellRemoving.h */,
+				2CF920141797F10C00637B7D /* CPMemoCellRemoving.m */,
 				2CBDF765177DB96E00BC9E3E /* CPNotificationCenter.h */,
 				2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */,
 				FCBB156717709854005DC611 /* CPPassCell.h */,
@@ -321,6 +326,7 @@
 				2CE543A41796A207004CF538 /* CPEditingMemoCellProcess.m in Sources */,
 				2CE543A71796A585004CF538 /* CPScrollingCollectionViewProcess.m in Sources */,
 				2CE543AA1796A781004CF538 /* CPRemovingMemoCellProcess.m in Sources */,
+				2CF920151797F10C00637B7D /* CPMemoCellRemoving.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

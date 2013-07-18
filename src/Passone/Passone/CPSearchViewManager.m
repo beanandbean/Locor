@@ -8,18 +8,22 @@
 
 #import "CPSearchViewManager.h"
 
+#import "CPMemoCell.h"
+#import "CPMemoCellRemoving.h"
+
 #import "CPAppearanceManager.h"
 
 #import "CPPassDataManager.h"
 #import "CPMemo.h"
 #import "CPPassword.h"
 
-#import "CPMemoCell.h"
-
 #import "CPProcessManager.h"
 #import "CPRemovingMemoCellProcess.h"
 #import "CPScrollingCollectionViewProcess.h"
 #import "CPSearchingProcess.h"
+
+static NSString *CELL_REUSE_IDENTIFIER_NORMAL = @"normal-cell";
+static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 
 @interface CPSearchViewManager ()
 
@@ -40,7 +44,12 @@
 @property (strong, nonatomic) UIView *textFieldContainer;
 @property (strong, nonatomic) NSArray *textFieldContainerConstraints;
 
+@property (strong, nonatomic) UIImage *removingCellImage;
+
 @property (nonatomic) CGPoint draggingBasicOffset;
+
+@property (nonatomic) CPMemoCellRemoving *removingCell;
+@property (nonatomic) NSIndexPath *removingCellIndex;
 
 - (IBAction)closeButtonTouched:(id)sender;
 
@@ -118,7 +127,6 @@
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.sectionInset = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
         layout.minimumLineSpacing = 10.0;
-        layout.itemSize = CGSizeMake(self.searchBar.bounds.size.width - 20.0, 66.0);
         _resultCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _resultCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
         _resultCollectionView.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.7];
@@ -128,7 +136,8 @@
         
         [_resultCollectionView flashScrollIndicators];
         
-        [_resultCollectionView registerClass:[CPMemoCell class] forCellWithReuseIdentifier:@"CPMemoCell"];
+        [_resultCollectionView registerClass:[CPMemoCell class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_NORMAL];
+        [_resultCollectionView registerClass:[CPMemoCellRemoving class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_REMOVING];
         
         [_resultCollectionView addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)]];
     }
@@ -195,6 +204,10 @@
 }
 
 - (IBAction)closeButtonTouched:(id)sender {
+    if ([CPMemoCell editingCell]) {
+        [[CPMemoCell editingCell] endEditingAtIndexPath:[self.resultCollectionView indexPathForCell:[CPMemoCell editingCell]]];
+    }
+    
     [CPProcessManager stopProcess:[CPSearchingProcess process] withPreparation:^{
         [self.superView removeConstraints:self.textFieldContainerConstraints];
         [self.textFieldContainer removeFromSuperview];
@@ -245,7 +258,18 @@
             NSIndexPath *panningCellIndex = [self.resultCollectionView indexPathForItemAtPoint:location];
             if (fabsf(translation.x) > fabsf(translation.y) && panningCellIndex) {
                 [CPProcessManager startProcess:[CPRemovingMemoCellProcess process] withPreparation:^{
-                    // TODO: Write code to start removing a memo cell.
+                    CPMemoCell *panningCell = (CPMemoCell *)[self.resultCollectionView cellForItemAtIndexPath:panningCellIndex];
+                    if ([panningCell isEditing]) {
+                        [panningCell endEditingAtIndexPath:panningCellIndex];
+                    }
+                    
+                    UIGraphicsBeginImageContext(panningCell.bounds.size);
+                    [panningCell.layer renderInContext:UIGraphicsGetCurrentContext()];
+                    self.removingCellImage = UIGraphicsGetImageFromCurrentImageContext();
+                    UIGraphicsEndImageContext();
+                    
+                    self.removingCellIndex = panningCellIndex;
+                    [self.resultCollectionView reloadData];
                 }];
             } else {
                 [CPProcessManager startProcess:[CPScrollingCollectionViewProcess process] withPreparation:^{
@@ -259,7 +283,8 @@
             }
         }
         if ([CPProcessManager isInProcess:[CPRemovingMemoCellProcess process]]) {
-            // TODO: Write code to continue removing a memo cell.
+            // TODO: When removing a memo cell, show 'Swipe/Release to remove'.
+            [self.removingCell setImageLeftOffset:translation.x];
         }
         if ([CPProcessManager isInProcess:[CPScrollingCollectionViewProcess process]]) {
             CGPoint offset = CGPointMake(self.draggingBasicOffset.x, self.draggingBasicOffset.y - translation.y);
@@ -272,6 +297,7 @@
     } else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled || panGesture.state == UIGestureRecognizerStateFailed) {
         [CPProcessManager stopProcess:[CPRemovingMemoCellProcess process] withPreparation:^{
             // TODO: Write code to stop removing a memo cell.
+            [self.resultCollectionView reloadData];
         }];
         [CPProcessManager stopProcess:[CPScrollingCollectionViewProcess process] withPreparation:^{
             CGPoint translation = [panGesture translationInView:panGesture.view];
@@ -315,15 +341,27 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CPMemo *memo = [self.resultMemos objectAtIndex:indexPath.row];
-
-    static NSString *cellIdentifier = @"CPMemoCell";
-    CPMemoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    UICollectionViewCell *initializedCell;
     
-    cell.delegate = self;
-    cell.backgroundColor = memo.password.color;
-    cell.label.text = memo.text;
+    if (self.removingCellIndex && self.removingCellIndex.section == indexPath.section && self.removingCellIndex.row == indexPath.row) {
+        self.removingCellIndex = nil;
+        
+        self.removingCell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_REMOVING forIndexPath:indexPath];
+        
+        self.removingCell.image = self.removingCellImage;
+        
+        initializedCell = self.removingCell;
+    } else {
+        CPMemoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_NORMAL forIndexPath:indexPath];
+        
+        cell.delegate = self;
+        cell.backgroundColor = memo.password.color;
+        cell.label.text = memo.text;
+        
+        initializedCell = cell;
+    }
     
-    return cell;
+    return initializedCell;
 }
 
 #pragma mark - UICollectionViewDelegate implement
@@ -332,6 +370,12 @@
     if ([(CPMemoCell *)cell isEditing]) {
         [(CPMemoCell *)cell endEditingAtIndexPath:indexPath];
     }
+}
+
+#pragma mark - UICollectionViewDelegateFlowLayout implement
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeMake(self.resultCollectionView.bounds.size.width - 20.0, 66.0);
 }
 
 #pragma mark - UIScrollViewDelegate implement

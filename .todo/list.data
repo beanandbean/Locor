@@ -748,7 +748,7 @@ S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 248.'
 p293
 sS'exported'
 p294
-I00
+I01
 sS'time'
 p295
 S'2013-07-17 18:37:03'
@@ -759,41 +759,69 @@ S'src/Passone/Passone/CPSearchViewManager.m'
 p298
 sS'condition'
 p299
-g85
-sa(dp300
+S'done'
+p300
+sa(dp301
 g288
 g289
 sg290
 S'Write code to continue removing a memo cell.'
-p301
+p302
 sg292
 S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 262.'
-p302
+p303
 sg294
-I00
+I01
 sg295
 S'2013-07-17 18:37:03'
-p303
+p304
 sg297
 g298
 sg299
-g85
-sa(dp304
+g300
+sa(dp305
 g288
 g289
 sg290
 S'Write code to stop removing a memo cell.'
-p305
-sg292
-S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 274.'
 p306
+sg292
+S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 299.'
+p307
 sg294
 I00
 sg295
 S'2013-07-17 18:37:03'
-p307
+p308
 sg297
 g298
 sg299
+g85
+sa(dp309
+S'author'
+p310
+S'TODO grabber'
+p311
+sS'text'
+p312
+S"When removing a memo cell, show 'Swipe/Release to remove'."
+p313
+sS'detail'
+p314
+S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 286.'
+p315
+sS'exported'
+p316
+I00
+sS'time'
+p317
+S'2013-07-18 18:40:19'
+p318
+sS'path'
+p319
+S'src/Passone/Passone/CPSearchViewManager.m'
+p320
+sS'condition'
+p321
 g85
 sa.
