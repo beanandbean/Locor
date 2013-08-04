@@ -32,6 +32,17 @@ static NSString *_passwordCacheName = @"PasswordCache";
 + (CPPassDataManager *)defaultManager {
     if (!_defaultManager) {
         _defaultManager = [[CPPassDataManager alloc] init];
+        /*
+         [_defaultManager addMemoText:@"aaaaa" intoIndex:0];
+         [_defaultManager addMemoText:@"aaaaa" intoIndex:1];
+         [_defaultManager addMemoText:@"aaaaa" intoIndex:2];
+         [_defaultManager addMemoText:@"aaaaa" intoIndex:3];
+         [_defaultManager addMemoText:@"aaaaa" intoIndex:4];
+         [_defaultManager addMemoText:@"aaaaa" intoIndex:5];
+         [_defaultManager addMemoText:@"aaaaa" intoIndex:6];
+         [_defaultManager addMemoText:@"aaaaa" intoIndex:7];
+         [_defaultManager addMemoText:@"aaaaa" intoIndex:8];
+         */
     }
     return _defaultManager;
 }

@@ -241,7 +241,7 @@ sg75
 S'The third and last two colors for cells are too similar, so they need to be changed.'
 p97
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 59.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 70.'
 p98
 sg79
 I00
@@ -279,7 +279,7 @@ sg75
 S'MAY ABORT! Handle the error appropriately when saving context.'
 p107
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 172.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 183.'
 p108
 sg79
 I00
@@ -297,7 +297,7 @@ sg75
 S'MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.'
 p111
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 209.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 220.'
 p112
 sg79
 I00
@@ -515,7 +515,7 @@ S'Show notification when removing a pass cell by setting an empty text.'
 p202
 sS'detail'
 p203
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 80.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 91.'
 p204
 sS'exported'
 p205
@@ -797,59 +797,105 @@ p309
 sg298
 g299
 sg300
-g85
-sa(dp310
+S'done'
+p310
+sa(dp311
 S'author'
-p311
-S'TODO grabber'
 p312
-sS'text'
-p313
-S"When removing a memo cell, show 'Swipe/Release to remove'."
-p314
-sS'detail'
-p315
-S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 286.'
-p316
-sS'exported'
-p317
-I00
-sS'time'
-p318
-S'2013-07-18 18:40:19'
-p319
-sS'path'
-p320
-S'src/Passone/Passone/CPSearchViewManager.m'
-p321
-sS'condition'
-p322
-g85
-sa(dp323
-S'author'
-p324
 S'TODO grabber'
-p325
+p313
 sS'text'
-p326
-S'Set the return key type of text field in Pass Edit View to done.'
-p327
+p314
+S"When removing a memo cell, show 'Swipe/Release to remove'."
+p315
 sS'detail'
-p328
-S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 169.'
-p329
+p316
+S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 286.'
+p317
 sS'exported'
-p330
+p318
 I00
 sS'time'
-p331
-S'2013-08-03 16:18:40'
-p332
+p319
+S'2013-07-18 18:40:19'
+p320
 sS'path'
-p333
-S'src/Passone/Passone/CPPassEditViewManager.m'
-p334
+p321
+S'src/Passone/Passone/CPSearchViewManager.m'
+p322
 sS'condition'
+p323
+g310
+sa(dp324
+S'author'
+p325
+S'TODO grabber'
+p326
+sS'text'
+p327
+S'Set the return key type of text field in Pass Edit View to done.'
+p328
+sS'detail'
+p329
+S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 169.'
+p330
+sS'exported'
+p331
+I00
+sS'time'
+p332
+S'2013-08-03 16:18:40'
+p333
+sS'path'
+p334
+S'src/Passone/Passone/CPPassEditViewManager.m'
 p335
+sS'condition'
+p336
+g85
+sa(dp337
+S'author'
+p338
+S'TODO grabber'
+p339
+sS'text'
+p340
+S"When removing a memo cell, show 'Swipe/Release to remove'."
+p341
+sS'detail'
+p342
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 172.'
+p343
+sS'exported'
+p344
+I00
+sS'time'
+p345
+S'2013-08-04 16:45:07'
+p346
+sS'path'
+p347
+S'src/Passone/Passone/CPMemoCollectionViewManager.m'
+p348
+sS'condition'
+p349
+g85
+sa(dp350
+g338
+g339
+sg340
+S'Write code to stop removing a memo cell.'
+p351
+sg342
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 185.'
+p352
+sg344
+I00
+sg345
+S'2013-08-04 16:45:07'
+p353
+sg347
+g348
+sg349
 g85
 sa.

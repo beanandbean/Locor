@@ -16,6 +16,7 @@
 		2C6143681786D59D00430C64 /* CPDraggingPassCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6143671786D59D00430C64 /* CPDraggingPassCellProcess.m */; };
 		2C61436B1786D7AC00430C64 /* CPRemovingPassCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C61436A1786D7AC00430C64 /* CPRemovingPassCellProcess.m */; };
 		2CBDF767177DB96E00BC9E3E /* CPNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */; };
+		2CC861F817AE3A64005B88ED /* CPMemoCollectionViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC861F717AE3A64005B88ED /* CPMemoCollectionViewManager.m */; };
 		2CE543A41796A207004CF538 /* CPEditingMemoCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE543A31796A207004CF538 /* CPEditingMemoCellProcess.m */; };
 		2CE543A71796A585004CF538 /* CPScrollingCollectionViewProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE543A61796A585004CF538 /* CPScrollingCollectionViewProcess.m */; };
 		2CE543AA1796A781004CF538 /* CPRemovingMemoCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE543A91796A781004CF538 /* CPRemovingMemoCellProcess.m */; };
@@ -63,6 +64,8 @@
 		2C61436A1786D7AC00430C64 /* CPRemovingPassCellProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPRemovingPassCellProcess.m; sourceTree = "<group>"; };
 		2CBDF765177DB96E00BC9E3E /* CPNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPNotificationCenter.h; sourceTree = "<group>"; };
 		2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPNotificationCenter.m; sourceTree = "<group>"; };
+		2CC861F617AE3A64005B88ED /* CPMemoCollectionViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMemoCollectionViewManager.h; sourceTree = "<group>"; };
+		2CC861F717AE3A64005B88ED /* CPMemoCollectionViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMemoCollectionViewManager.m; sourceTree = "<group>"; };
 		2CE543A21796A207004CF538 /* CPEditingMemoCellProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPEditingMemoCellProcess.h; sourceTree = "<group>"; };
 		2CE543A31796A207004CF538 /* CPEditingMemoCellProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPEditingMemoCellProcess.m; sourceTree = "<group>"; };
 		2CE543A51796A585004CF538 /* CPScrollingCollectionViewProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPScrollingCollectionViewProcess.h; sourceTree = "<group>"; };
@@ -192,6 +195,8 @@
 				FC03FCD9178AF99A004C2B15 /* CPMemoCell.m */,
 				2CF920131797F10C00637B7D /* CPMemoCellRemoving.h */,
 				2CF920141797F10C00637B7D /* CPMemoCellRemoving.m */,
+				2CC861F617AE3A64005B88ED /* CPMemoCollectionViewManager.h */,
+				2CC861F717AE3A64005B88ED /* CPMemoCollectionViewManager.m */,
 				2CBDF765177DB96E00BC9E3E /* CPNotificationCenter.h */,
 				2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */,
 				FCBB156717709854005DC611 /* CPPassCell.h */,
@@ -323,6 +328,7 @@
 				2CE543A71796A585004CF538 /* CPScrollingCollectionViewProcess.m in Sources */,
 				2CE543AA1796A781004CF538 /* CPRemovingMemoCellProcess.m in Sources */,
 				2CF920151797F10C00637B7D /* CPMemoCellRemoving.m in Sources */,
+				2CC861F817AE3A64005B88ED /* CPMemoCollectionViewManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

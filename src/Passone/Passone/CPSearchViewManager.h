@@ -8,7 +8,7 @@
 
 #import "CPMemoCell.h"
 
-@interface CPSearchViewManager : NSObject <CPMemoCellDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UISearchBarDelegate>
+@interface CPSearchViewManager : NSObject <UISearchBarDelegate>
 
 @property (strong, nonatomic) UISearchBar *searchBar;
 

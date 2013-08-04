@@ -8,22 +8,14 @@
 
 #import "CPSearchViewManager.h"
 
-#import "CPMemoCell.h"
-#import "CPMemoCellRemoving.h"
+#import "CPMemoCollectionViewManager.h"
 
 #import "CPAppearanceManager.h"
 
 #import "CPPassDataManager.h"
-#import "CPMemo.h"
-#import "CPPassword.h"
 
 #import "CPProcessManager.h"
-#import "CPRemovingMemoCellProcess.h"
-#import "CPScrollingCollectionViewProcess.h"
 #import "CPSearchingProcess.h"
-
-static NSString *CELL_REUSE_IDENTIFIER_NORMAL = @"normal-cell";
-static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 
 @interface CPSearchViewManager ()
 
@@ -35,27 +27,14 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 @property (strong, nonatomic) UIButton *closeButton;
 @property (strong, nonatomic) NSArray *closeButtonConstraints;
 
-@property (strong, nonatomic) UICollectionView *resultCollectionView;
-@property (strong, nonatomic) NSArray *resultCollectionViewConstraints;
-@property (strong, nonatomic) UIImageView *resultCollectionViewScrollIndicator;
+@property (strong, nonatomic) UIView *resultContainer;
+@property (strong, nonatomic) NSArray *resultContainerConstraints;
 
-@property (strong, nonatomic) NSArray *resultMemos;
-
-@property (strong, nonatomic) UIView *textFieldContainer;
-@property (strong, nonatomic) NSArray *textFieldContainerConstraints;
-
-@property (strong, nonatomic) UIImage *removingCellImage;
-
-@property (nonatomic) CGPoint draggingBasicOffset;
-
-@property (nonatomic) CPMemoCellRemoving *removingCell;
-@property (nonatomic) NSIndexPath *removingCellIndex;
+@property (strong, nonatomic) CPMemoCollectionViewManager *resultMemoCollectionViewManager;
 
 - (IBAction)closeButtonTouched:(id)sender;
 
 - (void)handleTapOnSearchBar:(UITapGestureRecognizer *)tapGesture;
-
-- (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture;
 
 @end
 
@@ -122,71 +101,31 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
     return _closeButtonConstraints;
 }
 
-- (UICollectionView *)resultCollectionView {
-    if (!_resultCollectionView) {
-        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.sectionInset = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
-        layout.minimumLineSpacing = 10.0;
-        _resultCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-        _resultCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
-        _resultCollectionView.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.7];
-        _resultCollectionView.showsHorizontalScrollIndicator = NO;
-        _resultCollectionView.dataSource = self;
-        _resultCollectionView.delegate = self;
-        
-        [_resultCollectionView flashScrollIndicators];
-        
-        [_resultCollectionView registerClass:[CPMemoCell class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_NORMAL];
-        [_resultCollectionView registerClass:[CPMemoCellRemoving class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_REMOVING];
-        
-        [_resultCollectionView addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)]];
+- (UIView *)resultContainer {
+    if (!_resultContainer) {
+        _resultContainer = [[UIView alloc] init];
+        _resultContainer.translatesAutoresizingMaskIntoConstraints = NO;
     }
-    return _resultCollectionView;
+    return _resultContainer;
 }
 
-- (NSArray *)resultCollectionViewConstraints {
-    if (!_resultCollectionViewConstraints) {
-        _resultCollectionViewConstraints = [[NSArray alloc] initWithObjects:
-                                            [NSLayoutConstraint constraintWithItem:self.resultCollectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:10.0],
-                                            [NSLayoutConstraint constraintWithItem:self.resultCollectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0],
-                                            [CPAppearanceManager constraintWithItem:self.resultCollectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft],
-                                            [CPAppearanceManager constraintWithItem:self.resultCollectionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight],
-                                            nil];
+- (NSArray *)resultContainerConstraints {
+    if (!_resultContainerConstraints) {
+        _resultContainerConstraints = [[NSArray alloc] initWithObjects:
+                                       [NSLayoutConstraint constraintWithItem:self.resultContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:10.0],
+                                       [NSLayoutConstraint constraintWithItem:self.resultContainer attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0],
+                                       [CPAppearanceManager constraintWithItem:self.resultContainer attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft],
+                                       [CPAppearanceManager constraintWithItem:self.resultContainer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight],
+                                       nil];
     }
-    return _resultCollectionViewConstraints;
+    return _resultContainerConstraints;
 }
 
-- (UIImageView *)resultCollectionViewScrollIndicator {
-    if (!_resultCollectionViewScrollIndicator) {
-        for (UIView *subview in self.resultCollectionView.subviews) {
-            if (subview.class == [UIImageView class]) {
-                _resultCollectionViewScrollIndicator = (UIImageView *)subview;
-            }
-        }
+- (CPMemoCollectionViewManager *)resultMemoCollectionViewManager {
+    if (!_resultMemoCollectionViewManager) {
+        _resultMemoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:self.resultContainer];
     }
-    return _resultCollectionViewScrollIndicator;
-}
-
-- (UIView *)textFieldContainer {
-    if (!_textFieldContainer) {
-        _textFieldContainer = [[UIView alloc] init];
-        _textFieldContainer.translatesAutoresizingMaskIntoConstraints = NO;
-        _textFieldContainer.userInteractionEnabled = NO;
-        _textFieldContainer.clipsToBounds = YES;
-    }
-    return _textFieldContainer;
-}
-
-- (NSArray *)textFieldContainerConstraints {
-    if (!_textFieldContainerConstraints) {
-        _textFieldContainerConstraints = [[NSArray alloc] initWithObjects:
-                                          [NSLayoutConstraint constraintWithItem:self.textFieldContainer attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.resultCollectionView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0],
-                                          [NSLayoutConstraint constraintWithItem:self.textFieldContainer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.resultCollectionView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0],
-                                          [NSLayoutConstraint constraintWithItem:self.textFieldContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.resultCollectionView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0],
-                                          [NSLayoutConstraint constraintWithItem:self.textFieldContainer attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.resultCollectionView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0],
-                                          nil];
-    }
-    return _textFieldContainerConstraints;
+    return _resultMemoCollectionViewManager;
 }
 
 - (id)initWithSuperView:(UIView *)superView {
@@ -204,35 +143,26 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 }
 
 - (IBAction)closeButtonTouched:(id)sender {
-    if ([CPMemoCell editingCell]) {
-        [[CPMemoCell editingCell] endEditingAtIndexPath:[self.resultCollectionView indexPathForCell:[CPMemoCell editingCell]]];
-    }
-    
+    [self.resultMemoCollectionViewManager endEditing];
     [CPProcessManager stopProcess:[CPSearchingProcess process] withPreparation:^{
-        [self.superView removeConstraints:self.textFieldContainerConstraints];
-        [self.textFieldContainer removeFromSuperview];
-        
-        self.textFieldContainer = nil;
-        self.textFieldContainerConstraints = nil;
-        
         [CPAppearanceManager animateWithDuration:0.3 animations:^{
             self.closeButton.alpha = 0.0;
-            self.resultCollectionView.alpha = 0.0;
+            self.resultMemoCollectionViewManager.collectionView.alpha = 0.0;
         } completion:^(BOOL finished) {
             [self.superView removeConstraints:self.closeButtonConstraints];
-            [self.superView removeConstraints:self.resultCollectionViewConstraints];
+            [self.superView removeConstraints:self.resultContainerConstraints];
             [self.superView addConstraint:self.searchBarRightConstraint];
             [self.closeButton removeFromSuperview];
-            [self.resultCollectionView removeFromSuperview];
+            [self.resultContainer removeFromSuperview];
             
-            self.resultCollectionView = nil;
-            self.resultCollectionViewConstraints = nil;
+            self.resultContainer = nil;
+            self.resultContainerConstraints = nil;
+            self.resultMemoCollectionViewManager = nil;
             
             self.searchBar.text = @"";
             if ([self.searchBar isFirstResponder]) {
                 [self.searchBar resignFirstResponder];
             }
-            self.resultMemos = nil;
             [CPAppearanceManager animateWithDuration:0.5 animations:^{
                 [self.superView layoutIfNeeded];
             }];
@@ -243,180 +173,35 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 - (void)handleTapOnSearchBar:(UITapGestureRecognizer *)tapGesture {
     self.searchBarTextField.enabled = YES;
     if (![self.searchBar isFirstResponder]) {
-        if ([CPMemoCell editingCell]) {
-            [[CPMemoCell editingCell] endEditingAtIndexPath:[self.resultCollectionView indexPathForCell:[CPMemoCell editingCell]]];
-        }
+        [self.resultMemoCollectionViewManager endEditing];
         [self.searchBar becomeFirstResponder];
     }
-}
-
-- (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture {
-    if (panGesture.state == UIGestureRecognizerStateChanged) {
-        CGPoint translation = [panGesture translationInView:panGesture.view];
-        if ((![CPProcessManager isInProcess:[CPRemovingMemoCellProcess process]] && (![CPProcessManager isInProcess:[CPScrollingCollectionViewProcess process]]))) {
-            CGPoint location = [panGesture locationInView:panGesture.view];
-            NSIndexPath *panningCellIndex = [self.resultCollectionView indexPathForItemAtPoint:location];
-            if (fabsf(translation.x) > fabsf(translation.y) && panningCellIndex) {
-                [CPProcessManager startProcess:[CPRemovingMemoCellProcess process] withPreparation:^{
-                    CPMemoCell *panningCell = (CPMemoCell *)[self.resultCollectionView cellForItemAtIndexPath:panningCellIndex];
-                    if ([panningCell isEditing]) {
-                        [panningCell endEditingAtIndexPath:panningCellIndex];
-                    }
-                    
-                    UIGraphicsBeginImageContext(panningCell.bounds.size);
-                    [panningCell.layer renderInContext:UIGraphicsGetCurrentContext()];
-                    self.removingCellImage = UIGraphicsGetImageFromCurrentImageContext();
-                    UIGraphicsEndImageContext();
-                    
-                    self.removingCellIndex = panningCellIndex;
-                    [self.resultCollectionView reloadData];
-                }];
-            } else {
-                [CPProcessManager startProcess:[CPScrollingCollectionViewProcess process] withPreparation:^{
-                    self.draggingBasicOffset = self.resultCollectionView.contentOffset;
-                    
-                    if (self.resultCollectionViewScrollIndicator) {
-                        self.resultCollectionViewScrollIndicator.alpha = 0.8;
-                        self.resultCollectionViewScrollIndicator.frame = CGRectMake(self.resultCollectionViewScrollIndicator.frame.origin.x, self.resultCollectionView.contentOffset.y * self.resultCollectionView.contentSize.height / (self.resultCollectionView.contentSize.height - self.resultCollectionView.frame.size.height), self.resultCollectionViewScrollIndicator.frame.size.width, powf(self.resultCollectionView.frame.size.height, 2.0) / self.resultCollectionView.contentSize.height);
-                    }
-                }];
-            }
-        }
-        if ([CPProcessManager isInProcess:[CPRemovingMemoCellProcess process]]) {
-            // TODO: When removing a memo cell, show 'Swipe/Release to remove'.
-            [self.removingCell setImageLeftOffset:translation.x];
-        }
-        if ([CPProcessManager isInProcess:[CPScrollingCollectionViewProcess process]]) {
-            CGPoint offset = CGPointMake(self.draggingBasicOffset.x, self.draggingBasicOffset.y - translation.y);
-            [self.resultCollectionView setContentOffset:offset animated:NO];
-            if (self.resultCollectionViewScrollIndicator) {
-                self.resultCollectionViewScrollIndicator.alpha = 0.8;
-                self.resultCollectionViewScrollIndicator.frame = CGRectMake(self.resultCollectionViewScrollIndicator.frame.origin.x, offset.y * self.resultCollectionView.contentSize.height / (self.resultCollectionView.contentSize.height - self.resultCollectionView.frame.size.height), self.resultCollectionViewScrollIndicator.frame.size.width, powf(self.resultCollectionView.frame.size.height, 2.0) / self.resultCollectionView.contentSize.height);
-            }
-        }
-    } else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled || panGesture.state == UIGestureRecognizerStateFailed) {
-        [CPProcessManager stopProcess:[CPRemovingMemoCellProcess process] withPreparation:^{
-            // TODO: Write code to stop removing a memo cell.
-            [self.resultCollectionView reloadData];
-        }];
-        [CPProcessManager stopProcess:[CPScrollingCollectionViewProcess process] withPreparation:^{
-            CGPoint translation = [panGesture translationInView:panGesture.view];
-            [panGesture setTranslation:CGPointZero inView:panGesture.view];
-            CGPoint offset = CGPointMake(self.draggingBasicOffset.x, self.draggingBasicOffset.y - translation.y);
-            [self.resultCollectionView setContentOffset:offset animated:NO];
-            if (offset.y < 0.0) {
-                offset.y = 0.0;
-                [self.resultCollectionView setContentOffset:offset animated:YES];
-            } else if (offset.y > self.resultCollectionView.contentSize.height - self.resultCollectionView.frame.size.height) {
-                offset.y = self.resultCollectionView.contentSize.height - self.resultCollectionView.frame.size.height;
-                [self.resultCollectionView setContentOffset:offset animated:YES];
-            }
-            if (self.resultCollectionViewScrollIndicator) {
-                // Decorative animation. Not protecting in CPAppearanceManager
-                [UIView animateWithDuration:0.3 animations:^{
-                    self.resultCollectionViewScrollIndicator.alpha = 0.0;
-                }];
-            }
-        }];
-    }
-}
-
-#pragma mark - CPMemoCellDelegate implement
-
-- (void)memoCellAtIndexPath:(NSIndexPath *)indexPath updateText:(NSString *)text {
-    NSAssert(indexPath, @"");
-    NSAssert(text, @"");
-    
-    CPMemo *memo = [self.resultMemos objectAtIndex:indexPath.row];
-    memo.text = text;
-    
-    [[CPPassDataManager defaultManager] saveContext];
-}
-
-#pragma mark - UICollectionViewDataSource implement
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.resultMemos.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CPMemo *memo = [self.resultMemos objectAtIndex:indexPath.row];
-    UICollectionViewCell *initializedCell;
-    
-    if (self.removingCellIndex && self.removingCellIndex.section == indexPath.section && self.removingCellIndex.row == indexPath.row) {
-        self.removingCellIndex = nil;
-        
-        self.removingCell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_REMOVING forIndexPath:indexPath];
-        
-        self.removingCell.image = self.removingCellImage;
-        
-        initializedCell = self.removingCell;
-    } else {
-        CPMemoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_NORMAL forIndexPath:indexPath];
-        
-        cell.delegate = self;
-        cell.backgroundColor = memo.password.color;
-        cell.label.text = memo.text;
-        
-        initializedCell = cell;
-    }
-    
-    return initializedCell;
-}
-
-#pragma mark - UICollectionViewDelegate implement
-
-- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-    if ([(CPMemoCell *)cell isEditing]) {
-        [(CPMemoCell *)cell endEditingAtIndexPath:indexPath];
-    }
-}
-
-#pragma mark - UICollectionViewDelegateFlowLayout implement
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(self.resultCollectionView.bounds.size.width - 20.0, 66.0);
-}
-
-#pragma mark - UIScrollViewDelegate implement
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if ([CPMemoCell editingCell]) {
-        [[CPMemoCell editingCell] refreshingConstriants];
-    }
-    [self.superView layoutIfNeeded];
 }
 
 #pragma mark - UISearchBarDelegate implement
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     if ([CPProcessManager isInProcess:[CPSearchingProcess process]]) {
-        self.resultMemos = [[CPPassDataManager defaultManager] memosContainText:searchBar.text];
-        [self.resultCollectionView reloadData];
+        self.resultMemoCollectionViewManager.memos = [[CPPassDataManager defaultManager] memosContainText:searchBar.text];
         return YES;
     } else {
         return [CPProcessManager startProcess:[CPSearchingProcess process] withPreparation:^{
-            self.resultMemos = [[CPPassDataManager defaultManager] memosContainText:searchBar.text];
-            
-            self.closeButton.alpha = 0.0;
-            self.resultCollectionView.alpha = 0.0;
-            
             [self.superView addSubview:self.closeButton];
-            [self.superView addSubview:self.resultCollectionView];
+            [self.superView addSubview:self.resultContainer];
             [self.superView removeConstraint:self.searchBarRightConstraint];
             [self.superView addConstraints:self.closeButtonConstraints];
-            [self.superView addConstraints:self.resultCollectionViewConstraints];
+            [self.superView addConstraints:self.resultContainerConstraints];
+                        
+            self.closeButton.alpha = 0.0;
+            self.resultMemoCollectionViewManager.collectionView.alpha = 0.0;
+            self.resultMemoCollectionViewManager.memos = [[CPPassDataManager defaultManager] memosContainText:searchBar.text];
             
             [CPAppearanceManager animateWithDuration:0.5 animations:^{
                 [self.superView layoutIfNeeded];
             } completion:^(BOOL finished) {
                 [CPAppearanceManager animateWithDuration:0.3 animations:^{
                     self.closeButton.alpha = 1.0;
-                    self.resultCollectionView.alpha = 1.0;
-                } completion:^(BOOL finished) {
-                    [self.superView addSubview:self.textFieldContainer];
-                    [self.superView addConstraints:self.textFieldContainerConstraints];
-                    [CPMemoCell setTextFieldContainer:self.textFieldContainer];
+                    self.resultMemoCollectionViewManager.collectionView.alpha = 1.0;
                 }];
             }];
         }];
@@ -428,15 +213,12 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    self.resultMemos = [[CPPassDataManager defaultManager] memosContainText:searchText];
-    [self.resultCollectionView reloadData];
+    self.resultMemoCollectionViewManager.memos = [[CPPassDataManager defaultManager] memosContainText:searchText];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
-    if ([CPMemoCell editingCell].isEditing) {
-        [[CPMemoCell editingCell] endEditingAtIndexPath:[self.resultCollectionView indexPathForCell:[CPMemoCell editingCell]]];
-    }
+    [self.resultMemoCollectionViewManager endEditing];
 }
 
 @end
