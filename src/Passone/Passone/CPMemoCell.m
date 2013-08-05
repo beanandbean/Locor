@@ -13,11 +13,13 @@
 
 static CPMemoCell *editingCell;
 static UIView *textFieldContainer;
+static UITextField *textField;
+static NSArray *textFieldConstraints;
 
 @interface CPMemoCell ()
 
-@property (strong, nonatomic) UITextField *textField;
-@property (strong, nonatomic) NSArray *textFieldConstraints;
+//@property (strong, nonatomic) UITextField *textField;
+//@property (strong, nonatomic) NSArray *textFieldConstraints;
 
 @end
 
@@ -50,7 +52,7 @@ static UIView *textFieldContainer;
     return _label;
 }
 
-- (UITextField *)textField {
+/*- (UITextField *)textField {
     if (!_textField) {
         _textField = [[UITextField alloc] init];
         _textField.translatesAutoresizingMaskIntoConstraints = NO;
@@ -78,7 +80,7 @@ static UIView *textFieldContainer;
                                  nil];
     }
     return _textFieldConstraints;
-}
+}*/
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -89,7 +91,7 @@ static UIView *textFieldContainer;
     return self;
 }
 
-- (void)dealloc {
+/*- (void)dealloc {
     if (textFieldContainer) {
         if (_textFieldConstraints) {
             [textFieldContainer removeConstraints:_textFieldConstraints];
@@ -98,7 +100,7 @@ static UIView *textFieldContainer;
             [_textField removeFromSuperview];
         }
     }
-}
+}*/
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
     if (editingCell) {
@@ -108,21 +110,43 @@ static UIView *textFieldContainer;
     [CPProcessManager startProcess:[CPEditingMemoCellProcess process] withPreparation:^{
         editingCell = self;
         
-        self.label.hidden = YES;
-        self.textField.hidden = NO;
-        self.textField.enabled = YES;
-        self.textField.text = self.label.text;
+        if (!textField) {
+            textField = [[UITextField alloc] init];
+            textField.translatesAutoresizingMaskIntoConstraints = NO;
+            textField.backgroundColor = [UIColor clearColor];
+            [textFieldContainer addSubview:textField];
+        }
         
-        [self refreshingConstriants];
-        [self.textField becomeFirstResponder];
+        float offset = ((UIScrollView *)self.superview).contentOffset.y;
+        
+        textFieldConstraints = [[NSArray alloc] initWithObjects:
+                                [NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:12.0 - offset],
+                                [NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:10.0],
+                                [NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1.0 constant:10.0],
+                                [NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-5.0 - offset],
+                                nil];
+        
+        [textFieldContainer.superview addConstraints:textFieldConstraints];
+        [textFieldContainer.superview layoutIfNeeded];
+        
+        self.label.hidden = YES;
+        
+        textField.textColor = self.label.textColor;
+        textField.font = self.label.font;
+        textField.delegate = self;
+        textField.hidden = NO;
+        textField.enabled = YES;
+        textField.text = self.label.text;
+        
+        [textField becomeFirstResponder];
     }];
 }
 
 - (void)refreshingConstriants {
     float offset = ((UIScrollView *)self.superview).contentOffset.y;
     
-    ((NSLayoutConstraint *)[self.textFieldConstraints objectAtIndex:0]).constant = 12.0 - offset;
-    ((NSLayoutConstraint *)[self.textFieldConstraints objectAtIndex:3]).constant = -5.0 - offset;
+    ((NSLayoutConstraint *)[textFieldConstraints objectAtIndex:0]).constant = 12.0 - offset;
+    ((NSLayoutConstraint *)[textFieldConstraints objectAtIndex:3]).constant = -5.0 - offset;
 }
 
 - (BOOL)isEditing {
@@ -134,16 +158,19 @@ static UIView *textFieldContainer;
         [CPProcessManager stopProcess:[CPEditingMemoCellProcess process] withPreparation:^{
             editingCell = nil;
             self.label.hidden = NO;
-            self.textField.hidden = YES;
-            self.textField.enabled = NO;
+            textField.hidden = YES;
+            textField.enabled = NO;
             
-            self.label.text = self.textField.text;
+            self.label.text = textField.text;
             
-            [self.delegate memoCellAtIndexPath:indexPath updateText:self.textField.text];
+            [self.delegate memoCellAtIndexPath:indexPath updateText:textField.text];
             
-            if ([self.textField isFirstResponder]) {
-                [self.textField resignFirstResponder];
+            if ([textField isFirstResponder]) {
+                [textField resignFirstResponder];
             }
+            
+            [textFieldContainer.superview removeConstraints:textFieldConstraints];
+            textFieldConstraints = nil;
         }];
     }
 }
