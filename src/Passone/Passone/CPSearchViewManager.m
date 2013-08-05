@@ -182,7 +182,7 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     if ([CPProcessManager isInProcess:[CPSearchingProcess process]]) {
-        self.resultMemoCollectionViewManager.memos = [[CPPassDataManager defaultManager] memosContainText:searchBar.text];
+        self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchBar.text] mutableCopy];
         return YES;
     } else {
         return [CPProcessManager startProcess:[CPSearchingProcess process] withPreparation:^{
@@ -194,7 +194,7 @@
                         
             self.closeButton.alpha = 0.0;
             self.resultMemoCollectionViewManager.collectionView.alpha = 0.0;
-            self.resultMemoCollectionViewManager.memos = [[CPPassDataManager defaultManager] memosContainText:searchBar.text];
+            self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchBar.text] mutableCopy];
             
             [CPAppearanceManager animateWithDuration:0.5 animations:^{
                 [self.superView layoutIfNeeded];
@@ -213,7 +213,7 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    self.resultMemoCollectionViewManager.memos = [[CPPassDataManager defaultManager] memosContainText:searchText];
+    self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchText] mutableCopy];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {

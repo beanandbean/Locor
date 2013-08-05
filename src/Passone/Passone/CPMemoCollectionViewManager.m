@@ -25,7 +25,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 
 @interface CPMemoCollectionViewManager ()
 
-@property (strong, nonatomic) UIView *superview;
+@property (weak, nonatomic) UIView *superview;
 
 @property (strong, nonatomic) NSArray *collectionViewConstraints;
 @property (strong, nonatomic) UIImageView *collectionViewScrollIndicator;
@@ -111,8 +111,8 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
     return _textFieldContainerConstraints;
 }
 
-- (void)setMemos:(NSArray *)memos {
-    _memos = [memos mutableCopy];
+- (void)setMemos:(NSMutableArray *)memos {
+    _memos = memos;
     [self.collectionView reloadData];
 }
 
@@ -280,7 +280,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 #pragma mark - UICollectionViewDelegateFlowLayout implement
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(self.collectionView.bounds.size.width - 20.0, 66.0);
+    return CGSizeMake(self.superview.bounds.size.width - 20.0, 66.0);
 }
 
 #pragma mark - UIScrollViewDelegate implement
