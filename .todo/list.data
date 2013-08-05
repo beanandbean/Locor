@@ -279,7 +279,7 @@ sg75
 S'MAY ABORT! Handle the error appropriately when saving context.'
 p107
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 183.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 189.'
 p108
 sg79
 I00
@@ -297,7 +297,7 @@ sg75
 S'MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.'
 p111
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 220.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 226.'
 p112
 sg79
 I00
@@ -797,7 +797,7 @@ p309
 sg298
 g299
 sg300
-S'done'
+S'remv'
 p310
 sa(dp311
 S'author'
@@ -825,77 +825,107 @@ S'src/Passone/Passone/CPSearchViewManager.m'
 p322
 sS'condition'
 p323
-g310
-sa(dp324
+S'remv'
+p324
+sa(dp325
 S'author'
-p325
-S'TODO grabber'
 p326
-sS'text'
-p327
-S'Set the return key type of text field in Pass Edit View to done.'
-p328
-sS'detail'
-p329
-S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 169.'
-p330
-sS'exported'
-p331
-I00
-sS'time'
-p332
-S'2013-08-03 16:18:40'
-p333
-sS'path'
-p334
-S'src/Passone/Passone/CPPassEditViewManager.m'
-p335
-sS'condition'
-p336
-g85
-sa(dp337
-S'author'
-p338
 S'TODO grabber'
-p339
+p327
 sS'text'
-p340
-S"When removing a memo cell, show 'Swipe/Release to remove'."
-p341
+p328
+S'Set the return key type of text field in Pass Edit View to done.'
+p329
 sS'detail'
-p342
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 172.'
-p343
+p330
+S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 169.'
+p331
 sS'exported'
-p344
+p332
 I00
 sS'time'
-p345
-S'2013-08-04 16:45:07'
-p346
+p333
+S'2013-08-03 16:18:40'
+p334
 sS'path'
-p347
-S'src/Passone/Passone/CPMemoCollectionViewManager.m'
-p348
+p335
+S'src/Passone/Passone/CPPassEditViewManager.m'
+p336
 sS'condition'
-p349
+p337
 g85
-sa(dp350
-g338
-g339
-sg340
-S'Write code to stop removing a memo cell.'
-p351
-sg342
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 185.'
-p352
-sg344
-I00
-sg345
+sa(dp338
+S'author'
+p339
+S'TODO grabber'
+p340
+sS'text'
+p341
+S"When removing a memo cell, show 'Swipe/Release to remove'."
+p342
+sS'detail'
+p343
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 172.'
+p344
+sS'exported'
+p345
+I01
+sS'time'
+p346
 S'2013-08-04 16:45:07'
+p347
+sS'path'
+p348
+S'src/Passone/Passone/CPMemoCollectionViewManager.m'
+p349
+sS'condition'
+p350
+S'done'
+p351
+sa(dp352
+g339
+g340
+sg341
+S'Write code to stop removing a memo cell.'
 p353
-sg347
-g348
-sg349
+sg343
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 184.'
+p354
+sg345
+I01
+sg346
+S'2013-08-04 16:45:07'
+p355
+sg348
+g349
+sg350
+S'done'
+p356
+sa(dp357
+S'author'
+p358
+S'TODO grabber'
+p359
+sS'text'
+p360
+S'Add animation for removing a memo cell.'
+p361
+sS'detail'
+p362
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 204.'
+p363
+sS'exported'
+p364
+I00
+sS'time'
+p365
+S'2013-08-05 18:38:59'
+p366
+sS'path'
+p367
+S'src/Passone/Passone/CPMemoCollectionViewManager.m'
+p368
+sS'condition'
+p369
 g85
 sa.

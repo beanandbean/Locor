@@ -12,6 +12,9 @@
 
 @property (strong, nonatomic) UIImage *image;
 
+@property (strong, nonatomic) UILabel *leftLabel;
+@property (strong, nonatomic) UILabel *rightLabel;
+
 - (void)setImageLeftOffset:(float)offset;
 
 @end

@@ -10,6 +10,8 @@
 
 #import "CPMemoCellRemoving.h"
 
+#import "CPAppearanceManager.h"
+
 #import "CPPassDataManager.h"
 #import "CPPassword.h"
 #import "CPMemo.h"
@@ -35,8 +37,8 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 
 @property (nonatomic) CGPoint draggingBasicOffset;
 
-@property (nonatomic) CPMemoCellRemoving *removingCell;
-@property (nonatomic) NSIndexPath *removingCellIndex;
+@property (weak, nonatomic) CPMemoCellRemoving *removingCell;
+@property (strong, nonatomic) NSIndexPath *removingCellIndex;
 
 @end
 
@@ -110,7 +112,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 }
 
 - (void)setMemos:(NSArray *)memos {
-    _memos = memos;
+    _memos = [memos mutableCopy];
     [self.collectionView reloadData];
 }
 
@@ -169,7 +171,6 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
             }
         }
         if ([CPProcessManager isInProcess:[CPRemovingMemoCellProcess process]]) {
-            // TODO: When removing a memo cell, show 'Swipe/Release to remove'.
             [self.removingCell setImageLeftOffset:translation.x];
         }
         if ([CPProcessManager isInProcess:[CPScrollingCollectionViewProcess process]]) {
@@ -181,12 +182,29 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
             }
         }
     } else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled || panGesture.state == UIGestureRecognizerStateFailed) {
+        CGPoint translation = [panGesture translationInView:panGesture.view];
         [CPProcessManager stopProcess:[CPRemovingMemoCellProcess process] withPreparation:^{
-            // TODO: Write code to stop removing a memo cell.
-            [self.collectionView reloadData];
+            if (fabsf(translation.x) < self.removingCell.contentView.frame.size.width / 2) {
+                [self.removingCell setImageLeftOffset:0.0];
+                [CPAppearanceManager animateWithDuration:0.5 animations:^{
+                    [self.superview layoutIfNeeded];
+                } completion:^(BOOL finished) {
+                    [self.collectionView reloadData];
+                }];
+                // This animation is contained in previous one, not needing to use CPAppearanceManager's animation
+                [UIView animateWithDuration:0.3 delay:0.2 options:0 animations:^{
+                    self.removingCell.leftLabel.alpha = 0.0;
+                    self.removingCell.rightLabel.alpha = 0.0;
+                } completion:nil];
+            } else {
+                CPMemo *memo = [self.memos objectAtIndex:[self.collectionView indexPathForCell:self.removingCell].row];
+                [self.memos removeObject:memo];
+                [[CPPassDataManager defaultManager] removeMemo:memo];
+                [self.collectionView reloadData];
+                // TODO: Add animation for removing a memo cell.
+            }
         }];
         [CPProcessManager stopProcess:[CPScrollingCollectionViewProcess process] withPreparation:^{
-            CGPoint translation = [panGesture translationInView:panGesture.view];
             [panGesture setTranslation:CGPointZero inView:panGesture.view];
             CGPoint offset = CGPointMake(self.draggingBasicOffset.x, self.draggingBasicOffset.y - translation.y);
             [self.collectionView setContentOffset:offset animated:NO];

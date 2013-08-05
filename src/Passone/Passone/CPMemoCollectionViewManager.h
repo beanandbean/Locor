@@ -10,7 +10,7 @@
 
 @interface CPMemoCollectionViewManager : NSObject <CPMemoCellDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
 
-@property (strong, nonatomic) NSArray *memos;
+@property (strong, nonatomic) NSMutableArray *memos;
 @property (strong, nonatomic) UICollectionView *collectionView;
 
 - (id)initWithSuperview:(UIView *)superview;
