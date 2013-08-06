@@ -95,14 +95,12 @@
         [CPAppearanceManager animateWithDuration:0.5 animations:^{
             [self.superView layoutIfNeeded];
             self.view.backgroundColor = password.color;
-        } completion:^(BOOL finished) {
+            
             if (password.isUsed.boolValue) {
                 self.memoCollectionViewManager.memos = [[password.memos sortedArrayUsingDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:NO], nil]] mutableCopy];
             } else {
-                self.memoCollectionViewManager.memos = [[NSMutableArray alloc] init];
+                self.memoCollectionViewManager.memos = [NSMutableArray array];
             }
-            
-            [self.memoCollectionViewManager.collectionView reloadData];
         }];
         // This animation is contained in previous one, not needing to use CPAppearanceManager's animation
         [UIView animateWithDuration:0.25 delay:0.25 options:0 animations:^{
@@ -132,11 +130,11 @@
             }
         }];
         [CPAppearanceManager animateWithDuration:0.5 animations:^{
+            self.memoCollectionViewManager.memos = [NSMutableArray array];
+            
             [self.superView layoutIfNeeded];
             self.view.backgroundColor = cell.backgroundColor;
         } completion:^(BOOL finished) {
-            self.memoCollectionViewManager.memos = [[NSMutableArray alloc] init];
-            
             [self.superView removeConstraints:self.constraints];
             [self.view removeFromSuperview];
             self.index = -1;

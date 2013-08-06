@@ -42,7 +42,7 @@ static NSMutableArray *processArray;
     } else {
         
 #ifndef NO_PROCESS_LOG
-        NSLog(@"Try to start process \"%@\" not succeed.", NSStringFromClass([process class]));
+        NSLog(@"Try to start process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), [CPProcessManager processArray]);
 #endif
         
         return NO;
@@ -59,7 +59,7 @@ static NSMutableArray *processArray;
     } else {
         
 #ifndef NO_PROCESS_LOG
-        NSLog(@"Try to start process \"%@\" not succeed.", NSStringFromClass([process class]));
+        NSLog(@"Try to start process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), [CPProcessManager processArray]);
 #endif
         
         return NO;
@@ -67,7 +67,7 @@ static NSMutableArray *processArray;
 }
 
 + (bool)stopProcess:(id<CPProcess>)process {
-    if (process != [CPApplicationProcess process]) {
+    if (process != [CPApplicationProcess process] && !(process != [CPPreparationProcess process] && [CPProcessManager isInProcess:[CPPreparationProcess process]])) {
         int index = [CPProcessManager processArray].count - 1;
         while (index > 0 && [[CPProcessManager processArray] objectAtIndex:index] != process) {
             index--;
@@ -79,14 +79,14 @@ static NSMutableArray *processArray;
     }
     
 #ifndef NO_PROCESS_LOG
-    NSLog(@"Try to stop process \"%@\" not succeed.", NSStringFromClass([process class]));
+    NSLog(@"Try to stop process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), [CPProcessManager processArray]);
 #endif
     
     return NO;
 }
 
 + (bool)stopProcess:(id<CPProcess>)process withPreparation:(void (^)(void))preparation {
-    if (process != [CPApplicationProcess process]) {
+    if (process != [CPApplicationProcess process] && !(process != [CPPreparationProcess process] && [CPProcessManager isInProcess:[CPPreparationProcess process]])) {
         int index = [CPProcessManager processArray].count - 1;
         while (index > 0 && [[CPProcessManager processArray] objectAtIndex:index] != process) {
             index--;
@@ -101,7 +101,7 @@ static NSMutableArray *processArray;
     }
     
 #ifndef NO_PROCESS_LOG
-    NSLog(@"Try to stop process \"%@\" not succeed.", NSStringFromClass([process class]));
+    NSLog(@"Try to stop process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), [CPProcessManager processArray]);
 #endif
     
     return NO;

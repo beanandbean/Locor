@@ -290,7 +290,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 #pragma mark - UICollectionViewDelegateFlowLayout implement
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(self.superview.bounds.size.width - 20.0, 66.0);
+    return CGSizeMake(self.collectionView.frame.size.width - 20.0, 66.0);
 }
 
 #pragma mark - UIScrollViewDelegate implement
