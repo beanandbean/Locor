@@ -138,6 +138,15 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
     }
 }
 
+- (CGRect)scrollIndicatorFrameWithOffset:(float)offset {
+    if (self.collectionView.contentSize.height <= self.collectionView.frame.size.height) {
+        return CGRectMake(self.collectionViewScrollIndicator.frame.origin.x, offset * 2, self.collectionViewScrollIndicator.frame.size.width, self.collectionView.frame.size.height);
+    } else {
+        float scrollIndicatorHeight = powf(self.collectionView.frame.size.height, 2.0) / self.collectionView.contentSize.height;
+        return CGRectMake(self.collectionViewScrollIndicator.frame.origin.x, offset * (self.collectionView.contentSize.height - scrollIndicatorHeight) / (self.collectionView.contentSize.height - self.collectionView.frame.size.height), self.collectionViewScrollIndicator.frame.size.width, scrollIndicatorHeight);
+    }
+}
+
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture {
     if (panGesture.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [panGesture translationInView:panGesture.view];
@@ -165,7 +174,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
                     
                     if (self.collectionViewScrollIndicator) {
                         self.collectionViewScrollIndicator.alpha = 0.8;
-                        self.collectionViewScrollIndicator.frame = CGRectMake(self.collectionViewScrollIndicator.frame.origin.x, self.collectionView.contentOffset.y * self.collectionView.contentSize.height / (self.collectionView.contentSize.height - self.collectionView.frame.size.height), self.collectionViewScrollIndicator.frame.size.width, powf(self.collectionView.frame.size.height, 2.0) / self.collectionView.contentSize.height);
+                        self.collectionViewScrollIndicator.frame = [self scrollIndicatorFrameWithOffset:self.collectionView.contentOffset.y];
                     }
                 }];
             }
@@ -178,7 +187,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
             [self.collectionView setContentOffset:offset animated:NO];
             if (self.collectionViewScrollIndicator) {
                 self.collectionViewScrollIndicator.alpha = 0.8;
-                self.collectionViewScrollIndicator.frame = CGRectMake(self.collectionViewScrollIndicator.frame.origin.x, offset.y * self.collectionView.contentSize.height / (self.collectionView.contentSize.height - self.collectionView.frame.size.height), self.collectionViewScrollIndicator.frame.size.width, powf(self.collectionView.frame.size.height, 2.0) / self.collectionView.contentSize.height);
+                self.collectionViewScrollIndicator.frame = [self scrollIndicatorFrameWithOffset:offset.y];
             }
         }
     } else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled || panGesture.state == UIGestureRecognizerStateFailed) {
@@ -207,12 +216,13 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
         [CPProcessManager stopProcess:[CPScrollingCollectionViewProcess process] withPreparation:^{
             [panGesture setTranslation:CGPointZero inView:panGesture.view];
             CGPoint offset = CGPointMake(self.draggingBasicOffset.x, self.draggingBasicOffset.y - translation.y);
+            float contentHeight = MAX(self.collectionView.contentSize.height, self.collectionView.frame.size.height);
             [self.collectionView setContentOffset:offset animated:NO];
             if (offset.y < 0.0) {
                 offset.y = 0.0;
                 [self.collectionView setContentOffset:offset animated:YES];
-            } else if (offset.y > self.collectionView.contentSize.height - self.collectionView.frame.size.height) {
-                offset.y = self.collectionView.contentSize.height - self.collectionView.frame.size.height;
+            } else if (offset.y > contentHeight - self.collectionView.frame.size.height) {
+                offset.y = contentHeight - self.collectionView.frame.size.height;
                 [self.collectionView setContentOffset:offset animated:YES];
             }
             if (self.collectionViewScrollIndicator) {
