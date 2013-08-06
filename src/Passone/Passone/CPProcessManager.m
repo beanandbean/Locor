@@ -12,6 +12,8 @@
 #import "CPApplicationProcess.h"
 #import "CPPreparationProcess.h"
 
+#define NO_PROCESS_LOG
+
 static NSMutableArray *processArray;
 
 @interface CPProcessManager ()
@@ -38,6 +40,11 @@ static NSMutableArray *processArray;
         [processArray addObject:process];
         return YES;
     } else {
+        
+#ifndef NO_PROCESS_LOG
+        NSLog(@"Try to start process \"%@\" not succeed.", NSStringFromClass([process class]));
+#endif
+        
         return NO;
     }
 }
@@ -50,6 +57,11 @@ static NSMutableArray *processArray;
         [CPProcessManager stopProcess:[CPPreparationProcess process]];
         return YES;
     } else {
+        
+#ifndef NO_PROCESS_LOG
+        NSLog(@"Try to start process \"%@\" not succeed.", NSStringFromClass([process class]));
+#endif
+        
         return NO;
     }
 }
@@ -65,6 +77,11 @@ static NSMutableArray *processArray;
             return YES;
         }
     }
+    
+#ifndef NO_PROCESS_LOG
+    NSLog(@"Try to stop process \"%@\" not succeed.", NSStringFromClass([process class]));
+#endif
+    
     return NO;
 }
 
@@ -82,6 +99,11 @@ static NSMutableArray *processArray;
             return YES;
         }
     }
+    
+#ifndef NO_PROCESS_LOG
+    NSLog(@"Try to stop process \"%@\" not succeed.", NSStringFromClass([process class]));
+#endif
+    
     return NO;
 }
 
