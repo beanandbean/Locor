@@ -15,7 +15,6 @@
 #import "CPAppearanceManager.h"
 
 #import "CPProcessManager.h"
-#import "CPPreparationProcess.h"
 
 @interface CPMainViewController ()
 
@@ -29,8 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Preparation process provides not REQUIRED protect, so there's no need to check if it is started successfully.
-    [CPProcessManager startProcess:[CPPreparationProcess process]];
+    [CPProcessManager increaseForbiddenCount];
     
     UIView *contentView = [[UIView alloc] init];
     contentView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -47,7 +45,7 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0]];
     [self.view addSubview:contentView];
     
-    [CPProcessManager stopProcess:[CPPreparationProcess process]];
+    [CPProcessManager decreaseForbiddenCount];
 }
 
 - (void)didReceiveMemoryWarning {

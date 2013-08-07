@@ -8,11 +8,7 @@
 
 #import "CPRemovingPassCellProcess.h"
 
-#import "CPAnimationProcess.h"
-#import "CPPreparationProcess.h"
-
 static CPRemovingPassCellProcess *process;
-static NSArray *allowedProcess;
 
 @implementation CPRemovingPassCellProcess
 
@@ -24,10 +20,7 @@ static NSArray *allowedProcess;
 }
 
 - (bool)allowSubprocess:(id<CPProcess>)process {
-    if (!allowedProcess) {
-        allowedProcess = [NSArray arrayWithObjects:[CPAnimationProcess process], [CPPreparationProcess process], nil];
-    }
-    return [allowedProcess indexOfObject:process] != NSNotFound;
+    return NO;
 }
 
 @end

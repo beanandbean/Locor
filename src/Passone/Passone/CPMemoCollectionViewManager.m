@@ -200,8 +200,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
                 } completion:^(BOOL finished) {
                     [self.collectionView reloadData];
                 }];
-                // This animation is contained in previous one, not needing to use CPAppearanceManager's animation
-                [UIView animateWithDuration:0.3 delay:0.2 options:0 animations:^{
+                [CPAppearanceManager animateWithDuration:0.3 delay:0.2 options:0 animations:^{
                     self.removingCell.leftLabel.alpha = 0.0;
                     self.removingCell.rightLabel.alpha = 0.0;
                 } completion:nil];

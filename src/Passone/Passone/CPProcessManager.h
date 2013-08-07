@@ -18,4 +18,7 @@
 + (bool)stopProcess:(id<CPProcess>)process;
 + (bool)stopProcess:(id<CPProcess>)process withPreparation:(void (^)(void))preparation;
 
++ (void)increaseForbiddenCount;
++ (void)decreaseForbiddenCount;
+
 @end

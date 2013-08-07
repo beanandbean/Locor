@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2C0D2D8D178AC72600485CE5 /* CPSearchingProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D2D8C178AC72600485CE5 /* CPSearchingProcess.m */; };
-		2C0D2D90178ACA0C00485CE5 /* CPAnimationProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D2D8F178ACA0C00485CE5 /* CPAnimationProcess.m */; };
-		2C15BD1A178C0E2B007D9E24 /* CPPreparationProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C15BD19178C0E2B007D9E24 /* CPPreparationProcess.m */; };
 		2C57A045178979A2004F1547 /* CPAppearanceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C57A044178979A2004F1547 /* CPAppearanceManager.m */; };
 		2C6143601786D1C100430C64 /* CPProcessManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C61435F1786D1C100430C64 /* CPProcessManager.m */; };
 		2C6143651786D26100430C64 /* CPApplicationProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6143641786D26100430C64 /* CPApplicationProcess.m */; };
@@ -48,10 +46,6 @@
 /* Begin PBXFileReference section */
 		2C0D2D8B178AC72600485CE5 /* CPSearchingProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPSearchingProcess.h; sourceTree = "<group>"; };
 		2C0D2D8C178AC72600485CE5 /* CPSearchingProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPSearchingProcess.m; sourceTree = "<group>"; };
-		2C0D2D8E178ACA0C00485CE5 /* CPAnimationProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPAnimationProcess.h; sourceTree = "<group>"; };
-		2C0D2D8F178ACA0C00485CE5 /* CPAnimationProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPAnimationProcess.m; sourceTree = "<group>"; };
-		2C15BD18178C0E2B007D9E24 /* CPPreparationProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPreparationProcess.h; sourceTree = "<group>"; };
-		2C15BD19178C0E2B007D9E24 /* CPPreparationProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPreparationProcess.m; sourceTree = "<group>"; };
 		2C57A043178979A2004F1547 /* CPAppearanceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPAppearanceManager.h; sourceTree = "<group>"; };
 		2C57A044178979A2004F1547 /* CPAppearanceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPAppearanceManager.m; sourceTree = "<group>"; };
 		2C61435E1786D1C100430C64 /* CPProcessManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPProcessManager.h; sourceTree = "<group>"; };
@@ -132,14 +126,10 @@
 		2C6143621786D23000430C64 /* Process */ = {
 			isa = PBXGroup;
 			children = (
-				2C0D2D8E178ACA0C00485CE5 /* CPAnimationProcess.h */,
-				2C0D2D8F178ACA0C00485CE5 /* CPAnimationProcess.m */,
 				2C6143631786D26100430C64 /* CPApplicationProcess.h */,
 				2C6143641786D26100430C64 /* CPApplicationProcess.m */,
 				2C6143661786D59D00430C64 /* CPDraggingPassCellProcess.h */,
 				2C6143671786D59D00430C64 /* CPDraggingPassCellProcess.m */,
-				2C15BD18178C0E2B007D9E24 /* CPPreparationProcess.h */,
-				2C15BD19178C0E2B007D9E24 /* CPPreparationProcess.m */,
 				2C6143691786D7AC00430C64 /* CPRemovingPassCellProcess.h */,
 				2C61436A1786D7AC00430C64 /* CPRemovingPassCellProcess.m */,
 				2C0D2D8B178AC72600485CE5 /* CPSearchingProcess.h */,
@@ -326,9 +316,7 @@
 				FCA400A117896F000087AECF /* CPSearchViewManager.m in Sources */,
 				2C57A045178979A2004F1547 /* CPAppearanceManager.m in Sources */,
 				2C0D2D8D178AC72600485CE5 /* CPSearchingProcess.m in Sources */,
-				2C0D2D90178ACA0C00485CE5 /* CPAnimationProcess.m in Sources */,
 				FC03FCDA178AF99A004C2B15 /* CPMemoCell.m in Sources */,
-				2C15BD1A178C0E2B007D9E24 /* CPPreparationProcess.m in Sources */,
 				2CE543A41796A207004CF538 /* CPEditingMemoCellProcess.m in Sources */,
 				2CE543A71796A585004CF538 /* CPScrollingCollectionViewProcess.m in Sources */,
 				2CE543AA1796A781004CF538 /* CPRemovingMemoCellProcess.m in Sources */,

@@ -8,13 +8,12 @@
 
 #import "CPProcessManager.h"
 
-#import "CPAnimationProcess.h"
 #import "CPApplicationProcess.h"
-#import "CPPreparationProcess.h"
 
 #define NO_PROCESS_LOG
 
 static NSMutableArray *processArray;
+static int forbiddenCount = 0;
 
 @interface CPProcessManager ()
 
@@ -36,7 +35,7 @@ static NSMutableArray *processArray;
 }
 
 + (bool)startProcess:(id<CPProcess>)process {
-    if ([[[CPProcessManager processArray] lastObject] allowSubprocess:process]) {
+    if (!forbiddenCount && [[[CPProcessManager processArray] lastObject] allowSubprocess:process]) {
         [processArray addObject:process];
         return YES;
     } else {
@@ -52,9 +51,9 @@ static NSMutableArray *processArray;
 + (bool)startProcess:(id<CPProcess>)process withPreparation:(void (^)(void))preparation {
     if ([CPProcessManager startProcess:process]) {
         // Preparation process provides not REQUIRED protect, so there's no need to check if it is started successfully.
-        [CPProcessManager startProcess:[CPPreparationProcess process]];
+        [CPProcessManager increaseForbiddenCount];
         preparation();
-        [CPProcessManager stopProcess:[CPPreparationProcess process]];
+        [CPProcessManager decreaseForbiddenCount];
         return YES;
     } else {
         
@@ -67,44 +66,43 @@ static NSMutableArray *processArray;
 }
 
 + (bool)stopProcess:(id<CPProcess>)process {
-    if (process != [CPApplicationProcess process] && !(process != [CPPreparationProcess process] && [CPProcessManager isInProcess:[CPPreparationProcess process]])) {
-        int index = [CPProcessManager processArray].count - 1;
-        while (index > 0 && [[CPProcessManager processArray] objectAtIndex:index] != process) {
-            index--;
-        }
-        if (index > 0 && (index == [CPProcessManager processArray].count - 1 || [[[CPProcessManager processArray] objectAtIndex:index - 1] allowSubprocess:[[CPProcessManager processArray] objectAtIndex:index + 1]])) {
-            [[CPProcessManager processArray] removeObjectAtIndex:index];
-            return YES;
-        }
-    }
+    if (!forbiddenCount && process != [CPApplicationProcess process] && [[CPProcessManager processArray] lastObject] == process) {
+        [[CPProcessManager processArray] removeLastObject];
+        return YES;
+    } else {
     
 #ifndef NO_PROCESS_LOG
-    NSLog(@"Try to stop process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), [CPProcessManager processArray]);
+        NSLog(@"Try to stop process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), [CPProcessManager processArray]);
 #endif
     
-    return NO;
+        return NO;
+    }
 }
 
 + (bool)stopProcess:(id<CPProcess>)process withPreparation:(void (^)(void))preparation {
-    if (process != [CPApplicationProcess process] && !(process != [CPPreparationProcess process] && [CPProcessManager isInProcess:[CPPreparationProcess process]])) {
-        int index = [CPProcessManager processArray].count - 1;
-        while (index > 0 && [[CPProcessManager processArray] objectAtIndex:index] != process) {
-            index--;
-        }
-        if (index > 0 && (index == [CPProcessManager processArray].count - 1 || [[[CPProcessManager processArray] objectAtIndex:index - 1] allowSubprocess:[[CPProcessManager processArray] objectAtIndex:index + 1]])) {
-            [CPProcessManager startProcess:[CPPreparationProcess process]];
-            preparation();
-            [CPProcessManager stopProcess:[CPPreparationProcess process]];
-            [[CPProcessManager processArray] removeObjectAtIndex:index];
-            return YES;
-        }
-    }
+    if ([CPProcessManager stopProcess:process]) {
+        [CPProcessManager increaseForbiddenCount];
+        preparation();
+        [CPProcessManager decreaseForbiddenCount];
+        return YES;
+    } else {
     
 #ifndef NO_PROCESS_LOG
-    NSLog(@"Try to stop process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), [CPProcessManager processArray]);
+        NSLog(@"Try to stop process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), [CPProcessManager processArray]);
 #endif
     
-    return NO;
+        return NO;
+    }
+}
+
++ (void)increaseForbiddenCount {
+    forbiddenCount++;
+}
+
++ (void)decreaseForbiddenCount {
+    if (forbiddenCount > 0) {
+        forbiddenCount--;
+    }
 }
 
 @end

@@ -16,13 +16,6 @@ static UIView *textFieldContainer;
 static UITextField *textField;
 static NSArray *textFieldConstraints;
 
-@interface CPMemoCell ()
-
-//@property (strong, nonatomic) UITextField *textField;
-//@property (strong, nonatomic) NSArray *textFieldConstraints;
-
-@end
-
 @implementation CPMemoCell
 
 + (void)setTextFieldContainer:(UIView *)container {
@@ -52,36 +45,6 @@ static NSArray *textFieldConstraints;
     return _label;
 }
 
-/*- (UITextField *)textField {
-    if (!_textField) {
-        _textField = [[UITextField alloc] init];
-        _textField.translatesAutoresizingMaskIntoConstraints = NO;
-        _textField.textColor = self.label.textColor;
-        _textField.font = self.label.font;
-        _textField.backgroundColor = [UIColor clearColor];
-        _textField.enabled = NO;
-        _textField.delegate = self;
-        [textFieldContainer addSubview:_textField];
-        
-        [textFieldContainer.superview addConstraints:self.textFieldConstraints];
-    }
-    return _textField;
-}
-
-- (NSArray *)textFieldConstraints {
-    if (!_textFieldConstraints) {
-        float offset = ((UIScrollView *)self.superview).contentOffset.y;
-        
-        _textFieldConstraints = [[NSArray alloc] initWithObjects:
-                                 [NSLayoutConstraint constraintWithItem:self.textField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:12.0 - offset],
-                                 [NSLayoutConstraint constraintWithItem:self.textField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:10.0],
-                                 [NSLayoutConstraint constraintWithItem:self.textField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1.0 constant:10.0],
-                                 [NSLayoutConstraint constraintWithItem:self.textField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-5.0 - offset],
-                                 nil];
-    }
-    return _textFieldConstraints;
-}*/
-
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
@@ -90,17 +53,6 @@ static NSArray *textFieldConstraints;
     }
     return self;
 }
-
-/*- (void)dealloc {
-    if (textFieldContainer) {
-        if (_textFieldConstraints) {
-            [textFieldContainer removeConstraints:_textFieldConstraints];
-        }
-        if (_textField) {
-            [_textField removeFromSuperview];
-        }
-    }
-}*/
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
     if (editingCell) {

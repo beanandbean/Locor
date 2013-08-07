@@ -102,8 +102,7 @@
                 self.memoCollectionViewManager.memos = [NSMutableArray array];
             }
         }];
-        // This animation is contained in previous one, not needing to use CPAppearanceManager's animation
-        [UIView animateWithDuration:0.25 delay:0.25 options:0 animations:^{
+        [CPAppearanceManager animateWithDuration:0.25 delay:0.25 options:0 animations:^{
             for (UIView *subView in self.view.subviews) {
                 subView.alpha = 1.0;
             }
@@ -112,6 +111,8 @@
 }
 
 - (void)hidePassEditView {
+    [self.memoCollectionViewManager endEditing];
+    
     [CPProcessManager stopProcess:[CPEditingPassCellProcess process] withPreparation:^{
         UIView *cell = [self.passCells objectAtIndex:self.index];
         [self.superView removeConstraints:self.constraints];
@@ -123,8 +124,7 @@
                             nil];
         [self.superView addConstraints:self.constraints];
         
-        // This animation is contained in next one, not needing to use CPAppearanceManager's animation
-        [UIView animateWithDuration:0.25 animations:^{
+        [CPAppearanceManager animateWithDuration:0.25 animations:^{
             for (UIView *subview in self.view.subviews) {
                 subview.alpha = 0.0;
             }

@@ -9,7 +9,6 @@
 #import "CPAppearanceManager.h"
 
 #import "CPProcessManager.h"
-#import "CPAnimationProcess.h"
 
 static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *standardConstants;
 
@@ -65,20 +64,30 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
 }
 
 + (void)animateWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations {
-    if ([CPProcessManager startProcess:[CPAnimationProcess process]]) {
-        [UIView animateWithDuration:duration animations:animations completion:^(BOOL finished) {
-            [CPProcessManager stopProcess:[CPAnimationProcess process]];
-        }];
-    }
+    [CPProcessManager increaseForbiddenCount];
+    [UIView animateWithDuration:duration animations:animations completion:^(BOOL finished) {
+        [CPProcessManager decreaseForbiddenCount];
+    }];
 }
 
 + (void)animateWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations completion:(void (^)(BOOL))completion {
-    if ([CPProcessManager startProcess:[CPAnimationProcess process]]) {
-        [UIView animateWithDuration:duration animations:animations completion:^(BOOL finished) {
-            [CPProcessManager stopProcess:[CPAnimationProcess process]];
+    [CPProcessManager increaseForbiddenCount];
+    [UIView animateWithDuration:duration animations:animations completion:^(BOOL finished) {
+        if (completion) {
             completion(finished);
-        }];
-    }
+        }
+        [CPProcessManager decreaseForbiddenCount];
+    }];
+}
+
++ (void)animateWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options animations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion {
+    [CPProcessManager increaseForbiddenCount];
+    [UIView animateWithDuration:duration delay:delay options:options animations:animations completion:^(BOOL finished) {
+        if (completion) {
+            completion(finished);
+        }
+        [CPProcessManager decreaseForbiddenCount];
+    }];
 }
 
 @end
