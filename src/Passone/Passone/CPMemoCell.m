@@ -55,6 +55,21 @@ static NSArray *textFieldConstraints;
 }
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
+    [self startEditing];
+}
+
+- (void)refreshingConstriants {
+    float offset = ((UIScrollView *)self.superview).contentOffset.y;
+    
+    ((NSLayoutConstraint *)[textFieldConstraints objectAtIndex:0]).constant = 12.0 - offset;
+    ((NSLayoutConstraint *)[textFieldConstraints objectAtIndex:3]).constant = -5.0 - offset;
+}
+
+- (BOOL)isEditing {
+    return editingCell == self;
+}
+
+- (void)startEditing {
     if (editingCell) {
         [editingCell endEditingAtIndexPath:[(UICollectionView *)self.superview indexPathForCell:editingCell]];
     }
@@ -92,17 +107,6 @@ static NSArray *textFieldConstraints;
         
         [textField becomeFirstResponder];
     }];
-}
-
-- (void)refreshingConstriants {
-    float offset = ((UIScrollView *)self.superview).contentOffset.y;
-    
-    ((NSLayoutConstraint *)[textFieldConstraints objectAtIndex:0]).constant = 12.0 - offset;
-    ((NSLayoutConstraint *)[textFieldConstraints objectAtIndex:3]).constant = -5.0 - offset;
-}
-
-- (BOOL)isEditing {
-    return editingCell == self;
 }
 
 - (void)endEditingAtIndexPath:(NSIndexPath *)indexPath {

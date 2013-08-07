@@ -23,6 +23,30 @@
 static NSString *CELL_REUSE_IDENTIFIER_NORMAL = @"normal-cell";
 static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 
+/*@interface UICollectionView (EditingMemoCell)
+
+- (void)safeReloadDataInEditing;
+
+@end
+
+@implementation UICollectionView (EditingMemoCell)
+
+- (void)safeReloadDataInEditing {
+    CPMemoCell *cell = [CPMemoCell editingCell];
+    NSIndexPath *index;
+    if (cell) {
+        index = [self indexPathForCell:cell];
+    }
+    NSLog(@"%@", index);
+    [self reloadData];
+    if (index) {
+        NSLog(@"Here!");
+        [(CPMemoCell *)[self cellForItemAtIndexPath:index] startEditing];
+    }
+}
+
+@end*/
+
 @interface CPMemoCollectionViewManager ()
 
 @property (weak, nonatomic) UIView *superview;
@@ -113,6 +137,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 
 - (void)setMemos:(NSMutableArray *)memos {
     _memos = memos;
+    [self endEditing];
     [self.collectionView reloadData];
 }
 
@@ -154,11 +179,12 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
             CGPoint location = [panGesture locationInView:panGesture.view];
             NSIndexPath *panningCellIndex = [self.collectionView indexPathForItemAtPoint:location];
             if (fabsf(translation.x) > fabsf(translation.y) && panningCellIndex) {
+                if ([CPMemoCell editingCell]) {
+                    [[CPMemoCell editingCell] endEditingAtIndexPath:[self.collectionView indexPathForCell:[CPMemoCell editingCell]]];
+                }
+                
                 [CPProcessManager startProcess:[CPRemovingMemoCellProcess process] withPreparation:^{
                     CPMemoCell *panningCell = (CPMemoCell *)[self.collectionView cellForItemAtIndexPath:panningCellIndex];
-                    if ([panningCell isEditing]) {
-                        [panningCell endEditingAtIndexPath:panningCellIndex];
-                    }
                     
                     UIGraphicsBeginImageContext(panningCell.bounds.size);
                     [panningCell.layer renderInContext:UIGraphicsGetCurrentContext()];

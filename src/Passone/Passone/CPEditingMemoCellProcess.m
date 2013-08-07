@@ -8,7 +8,6 @@
 
 #import "CPEditingMemoCellProcess.h"
 
-#import "CPRemovingMemoCellProcess.h"
 #import "CPScrollingCollectionViewProcess.h"
 
 static CPEditingMemoCellProcess *process;
@@ -25,7 +24,7 @@ static NSArray *allowedProcess;
 
 - (bool)allowSubprocess:(id<CPProcess>)process {
     if (!allowedProcess) {
-        allowedProcess = [NSArray arrayWithObjects:[CPRemovingMemoCellProcess process], [CPScrollingCollectionViewProcess process], nil];
+        allowedProcess = [NSArray arrayWithObjects:[CPScrollingCollectionViewProcess process], nil];
     }
     return [allowedProcess indexOfObject:process] != NSNotFound;
 }

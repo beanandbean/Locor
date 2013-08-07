@@ -25,6 +25,7 @@
 - (void)refreshingConstriants;
 
 - (BOOL)isEditing;
+- (void)startEditing;
 - (void)endEditingAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
