@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "CPPassEditViewManager.h"
 
 #import "CPPassDataManager.h"
@@ -45,7 +47,7 @@
 }
 
 - (void)showPassEditViewForCellAtIndex:(NSUInteger)index {
-    NSAssert(self.index == -1, @"");
+    NSAssert(self.index == -1, @"Already have a pass editing view open when opening one!");
     
     [CPProcessManager startProcess:[CPEditingPassCellProcess process] withPreparation:^{
         self.index = index;
@@ -94,7 +96,7 @@
         [self.superView addConstraints:self.constraints];
         [CPAppearanceManager animateWithDuration:0.5 animations:^{
             [self.superView layoutIfNeeded];
-            self.view.backgroundColor = password.color;
+            self.view.backgroundColor = password.color; //password.color;
             
             if (password.isUsed.boolValue) {
                 self.memoCollectionViewManager.memos = [[password.memos sortedArrayUsingDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:NO], nil]] mutableCopy];
@@ -153,32 +155,51 @@
 
 - (UIView *)view {
     if (!_view) {
+        _view = [[UIView alloc] init];
+        _view.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        UIView *passwordTextFieldContainer = [[UIView alloc] init];
+        passwordTextFieldContainer.backgroundColor = [UIColor clearColor];
+        passwordTextFieldContainer.layer.borderColor = [UIColor whiteColor].CGColor;
+        passwordTextFieldContainer.layer.borderWidth = 3.0;
+        passwordTextFieldContainer.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        [passwordTextFieldContainer addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTouchOnPasswordTextFieldContainer)]];
+        
+        [_view addSubview:passwordTextFieldContainer];
+        [_view addConstraints:[[NSArray alloc] initWithObjects:
+                               [NSLayoutConstraint constraintWithItem:passwordTextFieldContainer attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:10.0],
+                               [NSLayoutConstraint constraintWithItem:passwordTextFieldContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeTop multiplier:1.0 constant:10.0],
+                               [NSLayoutConstraint constraintWithItem:passwordTextFieldContainer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeRight multiplier:1.0 constant:-10.0],
+                               nil]];
+        
         _passwordTextField = [[UITextField alloc] init];
         _passwordTextField.returnKeyType = UIReturnKeyDone;
-        _passwordTextField.backgroundColor = [UIColor whiteColor];
+        _passwordTextField.textColor = [UIColor whiteColor];
+        _passwordTextField.font = [UIFont boldSystemFontOfSize:24.0];
+        _passwordTextField.backgroundColor = [UIColor clearColor];
         _passwordTextField.translatesAutoresizingMaskIntoConstraints = NO;
         _passwordTextField.delegate = self;
         
-        _view = [[UIView alloc] init];
-        _view.translatesAutoresizingMaskIntoConstraints = NO;
-        [_view addSubview:_passwordTextField];
-        [_view addConstraints:[[NSArray alloc] initWithObjects:
-                               [NSLayoutConstraint constraintWithItem:_passwordTextField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:10.0],
-                               [NSLayoutConstraint constraintWithItem:_passwordTextField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeTop multiplier:1.0 constant:10.0],
-                               [NSLayoutConstraint constraintWithItem:_passwordTextField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeRight multiplier:1.0 constant:-10.0],
-                               nil]];
+        [passwordTextFieldContainer addSubview:_passwordTextField];
+        [passwordTextFieldContainer addConstraints:[[NSArray alloc] initWithObjects:
+                                                    [NSLayoutConstraint constraintWithItem:_passwordTextField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:passwordTextFieldContainer attribute:NSLayoutAttributeLeft multiplier:1.0 constant:10.0],
+                                                    [NSLayoutConstraint constraintWithItem:_passwordTextField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:passwordTextFieldContainer attribute:NSLayoutAttributeTop multiplier:1.0 constant:10.0],
+                                                    [NSLayoutConstraint constraintWithItem:_passwordTextField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:passwordTextFieldContainer attribute:NSLayoutAttributeRight multiplier:1.0 constant:-10.0],
+                                                    [NSLayoutConstraint constraintWithItem:_passwordTextField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:passwordTextFieldContainer attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0],
+                                                    nil]];
         
         UIView *memosView = [[UIView alloc] init];
         memosView.translatesAutoresizingMaskIntoConstraints = NO;
         [_view addSubview:memosView];
         [_view addConstraints:[[NSArray alloc] initWithObjects:
                                [NSLayoutConstraint constraintWithItem:memosView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0],
-                               [NSLayoutConstraint constraintWithItem:memosView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_passwordTextField attribute:NSLayoutAttributeBottom multiplier:1.0 constant:10.0],
+                               [NSLayoutConstraint constraintWithItem:memosView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:passwordTextFieldContainer attribute:NSLayoutAttributeBottom multiplier:1.0 constant:10.0],
                                [NSLayoutConstraint constraintWithItem:memosView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0],
-                               [NSLayoutConstraint constraintWithItem:memosView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0],
+                               [NSLayoutConstraint constraintWithItem:memosView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0],
                                nil]];
         
-        _memoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:memosView];
+        _memoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:memosView andStyle:CPMemoCollectionViewStyleInPassCell];
     }
     return _view;
 }
@@ -188,6 +209,12 @@
         _constraints = [[NSArray alloc] init];
     }
     return _constraints;
+}
+
+#pragma mark - Touch handler
+
+- (void)handleTouchOnPasswordTextFieldContainer {
+    [self.passwordTextField becomeFirstResponder];
 }
 
 #pragma mark - UITextFieldDelegate implement

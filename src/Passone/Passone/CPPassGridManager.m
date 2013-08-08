@@ -104,7 +104,7 @@ static const CGFloat SPACE = 10.0;
                 [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.passGridView attribute:NSLayoutAttributeTop multiplier:1.0 constant:SPACE]];
             } else {
                 UIView *topCell = [self.passCells objectAtIndex:(row - 1) * ROWS + column];
-                NSAssert(topCell, @"top cell hasn't been added.");
+                NSAssert(topCell, @"Top cell hasn't been added before adding bottom cell!");
                 // cell.top = topCell.bottom + SPACE
                 [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:topCell attribute:NSLayoutAttributeBottom multiplier:1.0 constant:SPACE]];
                 // cell.height = topCell.height
@@ -121,7 +121,7 @@ static const CGFloat SPACE = 10.0;
                 [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.passGridView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:SPACE]];
             } else {
                 UIView *leftCell = [self.passCells objectAtIndex:row * ROWS + column - 1];
-                NSAssert(leftCell, @"left cell hasn't been added.");
+                NSAssert(leftCell, @"Left cell hasn't been added before adding right cell!");
                 // cell.left = leftCell.right + SPACE
                 [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:leftCell attribute:NSLayoutAttributeRight multiplier:1.0 constant:SPACE]];
                 // cell.width = leftCell.width
@@ -148,10 +148,10 @@ static const CGFloat SPACE = 10.0;
 }
 
 - (void)startDragPassCell:(CPPassCell *)passCell {    
-    NSAssert(!self.dragSourceCell, @"");
-    NSAssert(!self.dragView, @"");
-    NSAssert(!self.dragViewLeftConstraint, @"");
-    NSAssert(!self.dragViewTopConstraint, @"");
+    NSAssert(!self.dragSourceCell, @"Already dragging a pass cell when start dragging one!");
+    NSAssert(!self.dragView, @"Already dragging a pass cell when start dragging one!");
+    NSAssert(!self.dragViewLeftConstraint, @"Already dragging a pass cell when start dragging one!");
+    NSAssert(!self.dragViewTopConstraint, @"Already dragging a pass cell when start dragging one!");
     
     self.dragSourceCell = passCell;
     self.dragSourceBackgroundColor = self.dragSourceCell.backgroundColor;
@@ -185,9 +185,9 @@ static const CGFloat SPACE = 10.0;
 }
 
 - (void)dragPassCell:(CPPassCell *)passCell location:(CGPoint)location translation:(CGPoint)translation {
-    NSAssert(self.dragView, @"");
-    NSAssert(self.dragViewLeftConstraint, @"");
-    NSAssert(self.dragViewTopConstraint, @"");
+    NSAssert(self.dragView, @"Haven't started dragging pass cell when coming to the middle of dragging!");
+    NSAssert(self.dragViewLeftConstraint, @"Haven't started dragging pass cell when coming to the middle of dragging!");
+    NSAssert(self.dragViewTopConstraint, @"Haven't started dragging pass cell when coming to the middle of dragging!");
 
     if (passCell == self.dragSourceCell) {
         self.dragViewLeftConstraint.constant += translation.x;
@@ -246,10 +246,10 @@ static const CGFloat SPACE = 10.0;
 }
 
 - (void)stopDragPassCell:(CPPassCell *)passCell {
-    NSAssert(passCell == self.dragSourceCell, @"");
-    NSAssert(self.dragView, @"");
-    NSAssert(self.dragViewLeftConstraint, @"");
-    NSAssert(self.dragViewTopConstraint, @"");
+    NSAssert(passCell == self.dragSourceCell, @"Try to stop dragging a cell while dragging another!");
+    NSAssert(self.dragView, @"Haven't started dragging pass cell when to stop it!");
+    NSAssert(self.dragViewLeftConstraint, @"Haven't started dragging pass cell when to stop it!");
+    NSAssert(self.dragViewTopConstraint, @"Haven't started dragging pass cell when to stop it!");
 
     if (self.dragDestinationCell) {
         self.dragDestinationCell.alpha = 1.0;
@@ -288,7 +288,7 @@ static const CGFloat SPACE = 10.0;
             cell.backgroundColor = password.displayColor;
             break;
         default:
-            NSAssert(NO, @"");
+            NSAssert(NO, @"Unknowed change reported by NSFetchResultsController!");
             break;
     }
 }

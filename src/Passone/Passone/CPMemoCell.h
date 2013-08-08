@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-@class CPMemoCell;
-
 @protocol CPMemoCellDelegate <NSObject>
 
 - (void)memoCellAtIndexPath:(NSIndexPath *)indexPath updateText:(NSString *)text;

@@ -30,9 +30,6 @@ static NSArray *textFieldConstraints;
     if (!_label) {
         _label = [[UILabel alloc] init];
         _label.translatesAutoresizingMaskIntoConstraints = NO;
-        _label.textColor = [UIColor whiteColor];
-        _label.font = [UIFont boldSystemFontOfSize:35.0];
-        _label.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:_label];
         
         [self.contentView addConstraints:[[NSArray alloc] initWithObjects:
@@ -80,7 +77,6 @@ static NSArray *textFieldConstraints;
         if (!textField) {
             textField = [[UITextField alloc] init];
             textField.translatesAutoresizingMaskIntoConstraints = NO;
-            textField.backgroundColor = [UIColor clearColor];
             [textFieldContainer addSubview:textField];
         }
         
@@ -100,6 +96,7 @@ static NSArray *textFieldConstraints;
         
         textField.textColor = self.label.textColor;
         textField.font = self.label.font;
+        textField.backgroundColor = self.label.backgroundColor;
         textField.delegate = self;
         textField.hidden = NO;
         textField.enabled = YES;

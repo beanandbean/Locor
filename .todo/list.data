@@ -853,79 +853,80 @@ S'src/Passone/Passone/CPPassEditViewManager.m'
 p336
 sS'condition'
 p337
-g85
-sa(dp338
+S'done'
+p338
+sa(dp339
 S'author'
-p339
-S'TODO grabber'
 p340
-sS'text'
+S'TODO grabber'
 p341
-S"When removing a memo cell, show 'Swipe/Release to remove'."
+sS'text'
 p342
-sS'detail'
+S"When removing a memo cell, show 'Swipe/Release to remove'."
 p343
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 172.'
+sS'detail'
 p344
-sS'exported'
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 172.'
 p345
+sS'exported'
+p346
 I01
 sS'time'
-p346
-S'2013-08-04 16:45:07'
 p347
-sS'path'
-p348
-S'src/Passone/Passone/CPMemoCollectionViewManager.m'
-p349
-sS'condition'
-p350
-S'done'
-p351
-sa(dp352
-g339
-g340
-sg341
-S'Write code to stop removing a memo cell.'
-p353
-sg343
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 184.'
-p354
-sg345
-I01
-sg346
 S'2013-08-04 16:45:07'
-p355
-sg348
-g349
-sg350
+p348
+sS'path'
+p349
+S'src/Passone/Passone/CPMemoCollectionViewManager.m'
+p350
+sS'condition'
+p351
 S'done'
+p352
+sa(dp353
+g340
+g341
+sg342
+S'Write code to stop removing a memo cell.'
+p354
+sg344
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 184.'
+p355
+sg346
+I01
+sg347
+S'2013-08-04 16:45:07'
 p356
-sa(dp357
+sg349
+g350
+sg351
+S'done'
+p357
+sa(dp358
 S'author'
-p358
-S'TODO grabber'
 p359
-sS'text'
+S'TODO grabber'
 p360
-S'Add animation for removing a memo cell.'
+sS'text'
 p361
-sS'detail'
+S'Add animation for removing a memo cell.'
 p362
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 204.'
+sS'detail'
 p363
-sS'exported'
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 225.'
 p364
+sS'exported'
+p365
 I00
 sS'time'
-p365
-S'2013-08-05 18:38:59'
 p366
-sS'path'
+S'2013-08-05 18:38:59'
 p367
-S'src/Passone/Passone/CPMemoCollectionViewManager.m'
+sS'path'
 p368
-sS'condition'
+S'src/Passone/Passone/CPMemoCollectionViewManager.m'
 p369
+sS'condition'
+p370
 g85
 sa.

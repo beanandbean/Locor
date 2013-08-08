@@ -23,31 +23,9 @@
 static NSString *CELL_REUSE_IDENTIFIER_NORMAL = @"normal-cell";
 static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 
-/*@interface UICollectionView (EditingMemoCell)
-
-- (void)safeReloadDataInEditing;
-
-@end
-
-@implementation UICollectionView (EditingMemoCell)
-
-- (void)safeReloadDataInEditing {
-    CPMemoCell *cell = [CPMemoCell editingCell];
-    NSIndexPath *index;
-    if (cell) {
-        index = [self indexPathForCell:cell];
-    }
-    NSLog(@"%@", index);
-    [self reloadData];
-    if (index) {
-        NSLog(@"Here!");
-        [(CPMemoCell *)[self cellForItemAtIndexPath:index] startEditing];
-    }
-}
-
-@end*/
-
 @interface CPMemoCollectionViewManager ()
+
+@property (nonatomic) CPMemoCollectionViewStyle style;
 
 @property (weak, nonatomic) UIView *superview;
 
@@ -71,14 +49,22 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.sectionInset = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
         layout.minimumLineSpacing = 10.0;
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
-        _collectionView.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.7];
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
+        
+        if (self.style == CPMemoCollectionViewStyleSearch) {
+            _collectionView.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.9];
+            layout.sectionInset = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
+        } else if (self.style == CPMemoCollectionViewStyleInPassCell) {
+            _collectionView.backgroundColor = [UIColor clearColor];
+            layout.sectionInset = UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0);
+        } else {
+            NSAssert(NO, @"Unexpected memo collection view style!");
+        }
         
         [_collectionView flashScrollIndicators];
         
@@ -141,9 +127,10 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
     [self.collectionView reloadData];
 }
 
-- (id)initWithSuperview:(UIView *)superview {
+- (id)initWithSuperview:(UIView *)superview andStyle:(CPMemoCollectionViewStyle)style {
     self = [super init];
     if (self) {
+        self.style = style;
         self.memos = [NSArray array];
         self.superview = superview;
         
@@ -263,8 +250,8 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 #pragma mark - CPMemoCellDelegate implement
 
 - (void)memoCellAtIndexPath:(NSIndexPath *)indexPath updateText:(NSString *)text {
-    NSAssert(indexPath, @"");
-    NSAssert(text, @"");
+    NSAssert(indexPath, @"No memo cell index path specified when updating memo cell text!");
+    NSAssert(text, @"No text specified when updating memo cell text!");
     
     CPMemo *memo = [self.memos objectAtIndex:indexPath.row];
     memo.text = text;
@@ -295,9 +282,21 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
         CPMemoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_NORMAL forIndexPath:indexPath];
         
         cell.delegate = self;
-        cell.backgroundColor = memo.password.color;
-        cell.label.text = memo.text;
         
+        cell.label.text = memo.text;
+        cell.label.font = [UIFont boldSystemFontOfSize:35.0];
+        cell.label.backgroundColor = [UIColor clearColor];
+        
+        if (self.style == CPMemoCollectionViewStyleSearch) {
+            cell.backgroundColor = memo.password.color;
+            cell.label.textColor = [UIColor whiteColor];
+        } else if (self.style == CPMemoCollectionViewStyleInPassCell) {
+            cell.backgroundColor = [UIColor whiteColor];
+            cell.label.textColor = [UIColor blackColor];
+        } else {
+            NSAssert(NO, @"Unexpected memo collection view style!");
+        }
+
         initializedCell = cell;
     }
     

@@ -86,7 +86,7 @@ static NSString *_passwordCacheName = @"PasswordCache";
 
 - (void)setPasswordText:(NSString *)text atIndex:(NSUInteger)index {
     CPPassword *password = [self.passwordsController.fetchedObjects objectAtIndex:index];
-    NSAssert(password, @"");
+    NSAssert1(password, @"No password corresponding to password index %d!", index);
     
     // TODO: Show notification when removing a pass cell by setting an empty text.
     if ([text isEqualToString:@""]) {
@@ -108,7 +108,7 @@ static NSString *_passwordCacheName = @"PasswordCache";
 
 - (CPMemo *)addMemoText:(NSString *)text intoIndex:(NSUInteger)index {
     CPPassword *password = [self.passwordsController.fetchedObjects objectAtIndex:index];
-    NSAssert(password, @"");
+    NSAssert1(password, @"No password corresponding to password index %d!", index);
     
     CPMemo *memo = [NSEntityDescription insertNewObjectForEntityForName:@"Memo" inManagedObjectContext:self.managedObjectContext];
     memo.text = text;
@@ -128,14 +128,14 @@ static NSString *_passwordCacheName = @"PasswordCache";
 
 - (BOOL)canToggleRemoveStateOfPasswordAtIndex:(NSUInteger)index {
     CPPassword *password = [self.passwordsController.fetchedObjects objectAtIndex:index];
-    NSAssert(password, @"");
-
+    NSAssert1(password, @"No password corresponding to password index %d!", index);
+    
     return ![password.text isEqualToString:@""];
 }
 
 - (void)toggleRemoveStateOfPasswordAtIndex:(NSUInteger)index {
     CPPassword *password = [self.passwordsController.fetchedObjects objectAtIndex:index];
-    NSAssert(password, @"");
+    NSAssert1(password, @"No password corresponding to password index %d!", index);
     
     NSString *notification = nil;
     if ([password.text isEqualToString:@""]) {
