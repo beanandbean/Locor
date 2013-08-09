@@ -41,6 +41,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 
 @property (weak, nonatomic) CPMemoCellRemoving *removingCell;
 @property (strong, nonatomic) NSIndexPath *removingCellIndex;
+@property (strong, nonatomic) NSIndexPath *removingCellIndexForLayout;
 
 @end
 
@@ -218,11 +219,15 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
                     self.removingCell.rightLabel.alpha = 0.0;
                 } completion:nil];
             } else {
-                CPMemo *memo = [self.memos objectAtIndex:[self.collectionView indexPathForCell:self.removingCell].row];
-                [self.memos removeObject:memo];
-                [[CPPassDataManager defaultManager] removeMemo:memo];
-                [self.collectionView reloadData];
-                // TODO: Add animation for removing a memo cell.
+                [CPAppearanceManager animateWithDuration:0.3 animations:^{
+                    self.removingCell.alpha = 0.0;
+                }completion:^(BOOL finished) {
+                    CPMemo *memo = [self.memos objectAtIndex:[self.collectionView indexPathForCell:self.removingCell].row];
+                    [self.memos removeObject:memo];
+                    [[CPPassDataManager defaultManager] removeMemo:memo];
+                    [self.collectionView reloadData];
+                    // TODO: Improve animation for removing a memo cell.
+                }];
             }
         }];
         [CPProcessManager stopProcess:[CPScrollingCollectionViewProcess process] withPreparation:^{
@@ -314,7 +319,14 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 #pragma mark - UICollectionViewDelegateFlowLayout implement
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(self.collectionView.frame.size.width - 20.0, 66.0);
+    if (self.removingCellIndexForLayout && self.removingCellIndexForLayout.section == indexPath.section && self.removingCellIndexForLayout.row == indexPath.row) {
+        // removingCellIndex is used once and then throw away
+        self.removingCellIndexForLayout = nil;
+        
+        return CGSizeMake(self.collectionView.frame.size.width - 20.0, 0.0);
+    } else {
+        return CGSizeMake(self.collectionView.frame.size.width - 20.0, 66.0);
+    }
 }
 
 #pragma mark - UIScrollViewDelegate implement

@@ -10,7 +10,6 @@
 
 @interface CPMemoCellRemoving ()
 
-@property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) NSLayoutConstraint *imageViewLeftConstraint;
 
 @end
