@@ -66,17 +66,22 @@ static int forbiddenCount = 0;
 }
 
 + (bool)stopProcess:(id<CPProcess>)process {
-    if (!forbiddenCount && process != [CPApplicationProcess process] && [[CPProcessManager processArray] lastObject] == process) {
-        [[CPProcessManager processArray] removeLastObject];
-        return YES;
-    } else {
+    if (!forbiddenCount && process != [CPApplicationProcess process]) {
+        int index = [CPProcessManager processArray].count - 1;
+        while (index > 0 && [[CPProcessManager processArray] objectAtIndex:index] != process) {
+            index--;
+        }
+        if (index > 0 && (index == [CPProcessManager processArray].count - 1 || [[[CPProcessManager processArray] objectAtIndex:index - 1] allowSubprocess:[[CPProcessManager processArray] objectAtIndex:index + 1]])) {
+            [[CPProcessManager processArray] removeObjectAtIndex:index];
+            return YES;
+        }
+    }
     
 #ifndef NO_PROCESS_LOG
-        NSLog(@"Try to stop process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), [CPProcessManager processArray]);
+    NSLog(@"Try to stop process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), [CPProcessManager processArray]);
 #endif
     
-        return NO;
-    }
+    return NO;
 }
 
 + (bool)stopProcess:(id<CPProcess>)process withPreparation:(void (^)(void))preparation {
