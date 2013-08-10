@@ -123,7 +123,7 @@
 
 - (CPMemoCollectionViewManager *)resultMemoCollectionViewManager {
     if (!_resultMemoCollectionViewManager) {
-        _resultMemoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:self.resultContainer andStyle:CPMemoCollectionViewStyleSearch];
+        _resultMemoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:self.resultContainer style:CPMemoCollectionViewStyleSearch andDelegate:nil];
     }
     return _resultMemoCollectionViewManager;
 }

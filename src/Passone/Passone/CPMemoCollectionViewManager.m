@@ -30,7 +30,6 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 @property (weak, nonatomic) UIView *superview;
 
 @property (strong, nonatomic) NSArray *collectionViewConstraints;
-@property (strong, nonatomic) UIImageView *collectionViewScrollIndicator;
 
 @property (strong, nonatomic) UIView *textFieldContainer;
 @property (strong, nonatomic) NSArray *textFieldContainerConstraints;
@@ -38,6 +37,8 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 @property (strong, nonatomic) UIImage *removingCellImage;
 
 @property (nonatomic) CGPoint draggingBasicOffset;
+@property (weak, nonatomic) CPMemoCell *addingCell;
+@property (strong, nonatomic) NSIndexPath *addingCellIndex;
 
 @property (weak, nonatomic) CPMemoCellRemoving *removingCell;
 @property (strong, nonatomic) NSIndexPath *removingCellIndex;
@@ -67,8 +68,6 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
             NSAssert(NO, @"Unexpected memo collection view style!");
         }
         
-        [_collectionView flashScrollIndicators];
-        
         [_collectionView registerClass:[CPMemoCell class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_NORMAL];
         [_collectionView registerClass:[CPMemoCellRemoving class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_REMOVING];
         
@@ -87,17 +86,6 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
                                       nil];
     }
     return _collectionViewConstraints;
-}
-
-- (UIImageView *)collectionViewScrollIndicator {
-    if (!_collectionViewScrollIndicator) {
-        for (UIView *subview in self.collectionView.subviews) {
-            if (subview.class == [UIImageView class]) {
-                _collectionViewScrollIndicator = (UIImageView *)subview;
-            }
-        }
-    }
-    return _collectionViewScrollIndicator;
 }
 
 - (UIView *)textFieldContainer {
@@ -128,11 +116,12 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
     [self.collectionView reloadData];
 }
 
-- (id)initWithSuperview:(UIView *)superview andStyle:(CPMemoCollectionViewStyle)style {
+- (id)initWithSuperview:(UIView *)superview style:(CPMemoCollectionViewStyle)style andDelegate:(id<CPMemoCollectionViewManagerDelegate>)delegate {
     self = [super init];
     if (self) {
         self.style = style;
         self.memos = [NSArray array];
+        self.delegate = delegate;
         self.superview = superview;
         
         [self.superview addSubview:self.collectionView];
@@ -148,15 +137,6 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 - (void)endEditing {
     if ([CPMemoCell editingCell]) {
         [[CPMemoCell editingCell] endEditingAtIndexPath:[self.collectionView indexPathForCell:[CPMemoCell editingCell]]];
-    }
-}
-
-- (CGRect)scrollIndicatorFrameWithOffset:(float)offset {
-    if (self.collectionView.contentSize.height <= self.collectionView.frame.size.height) {
-        return CGRectMake(self.collectionViewScrollIndicator.frame.origin.x, offset * 2, self.collectionViewScrollIndicator.frame.size.width, self.collectionView.frame.size.height);
-    } else {
-        float scrollIndicatorHeight = powf(self.collectionView.frame.size.height, 2.0) / self.collectionView.contentSize.height;
-        return CGRectMake(self.collectionViewScrollIndicator.frame.origin.x, offset * (self.collectionView.contentSize.height - scrollIndicatorHeight) / (self.collectionView.contentSize.height - self.collectionView.frame.size.height), self.collectionViewScrollIndicator.frame.size.width, scrollIndicatorHeight);
     }
 }
 
@@ -184,12 +164,12 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
                 }];
             } else {
                 [CPProcessManager startProcess:[CPScrollingCollectionViewProcess process] withPreparation:^{
-                    self.draggingBasicOffset = self.collectionView.contentOffset;
-                    
-                    if (self.collectionViewScrollIndicator) {
-                        self.collectionViewScrollIndicator.alpha = 0.8;
-                        self.collectionViewScrollIndicator.frame = [self scrollIndicatorFrameWithOffset:self.collectionView.contentOffset.y];
+                    if (self.style == CPMemoCollectionViewStyleInPassCell) {
+                        self.draggingBasicOffset = CGPointMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y + 76.0);
+                    } else {
+                        self.draggingBasicOffset = self.collectionView.contentOffset;
                     }
+                    [self.collectionView reloadData];
                 }];
             }
         }
@@ -199,9 +179,13 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
         if ([CPProcessManager isInProcess:[CPScrollingCollectionViewProcess process]]) {
             CGPoint offset = CGPointMake(self.draggingBasicOffset.x, self.draggingBasicOffset.y - translation.y);
             [self.collectionView setContentOffset:offset animated:NO];
-            if (self.collectionViewScrollIndicator) {
-                self.collectionViewScrollIndicator.alpha = 0.8;
-                self.collectionViewScrollIndicator.frame = [self scrollIndicatorFrameWithOffset:offset.y];
+            
+            if (self.addingCell) {
+                if (offset.y < 30.0) {
+                    self.addingCell.label.text = @"Release to add a new memo";
+                } else {
+                    self.addingCell.label.text = @"Drag to add a new memo";
+                }
             }
         }
     } else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled || panGesture.state == UIGestureRecognizerStateFailed) {
@@ -230,10 +214,24 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
                 }];
             }
         }];
+        
         [CPProcessManager stopProcess:[CPScrollingCollectionViewProcess process] withPreparation:^{
-            [panGesture setTranslation:CGPointZero inView:panGesture.view];
             CGPoint offset = CGPointMake(self.draggingBasicOffset.x, self.draggingBasicOffset.y - translation.y);
             float contentHeight = MAX(self.collectionView.contentSize.height, self.collectionView.frame.size.height);
+
+            if (self.style == CPMemoCollectionViewStyleInPassCell) {
+                if (self.addingCell && offset.y < 30.0) {
+                    self.addingCellIndex = [self.collectionView indexPathForCell:self.addingCell];
+                    self.addingCell = nil;
+                    [self.memos insertObject:[self.delegate newMemo] atIndex:0];
+                } else {
+                    offset = CGPointMake(offset.x, offset.y - 76.0);
+                    contentHeight = MAX(self.collectionView.contentSize.height - 76.0, self.collectionView.frame.size.height);
+                }
+            }
+            
+            [self.collectionView reloadData];
+            
             [self.collectionView setContentOffset:offset animated:NO];
             if (offset.y < 0.0) {
                 offset.y = 0.0;
@@ -241,12 +239,6 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
             } else if (offset.y > contentHeight - self.collectionView.frame.size.height) {
                 offset.y = contentHeight - self.collectionView.frame.size.height;
                 [self.collectionView setContentOffset:offset animated:YES];
-            }
-            if (self.collectionViewScrollIndicator) {
-                // Decorative animation. Not protecting in CPAppearanceManager
-                [UIView animateWithDuration:0.3 animations:^{
-                    self.collectionViewScrollIndicator.alpha = 0.0;
-                }];
             }
         }];
     }
@@ -267,11 +259,14 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 #pragma mark - UICollectionViewDataSource implement
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.memos.count;
+    if ([CPProcessManager isInProcess:[CPScrollingCollectionViewProcess process]] && self.style == CPMemoCollectionViewStyleInPassCell) {
+        return self.memos.count + 1;
+    } else {
+        return self.memos.count;
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CPMemo *memo = [self.memos objectAtIndex:indexPath.row];
     UICollectionViewCell *initializedCell;
     
     if (self.removingCellIndex && self.removingCellIndex.section == indexPath.section && self.removingCellIndex.row == indexPath.row) {
@@ -284,13 +279,30 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
         
         initializedCell = self.removingCell;
     } else {
+        
         CPMemoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_NORMAL forIndexPath:indexPath];
         
         cell.delegate = self;
         
-        cell.label.text = memo.text;
         cell.label.font = [UIFont boldSystemFontOfSize:35.0];
         cell.label.backgroundColor = [UIColor clearColor];
+        
+        CPMemo *memo;
+        if ([CPProcessManager isInProcess:[CPScrollingCollectionViewProcess process]] && self.style == CPMemoCollectionViewStyleInPassCell) {
+            if (indexPath.row == 0) {
+                cell.label.text = @"Drag to add a new memo";
+                cell.backgroundColor = [UIColor whiteColor];
+                cell.label.textColor = [UIColor blackColor];
+                
+                self.addingCell = cell;
+                
+                return cell;
+            } else {
+                memo = [self.memos objectAtIndex:indexPath.row - 1];
+            }
+        } else {
+            memo = [self.memos objectAtIndex:indexPath.row];
+        }
         
         if (self.style == CPMemoCollectionViewStyleSearch) {
             cell.backgroundColor = memo.password.color;
@@ -300,6 +312,15 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
             cell.label.textColor = [UIColor blackColor];
         } else {
             NSAssert(NO, @"Unexpected memo collection view style!");
+        }
+
+        cell.label.text = memo.text;
+        
+        if (self.addingCellIndex && self.addingCellIndex.section == indexPath.section && self.addingCellIndex.row == indexPath.row) {
+            // removingCellIndex is used once and then throw away
+            self.addingCellIndex = nil;
+            
+            [cell startEditing];
         }
 
         initializedCell = cell;

@@ -6,7 +6,9 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-@interface CPPassEditViewManager : NSObject <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+#import "CPMemoCollectionViewManager.h"
+
+@interface CPPassEditViewManager : NSObject <CPMemoCollectionViewManagerDelegate, UITextFieldDelegate>
 
 @property (nonatomic) NSInteger index;
 

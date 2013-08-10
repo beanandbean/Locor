@@ -199,7 +199,7 @@
                                [NSLayoutConstraint constraintWithItem:memosView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0],
                                nil]];
         
-        _memoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:memosView andStyle:CPMemoCollectionViewStyleInPassCell];
+        _memoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:memosView style:CPMemoCollectionViewStyleInPassCell andDelegate:self];
     }
     return _view;
 }
@@ -215,6 +215,12 @@
 
 - (void)handleTouchOnPasswordTextFieldContainer {
     [self.passwordTextField becomeFirstResponder];
+}
+
+#pragma mark - CPMemoCollectionViewManagerDelegate
+
+- (CPMemo *)newMemo {
+    return [[CPPassDataManager defaultManager] addMemoText:@"" intoIndex:self.index];
 }
 
 #pragma mark - UITextFieldDelegate implement
