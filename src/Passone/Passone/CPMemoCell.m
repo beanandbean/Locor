@@ -8,23 +8,12 @@
 
 #import "CPMemoCell.h"
 
+#import "CPMemoCollectionViewManager.h"
+
 #import "CPProcessManager.h"
 #import "CPEditingMemoCellProcess.h"
 
-static CPMemoCell *editingCell;
-static UIView *textFieldContainer;
-static UITextField *textField;
-static NSArray *textFieldConstraints;
-
 @implementation CPMemoCell
-
-+ (void)setTextFieldContainer:(UIView *)container {
-    textFieldContainer = container;
-}
-
-+ (CPMemoCell *)editingCell {
-    return editingCell;
-}
 
 - (UILabel *)label {
     if (!_label) {
@@ -58,72 +47,66 @@ static NSArray *textFieldConstraints;
 - (void)refreshingConstriants {
     float offset = ((UIScrollView *)self.superview).contentOffset.y;
     
-    ((NSLayoutConstraint *)[textFieldConstraints objectAtIndex:0]).constant = 12.0 - offset;
-    ((NSLayoutConstraint *)[textFieldConstraints objectAtIndex:3]).constant = -5.0 - offset;
+    ((NSLayoutConstraint *)[self.delegate.textFieldConstraints objectAtIndex:0]).constant = 12.0 - offset;
+    ((NSLayoutConstraint *)[self.delegate.textFieldConstraints objectAtIndex:3]).constant = -5.0 - offset;
 }
 
 - (BOOL)isEditing {
-    return editingCell == self;
+    return self.delegate.editingCell == self;
 }
 
 - (void)startEditing {
-    if (editingCell) {
-        [editingCell endEditingAtIndexPath:[(UICollectionView *)self.superview indexPathForCell:editingCell]];
+    if (self.delegate.editingCell) {
+        [self.delegate.editingCell endEditingAtIndexPath:[(UICollectionView *)self.superview indexPathForCell:self.delegate.editingCell]];
     }
     
     [CPProcessManager startProcess:[CPEditingMemoCellProcess process] withPreparation:^{
-        editingCell = self;
-        
-        if (!textField) {
-            textField = [[UITextField alloc] init];
-            textField.translatesAutoresizingMaskIntoConstraints = NO;
-            [textFieldContainer addSubview:textField];
-        }
+        self.delegate.editingCell = self;
         
         float offset = ((UIScrollView *)self.superview).contentOffset.y;
         
-        textFieldConstraints = [[NSArray alloc] initWithObjects:
-                                [NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:12.0 - offset],
-                                [NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:10.0],
-                                [NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1.0 constant:10.0],
-                                [NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-5.0 - offset],
+        self.delegate.textFieldConstraints = [[NSArray alloc] initWithObjects:
+                                [NSLayoutConstraint constraintWithItem:self.delegate.textField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:12.0 - offset],
+                                [NSLayoutConstraint constraintWithItem:self.delegate.textField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:10.0],
+                                [NSLayoutConstraint constraintWithItem:self.delegate.textField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1.0 constant:10.0],
+                                [NSLayoutConstraint constraintWithItem:self.delegate.textField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-5.0 - offset],
                                 nil];
         
-        [textFieldContainer.superview addConstraints:textFieldConstraints];
-        [textFieldContainer.superview layoutIfNeeded];
+        [self.delegate.textFieldContainer.superview addConstraints:self.delegate.textFieldConstraints];
+        [self.delegate.textFieldContainer.superview layoutIfNeeded];
         
         self.label.hidden = YES;
         
-        textField.textColor = self.label.textColor;
-        textField.font = self.label.font;
-        textField.backgroundColor = self.label.backgroundColor;
-        textField.delegate = self;
-        textField.hidden = NO;
-        textField.enabled = YES;
-        textField.text = self.label.text;
+        self.delegate.textField.textColor = self.label.textColor;
+        self.delegate.textField.font = self.label.font;
+        self.delegate.textField.backgroundColor = self.label.backgroundColor;
+        self.delegate.textField.delegate = self;
+        self.delegate.textField.hidden = NO;
+        self.delegate.textField.enabled = YES;
+        self.delegate.textField.text = self.label.text;
         
-        [textField becomeFirstResponder];
+        [self.delegate.textField becomeFirstResponder];
     }];
 }
 
 - (void)endEditingAtIndexPath:(NSIndexPath *)indexPath {
     if ([self isEditing]) {
         [CPProcessManager stopProcess:[CPEditingMemoCellProcess process] withPreparation:^{
-            editingCell = nil;
+            self.delegate.editingCell = nil;
             self.label.hidden = NO;
-            textField.hidden = YES;
-            textField.enabled = NO;
+            self.delegate.textField.hidden = YES;
+            self.delegate.textField.enabled = NO;
             
-            self.label.text = textField.text;
+            self.label.text = self.delegate.textField.text;
             
-            [self.delegate memoCellAtIndexPath:indexPath updateText:textField.text];
+            [self.delegate memoCellAtIndexPath:indexPath updateText:self.delegate.textField.text];
             
-            if ([textField isFirstResponder]) {
-                [textField resignFirstResponder];
+            if ([self.delegate.textField isFirstResponder]) {
+                [self.delegate.textField resignFirstResponder];
             }
             
-            [textFieldContainer.superview removeConstraints:textFieldConstraints];
-            textFieldConstraints = nil;
+            [self.delegate.textFieldContainer.superview removeConstraints:self.delegate.textFieldConstraints];
+            self.delegate.textFieldConstraints = nil;
         }];
     }
 }

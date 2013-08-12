@@ -8,6 +8,7 @@
 
 #import "CPMemoCollectionViewManager.h"
 
+#import "CPMemoCell.h"
 #import "CPMemoCellRemoving.h"
 
 #import "CPAppearanceManager.h"
@@ -30,9 +31,6 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 @property (weak, nonatomic) UIView *superview;
 
 @property (strong, nonatomic) NSArray *collectionViewConstraints;
-
-@property (strong, nonatomic) UIView *textFieldContainer;
-@property (strong, nonatomic) NSArray *textFieldContainerConstraints;
 
 @property (strong, nonatomic) UIImage *removingCellImage;
 
@@ -88,6 +86,15 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
     return _collectionViewConstraints;
 }
 
+- (UITextField *)textField {
+    if (!_textField) {
+        _textField = [[UITextField alloc] init];
+        _textField.translatesAutoresizingMaskIntoConstraints = NO;
+        [_textFieldContainer addSubview:_textField];
+    }
+    return _textField;
+}
+
 - (UIView *)textFieldContainer {
     if (!_textFieldContainer) {
         _textFieldContainer = [[UIView alloc] init];
@@ -128,15 +135,13 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
         [self.superview addSubview:self.textFieldContainer];
         [self.superview addConstraints:self.collectionViewConstraints];
         [self.superview addConstraints:self.textFieldContainerConstraints];
-        
-        [CPMemoCell setTextFieldContainer:self.textFieldContainer];
     }
     return self;
 }
 
 - (void)endEditing {
-    if ([CPMemoCell editingCell]) {
-        [[CPMemoCell editingCell] endEditingAtIndexPath:[self.collectionView indexPathForCell:[CPMemoCell editingCell]]];
+    if (self.editingCell) {
+        [self.editingCell endEditingAtIndexPath:[self.collectionView indexPathForCell:self.editingCell]];
     }
 }
 
@@ -146,11 +151,12 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
         if ((![CPProcessManager isInProcess:[CPRemovingMemoCellProcess process]] && (![CPProcessManager isInProcess:[CPScrollingCollectionViewProcess process]]))) {
             CGPoint location = [panGesture locationInView:panGesture.view];
             NSIndexPath *panningCellIndex = [self.collectionView indexPathForItemAtPoint:location];
+            
+            if (self.editingCell) {
+                [self.editingCell endEditingAtIndexPath:[self.collectionView indexPathForCell:self.editingCell]];
+            }
+            
             if (fabsf(translation.x) > fabsf(translation.y) && panningCellIndex) {
-                if ([CPMemoCell editingCell]) {
-                    [[CPMemoCell editingCell] endEditingAtIndexPath:[self.collectionView indexPathForCell:[CPMemoCell editingCell]]];
-                }
-                
                 [CPProcessManager startProcess:[CPRemovingMemoCellProcess process] withPreparation:^{
                     CPMemoCell *panningCell = (CPMemoCell *)[self.collectionView cellForItemAtIndexPath:panningCellIndex];
                     
@@ -353,8 +359,8 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 #pragma mark - UIScrollViewDelegate implement
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if ([CPMemoCell editingCell]) {
-        [[CPMemoCell editingCell] refreshingConstriants];
+    if (self.editingCell) {
+        [self.editingCell refreshingConstriants];
     }
     [self.superview layoutIfNeeded];
 }

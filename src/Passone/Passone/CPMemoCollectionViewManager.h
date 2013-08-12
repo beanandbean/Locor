@@ -7,12 +7,13 @@
 //
 
 #import "CPMemo.h"
-#import "CPMemoCell.h"
 
 typedef enum {
     CPMemoCollectionViewStyleSearch,
     CPMemoCollectionViewStyleInPassCell
 } CPMemoCollectionViewStyle;
+
+@class CPMemoCell;
 
 @protocol CPMemoCollectionViewManagerDelegate <NSObject>
 
@@ -20,15 +21,25 @@ typedef enum {
 
 @end
 
-@interface CPMemoCollectionViewManager : NSObject <CPMemoCellDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
+@interface CPMemoCollectionViewManager : NSObject <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
 
 @property (weak, nonatomic) id<CPMemoCollectionViewManagerDelegate> delegate;
 
 @property (strong, nonatomic) NSMutableArray *memos;
 @property (strong, nonatomic) UICollectionView *collectionView;
 
+@property (strong, nonatomic) CPMemoCell *editingCell;
+
+@property (strong, nonatomic) UITextField *textField;
+@property (strong, nonatomic) NSArray *textFieldConstraints;
+
+@property (strong, nonatomic) UIView *textFieldContainer;
+@property (strong, nonatomic) NSArray *textFieldContainerConstraints;
+
 - (id)initWithSuperview:(UIView *)superview style:(CPMemoCollectionViewStyle)style andDelegate:(id<CPMemoCollectionViewManagerDelegate>)delegate;
 
 - (void)endEditing;
+
+- (void)memoCellAtIndexPath:(NSIndexPath *)indexPath updateText:(NSString *)text;
 
 @end

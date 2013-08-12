@@ -6,19 +6,12 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-@protocol CPMemoCellDelegate <NSObject>
-
-- (void)memoCellAtIndexPath:(NSIndexPath *)indexPath updateText:(NSString *)text;
-
-@end
+@class CPMemoCollectionViewManager;
 
 @interface CPMemoCell : UICollectionViewCell <UITextFieldDelegate>
 
-@property (weak, nonatomic) id<CPMemoCellDelegate> delegate;
+@property (weak, nonatomic) CPMemoCollectionViewManager *delegate;
 @property (strong, nonatomic) UILabel *label;
-
-+ (void)setTextFieldContainer:(UIView *)container;
-+ (CPMemoCell *)editingCell;
 
 - (void)refreshingConstriants;
 

@@ -13,8 +13,6 @@
 
 #import "CPNotificationCenter.h"
 
-//#define MANUAL_ADD_MEMO
-
 @interface CPPassDataManager ()
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
@@ -34,19 +32,6 @@ static NSString *_passwordCacheName = @"PasswordCache";
 + (CPPassDataManager *)defaultManager {
     if (!_defaultManager) {
         _defaultManager = [[CPPassDataManager alloc] init];
-
-#ifdef MANUAL_ADD_MEMO
-         [_defaultManager addMemoText:@"aaaaa" intoIndex:0];
-         [_defaultManager addMemoText:@"aaaaa" intoIndex:1];
-         [_defaultManager addMemoText:@"aaaaa" intoIndex:2];
-         [_defaultManager addMemoText:@"aaaaa" intoIndex:3];
-         [_defaultManager addMemoText:@"aaaaa" intoIndex:4];
-         [_defaultManager addMemoText:@"aaaaa" intoIndex:5];
-         [_defaultManager addMemoText:@"aaaaa" intoIndex:6];
-         [_defaultManager addMemoText:@"aaaaa" intoIndex:7];
-         [_defaultManager addMemoText:@"aaaaa" intoIndex:8];
-#endif
-        
     }
     return _defaultManager;
 }
