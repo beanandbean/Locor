@@ -8,6 +8,8 @@
 
 #import "CPMainViewController.h"
 
+#import "CPMainPasswordManager.h"
+
 #import "CPPassGridManager.h"
 #import "CPSearchViewManager.h"
 
@@ -18,6 +20,7 @@
 
 @interface CPMainViewController ()
 
+@property (strong, nonatomic) CPMainPasswordManager *mainPasswordManager;
 @property (strong, nonatomic) CPPassGridManager *passGridManager;
 @property (strong, nonatomic) CPSearchViewManager *searchViewManager;
 
@@ -28,7 +31,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [CPProcessManager increaseForbiddenCount];
+    self.mainPasswordManager = [[CPMainPasswordManager alloc] initWithSuperview:self.view];
+    
+    /*[CPProcessManager increaseForbiddenCount];
     
     UIView *contentView = [[UIView alloc] init];
     contentView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -45,7 +50,7 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0]];
     [self.view addSubview:contentView];
     
-    [CPProcessManager decreaseForbiddenCount];
+    [CPProcessManager decreaseForbiddenCount];*/
 }
 
 - (void)didReceiveMemoryWarning {
