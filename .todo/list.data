@@ -241,7 +241,7 @@ sg75
 S'The third and last two colors for cells are too similar, so they need to be changed.'
 p97
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 74.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 59.'
 p98
 sg79
 I00
@@ -279,7 +279,7 @@ sg75
 S'MAY ABORT! Handle the error appropriately when saving context.'
 p107
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 193.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 178.'
 p108
 sg79
 I00
@@ -297,7 +297,7 @@ sg75
 S'MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.'
 p111
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 230.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 215.'
 p112
 sg79
 I00
@@ -515,7 +515,7 @@ S'Show notification when removing a pass cell by setting an empty text.'
 p202
 sS'detail'
 p203
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 95.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 80.'
 p204
 sS'exported'
 p205
@@ -941,7 +941,7 @@ S'Improve animation for removing a memo cell.'
 p376
 sS'detail'
 p377
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 229.'
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 219.'
 p378
 sS'exported'
 p379
@@ -956,5 +956,50 @@ S'src/Passone/Passone/CPMemoCollectionViewManager.m'
 p383
 sS'condition'
 p384
+g85
+sa(dp385
+S'author'
+p386
+S'TODO grabber'
+p387
+sS'text'
+p388
+S'Adjust font of label in main password input view.'
+p389
+sS'detail'
+p390
+S'TODO grabbed from src/Passone/Passone/CPMainPasswordManager.m, line 136.'
+p391
+sS'exported'
+p392
+I00
+sS'time'
+p393
+S'2013-08-16 18:02:14'
+p394
+sS'path'
+p395
+S'src/Passone/Passone/CPMainPasswordManager.m'
+p396
+sS'condition'
+p397
+g85
+sa(dp398
+g386
+g387
+sg388
+S'Add a button in main password input view.'
+p399
+sg390
+S'TODO grabbed from src/Passone/Passone/CPMainPasswordManager.m, line 163.'
+p400
+sg392
+I00
+sg393
+S'2013-08-16 18:02:14'
+p401
+sg395
+g396
+sg397
 g85
 sa.

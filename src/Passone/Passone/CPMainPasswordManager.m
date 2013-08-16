@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "CPMainPasswordManager.h"
 
 #import "CPNotificationCenter.h"
@@ -34,6 +36,8 @@ typedef enum {
 
 + (float)pointSize;
 
++ (BOOL)passwordPointWithCenter:(CGPoint)passCenter containsCGPoint:(CGPoint)point;
+
 + (BOOL)intArray:(NSArray *)array1 isEqualToArray:(NSArray *)array2;
 
 - (void)showPasswordInput;
@@ -53,6 +57,10 @@ typedef enum {
     } else {
         return 50.0;
     }
+}
+
++ (BOOL)passwordPointWithCenter:(CGPoint)passCenter containsCGPoint:(CGPoint)point {
+    return sqrtf((passCenter.x - point.x) * (passCenter.x - point.x) + (passCenter.y - point.y) * (passCenter.y - point.y)) < [CPMainPasswordManager pointSize] / 2;
 }
 
 + (BOOL)intArray:(NSArray *)array1 isEqualToArray:(NSArray *)array2 {
@@ -110,19 +118,24 @@ typedef enum {
     
     NSLayoutConstraint *lowPriorityWidthEqualConstraint = [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeWidth multiplier:1.0 constant:-20.0];
     lowPriorityWidthEqualConstraint.priority = 999;
-    NSLayoutConstraint *lowPriorityHeightEqualConstraint = [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-20.0];
+    NSLayoutConstraint *lowPriorityHeightEqualConstraint = [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-60.0];
     lowPriorityHeightEqualConstraint.priority = 999;
     
     NSArray *outerConstraints = [NSArray arrayWithObjects:
                                  [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0],
-                                 [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0],
+                                 [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:20.0],
                                  [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.outerview attribute:NSLayoutAttributeWidth multiplier:1.0 constant:-20.0],
-                                 [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.outerview attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-20.0],
+                                 [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.outerview attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-60.0],
                                  [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0],
                                  lowPriorityWidthEqualConstraint, lowPriorityHeightEqualConstraint, nil];
     [self.outerview addConstraints:outerConstraints];
     
     self.stateLabel = [[UILabel alloc] init];
+    self.stateLabel.font = [UIFont boldSystemFontOfSize:30.0];
+    
+    // TODO: Adjust font of label in main password input view.
+    
+    self.stateLabel.backgroundColor = [UIColor clearColor];
     self.stateLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.outerview addSubview:self.stateLabel];
     
@@ -145,7 +158,10 @@ typedef enum {
     }
     
     [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:self.stateLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:self.stateLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeTop multiplier:1.0 constant:-10.0]];
+    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:self.stateLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeTop multiplier:1.0 constant:-30.0]];
+    
+    // TODO: Add a button in main password input view.
+    // The button is used to reset main password or return to set password mode when confirming.
     
     NSMutableArray *constraintViews = [NSMutableArray array];
     for (int i = 0; i < 3; i++) {
@@ -171,10 +187,15 @@ typedef enum {
         for (int j = 0; j < 3; j++) {
             UIView *passwordPoint = [[UIView alloc] init];
             passwordPoint.translatesAutoresizingMaskIntoConstraints = NO;
+            
+            passwordPoint.backgroundColor = [UIColor grayColor];
+            
+            passwordPoint.layer.cornerRadius = [CPMainPasswordManager pointSize] / 2;
+            passwordPoint.layer.borderWidth = [CPMainPasswordManager pointSize] / 6;
+            passwordPoint.layer.borderColor = [UIColor blackColor].CGColor;
+            
             [passwordPoints addObject:passwordPoint];
             [outerview addSubview:passwordPoint];
-            
-            passwordPoint.backgroundColor = [UIColor blackColor];
             
             [outerview addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:j] attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
             [outerview addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i] attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
@@ -192,11 +213,11 @@ typedef enum {
     
     CGPoint panPoint = [panGesture locationInView:panGesture.view];
     for (int i = 0; i < 9; i++) {
-        if (self.panningPoints && (!self.panningPoints.count || ((NSNumber *)self.panningPoints.lastObject).intValue != i) && CGRectContainsPoint(((UIView *)[self.passwordPoints objectAtIndex:i]).frame, panPoint)) {
+        if (self.panningPoints && (!self.panningPoints.count || ((NSNumber *)self.panningPoints.lastObject).intValue != i) && [CPMainPasswordManager passwordPointWithCenter:((UIView *)[self.passwordPoints objectAtIndex:i]).center containsCGPoint:panPoint]) {
             [self.panningPoints addObject:[NSNumber numberWithInt:i]];
-            ((UIView *)[self.passwordPoints objectAtIndex:i]).backgroundColor = [UIColor redColor];
+            ((UIView *)[self.passwordPoints objectAtIndex:i]).backgroundColor = [UIColor yellowColor];
             [UIView animateWithDuration:1.0 animations:^{
-                ((UIView *)[self.passwordPoints objectAtIndex:i]).backgroundColor = [UIColor blackColor];
+                ((UIView *)[self.passwordPoints objectAtIndex:i]).backgroundColor = [UIColor grayColor];
             }];
         }
     }
