@@ -8,6 +8,8 @@
 
 #import "CPMainPasswordManager.h"
 
+#import "CPNotificationCenter.h"
+
 typedef enum {
     CPMainPasswordStateSetting,
     CPMainPasswordStateConfirming,
@@ -38,7 +40,8 @@ typedef enum {
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture;
 
-- (void)completePasswordChecking;
+- (void)passwordCheckingSucceeded;
+- (void)passwordCheckingFailed;
 
 @end
 
@@ -86,24 +89,38 @@ typedef enum {
     
     self.outerview = [[UIView alloc] init];
     self.outerview.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [self.outerview addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)]];
+    self.outerview.backgroundColor = [UIColor whiteColor];
     
     [self.superview addSubview:self.outerview];
     
-    NSLayoutConstraint *lowPriorityWidthEqualConstraint = [NSLayoutConstraint constraintWithItem:self.outerview attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeWidth multiplier:1.0 constant:-20.0];
+    self.outerConstraints = [NSArray arrayWithObjects:
+                             [NSLayoutConstraint constraintWithItem:self.outerview attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0],
+                             [NSLayoutConstraint constraintWithItem:self.outerview attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0],
+                             [NSLayoutConstraint constraintWithItem:self.outerview attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0],
+                             [NSLayoutConstraint constraintWithItem:self.outerview attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0],
+                             nil];
+    [self.superview addConstraints:self.outerConstraints];
+    
+    UIView *outerview = [[UIView alloc] init];
+    outerview.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [outerview addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)]];
+    
+    [self.outerview addSubview:outerview];
+    
+    NSLayoutConstraint *lowPriorityWidthEqualConstraint = [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeWidth multiplier:1.0 constant:-20.0];
     lowPriorityWidthEqualConstraint.priority = 999;
-    NSLayoutConstraint *lowPriorityHeightEqualConstraint = [NSLayoutConstraint constraintWithItem:self.outerview attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-20.0];
+    NSLayoutConstraint *lowPriorityHeightEqualConstraint = [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-20.0];
     lowPriorityHeightEqualConstraint.priority = 999;
     
-    self.outerConstraints = [NSArray arrayWithObjects:
-                             [NSLayoutConstraint constraintWithItem:self.outerview attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0],
-                             [NSLayoutConstraint constraintWithItem:self.outerview attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0],
-                             [NSLayoutConstraint constraintWithItem:self.outerview attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.superview attribute:NSLayoutAttributeWidth multiplier:1.0 constant:-20.0],
-                             [NSLayoutConstraint constraintWithItem:self.outerview attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.superview attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-20.0],
-                             [NSLayoutConstraint constraintWithItem:self.outerview attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0],
-                             lowPriorityWidthEqualConstraint, lowPriorityHeightEqualConstraint, nil];
-    [self.superview addConstraints:self.outerConstraints];
+    NSArray *outerConstraints = [NSArray arrayWithObjects:
+                                 [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0],
+                                 [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0],
+                                 [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.outerview attribute:NSLayoutAttributeWidth multiplier:1.0 constant:-20.0],
+                                 [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.outerview attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-20.0],
+                                 [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0],
+                                 lowPriorityWidthEqualConstraint, lowPriorityHeightEqualConstraint, nil];
+    [self.outerview addConstraints:outerConstraints];
     
     self.stateLabel = [[UILabel alloc] init];
     self.stateLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -127,27 +144,27 @@ typedef enum {
             break;
     }
     
-    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:self.stateLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:self.stateLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeTop multiplier:1.0 constant:-10.0]];
+    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:self.stateLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:self.stateLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeTop multiplier:1.0 constant:-10.0]];
     
     NSMutableArray *constraintViews = [NSMutableArray array];
     for (int i = 0; i < 3; i++) {
         UIView *constraintView = [[UIView alloc] init];
         constraintView.translatesAutoresizingMaskIntoConstraints = NO;
         [constraintViews addObject:constraintView];
-        [self.outerview addSubview:constraintView];
+        [outerview addSubview:constraintView];
         
         if (i) {
-            [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:constraintView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i - 1] attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
-            [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:constraintView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i - 1] attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
-            [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:constraintView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i - 1] attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
-            [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:constraintView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i - 1] attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
+            [outerview addConstraint:[NSLayoutConstraint constraintWithItem:constraintView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i - 1] attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
+            [outerview addConstraint:[NSLayoutConstraint constraintWithItem:constraintView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i - 1] attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
+            [outerview addConstraint:[NSLayoutConstraint constraintWithItem:constraintView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i - 1] attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
+            [outerview addConstraint:[NSLayoutConstraint constraintWithItem:constraintView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i - 1] attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
         }
     }
-    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:[constraintViews objectAtIndex:0] attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
-    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:[constraintViews objectAtIndex:0] attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
-    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:[constraintViews objectAtIndex:2] attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
-    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:[constraintViews objectAtIndex:2] attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
+    [outerview addConstraint:[NSLayoutConstraint constraintWithItem:[constraintViews objectAtIndex:0] attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
+    [outerview addConstraint:[NSLayoutConstraint constraintWithItem:[constraintViews objectAtIndex:0] attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
+    [outerview addConstraint:[NSLayoutConstraint constraintWithItem:[constraintViews objectAtIndex:2] attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
+    [outerview addConstraint:[NSLayoutConstraint constraintWithItem:[constraintViews objectAtIndex:2] attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
     
     NSMutableArray *passwordPoints = [NSMutableArray array];
     for (int i = 0; i < 3; i++) {
@@ -155,14 +172,14 @@ typedef enum {
             UIView *passwordPoint = [[UIView alloc] init];
             passwordPoint.translatesAutoresizingMaskIntoConstraints = NO;
             [passwordPoints addObject:passwordPoint];
-            [self.outerview addSubview:passwordPoint];
+            [outerview addSubview:passwordPoint];
             
             passwordPoint.backgroundColor = [UIColor blackColor];
             
-            [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:j] attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-            [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i] attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-            [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:[CPMainPasswordManager pointSize]]];
-            [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:[CPMainPasswordManager pointSize]]];
+            [outerview addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:j] attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+            [outerview addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i] attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+            [outerview addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:[CPMainPasswordManager pointSize]]];
+            [outerview addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:[CPMainPasswordManager pointSize]]];
         }
     }
     self.passwordPoints = passwordPoints;
@@ -189,9 +206,9 @@ typedef enum {
             switch (self.state) {
                 case CPMainPasswordStateChecking:
                     if ([CPMainPasswordManager intArray:self.panningPoints isEqualToArray:self.correctPoints]) {
-                        [self completePasswordChecking];
+                        [self passwordCheckingSucceeded];
                     } else {
-                        NSLog(@"Not correct!");
+                        [self passwordCheckingFailed];
                     }
                     break;
                     
@@ -200,9 +217,9 @@ typedef enum {
                         NSString* documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                         NSString* passwordFilePath = [documentsPath stringByAppendingPathComponent:@"mainpass.plist"];
                         [self.correctPoints writeToFile:passwordFilePath atomically:YES];
-                        [self completePasswordChecking];
+                        [self passwordCheckingSucceeded];
                     } else {
-                        NSLog(@"Not correct!");
+                        [self passwordCheckingFailed];
                     }
                     break;
                     
@@ -220,8 +237,24 @@ typedef enum {
     }
 }
 
-- (void)completePasswordChecking {
-    NSLog(@"Complete!!");
+- (void)passwordCheckingSucceeded {
+    [UIView animateWithDuration:1.0 animations:^{
+        self.outerview.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        [self.superview removeConstraints:self.outerConstraints];
+        [self.outerview removeFromSuperview];
+    }];
+}
+
+- (void)passwordCheckingFailed {
+    [CPNotificationCenter insertNotification:@"Sorry, the password is wrong, please input again"];
+    [UIView animateWithDuration:0.25 animations:^{
+        self.outerview.backgroundColor = [UIColor redColor];
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.25 animations:^{
+            self.outerview.backgroundColor = [UIColor whiteColor];
+        }];
+    }];
 }
 
 @end
