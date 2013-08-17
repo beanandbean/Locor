@@ -16,6 +16,7 @@
 		2CBDF767177DB96E00BC9E3E /* CPNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */; };
 		2CC861F817AE3A64005B88ED /* CPMemoCollectionViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC861F717AE3A64005B88ED /* CPMemoCollectionViewManager.m */; };
 		2CD0AE9417B0FCBC0091E14D /* CPEditingPassCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD0AE9317B0FCBC0091E14D /* CPEditingPassCellProcess.m */; };
+		2CE1EB3117BF90C4005F32AC /* CPMainPasswordCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1EB3017BF90C4005F32AC /* CPMainPasswordCanvas.m */; };
 		2CE543A41796A207004CF538 /* CPEditingMemoCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE543A31796A207004CF538 /* CPEditingMemoCellProcess.m */; };
 		2CE543A71796A585004CF538 /* CPScrollingCollectionViewProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE543A61796A585004CF538 /* CPScrollingCollectionViewProcess.m */; };
 		2CE543AA1796A781004CF538 /* CPRemovingMemoCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE543A91796A781004CF538 /* CPRemovingMemoCellProcess.m */; };
@@ -64,6 +65,8 @@
 		2CC861F717AE3A64005B88ED /* CPMemoCollectionViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMemoCollectionViewManager.m; sourceTree = "<group>"; };
 		2CD0AE9217B0FCBC0091E14D /* CPEditingPassCellProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPEditingPassCellProcess.h; sourceTree = "<group>"; };
 		2CD0AE9317B0FCBC0091E14D /* CPEditingPassCellProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPEditingPassCellProcess.m; sourceTree = "<group>"; };
+		2CE1EB2F17BF90C4005F32AC /* CPMainPasswordCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMainPasswordCanvas.h; sourceTree = "<group>"; };
+		2CE1EB3017BF90C4005F32AC /* CPMainPasswordCanvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMainPasswordCanvas.m; sourceTree = "<group>"; };
 		2CE543A21796A207004CF538 /* CPEditingMemoCellProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPEditingMemoCellProcess.h; sourceTree = "<group>"; };
 		2CE543A31796A207004CF538 /* CPEditingMemoCellProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPEditingMemoCellProcess.m; sourceTree = "<group>"; };
 		2CE543A51796A585004CF538 /* CPScrollingCollectionViewProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPScrollingCollectionViewProcess.h; sourceTree = "<group>"; };
@@ -185,6 +188,10 @@
 				FC4F2AE91759EB0C002D9992 /* CPAppDelegate.m */,
 				2C57A043178979A2004F1547 /* CPAppearanceManager.h */,
 				2C57A044178979A2004F1547 /* CPAppearanceManager.m */,
+				2CE1EB2F17BF90C4005F32AC /* CPMainPasswordCanvas.h */,
+				2CE1EB3017BF90C4005F32AC /* CPMainPasswordCanvas.m */,
+				2CEB0D5017BCD506000404C2 /* CPMainPasswordManager.h */,
+				2CEB0D5117BCD506000404C2 /* CPMainPasswordManager.m */,
 				FC4F2B171759ECB5002D9992 /* CPMainViewController.h */,
 				FC4F2B181759ECB5002D9992 /* CPMainViewController.m */,
 				FC80BE5817791438007BDC13 /* CPMemo.h */,
@@ -201,8 +208,6 @@
 				FCBB156817709854005DC611 /* CPPassCell.m */,
 				FCBF1E24176966E80014E56F /* CPPassDataManager.h */,
 				FCBF1E25176966E80014E56F /* CPPassDataManager.m */,
-				2CEB0D5017BCD506000404C2 /* CPMainPasswordManager.h */,
-				2CEB0D5117BCD506000404C2 /* CPMainPasswordManager.m */,
 				FCB034F7175C154D008D1DC8 /* CPPassEditViewManager.h */,
 				FCB034F8175C154D008D1DC8 /* CPPassEditViewManager.m */,
 				FC79174E176DFE0800CCF63B /* CPPassGridManager.h */,
@@ -329,6 +334,7 @@
 				2CC861F817AE3A64005B88ED /* CPMemoCollectionViewManager.m in Sources */,
 				2CD0AE9417B0FCBC0091E14D /* CPEditingPassCellProcess.m in Sources */,
 				2CEB0D5217BCD506000404C2 /* CPMainPasswordManager.m in Sources */,
+				2CE1EB3117BF90C4005F32AC /* CPMainPasswordCanvas.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

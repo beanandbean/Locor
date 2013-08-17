@@ -10,6 +10,8 @@
 
 #import "CPMainPasswordManager.h"
 
+#import "CPMainPasswordCanvas.h"
+
 #import "CPNotificationCenter.h"
 
 typedef enum {
@@ -17,6 +19,11 @@ typedef enum {
     CPMainPasswordStateConfirming,
     CPMainPasswordStateChecking
 } CPMainPasswordState;
+
+typedef enum {
+    CPMainPasswordCanvasLastPointStateMouse,
+    CPMainPasswordCanvasLastPointStatePassPoint
+} CPMainPasswordCanvasLastPointState;
 
 @interface CPMainPasswordManager ()
 
@@ -27,6 +34,8 @@ typedef enum {
 @property (strong, nonatomic) UIView *outerview;
 @property (strong, nonatomic) NSArray *outerConstraints;
 
+@property (nonatomic) CPMainPasswordCanvas *pointsContainer;
+
 @property (strong, nonatomic) UILabel *stateLabel;
 
 @property (strong, nonatomic) NSArray *passwordPoints;
@@ -34,11 +43,15 @@ typedef enum {
 @property (strong, nonatomic) NSArray *correctPoints;
 @property (strong, nonatomic) NSMutableArray *panningPoints;
 
+@property (nonatomic) CPMainPasswordCanvasLastPointState lastPointState;
+
 + (float)pointSize;
 
 + (BOOL)passwordPointWithCenter:(CGPoint)passCenter containsCGPoint:(CGPoint)point;
 
 + (BOOL)intArray:(NSArray *)array1 isEqualToArray:(NSArray *)array2;
+
++ (void)addPoint:(CGPoint)point toPointArray:(NSMutableArray *)array atState:(CPMainPasswordCanvasLastPointState)state;
 
 - (void)showPasswordInput;
 
@@ -76,6 +89,22 @@ typedef enum {
     }
 }
 
++ (void)addPoint:(CGPoint)point toPointArray:(NSMutableArray *)array atState:(CPMainPasswordCanvasLastPointState)state {
+    switch (state) {
+        case CPMainPasswordCanvasLastPointStateMouse:
+            [array replaceObjectAtIndex:array.count - 1 withObject:[NSValue valueWithCGPoint:point]];
+            break;
+        
+        case CPMainPasswordCanvasLastPointStatePassPoint:
+            [array addObject:[NSValue valueWithCGPoint:point]];
+            break;
+            
+        default:
+            NSAssert(NO, @"Unknown main password canvas last point state!");
+            break;
+    }
+}
+
 - (id)initWithSuperview:(UIView *)superview {
     self = [super init];
     if (self) {
@@ -96,8 +125,8 @@ typedef enum {
     }
     
     self.outerview = [[UIView alloc] init];
-    self.outerview.translatesAutoresizingMaskIntoConstraints = NO;
     self.outerview.backgroundColor = [UIColor whiteColor];
+    self.outerview.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.superview addSubview:self.outerview];
     
@@ -109,24 +138,23 @@ typedef enum {
                              nil];
     [self.superview addConstraints:self.outerConstraints];
     
-    UIView *outerview = [[UIView alloc] init];
-    outerview.translatesAutoresizingMaskIntoConstraints = NO;
+    self.pointsContainer = [[CPMainPasswordCanvas alloc] init];
     
-    [outerview addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)]];
+    [self.pointsContainer addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)]];
     
-    [self.outerview addSubview:outerview];
+    [self.outerview addSubview:self.pointsContainer];
     
-    NSLayoutConstraint *lowPriorityWidthEqualConstraint = [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeWidth multiplier:1.0 constant:-20.0];
+    NSLayoutConstraint *lowPriorityWidthEqualConstraint = [NSLayoutConstraint constraintWithItem:self.pointsContainer attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeWidth multiplier:1.0 constant:-20.0];
     lowPriorityWidthEqualConstraint.priority = 999;
-    NSLayoutConstraint *lowPriorityHeightEqualConstraint = [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-60.0];
+    NSLayoutConstraint *lowPriorityHeightEqualConstraint = [NSLayoutConstraint constraintWithItem:self.pointsContainer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-60.0];
     lowPriorityHeightEqualConstraint.priority = 999;
     
     NSArray *outerConstraints = [NSArray arrayWithObjects:
-                                 [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0],
-                                 [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:20.0],
-                                 [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.outerview attribute:NSLayoutAttributeWidth multiplier:1.0 constant:-20.0],
-                                 [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.outerview attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-60.0],
-                                 [NSLayoutConstraint constraintWithItem:outerview attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0],
+                                 [NSLayoutConstraint constraintWithItem:self.pointsContainer attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0],
+                                 [NSLayoutConstraint constraintWithItem:self.pointsContainer attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.outerview attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:20.0],
+                                 [NSLayoutConstraint constraintWithItem:self.pointsContainer attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.outerview attribute:NSLayoutAttributeWidth multiplier:1.0 constant:-20.0],
+                                 [NSLayoutConstraint constraintWithItem:self.pointsContainer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.outerview attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-60.0],
+                                 [NSLayoutConstraint constraintWithItem:self.pointsContainer attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.pointsContainer attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0],
                                  lowPriorityWidthEqualConstraint, lowPriorityHeightEqualConstraint, nil];
     [self.outerview addConstraints:outerConstraints];
     
@@ -157,8 +185,8 @@ typedef enum {
             break;
     }
     
-    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:self.stateLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:self.stateLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeTop multiplier:1.0 constant:-30.0]];
+    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:self.stateLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.pointsContainer attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:self.stateLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.pointsContainer attribute:NSLayoutAttributeTop multiplier:1.0 constant:-30.0]];
     
     // TODO: Add a button in main password input view.
     // The button is used to reset main password or return to set password mode when confirming.
@@ -168,19 +196,19 @@ typedef enum {
         UIView *constraintView = [[UIView alloc] init];
         constraintView.translatesAutoresizingMaskIntoConstraints = NO;
         [constraintViews addObject:constraintView];
-        [outerview addSubview:constraintView];
+        [self.pointsContainer addSubview:constraintView];
         
         if (i) {
-            [outerview addConstraint:[NSLayoutConstraint constraintWithItem:constraintView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i - 1] attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
-            [outerview addConstraint:[NSLayoutConstraint constraintWithItem:constraintView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i - 1] attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
-            [outerview addConstraint:[NSLayoutConstraint constraintWithItem:constraintView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i - 1] attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
-            [outerview addConstraint:[NSLayoutConstraint constraintWithItem:constraintView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i - 1] attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
+            [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:constraintView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i - 1] attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
+            [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:constraintView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i - 1] attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
+            [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:constraintView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i - 1] attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
+            [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:constraintView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i - 1] attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
         }
     }
-    [outerview addConstraint:[NSLayoutConstraint constraintWithItem:[constraintViews objectAtIndex:0] attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
-    [outerview addConstraint:[NSLayoutConstraint constraintWithItem:[constraintViews objectAtIndex:0] attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
-    [outerview addConstraint:[NSLayoutConstraint constraintWithItem:[constraintViews objectAtIndex:2] attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
-    [outerview addConstraint:[NSLayoutConstraint constraintWithItem:[constraintViews objectAtIndex:2] attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:outerview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
+    [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:[constraintViews objectAtIndex:0] attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.pointsContainer attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
+    [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:[constraintViews objectAtIndex:0] attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.pointsContainer attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
+    [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:[constraintViews objectAtIndex:2] attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.pointsContainer attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
+    [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:[constraintViews objectAtIndex:2] attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.pointsContainer attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
     
     NSMutableArray *passwordPoints = [NSMutableArray array];
     for (int i = 0; i < 3; i++) {
@@ -195,12 +223,12 @@ typedef enum {
             passwordPoint.layer.borderColor = [UIColor blackColor].CGColor;
             
             [passwordPoints addObject:passwordPoint];
-            [outerview addSubview:passwordPoint];
+            [self.pointsContainer addSubview:passwordPoint];
             
-            [outerview addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:j] attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-            [outerview addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i] attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-            [outerview addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:[CPMainPasswordManager pointSize]]];
-            [outerview addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:[CPMainPasswordManager pointSize]]];
+            [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:j] attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+            [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i] attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+            [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:[CPMainPasswordManager pointSize]]];
+            [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:[CPMainPasswordManager pointSize]]];
         }
     }
     self.passwordPoints = passwordPoints;
@@ -209,18 +237,34 @@ typedef enum {
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture {
     if (panGesture.state == UIGestureRecognizerStateBegan) {
         self.panningPoints = [NSMutableArray array];
+        self.pointsContainer.points = [NSMutableArray array];
+        self.lastPointState = CPMainPasswordCanvasLastPointStatePassPoint;
     }
     
+    BOOL sign = YES;
     CGPoint panPoint = [panGesture locationInView:panGesture.view];
     for (int i = 0; i < 9; i++) {
         if (self.panningPoints && (!self.panningPoints.count || ((NSNumber *)self.panningPoints.lastObject).intValue != i) && [CPMainPasswordManager passwordPointWithCenter:((UIView *)[self.passwordPoints objectAtIndex:i]).center containsCGPoint:panPoint]) {
+            UIView *passwordPoint = ((UIView *)[self.passwordPoints objectAtIndex:i]);
+            
             [self.panningPoints addObject:[NSNumber numberWithInt:i]];
-            ((UIView *)[self.passwordPoints objectAtIndex:i]).backgroundColor = [UIColor yellowColor];
+            [CPMainPasswordManager addPoint:passwordPoint.center toPointArray:self.pointsContainer.points atState:self.lastPointState];
+            self.lastPointState = CPMainPasswordCanvasLastPointStatePassPoint;
+            sign = NO;
+            
+            passwordPoint.backgroundColor = [UIColor yellowColor];
             [UIView animateWithDuration:1.0 animations:^{
-                ((UIView *)[self.passwordPoints objectAtIndex:i]).backgroundColor = [UIColor grayColor];
+                passwordPoint.backgroundColor = [UIColor grayColor];
             }];
         }
     }
+    
+    if (sign) {
+        [CPMainPasswordManager addPoint:panPoint toPointArray:self.pointsContainer.points atState:self.lastPointState];
+        self.lastPointState = CPMainPasswordCanvasLastPointStateMouse;
+    }
+    
+    [self.pointsContainer setNeedsDisplay];
     
     if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled || panGesture.state == UIGestureRecognizerStateFailed) {
         if (self.panningPoints && self.panningPoints.count) {
