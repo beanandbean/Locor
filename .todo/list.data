@@ -968,7 +968,7 @@ S'Adjust font of label in main password input view.'
 p389
 sS'detail'
 p390
-S'TODO grabbed from src/Passone/Passone/CPMainPasswordManager.m, line 136.'
+S'TODO grabbed from src/Passone/Passone/CPMainPasswordManager.m, line 164.'
 p391
 sS'exported'
 p392
@@ -991,7 +991,7 @@ sg388
 S'Add a button in main password input view.'
 p399
 sg390
-S'TODO grabbed from src/Passone/Passone/CPMainPasswordManager.m, line 163.'
+S'TODO grabbed from src/Passone/Passone/CPMainPasswordManager.m, line 191.'
 p400
 sg392
 I00

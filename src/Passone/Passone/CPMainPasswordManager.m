@@ -244,18 +244,20 @@ typedef enum {
     BOOL sign = YES;
     CGPoint panPoint = [panGesture locationInView:panGesture.view];
     for (int i = 0; i < 9; i++) {
-        if (self.panningPoints && (!self.panningPoints.count || ((NSNumber *)self.panningPoints.lastObject).intValue != i) && [CPMainPasswordManager passwordPointWithCenter:((UIView *)[self.passwordPoints objectAtIndex:i]).center containsCGPoint:panPoint]) {
-            UIView *passwordPoint = ((UIView *)[self.passwordPoints objectAtIndex:i]);
-            
-            [self.panningPoints addObject:[NSNumber numberWithInt:i]];
-            [CPMainPasswordManager addPoint:passwordPoint.center toPointArray:self.pointsContainer.points atState:self.lastPointState];
-            self.lastPointState = CPMainPasswordCanvasLastPointStatePassPoint;
+        if ([CPMainPasswordManager passwordPointWithCenter:((UIView *)[self.passwordPoints objectAtIndex:i]).center containsCGPoint:panPoint]) {
+            if (self.panningPoints && (!self.panningPoints.count || ((NSNumber *)self.panningPoints.lastObject).intValue != i)) {
+                UIView *passwordPoint = ((UIView *)[self.passwordPoints objectAtIndex:i]);
+                
+                [self.panningPoints addObject:[NSNumber numberWithInt:i]];
+                [CPMainPasswordManager addPoint:passwordPoint.center toPointArray:self.pointsContainer.points atState:self.lastPointState];
+                self.lastPointState = CPMainPasswordCanvasLastPointStatePassPoint;
+                
+                passwordPoint.backgroundColor = [UIColor yellowColor];
+                [UIView animateWithDuration:1.0 animations:^{
+                    passwordPoint.backgroundColor = [UIColor grayColor];
+                }];
+            }
             sign = NO;
-            
-            passwordPoint.backgroundColor = [UIColor yellowColor];
-            [UIView animateWithDuration:1.0 animations:^{
-                passwordPoint.backgroundColor = [UIColor grayColor];
-            }];
         }
     }
     
