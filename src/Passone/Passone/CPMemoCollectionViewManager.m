@@ -146,6 +146,12 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
     return self;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
+}
+
 - (void)endEditing {
     if (self.editingCell) {
         [self.editingCell endEditingAtIndexPath:[self.collectionView indexPathForCell:self.editingCell]];

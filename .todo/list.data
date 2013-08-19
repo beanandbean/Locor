@@ -941,7 +941,7 @@ S'Improve animation for removing a memo cell.'
 p376
 sS'detail'
 p377
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 229.'
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 235.'
 p378
 sS'exported'
 p379
@@ -1013,7 +1013,7 @@ S'Determine if the memo cell should fall back to original position when you star
 p406
 sS'detail'
 p407
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 166.'
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 172.'
 p408
 sS'exported'
 p409
@@ -1028,5 +1028,32 @@ S'src/Passone/Passone/CPMemoCollectionViewManager.m'
 p413
 sS'condition'
 p414
+g85
+sa(dp415
+S'author'
+p416
+S'TODO grabber'
+p417
+sS'text'
+p418
+S'Stop it if being currently editing memo cells in pass edit view.'
+p419
+sS'detail'
+p420
+S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 188.'
+p421
+sS'exported'
+p422
+I00
+sS'time'
+p423
+S'2013-08-19 18:28:49'
+p424
+sS'path'
+p425
+S'src/Passone/Passone/CPSearchViewManager.m'
+p426
+sS'condition'
+p427
 g85
 sa.
