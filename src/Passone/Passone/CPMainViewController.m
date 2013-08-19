@@ -46,7 +46,7 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0]];
     [self.view addSubview:contentView];
     
-    self.mainPasswordManager = [[CPMainPasswordManager alloc] initWithSuperview:self.view];
+    //self.mainPasswordManager = [[CPMainPasswordManager alloc] initWithSuperview:self.view];
 }
 
 - (void)didReceiveMemoryWarning {

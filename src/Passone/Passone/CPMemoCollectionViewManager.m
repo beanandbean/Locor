@@ -18,6 +18,7 @@
 #import "CPMemo.h"
 
 #import "CPProcessManager.h"
+#import "CPEditingMemoCellProcess.h"
 #import "CPRemovingMemoCellProcess.h"
 #import "CPScrollingCollectionViewProcess.h"
 
@@ -31,6 +32,8 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 @property (weak, nonatomic) UIView *superview;
 
 @property (strong, nonatomic) NSArray *collectionViewConstraints;
+
+@property (nonatomic) NSValue *collectionViewOffsetBeforeEdit;
 
 @property (strong, nonatomic) UIImage *removingCellImage;
 
@@ -135,6 +138,10 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
         [self.superview addSubview:self.textFieldContainer];
         [self.superview addConstraints:self.collectionViewConstraints];
         [self.superview addConstraints:self.textFieldContainerConstraints];
+    
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidResize:) name:UIKeyboardDidShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidResize:) name:UIKeyboardDidChangeFrameNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
     }
     return self;
 }
@@ -156,6 +163,8 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
                 [self.editingCell endEditingAtIndexPath:[self.collectionView indexPathForCell:self.editingCell]];
             }
             
+            // TODO: Determine if the memo cell should fall back to original position when you start removing after it is raised up when editing.
+            
             if (fabsf(translation.x) > fabsf(translation.y) && panningCellIndex) {
                 [CPProcessManager startProcess:[CPRemovingMemoCellProcess process] withPreparation:^{
                     CPMemoCell *panningCell = (CPMemoCell *)[self.collectionView cellForItemAtIndexPath:panningCellIndex];
@@ -169,6 +178,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
                     [self.collectionView reloadData];
                 }];
             } else {
+                self.collectionViewOffsetBeforeEdit = nil;
                 [CPProcessManager startProcess:[CPScrollingCollectionViewProcess process] withPreparation:^{
                     if (self.style == CPMemoCollectionViewStyleInPassCell) {
                         self.draggingBasicOffset = CGPointMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y + 76.0);
@@ -247,6 +257,28 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
                 [self.collectionView setContentOffset:offset animated:YES];
             }
         }];
+    }
+}
+
+- (void)keyboardDidResize:(NSNotification *)notification {
+    if (!self.collectionViewOffsetBeforeEdit) {
+        self.collectionViewOffsetBeforeEdit = [NSValue valueWithCGPoint:self.collectionView.contentOffset];
+    }
+    
+    NSValue *rectObj = [notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey];
+    if (rectObj && self.editingCell) {
+        CGRect rect = rectObj.CGRectValue;
+        float transformedY = [self.collectionView convertPoint:rect.origin fromView:[UIApplication sharedApplication].keyWindow.subviews.lastObject].y - 20;
+        if (self.editingCell.frame.origin.y + self.editingCell.frame.size.height + 10 > transformedY) {
+            [self.collectionView setContentOffset:CGPointMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y + self.editingCell.frame.origin.y + self.editingCell.frame.size.height + 10 - transformedY) animated:YES];
+        }
+    }
+}
+
+- (void)keyboardDidHide:(NSNotification *)notification {
+    if (self.collectionViewOffsetBeforeEdit && !self.editingCell) {
+        [self.collectionView setContentOffset:self.collectionViewOffsetBeforeEdit.CGPointValue animated:YES];
+        self.collectionViewOffsetBeforeEdit = nil;
     }
 }
 
