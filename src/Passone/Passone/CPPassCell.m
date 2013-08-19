@@ -88,6 +88,7 @@
             self.removingView = [[UIView alloc] init];
             [self addSubview:self.removingView];
             
+            // TODO: When removing pass cell, use images instead of single-colored views.
             CPPassword *password = [[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index];
             self.removingView.backgroundColor = password.displayColor;
             self.backgroundColor = password.reversedColor;

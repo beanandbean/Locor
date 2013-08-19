@@ -77,9 +77,10 @@ static NSString *_passwordCacheName = @"PasswordCache";
     CPPassword *password = [self.passwordsController.fetchedObjects objectAtIndex:index];
     NSAssert1(password, @"No password corresponding to password index %d!", index);
     
-    // TODO: Show notification when removing a pass cell by setting an empty text.
     if ([text isEqualToString:@""]) {
-        password.isUsed = [NSNumber numberWithBool:NO];
+        if (password.isUsed.boolValue) {
+            [self toggleRemoveStateOfPasswordAtIndex:password.index.integerValue];
+        }
     } else {
         if (!password.isUsed.boolValue) {
             for (CPMemo *memo in password.memos) {
