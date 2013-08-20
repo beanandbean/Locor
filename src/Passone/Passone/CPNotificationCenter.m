@@ -67,7 +67,7 @@ static CPNotificationCenter *center;
     
     if (rectObj) {
         CGRect rect = rectObj.CGRectValue;
-        float transformedY = [self.superView convertPoint:rect.origin fromView:[UIApplication sharedApplication].keyWindow.subviews.lastObject].y - 20.0;
+        float transformedY = [self.superView convertPoint:rect.origin fromView:nil].y;
         self.bottomHeight = transformedY - self.superView.frame.size.height - 10.0;
     } else {
         self.bottomHeight = -10.0;

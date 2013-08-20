@@ -277,7 +277,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
     if (self.editingCell) {
         if (rectObj) {
             CGRect rect = rectObj.CGRectValue;
-            float transformedY = [self.collectionView convertPoint:rect.origin fromView:[UIApplication sharedApplication].keyWindow.subviews.lastObject].y - 20.0;
+            float transformedY = [self.collectionView convertPoint:rect.origin fromView:nil].y;
             if (self.editingCell.frame.origin.y + self.editingCell.frame.size.height + 10 > transformedY) {
                 [self.collectionView setContentOffset:CGPointMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y + self.editingCell.frame.origin.y + self.editingCell.frame.size.height + 10 - transformedY) animated:YES];
             }
