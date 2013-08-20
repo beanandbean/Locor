@@ -139,8 +139,8 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
         [self.superview addConstraints:self.collectionViewConstraints];
         [self.superview addConstraints:self.textFieldContainerConstraints];
     
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidResize:) name:UIKeyboardDidShowNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidChangeFrameNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidUndock:) name:UIKeyboardDidChangeFrameNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
     }
     return self;
@@ -266,10 +266,12 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
     }
 }
 
-- (void)keyboardDidResize:(NSNotification *)notification {
+- (void)keyboardDidShow:(NSNotification *)notification {
     if (!self.collectionViewOffsetBeforeEdit) {
         self.collectionViewOffsetBeforeEdit = [NSValue valueWithCGPoint:self.collectionView.contentOffset];
     }
+    
+    // TODO: Figure out why editing cell will not rise if starting edit cell just after search bar.
     
     NSValue *rectObj = [notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey];
     if (self.editingCell) {
@@ -282,6 +284,13 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
         } else {
             [self.collectionView setContentOffset:self.collectionViewOffsetBeforeEdit.CGPointValue animated:YES];
         }
+    }
+}
+
+- (void)keyboardDidUndock:(NSNotification *)notification {
+    if (self.collectionViewOffsetBeforeEdit) {
+        [self.collectionView setContentOffset:self.collectionViewOffsetBeforeEdit.CGPointValue animated:YES];
+        self.collectionViewOffsetBeforeEdit = nil;
     }
 }
 
