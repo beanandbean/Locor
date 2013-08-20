@@ -693,7 +693,7 @@ S'Adjust font of pass cell removing label.'
 p268
 sS'detail'
 p269
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 120.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 122.'
 p270
 sS'exported'
 p271
@@ -720,7 +720,7 @@ S'Change behavior of pass cell removing view & label if cannot toggle remove sta
 p281
 sS'detail'
 p282
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 177.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 179.'
 p283
 sS'exported'
 p284
@@ -1069,7 +1069,7 @@ S'When removing pass cell, use images instead of single-colored views.'
 p434
 sS'detail'
 p435
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 103.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 105.'
 p436
 sS'exported'
 p437

@@ -51,6 +51,8 @@
         doubleTap.numberOfTapsRequired = 2;
         [self addGestureRecognizer:doubleTap];
         
+        [singleTap requireGestureRecognizerToFail:doubleTap];
+        
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
         longPress.delegate = self;
         [self addGestureRecognizer: longPress];
