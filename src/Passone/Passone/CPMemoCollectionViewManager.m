@@ -271,12 +271,18 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
         self.collectionViewOffsetBeforeEdit = [NSValue valueWithCGPoint:self.collectionView.contentOffset];
     }
     
+    // TODO: Determine if the keyboard is splited or not when resize notification come to memo collection view manager.
+    
     NSValue *rectObj = [notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey];
-    if (rectObj && self.editingCell) {
-        CGRect rect = rectObj.CGRectValue;
-        float transformedY = [self.collectionView convertPoint:rect.origin fromView:[UIApplication sharedApplication].keyWindow.subviews.lastObject].y - 20;
-        if (self.editingCell.frame.origin.y + self.editingCell.frame.size.height + 10 > transformedY) {
-            [self.collectionView setContentOffset:CGPointMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y + self.editingCell.frame.origin.y + self.editingCell.frame.size.height + 10 - transformedY) animated:YES];
+    if (self.editingCell) {
+        if (rectObj) {
+            CGRect rect = rectObj.CGRectValue;
+            float transformedY = [self.collectionView convertPoint:rect.origin fromView:[UIApplication sharedApplication].keyWindow.subviews.lastObject].y - 20.0;
+            if (self.editingCell.frame.origin.y + self.editingCell.frame.size.height + 10 > transformedY) {
+                [self.collectionView setContentOffset:CGPointMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y + self.editingCell.frame.origin.y + self.editingCell.frame.size.height + 10 - transformedY) animated:YES];
+            }
+        } else {
+            [self.collectionView setContentOffset:self.collectionViewOffsetBeforeEdit.CGPointValue animated:YES];
         }
     }
 }

@@ -179,7 +179,7 @@ S'Limit the number of notifications.'
 p76
 sS'detail'
 p77
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 59.'
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 95.'
 p78
 sS'exported'
 p79
@@ -203,7 +203,7 @@ sg75
 S'Determine how long a notification should stay on the screen.'
 p87
 sg77
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 112.'
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 147.'
 p88
 sg79
 I00
@@ -1096,7 +1096,7 @@ S'Adjust appearance of notification labels.'
 p447
 sS'detail'
 p448
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 60.'
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 96.'
 p449
 sS'exported'
 p450
@@ -1127,7 +1127,7 @@ S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 61.'
 p462
 sS'exported'
 p463
-I00
+I01
 sS'time'
 p464
 S'2013-08-20 17:41:38'
@@ -1138,5 +1138,70 @@ S'src/Passone/Passone/CPNotificationCenter.m'
 p467
 sS'condition'
 p468
+S'done'
+p469
+sa(dp470
+S'author'
+p471
+S'TODO grabber'
+p472
+sS'text'
+p473
+S'Determine if the keyboard is splited or not when resize notification come to memo collection view manager.'
+p474
+sS'detail'
+p475
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 274.'
+p476
+sS'exported'
+p477
+I00
+sS'time'
+p478
+S'2013-08-20 17:57:41'
+p479
+sS'path'
+p480
+S'src/Passone/Passone/CPMemoCollectionViewManager.m'
+p481
+sS'condition'
+p482
+g85
+sa(dp483
+g471
+g472
+sg473
+S'Determine if the keyboard is splited or not when resize notification come to notification center.'
+p484
+sg475
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 66.'
+p485
+sg477
+I00
+sg478
+S'2013-08-20 17:57:41'
+p486
+sg480
+S'src/Passone/Passone/CPNotificationCenter.m'
+p487
+sg482
+g85
+sa(dp488
+g471
+g472
+sg473
+S"Not change notification labels' position if keyboard hide and then show immediately."
+p489
+sg475
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 79.'
+p490
+sg477
+I00
+sg478
+S'2013-08-20 17:57:41'
+p491
+sg480
+g487
+sg482
 g85
 sa.

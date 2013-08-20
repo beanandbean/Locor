@@ -14,6 +14,7 @@ static CPNotificationCenter *center;
 
 @interface CPNotificationCenter ()
 
+@property (nonatomic) float bottomHeight;
 @property (weak, nonatomic) UIView *superView;
 @property (strong, nonatomic) NSMutableArray *notifications;
 @property (strong, nonatomic) NSMutableArray *views;
@@ -44,21 +45,55 @@ static CPNotificationCenter *center;
 - (id)initWithSuperView:(UIView *)superView {
     self = [super init];
     if (self) {
+        self.bottomHeight = -10.0;
         self.superView = superView;
-        
         self.notifications = [[NSMutableArray alloc] init];
         self.views = [[NSMutableArray alloc] init];
         self.leftConstraints = [[NSMutableArray alloc] init];
         self.rightConstraints = [[NSMutableArray alloc] init];
         self.bottomConstraints = [[NSMutableArray alloc] init];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidResize:) name:UIKeyboardDidShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidResize:) name:UIKeyboardDidChangeFrameNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
     }
     return self;
+}
+
+- (void)keyboardDidResize:(NSNotification *)notification {
+    NSValue *rectObj = [notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey];
+
+    // TODO: Determine if the keyboard is splited or not when resize notification come to notification center.
+    
+    if (rectObj) {
+        CGRect rect = rectObj.CGRectValue;
+        float transformedY = [self.superView convertPoint:rect.origin fromView:[UIApplication sharedApplication].keyWindow.subviews.lastObject].y - 20.0;
+        self.bottomHeight = transformedY - self.superView.frame.size.height - 10.0;
+    } else {
+        self.bottomHeight = -10.0;
+    }
+    [self refreshBottom];
+}
+
+- (void)keyboardDidHide:(NSNotification *)notification {
+    // TODO: Not change notification labels' position if keyboard hide and then show immediately.
+    
+    self.bottomHeight = -10.0;
+    [self refreshBottom];
+}
+
+- (void)refreshBottom {
+    if (self.bottomConstraints.count) {
+        ((NSLayoutConstraint *)[self.bottomConstraints lastObject]).constant = self.bottomHeight;
+        [UIView animateWithDuration:0.3 animations:^{
+            [self.superView layoutIfNeeded];
+        }];
+    }
 }
 
 - (void)insertNotification:(NSString *)notification {
     // TODO: Limit the number of notifications.
     // TODO: Adjust appearance of notification labels.
-    // TODO: Not let keyboard hide the notifications.
 
     [self.notifications addObject:notification];
     
@@ -91,7 +126,7 @@ static CPNotificationCenter *center;
     [notificationLabel addConstraint:heightConstraint];
     [self.superView layoutIfNeeded];
     
-    NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:notificationLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0];
+    NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:notificationLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:self.bottomHeight];
     [self.superView addConstraint:bottomConstraint];
     [self.bottomConstraints addObject:bottomConstraint];
     
