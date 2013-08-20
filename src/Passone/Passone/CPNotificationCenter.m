@@ -57,6 +57,8 @@ static CPNotificationCenter *center;
 
 - (void)insertNotification:(NSString *)notification {
     // TODO: Limit the number of notifications.
+    // TODO: Adjust appearance of notification labels.
+    // TODO: Not let keyboard hide the notifications.
 
     [self.notifications addObject:notification];
     

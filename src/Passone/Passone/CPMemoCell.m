@@ -10,6 +10,12 @@
 
 #import "CPMemoCollectionViewManager.h"
 
+#import "CPPassDataManager.h"
+#import "CPPassword.h"
+#import "CPMemo.h"
+
+#import "CPNotificationCenter.h"
+
 #import "CPProcessManager.h"
 #import "CPEditingMemoCellProcess.h"
 
@@ -35,12 +41,24 @@
     self = [super initWithFrame:frame];
     
     if (self) {
-        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)]];
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
+        singleTap.numberOfTapsRequired = 1;
+        [self addGestureRecognizer:singleTap];
+        
+        UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapGesture:)];
+        doubleTap.numberOfTapsRequired = 2;
+        [self addGestureRecognizer:doubleTap];
     }
     return self;
 }
 
-- (void)handleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
+- (void)handleSingleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
+    CPPassword *password = ((CPMemo *)[self.delegate.memos objectAtIndex:[(UICollectionView *)self.superview indexPathForCell:self].row]).password;
+    [UIPasteboard generalPasteboard].string = password.text;
+    [CPNotificationCenter insertNotification:[NSString stringWithFormat:@"Password No %d copied to clipboard.", password.index.intValue]];
+}
+
+- (void)handleDoubleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
     [self startEditing];
 }
 

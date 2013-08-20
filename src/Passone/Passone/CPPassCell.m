@@ -13,6 +13,8 @@
 
 #import "CPAppearanceManager.h"
 
+#import "CPNotificationCenter.h"
+
 #import "CPProcessManager.h"
 #import "CPDraggingPassCellProcess.h"
 #import "CPRemovingPassCellProcess.h"
@@ -41,8 +43,13 @@
         self.clipsToBounds = YES;
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
-        // TODO: Tap once on pass cell to copy password. Tap twice to show pass edit view.
-        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)]];
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
+        singleTap.numberOfTapsRequired = 1;
+        [self addGestureRecognizer:singleTap];
+        
+        UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapGesture:)];
+        doubleTap.numberOfTapsRequired = 2;
+        [self addGestureRecognizer:doubleTap];
         
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
         longPress.delegate = self;
@@ -55,7 +62,12 @@
     return self;
 }
 
-- (void)handleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
+- (void)handleSingleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
+    [UIPasteboard generalPasteboard].string = ((CPPassword *)[[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index]).text;
+    [CPNotificationCenter insertNotification:[NSString stringWithFormat:@"Password No %d copied to clipboard.", self.index]];
+}
+
+- (void)handleDoubleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
     [self.delegate tapPassCell:self];
 }
 
