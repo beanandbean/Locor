@@ -179,7 +179,7 @@ S'Limit the number of notifications.'
 p76
 sS'detail'
 p77
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 95.'
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 99.'
 p78
 sS'exported'
 p79
@@ -203,7 +203,7 @@ sg75
 S'Determine how long a notification should stay on the screen.'
 p87
 sg77
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 147.'
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 151.'
 p88
 sg79
 I00
@@ -1096,7 +1096,7 @@ S'Adjust appearance of notification labels.'
 p447
 sS'detail'
 p448
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 96.'
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 100.'
 p449
 sS'exported'
 p450
@@ -1155,7 +1155,7 @@ S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 274.
 p476
 sS'exported'
 p477
-I00
+I01
 sS'time'
 p478
 S'2013-08-20 17:57:41'
@@ -1166,42 +1166,43 @@ S'src/Passone/Passone/CPMemoCollectionViewManager.m'
 p481
 sS'condition'
 p482
-g85
-sa(dp483
+S'done'
+p483
+sa(dp484
 g471
 g472
 sg473
 S'Determine if the keyboard is splited or not when resize notification come to notification center.'
-p484
+p485
 sg475
 S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 66.'
-p485
+p486
 sg477
-I00
+I01
 sg478
 S'2013-08-20 17:57:41'
-p486
+p487
 sg480
 S'src/Passone/Passone/CPNotificationCenter.m'
-p487
+p488
 sg482
-g85
-sa(dp488
+g483
+sa(dp489
 g471
 g472
 sg473
 S"Not change notification labels' position if keyboard hide and then show immediately."
-p489
-sg475
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 79.'
 p490
+sg475
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 83.'
+p491
 sg477
 I00
 sg478
 S'2013-08-20 17:57:41'
-p491
+p492
 sg480
-g487
+g488
 sg482
 g85
 sa.

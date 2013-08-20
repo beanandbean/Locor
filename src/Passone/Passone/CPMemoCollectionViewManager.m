@@ -140,7 +140,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
         [self.superview addConstraints:self.textFieldContainerConstraints];
     
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidResize:) name:UIKeyboardDidShowNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidResize:) name:UIKeyboardDidChangeFrameNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidChangeFrameNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
     }
     return self;
@@ -270,8 +270,6 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
     if (!self.collectionViewOffsetBeforeEdit) {
         self.collectionViewOffsetBeforeEdit = [NSValue valueWithCGPoint:self.collectionView.contentOffset];
     }
-    
-    // TODO: Determine if the keyboard is splited or not when resize notification come to memo collection view manager.
     
     NSValue *rectObj = [notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey];
     if (self.editingCell) {
