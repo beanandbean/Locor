@@ -43,37 +43,47 @@
     self = [super init];
     if (self) {
         self.superview = superview;
-        self.superview.backgroundColor = [UIColor redColor];
-        //self.heightConstraint = [NSLayoutConstraint constraintWithItem:self.superview attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:0.0];
-        //[self.superview addConstraint:self.heightConstraint];
+        self.heightConstraint = [NSLayoutConstraint constraintWithItem:self.superview attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:0.0];
+        [self.superview addConstraint:self.heightConstraint];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayAdBanner) name:kReachabilityChangedNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
         self.appleReachability = [Reachability reachabilityWithHostName:@"www.apple.com"];
         [self.appleReachability startNotifier];
         
-        [self displayAdBanner];
+        [self displayAdBannerForFirstTime:YES];
     }
     return self;
 }
 
-- (void)displayAdBanner {
+- (void)reachabilityChanged:(NSNotification *)notification {
+    [self displayAdBannerForFirstTime:NO];
+}
+
+- (void)displayAdBannerForFirstTime:(BOOL)isFirstTime {
     if (self.appleReachability.currentReachabilityStatus == NotReachable || !self.iAdBannerView.bannerLoaded) {
-        //self.heightConstraint.constant = 0.0;
+        // TODO: Use other advertisements when apple's iAd is not reachable.
+        
+        self.heightConstraint.constant = 0.0;
         self.iAdBannerView.hidden = YES;
     } else {
-        //self.heightConstraint.constant = 100.0;
+        self.heightConstraint.constant = ((UIView *)[self.iAdBannerView.subviews objectAtIndex:0]).frame.size.height;
         self.iAdBannerView.hidden = NO;
+    }
+    if (!isFirstTime) {
+        [UIView animateWithDuration:0.5 animations:^{
+            [self.superview.superview layoutIfNeeded];
+        }];
     }
 }
 
 #pragma mark - AdBannerViewDelegate implementation
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner {
-    [self displayAdBanner];
+    [self displayAdBannerForFirstTime:NO];
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
-    [self displayAdBanner];
+    [self displayAdBannerForFirstTime:NO];
 }
 
 - (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave {

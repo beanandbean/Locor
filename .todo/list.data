@@ -1232,4 +1232,31 @@ p504
 sS'condition'
 p505
 g85
+sa(dp506
+S'author'
+p507
+S'TODO grabber'
+p508
+sS'text'
+p509
+S"Use other advertisements when apple's iAd is not reachable."
+p510
+sS'detail'
+p511
+S'TODO grabbed from src/Passone/Passone/CPAdManager.m, line 64.'
+p512
+sS'exported'
+p513
+I00
+sS'time'
+p514
+S'2013-08-22 17:57:56'
+p515
+sS'path'
+p516
+S'src/Passone/Passone/CPAdManager.m'
+p517
+sS'condition'
+p518
+g85
 sa.
