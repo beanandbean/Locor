@@ -37,6 +37,7 @@ typedef enum {
 @property (nonatomic) CPMainPasswordCanvas *pointsContainer;
 
 @property (strong, nonatomic) UILabel *stateLabel;
+@property (strong, nonatomic) UIButton *redrawButton;
 
 @property (strong, nonatomic) NSArray *passwordPoints;
 
@@ -186,11 +187,31 @@ typedef enum {
     }
     
     [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:self.stateLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.pointsContainer attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:self.stateLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.pointsContainer attribute:NSLayoutAttributeTop multiplier:1.0 constant:-30.0]];
+    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:self.stateLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.pointsContainer attribute:NSLayoutAttributeTop multiplier:1.0 constant:-40.0]];
     
-    // TODO: Add a button in main password input view.
     // The button is used to reset main password or return to set password mode when confirming.
     
+    self.redrawButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.redrawButton.translatesAutoresizingMaskIntoConstraints = NO;
+    self.redrawButton.backgroundColor = [UIColor blackColor];
+    self.redrawButton.titleLabel.font = [UIFont boldSystemFontOfSize:24.0];
+    self.redrawButton.alpha = 0.0;
+    self.redrawButton.enabled = NO;
+    
+    [self.redrawButton setTitle:@"Redraw" forState:UIControlStateNormal];
+    [self.redrawButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.redrawButton addTarget:self action:@selector(redrawButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    CGSize predictedSize = [@"Redraw" sizeWithFont:self.redrawButton.titleLabel.font];
+    
+    [self.outerview addSubview:self.redrawButton];
+    
+    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:self.redrawButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.pointsContainer attribute:NSLayoutAttributeRight multiplier:1.0 constant:-100.0]];
+    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:self.redrawButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.pointsContainer attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
+    [self.outerview addConstraint:[NSLayoutConstraint constraintWithItem:self.redrawButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:predictedSize.width + 20.0]];
+    
+    [self.outerview layoutIfNeeded];
+
     NSMutableArray *constraintViews = [NSMutableArray array];
     for (int i = 0; i < 3; i++) {
         UIView *constraintView = [[UIView alloc] init];
@@ -291,16 +312,35 @@ typedef enum {
                     break;
                     
                 case CPMainPasswordStateSetting:
+                {
                     self.correctPoints = self.panningPoints;
                     self.stateLabel.text = @"Please input the main password again to confirm";
+                    [UIView animateWithDuration:0.5 animations:^{
+                        self.redrawButton.alpha = 1.0;
+                    } completion:^(BOOL finished) {
+                        self.redrawButton.enabled = YES;
+                    }];
                     self.state = CPMainPasswordStateConfirming;
                     break;
+                }
                     
                 default:
                     NSAssert(NO, @"Unknown main password manager state!");
                     break;
             }            
         }
+    }
+}
+
+- (void)redrawButtonPressed:(id)sender {
+    if (self.state == CPMainPasswordStateConfirming) {
+        [UIView animateWithDuration:0.5 animations:^{
+        self.redrawButton.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        self.redrawButton.enabled = NO;
+    }];
+        self.stateLabel.text = @"Please set a main password";
+        self.state = CPMainPasswordStateSetting;
     }
 }
 
