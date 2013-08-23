@@ -10,11 +10,16 @@
 
 #import "CPAppearanceManager.h"
 
+static const int NOTIFICATION_MAX_COUNT = 3;
+// TODO: Determine how long a notification should stay on the screen.
+static const float NOTIFICATION_STAY_TIME = 2.0;
+
 static CPNotificationCenter *center;
 
 @interface CPNotificationCenter ()
 
 @property (nonatomic) float bottomHeight;
+@property (nonatomic) int forceRemovedCount;
 @property (weak, nonatomic) UIView *superView;
 @property (strong, nonatomic) NSMutableArray *notifications;
 @property (strong, nonatomic) NSMutableArray *views;
@@ -25,6 +30,8 @@ static CPNotificationCenter *center;
 - (id)initWithSuperView:(UIView *)superView;
 
 - (void)insertNotification:(NSString *)notification;
+
+- (void)removeNotification:(UIView *)notification forced:(BOOL)isForced;
 
 - (void)notificationFired:(NSTimer *)timer;
 
@@ -46,6 +53,7 @@ static CPNotificationCenter *center;
     self = [super init];
     if (self) {
         self.bottomHeight = -10.0;
+        self.forceRemovedCount = 0;
         self.superView = superView;
         self.notifications = [[NSMutableArray alloc] init];
         self.views = [[NSMutableArray alloc] init];
@@ -96,7 +104,6 @@ static CPNotificationCenter *center;
 }
 
 - (void)insertNotification:(NSString *)notification {
-    // TODO: Limit the number of notifications.
     // TODO: Adjust appearance of notification labels.
 
     [self.notifications addObject:notification];
@@ -141,6 +148,13 @@ static CPNotificationCenter *center;
         [self.bottomConstraints replaceObjectAtIndex:self.views.count - 2 withObject:secondBottomConstraint];
     }
     
+    // TODO: BUG! When notifications come too fast, upper notifications will be removed without animation.
+    if (NOTIFICATION_MAX_COUNT < self.notifications.count) {
+        for (int i = NOTIFICATION_MAX_COUNT; i < self.notifications.count; i++) {
+            [self removeNotification:(UIView *)[self.views objectAtIndex:i - NOTIFICATION_MAX_COUNT] forced:YES];
+        }
+    }
+    
     // Not protectiong the animation which doesn't affect main view
     [UIView animateWithDuration:0.5 animations:^{
         [self.superView layoutIfNeeded];
@@ -148,31 +162,46 @@ static CPNotificationCenter *center;
         [UIView animateWithDuration:0.5 animations:^{
             notificationLabel.alpha = 1.0;
         }completion:^(BOOL finished){
-            // TODO: Determine how long a notification should stay on the screen.
-            [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(notificationFired:) userInfo:nil repeats:NO];
+            [NSTimer scheduledTimerWithTimeInterval:NOTIFICATION_STAY_TIME target:self selector:@selector(notificationFired:) userInfo:notificationLabel repeats:NO];
         }];
     }];
 }
 
-- (void)notificationFired:(NSTimer *)timer {
+- (void)removeNotification:(UIView *)notification forced:(BOOL)isForced {
+    if (isForced) {
+        self.forceRemovedCount++;
+    }
+    
     [UIView animateWithDuration:0.5 animations:^{
-        ((UIView *)[self.views objectAtIndex:0]).alpha = 0.0;
-    }completion:^(BOOL finished){
-        [self.superView removeConstraint:[self.leftConstraints objectAtIndex:0]];
-        [self.leftConstraints removeObjectAtIndex:0];
-        
-        [self.superView removeConstraint:[self.rightConstraints objectAtIndex:0]];
-        [self.rightConstraints removeObjectAtIndex:0];
-        
-        [self.superView removeConstraint:[self.bottomConstraints objectAtIndex:0]];
-        [self.bottomConstraints removeObjectAtIndex:0];
-
-        [[self.views objectAtIndex:0] removeFromSuperview];
-        [self.views removeObjectAtIndex:0];
-
-        [self.superView layoutIfNeeded];
-        [self.notifications removeObjectAtIndex:0];
+        notification.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [self.superView removeConstraint:[self.leftConstraints objectAtIndex:0]];
+            [self.leftConstraints removeObjectAtIndex:0];
+            
+            [self.superView removeConstraint:[self.rightConstraints objectAtIndex:0]];
+            [self.rightConstraints removeObjectAtIndex:0];
+            
+            [self.superView removeConstraint:[self.bottomConstraints objectAtIndex:0]];
+            [self.bottomConstraints removeObjectAtIndex:0];
+            
+            [[self.views objectAtIndex:0] removeFromSuperview];
+            [self.views removeObjectAtIndex:0];
+            
+            [self.superView layoutIfNeeded];
+            [self.notifications removeObjectAtIndex:0];
+        } else {
+            [self removeNotification:notification forced:NO];
+        }
     }];
+}
+
+- (void)notificationFired:(NSTimer *)timer {
+    if (self.forceRemovedCount) {
+        self.forceRemovedCount--;
+    } else {
+        [self removeNotification:(UIView *)timer.userInfo forced:NO];
+    }
 }
 
 @end

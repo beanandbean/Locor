@@ -183,7 +183,7 @@ S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 99.'
 p78
 sS'exported'
 p79
-I00
+I01
 sS'time'
 p80
 S'2013-07-02 21:16:13'
@@ -194,7 +194,7 @@ S'src/Passone/Passone/CPNotificationCenter.m'
 p83
 sS'condition'
 p84
-S'open'
+S'done'
 p85
 sa(dp86
 g73
@@ -203,7 +203,7 @@ sg75
 S'Determine how long a notification should stay on the screen.'
 p87
 sg77
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 151.'
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 14.'
 p88
 sg79
 I00
@@ -213,1051 +213,1079 @@ p89
 sg82
 g83
 sg84
-g85
-sa(dp90
+S'open'
+p90
+sa(dp91
 g73
 g74
 sg75
 S'Now use long press to simulate two-finger swipe, change it later.'
-p91
+p92
 sg77
 S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 57.'
-p92
+p93
 sg79
 I00
 sg80
 S'2013-07-02 21:16:13'
-p93
+p94
 sg82
 S'src/Passone/Passone/CPPassCell.m'
-p94
+p95
 sg84
 S'remv'
-p95
-sa(dp96
+p96
+sa(dp97
 g73
 g74
 sg75
 S'The third and last two colors for cells are too similar, so they need to be changed.'
-p97
+p98
 sg77
 S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 59.'
-p98
+p99
 sg79
 I00
 sg80
 S'2013-07-02 21:16:13'
-p99
+p100
 sg82
 S'src/Passone/Passone/CPPassDataManager.m'
-p100
+p101
 sg84
-g85
-sa(dp101
+g90
+sa(dp102
 g73
 g74
 sg75
 S'BUG! Cannot undo before setPasswordText.'
-p102
+p103
 sg77
 S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 115.'
-p103
+p104
 sg79
 I01
 sg80
 S'2013-07-02 21:16:13'
-p104
+p105
 sg82
-g100
+g101
 sg84
 S'done'
-p105
-sa(dp106
+p106
+sa(dp107
 g73
 g74
 sg75
 S'MAY ABORT! Handle the error appropriately when saving context.'
-p107
+p108
 sg77
 S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 179.'
-p108
+p109
 sg79
 I00
 sg80
 S'2013-07-02 21:16:13'
-p109
+p110
 sg82
-g100
+g101
 sg84
-g85
-sa(dp110
+g90
+sa(dp111
 g73
 g74
 sg75
 S'MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.'
-p111
+p112
 sg77
 S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 216.'
-p112
+p113
 sg79
 I00
 sg80
 S'2013-07-02 21:16:13'
-p113
+p114
 sg82
-g100
+g101
 sg84
-g85
-sa(dp114
+g90
+sa(dp115
 g73
 g74
 sg75
 S"When showing pass edit view, check 'password.isUsed'."
-p115
+p116
 sg77
 S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 61.'
-p116
+p117
 sg79
 I01
 sg80
 S'2013-07-02 21:16:13'
-p117
+p118
 sg82
 S'src/Passone/Passone/CPPassEditViewManager.m'
-p118
+p119
 sg84
 S'done'
-p119
-sa(dp120
+p120
+sa(dp121
 g73
 g74
 sg75
 S'When showing pass edit view, if the cell is unset, focus on the text field.'
-p121
+p122
 sg77
 S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 72.'
-p122
+p123
 sg79
 I01
 sg80
 S'2013-07-02 21:16:13'
-p123
+p124
 sg82
-g118
+g119
 sg84
 S'done'
-p124
-sa(dp125
+p125
+sa(dp126
 g73
 g74
 sg75
 S'When showing pass edit view, if the cell has been set, hide the password for security.'
-p126
+p127
 sg77
 S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 75.'
-p127
+p128
 sg79
 I01
 sg80
 S'2013-07-02 21:16:13'
-p128
+p129
 sg82
-g118
+g119
 sg84
 S'done'
-p129
-sa(dp130
+p130
+sa(dp131
 S'author'
-p131
-S'TODO grabber'
 p132
-sS'text'
+S'TODO grabber'
 p133
-S'When showing pass edit view, animate its background color if pass cell is gray.'
+sS'text'
 p134
-sS'detail'
+S'When showing pass edit view, animate its background color if pass cell is gray.'
 p135
-S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 61.'
+sS'detail'
 p136
-sS'exported'
+S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 61.'
 p137
-I01
-sS'time'
+sS'exported'
 p138
-S'2013-07-04 17:52:44'
+I01
+sS'time'
 p139
-sS'path'
+S'2013-07-04 17:52:44'
 p140
-S'src/Passone/Passone/CPPassEditViewManager.m'
+sS'path'
 p141
-sS'condition'
+S'src/Passone/Passone/CPPassEditViewManager.m'
 p142
-S'done'
+sS'condition'
 p143
-sa(dp144
+S'done'
+p144
+sa(dp145
 S'author'
-p145
-S'TODO grabber'
 p146
-sS'text'
+S'TODO grabber'
 p147
-S"Move 'backgroundColorOfPassword:' into CPPassword"
+sS'text'
 p148
-sS'detail'
+S"Move 'backgroundColorOfPassword:' into CPPassword"
 p149
-S'TODO grabbed from src/Passone/Passone/CPPassGridManager.m, line 151.'
+sS'detail'
 p150
-sS'exported'
+S'TODO grabbed from src/Passone/Passone/CPPassGridManager.m, line 151.'
 p151
-I01
-sS'time'
+sS'exported'
 p152
-S'2013-07-04 17:55:52'
+I01
+sS'time'
 p153
-sS'path'
+S'2013-07-04 17:55:52'
 p154
-S'src/Passone/Passone/CPPassGridManager.m'
+sS'path'
 p155
-sS'condition'
-p156
-g143
-sa(dp157
-S'author'
-p158
-S'TODO grabber'
-p159
-sS'text'
-p160
-S'If password text is set to empty, mark it with not used.'
-p161
-sS'detail'
-p162
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 89.'
-p163
-sS'exported'
-p164
-I01
-sS'time'
-p165
-S'2013-07-04 18:05:54'
-p166
-sS'path'
-p167
-S'src/Passone/Passone/CPPassDataManager.m'
-p168
-sS'condition'
-p169
-S'done'
-p170
-sa(dp171
-S'author'
-p172
-S'TODO grabber'
-p173
-sS'text'
-p174
-S'When hiding pass edit view, animate its background color if pass cell is gray.'
-p175
-sS'detail'
-p176
-S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 135.'
-p177
-sS'exported'
-p178
-I01
-sS'time'
-p179
-S'2013-07-04 18:07:51'
-p180
-sS'path'
-p181
-S'src/Passone/Passone/CPPassEditViewManager.m'
-p182
-sS'condition'
-p183
-S'done'
-p184
-sa(dp185
-S'author'
-p186
-S'TODO grabber'
-p187
-sS'text'
-p188
-S'Tap once on pass cell to copy password. Tap twice to show pass edit view.'
-p189
-sS'detail'
-p190
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 44.'
-p191
-sS'exported'
-p192
-I01
-sS'time'
-p193
-S'2013-07-04 18:32:57'
-p194
-sS'path'
-p195
-S'src/Passone/Passone/CPPassCell.m'
-p196
-sS'condition'
-p197
-S'done'
-p198
-sa(dp199
-S'author'
-p200
-S'TODO grabber'
-p201
-sS'text'
-p202
-S'Show notification when removing a pass cell by setting an empty text.'
-p203
-sS'detail'
-p204
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 80.'
-p205
-sS'exported'
-p206
-I01
-sS'time'
-p207
-S'2013-07-05 18:28:53'
-p208
-sS'path'
-p209
-S'src/Passone/Passone/CPPassDataManager.m'
-p210
-sS'condition'
-p211
-S'done'
-p212
-sa(dp213
-S'author'
-p214
-S'TODO grabber'
-p215
-sS'text'
-p216
-S'Handling pass cell pan began, start removing animation.'
-p217
-sS'detail'
-p218
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 80.'
-p219
-sS'exported'
-p220
-I01
-sS'time'
-p221
-S'2013-07-05 18:38:36'
-p222
-sS'path'
-p223
-S'src/Passone/Passone/CPPassCell.m'
-p224
-sS'condition'
-p225
-S'done'
-p226
-sa(dp227
-g214
-g215
-sg216
-S'Handling pass cell pan changed, record translation and animate.'
-p228
-sg218
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 89.'
-p229
-sg220
-I01
-sg221
-S'2013-07-05 18:38:36'
-p230
-sg223
-g224
-sg225
-g226
-sa(dp231
-g214
-g215
-sg216
-S'Handling pass cell pan ended, stop removing animation.'
-p232
-sg218
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 134.'
-p233
-sg220
-I01
-sg221
-S'2013-07-05 18:38:36'
-p234
-sg223
-g224
-sg225
-S'done'
-p235
-sa(dp236
-g214
-g215
-sg216
-S'Handling pass cell pan ended, check if translation reach 50%.'
-p237
-sg218
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 135.'
-p238
-sg220
-I01
-sg221
-S'2013-07-05 18:38:36'
-p239
-sg223
-g224
-sg225
-g235
-sa(dp240
-g214
-g215
-sg216
-S'Handling pass cell pan ended, may directly access model instead of delegate.'
-p241
-sg218
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 136.'
-p242
-sg220
-I01
-sg221
-S'2013-07-05 18:38:36'
-p243
-sg223
-g224
-sg225
-g235
-sa(dp244
-S'author'
-p245
-S'TODO grabber'
-p246
-sS'text'
-p247
-S"Handling pass cell pan changed, adding text 'Swipe/Release to remove'."
-p248
-sS'detail'
-p249
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 122.'
-p250
-sS'exported'
-p251
-I01
-sS'time'
-p252
-S'2013-07-06 18:23:11'
-p253
-sS'path'
-p254
-S'src/Passone/Passone/CPPassCell.m'
-p255
-sS'condition'
-p256
-S'done'
-p257
-sa(dp258
-g245
-g246
-sg247
-S'Move creation of CPNotificationCenter to proper place.'
-p259
-sg249
-S'TODO grabbed from src/Passone/Passone/CPPassGridManager.m, line 81.'
-p260
-sg251
-I01
-sg252
-S'2013-07-06 18:23:11'
-p261
-sg254
 S'src/Passone/Passone/CPPassGridManager.m'
-p262
-sg256
+p156
+sS'condition'
+p157
+g144
+sa(dp158
+S'author'
+p159
+S'TODO grabber'
+p160
+sS'text'
+p161
+S'If password text is set to empty, mark it with not used.'
+p162
+sS'detail'
+p163
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 89.'
+p164
+sS'exported'
+p165
+I01
+sS'time'
+p166
+S'2013-07-04 18:05:54'
+p167
+sS'path'
+p168
+S'src/Passone/Passone/CPPassDataManager.m'
+p169
+sS'condition'
+p170
 S'done'
-p263
-sa(dp264
+p171
+sa(dp172
 S'author'
-p265
+p173
 S'TODO grabber'
-p266
+p174
 sS'text'
-p267
-S'Adjust font of pass cell removing label.'
-p268
+p175
+S'When hiding pass edit view, animate its background color if pass cell is gray.'
+p176
 sS'detail'
-p269
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 122.'
-p270
+p177
+S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 135.'
+p178
 sS'exported'
-p271
-I00
-sS'time'
-p272
-S'2013-07-06 21:10:14'
-p273
-sS'path'
-p274
-S'src/Passone/Passone/CPPassCell.m'
-p275
-sS'condition'
-p276
-g85
-sa(dp277
-S'author'
-p278
-S'TODO grabber'
-p279
-sS'text'
-p280
-S'Change behavior of pass cell removing view & label if cannot toggle remove state.'
-p281
-sS'detail'
-p282
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 179.'
-p283
-sS'exported'
-p284
-I00
-sS'time'
-p285
-S'2013-07-06 21:28:07'
-p286
-sS'path'
-p287
-S'src/Passone/Passone/CPPassCell.m'
-p288
-sS'condition'
-p289
-g85
-sa(dp290
-S'author'
-p291
-S'TODO grabber'
-p292
-sS'text'
-p293
-S'Write code to start removing a memo cell.'
-p294
-sS'detail'
-p295
-S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 248.'
-p296
-sS'exported'
-p297
+p179
 I01
 sS'time'
-p298
-S'2013-07-17 18:37:03'
-p299
+p180
+S'2013-07-04 18:07:51'
+p181
 sS'path'
-p300
-S'src/Passone/Passone/CPSearchViewManager.m'
-p301
-sS'condition'
-p302
-S'done'
-p303
-sa(dp304
-g291
-g292
-sg293
-S'Write code to continue removing a memo cell.'
-p305
-sg295
-S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 262.'
-p306
-sg297
-I01
-sg298
-S'2013-07-17 18:37:03'
-p307
-sg300
-g301
-sg302
-g303
-sa(dp308
-g291
-g292
-sg293
-S'Write code to stop removing a memo cell.'
-p309
-sg295
-S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 299.'
-p310
-sg297
-I00
-sg298
-S'2013-07-17 18:37:03'
-p311
-sg300
-g301
-sg302
-S'remv'
-p312
-sa(dp313
-S'author'
-p314
-S'TODO grabber'
-p315
-sS'text'
-p316
-S"When removing a memo cell, show 'Swipe/Release to remove'."
-p317
-sS'detail'
-p318
-S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 286.'
-p319
-sS'exported'
-p320
-I00
-sS'time'
-p321
-S'2013-07-18 18:40:19'
-p322
-sS'path'
-p323
-S'src/Passone/Passone/CPSearchViewManager.m'
-p324
-sS'condition'
-p325
-S'remv'
-p326
-sa(dp327
-S'author'
-p328
-S'TODO grabber'
-p329
-sS'text'
-p330
-S'Set the return key type of text field in Pass Edit View to done.'
-p331
-sS'detail'
-p332
-S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 169.'
-p333
-sS'exported'
-p334
-I01
-sS'time'
-p335
-S'2013-08-03 16:18:40'
-p336
-sS'path'
-p337
+p182
 S'src/Passone/Passone/CPPassEditViewManager.m'
-p338
+p183
 sS'condition'
-p339
+p184
 S'done'
-p340
-sa(dp341
+p185
+sa(dp186
 S'author'
-p342
+p187
 S'TODO grabber'
-p343
+p188
 sS'text'
-p344
-S"When removing a memo cell, show 'Swipe/Release to remove'."
-p345
+p189
+S'Tap once on pass cell to copy password. Tap twice to show pass edit view.'
+p190
 sS'detail'
-p346
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 172.'
-p347
+p191
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 44.'
+p192
 sS'exported'
-p348
+p193
 I01
 sS'time'
-p349
-S'2013-08-04 16:45:07'
-p350
+p194
+S'2013-07-04 18:32:57'
+p195
 sS'path'
-p351
-S'src/Passone/Passone/CPMemoCollectionViewManager.m'
-p352
-sS'condition'
-p353
-S'done'
-p354
-sa(dp355
-g342
-g343
-sg344
-S'Write code to stop removing a memo cell.'
-p356
-sg346
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 184.'
-p357
-sg348
-I01
-sg349
-S'2013-08-04 16:45:07'
-p358
-sg351
-g352
-sg353
-S'done'
-p359
-sa(dp360
-S'author'
-p361
-S'TODO grabber'
-p362
-sS'text'
-p363
-S'Add animation for removing a memo cell.'
-p364
-sS'detail'
-p365
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 225.'
-p366
-sS'exported'
-p367
-I01
-sS'time'
-p368
-S'2013-08-05 18:38:59'
-p369
-sS'path'
-p370
-S'src/Passone/Passone/CPMemoCollectionViewManager.m'
-p371
-sS'condition'
-p372
-S'done'
-p373
-sa(dp374
-S'author'
-p375
-S'TODO grabber'
-p376
-sS'text'
-p377
-S'Improve animation for removing a memo cell.'
-p378
-sS'detail'
-p379
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 235.'
-p380
-sS'exported'
-p381
-I00
-sS'time'
-p382
-S'2013-08-09 18:29:39'
-p383
-sS'path'
-p384
-S'src/Passone/Passone/CPMemoCollectionViewManager.m'
-p385
-sS'condition'
-p386
-g85
-sa(dp387
-S'author'
-p388
-S'TODO grabber'
-p389
-sS'text'
-p390
-S'Adjust font of label in main password input view.'
-p391
-sS'detail'
-p392
-S'TODO grabbed from src/Passone/Passone/CPMainPasswordManager.m, line 165.'
-p393
-sS'exported'
-p394
-I00
-sS'time'
-p395
-S'2013-08-16 18:02:14'
-p396
-sS'path'
-p397
-S'src/Passone/Passone/CPMainPasswordManager.m'
-p398
-sS'condition'
-p399
-g85
-sa(dp400
-g388
-g389
-sg390
-S'Add a button in main password input view.'
-p401
-sg392
-S'TODO grabbed from src/Passone/Passone/CPMainPasswordManager.m, line 191.'
-p402
-sg394
-I01
-sg395
-S'2013-08-16 18:02:14'
-p403
-sg397
-g398
-sg399
-S'done'
-p404
-sa(dp405
-S'author'
-p406
-S'TODO grabber'
-p407
-sS'text'
-p408
-S'Determine if the memo cell should fall back to original position when you start removing after it is raised up when editing.'
-p409
-sS'detail'
-p410
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 172.'
-p411
-sS'exported'
-p412
-I00
-sS'time'
-p413
-S'2013-08-19 18:20:21'
-p414
-sS'path'
-p415
-S'src/Passone/Passone/CPMemoCollectionViewManager.m'
-p416
-sS'condition'
-p417
-g85
-sa(dp418
-S'author'
-p419
-S'TODO grabber'
-p420
-sS'text'
-p421
-S'Stop it if being currently editing memo cells in pass edit view.'
-p422
-sS'detail'
-p423
-S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 188.'
-p424
-sS'exported'
-p425
-I00
-sS'time'
-p426
-S'2013-08-19 18:28:49'
-p427
-sS'path'
-p428
-S'src/Passone/Passone/CPSearchViewManager.m'
-p429
-sS'condition'
-p430
-g85
-sa(dp431
-S'author'
-p432
-S'TODO grabber'
-p433
-sS'text'
-p434
-S'When removing pass cell, use images instead of single-colored views.'
-p435
-sS'detail'
-p436
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 105.'
-p437
-sS'exported'
-p438
-I00
-sS'time'
-p439
-S'2013-08-19 18:36:37'
-p440
-sS'path'
-p441
+p196
 S'src/Passone/Passone/CPPassCell.m'
+p197
+sS'condition'
+p198
+S'done'
+p199
+sa(dp200
+S'author'
+p201
+S'TODO grabber'
+p202
+sS'text'
+p203
+S'Show notification when removing a pass cell by setting an empty text.'
+p204
+sS'detail'
+p205
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 80.'
+p206
+sS'exported'
+p207
+I01
+sS'time'
+p208
+S'2013-07-05 18:28:53'
+p209
+sS'path'
+p210
+S'src/Passone/Passone/CPPassDataManager.m'
+p211
+sS'condition'
+p212
+S'done'
+p213
+sa(dp214
+S'author'
+p215
+S'TODO grabber'
+p216
+sS'text'
+p217
+S'Handling pass cell pan began, start removing animation.'
+p218
+sS'detail'
+p219
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 80.'
+p220
+sS'exported'
+p221
+I01
+sS'time'
+p222
+S'2013-07-05 18:38:36'
+p223
+sS'path'
+p224
+S'src/Passone/Passone/CPPassCell.m'
+p225
+sS'condition'
+p226
+S'done'
+p227
+sa(dp228
+g215
+g216
+sg217
+S'Handling pass cell pan changed, record translation and animate.'
+p229
+sg219
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 89.'
+p230
+sg221
+I01
+sg222
+S'2013-07-05 18:38:36'
+p231
+sg224
+g225
+sg226
+g227
+sa(dp232
+g215
+g216
+sg217
+S'Handling pass cell pan ended, stop removing animation.'
+p233
+sg219
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 134.'
+p234
+sg221
+I01
+sg222
+S'2013-07-05 18:38:36'
+p235
+sg224
+g225
+sg226
+S'done'
+p236
+sa(dp237
+g215
+g216
+sg217
+S'Handling pass cell pan ended, check if translation reach 50%.'
+p238
+sg219
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 135.'
+p239
+sg221
+I01
+sg222
+S'2013-07-05 18:38:36'
+p240
+sg224
+g225
+sg226
+g236
+sa(dp241
+g215
+g216
+sg217
+S'Handling pass cell pan ended, may directly access model instead of delegate.'
+p242
+sg219
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 136.'
+p243
+sg221
+I01
+sg222
+S'2013-07-05 18:38:36'
+p244
+sg224
+g225
+sg226
+g236
+sa(dp245
+S'author'
+p246
+S'TODO grabber'
+p247
+sS'text'
+p248
+S"Handling pass cell pan changed, adding text 'Swipe/Release to remove'."
+p249
+sS'detail'
+p250
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 122.'
+p251
+sS'exported'
+p252
+I01
+sS'time'
+p253
+S'2013-07-06 18:23:11'
+p254
+sS'path'
+p255
+S'src/Passone/Passone/CPPassCell.m'
+p256
+sS'condition'
+p257
+S'done'
+p258
+sa(dp259
+g246
+g247
+sg248
+S'Move creation of CPNotificationCenter to proper place.'
+p260
+sg250
+S'TODO grabbed from src/Passone/Passone/CPPassGridManager.m, line 81.'
+p261
+sg252
+I01
+sg253
+S'2013-07-06 18:23:11'
+p262
+sg255
+S'src/Passone/Passone/CPPassGridManager.m'
+p263
+sg257
+S'done'
+p264
+sa(dp265
+S'author'
+p266
+S'TODO grabber'
+p267
+sS'text'
+p268
+S'Adjust font of pass cell removing label.'
+p269
+sS'detail'
+p270
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 122.'
+p271
+sS'exported'
+p272
+I00
+sS'time'
+p273
+S'2013-07-06 21:10:14'
+p274
+sS'path'
+p275
+S'src/Passone/Passone/CPPassCell.m'
+p276
+sS'condition'
+p277
+g90
+sa(dp278
+S'author'
+p279
+S'TODO grabber'
+p280
+sS'text'
+p281
+S'Change behavior of pass cell removing view & label if cannot toggle remove state.'
+p282
+sS'detail'
+p283
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 179.'
+p284
+sS'exported'
+p285
+I00
+sS'time'
+p286
+S'2013-07-06 21:28:07'
+p287
+sS'path'
+p288
+S'src/Passone/Passone/CPPassCell.m'
+p289
+sS'condition'
+p290
+g90
+sa(dp291
+S'author'
+p292
+S'TODO grabber'
+p293
+sS'text'
+p294
+S'Write code to start removing a memo cell.'
+p295
+sS'detail'
+p296
+S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 248.'
+p297
+sS'exported'
+p298
+I01
+sS'time'
+p299
+S'2013-07-17 18:37:03'
+p300
+sS'path'
+p301
+S'src/Passone/Passone/CPSearchViewManager.m'
+p302
+sS'condition'
+p303
+S'done'
+p304
+sa(dp305
+g292
+g293
+sg294
+S'Write code to continue removing a memo cell.'
+p306
+sg296
+S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 262.'
+p307
+sg298
+I01
+sg299
+S'2013-07-17 18:37:03'
+p308
+sg301
+g302
+sg303
+g304
+sa(dp309
+g292
+g293
+sg294
+S'Write code to stop removing a memo cell.'
+p310
+sg296
+S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 299.'
+p311
+sg298
+I00
+sg299
+S'2013-07-17 18:37:03'
+p312
+sg301
+g302
+sg303
+S'remv'
+p313
+sa(dp314
+S'author'
+p315
+S'TODO grabber'
+p316
+sS'text'
+p317
+S"When removing a memo cell, show 'Swipe/Release to remove'."
+p318
+sS'detail'
+p319
+S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 286.'
+p320
+sS'exported'
+p321
+I00
+sS'time'
+p322
+S'2013-07-18 18:40:19'
+p323
+sS'path'
+p324
+S'src/Passone/Passone/CPSearchViewManager.m'
+p325
+sS'condition'
+p326
+S'remv'
+p327
+sa(dp328
+S'author'
+p329
+S'TODO grabber'
+p330
+sS'text'
+p331
+S'Set the return key type of text field in Pass Edit View to done.'
+p332
+sS'detail'
+p333
+S'TODO grabbed from src/Passone/Passone/CPPassEditViewManager.m, line 169.'
+p334
+sS'exported'
+p335
+I01
+sS'time'
+p336
+S'2013-08-03 16:18:40'
+p337
+sS'path'
+p338
+S'src/Passone/Passone/CPPassEditViewManager.m'
+p339
+sS'condition'
+p340
+S'done'
+p341
+sa(dp342
+S'author'
+p343
+S'TODO grabber'
+p344
+sS'text'
+p345
+S"When removing a memo cell, show 'Swipe/Release to remove'."
+p346
+sS'detail'
+p347
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 172.'
+p348
+sS'exported'
+p349
+I01
+sS'time'
+p350
+S'2013-08-04 16:45:07'
+p351
+sS'path'
+p352
+S'src/Passone/Passone/CPMemoCollectionViewManager.m'
+p353
+sS'condition'
+p354
+S'done'
+p355
+sa(dp356
+g343
+g344
+sg345
+S'Write code to stop removing a memo cell.'
+p357
+sg347
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 184.'
+p358
+sg349
+I01
+sg350
+S'2013-08-04 16:45:07'
+p359
+sg352
+g353
+sg354
+S'done'
+p360
+sa(dp361
+S'author'
+p362
+S'TODO grabber'
+p363
+sS'text'
+p364
+S'Add animation for removing a memo cell.'
+p365
+sS'detail'
+p366
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 225.'
+p367
+sS'exported'
+p368
+I01
+sS'time'
+p369
+S'2013-08-05 18:38:59'
+p370
+sS'path'
+p371
+S'src/Passone/Passone/CPMemoCollectionViewManager.m'
+p372
+sS'condition'
+p373
+S'done'
+p374
+sa(dp375
+S'author'
+p376
+S'TODO grabber'
+p377
+sS'text'
+p378
+S'Improve animation for removing a memo cell.'
+p379
+sS'detail'
+p380
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 235.'
+p381
+sS'exported'
+p382
+I00
+sS'time'
+p383
+S'2013-08-09 18:29:39'
+p384
+sS'path'
+p385
+S'src/Passone/Passone/CPMemoCollectionViewManager.m'
+p386
+sS'condition'
+p387
+g90
+sa(dp388
+S'author'
+p389
+S'TODO grabber'
+p390
+sS'text'
+p391
+S'Adjust font of label in main password input view.'
+p392
+sS'detail'
+p393
+S'TODO grabbed from src/Passone/Passone/CPMainPasswordManager.m, line 165.'
+p394
+sS'exported'
+p395
+I00
+sS'time'
+p396
+S'2013-08-16 18:02:14'
+p397
+sS'path'
+p398
+S'src/Passone/Passone/CPMainPasswordManager.m'
+p399
+sS'condition'
+p400
+g90
+sa(dp401
+g389
+g390
+sg391
+S'Add a button in main password input view.'
+p402
+sg393
+S'TODO grabbed from src/Passone/Passone/CPMainPasswordManager.m, line 191.'
+p403
+sg395
+I01
+sg396
+S'2013-08-16 18:02:14'
+p404
+sg398
+g399
+sg400
+S'done'
+p405
+sa(dp406
+S'author'
+p407
+S'TODO grabber'
+p408
+sS'text'
+p409
+S'Determine if the memo cell should fall back to original position when you start removing after it is raised up when editing.'
+p410
+sS'detail'
+p411
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 172.'
+p412
+sS'exported'
+p413
+I00
+sS'time'
+p414
+S'2013-08-19 18:20:21'
+p415
+sS'path'
+p416
+S'src/Passone/Passone/CPMemoCollectionViewManager.m'
+p417
+sS'condition'
+p418
+g90
+sa(dp419
+S'author'
+p420
+S'TODO grabber'
+p421
+sS'text'
+p422
+S'Stop it if being currently editing memo cells in pass edit view.'
+p423
+sS'detail'
+p424
+S'TODO grabbed from src/Passone/Passone/CPSearchViewManager.m, line 188.'
+p425
+sS'exported'
+p426
+I00
+sS'time'
+p427
+S'2013-08-19 18:28:49'
+p428
+sS'path'
+p429
+S'src/Passone/Passone/CPSearchViewManager.m'
+p430
+sS'condition'
+p431
+g90
+sa(dp432
+S'author'
+p433
+S'TODO grabber'
+p434
+sS'text'
+p435
+S'When removing pass cell, use images instead of single-colored views.'
+p436
+sS'detail'
+p437
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 105.'
+p438
+sS'exported'
+p439
+I00
+sS'time'
+p440
+S'2013-08-19 18:36:37'
+p441
+sS'path'
 p442
-sS'condition'
+S'src/Passone/Passone/CPPassCell.m'
 p443
-g85
-sa(dp444
+sS'condition'
+p444
+g90
+sa(dp445
 S'author'
-p445
-S'TODO grabber'
 p446
-sS'text'
+S'TODO grabber'
 p447
-S'Adjust appearance of notification labels.'
+sS'text'
 p448
-sS'detail'
+S'Adjust appearance of notification labels.'
 p449
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 100.'
+sS'detail'
 p450
-sS'exported'
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 107.'
 p451
-I00
-sS'time'
+sS'exported'
 p452
-S'2013-08-20 17:17:18'
+I00
+sS'time'
 p453
-sS'path'
+S'2013-08-20 17:17:18'
 p454
-S'src/Passone/Passone/CPNotificationCenter.m'
+sS'path'
 p455
-sS'condition'
+S'src/Passone/Passone/CPNotificationCenter.m'
 p456
-g85
-sa(dp457
+sS'condition'
+p457
+g90
+sa(dp458
 S'author'
-p458
-S'TODO grabber'
 p459
-sS'text'
+S'TODO grabber'
 p460
-S'Not let keyboard hide the notifications.'
+sS'text'
 p461
-sS'detail'
+S'Not let keyboard hide the notifications.'
 p462
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 61.'
+sS'detail'
 p463
-sS'exported'
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 61.'
 p464
-I01
-sS'time'
+sS'exported'
 p465
-S'2013-08-20 17:41:38'
+I01
+sS'time'
 p466
-sS'path'
+S'2013-08-20 17:41:38'
 p467
-S'src/Passone/Passone/CPNotificationCenter.m'
+sS'path'
 p468
-sS'condition'
-p469
-S'done'
-p470
-sa(dp471
-S'author'
-p472
-S'TODO grabber'
-p473
-sS'text'
-p474
-S'Determine if the keyboard is splited or not when resize notification come to memo collection view manager.'
-p475
-sS'detail'
-p476
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 274.'
-p477
-sS'exported'
-p478
-I01
-sS'time'
-p479
-S'2013-08-20 17:57:41'
-p480
-sS'path'
-p481
-S'src/Passone/Passone/CPMemoCollectionViewManager.m'
-p482
-sS'condition'
-p483
-S'done'
-p484
-sa(dp485
-g472
-g473
-sg474
-S'Determine if the keyboard is splited or not when resize notification come to notification center.'
-p486
-sg476
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 66.'
-p487
-sg478
-I01
-sg479
-S'2013-08-20 17:57:41'
-p488
-sg481
 S'src/Passone/Passone/CPNotificationCenter.m'
-p489
-sg483
-g484
-sa(dp490
-g472
-g473
-sg474
-S"Not change notification labels' position if keyboard hide and then show immediately."
-p491
-sg476
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 83.'
-p492
-sg478
-I00
-sg479
-S'2013-08-20 17:57:41'
-p493
-sg481
-g489
-sg483
-g85
-sa(dp494
+p469
+sS'condition'
+p470
+S'done'
+p471
+sa(dp472
 S'author'
-p495
+p473
 S'TODO grabber'
-p496
+p474
 sS'text'
-p497
-S'Figure out why editing cell will not rise if starting edit cell just after search bar.'
-p498
+p475
+S'Determine if the keyboard is splited or not when resize notification come to memo collection view manager.'
+p476
 sS'detail'
-p499
+p477
 S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 274.'
-p500
+p478
 sS'exported'
-p501
-I00
+p479
+I01
 sS'time'
-p502
-S'2013-08-20 18:41:30'
-p503
+p480
+S'2013-08-20 17:57:41'
+p481
 sS'path'
-p504
+p482
 S'src/Passone/Passone/CPMemoCollectionViewManager.m'
-p505
+p483
 sS'condition'
-p506
-g85
-sa(dp507
+p484
+S'done'
+p485
+sa(dp486
+g473
+g474
+sg475
+S'Determine if the keyboard is splited or not when resize notification come to notification center.'
+p487
+sg477
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 66.'
+p488
+sg479
+I01
+sg480
+S'2013-08-20 17:57:41'
+p489
+sg482
+S'src/Passone/Passone/CPNotificationCenter.m'
+p490
+sg484
+g485
+sa(dp491
+g473
+g474
+sg475
+S"Not change notification labels' position if keyboard hide and then show immediately."
+p492
+sg477
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 91.'
+p493
+sg479
+I00
+sg480
+S'2013-08-20 17:57:41'
+p494
+sg482
+g490
+sg484
+g90
+sa(dp495
 S'author'
-p508
+p496
 S'TODO grabber'
-p509
+p497
 sS'text'
-p510
-S"Use other advertisements when apple's iAd is not reachable."
-p511
+p498
+S'Figure out why editing cell will not rise if starting edit cell just after search bar.'
+p499
 sS'detail'
-p512
-S'TODO grabbed from src/Passone/Passone/CPAdManager.m, line 64.'
-p513
+p500
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 274.'
+p501
 sS'exported'
-p514
+p502
 I00
 sS'time'
-p515
-S'2013-08-22 17:57:56'
-p516
+p503
+S'2013-08-20 18:41:30'
+p504
 sS'path'
-p517
-S'src/Passone/Passone/CPAdManager.m'
-p518
+p505
+S'src/Passone/Passone/CPMemoCollectionViewManager.m'
+p506
 sS'condition'
+p507
+g90
+sa(dp508
+S'author'
+p509
+S'TODO grabber'
+p510
+sS'text'
+p511
+S"Use other advertisements when apple's iAd is not reachable."
+p512
+sS'detail'
+p513
+S'TODO grabbed from src/Passone/Passone/CPAdManager.m, line 64.'
+p514
+sS'exported'
+p515
+I00
+sS'time'
+p516
+S'2013-08-22 17:57:56'
+p517
+sS'path'
+p518
+S'src/Passone/Passone/CPAdManager.m'
 p519
-g85
+sS'condition'
+p520
+g90
+sa(dp521
+S'author'
+p522
+S'TODO grabber'
+p523
+sS'text'
+p524
+S'BUG! When notifications come too fast, upper notifications will be removed without animation.'
+p525
+sS'detail'
+p526
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 151.'
+p527
+sS'exported'
+p528
+I00
+sS'time'
+p529
+S'2013-08-23 18:16:28'
+p530
+sS'path'
+p531
+S'src/Passone/Passone/CPNotificationCenter.m'
+p532
+sS'condition'
+p533
+g90
 sa.
