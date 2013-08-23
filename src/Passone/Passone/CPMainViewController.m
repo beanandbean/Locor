@@ -13,7 +13,7 @@
 #import "CPAdManager.h"
 
 #import "CPPassGridManager.h"
-#import "CPSearchViewManager.h"
+#import "CPTopBarAndSearchManager.h"
 
 #import "CPNotificationCenter.h"
 #import "CPAppearanceManager.h"
@@ -25,7 +25,7 @@
 @property (strong, nonatomic) CPMainPasswordManager *mainPasswordManager;
 @property (strong, nonatomic) CPAdManager *adManager;
 @property (strong, nonatomic) CPPassGridManager *passGridManager;
-@property (strong, nonatomic) CPSearchViewManager *searchViewManager;
+@property (strong, nonatomic) CPTopBarAndSearchManager *topBarAndSearchManager;
 
 @end
 
@@ -62,9 +62,9 @@
     
     self.passGridManager = [[CPPassGridManager alloc] initWithSuperView:contentView];
     
-    self.searchViewManager = [[CPSearchViewManager alloc] initWithSuperView:outerView];
+    self.topBarAndSearchManager = [[CPTopBarAndSearchManager alloc] initWithSuperView:outerView];
     
-    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchViewManager.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5.0]];
+    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topBarAndSearchManager.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5.0]];
     [outerView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
     [outerView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
     [outerView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0]];
