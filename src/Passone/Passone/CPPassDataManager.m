@@ -46,12 +46,15 @@ static NSString *_passwordCacheName = @"PasswordCache";
         
         if (!_passwordsController.fetchedObjects.count) {
             // TODO: The third and last two colors for cells are too similar, so they need to be changed.
+            NSArray *defaultIcons = [NSArray arrayWithObjects:@"aries", @"taurus", @"gemini", @"cancer", @"leo", @"virgo", @"libra", @"scorpio", @"sagittarius", nil];
+            
             for (NSUInteger index = 0; index < 9; index++) {
                 CPPassword *password = [NSEntityDescription insertNewObjectForEntityForName:@"Password" inManagedObjectContext:self.managedObjectContext];
+                password.index = [NSNumber numberWithUnsignedInteger:index];
                 password.isUsed = [NSNumber numberWithBool:NO];
                 password.text = @"";
-                password.index = [NSNumber numberWithUnsignedInteger:index];
                 password.colorIndex = [NSNumber numberWithInt:index];
+                password.icon = [defaultIcons objectAtIndex:index];
             }
             [_passwordsController performFetch:nil];
         }

@@ -27,6 +27,7 @@ static const CGFloat DEFAULT_COLORS[] = {
 @dynamic text;
 @dynamic isUsed;
 @dynamic colorIndex;
+@dynamic icon;
 @dynamic memos;
 
 - (UIColor *)color {

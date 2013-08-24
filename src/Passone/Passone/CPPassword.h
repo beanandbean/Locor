@@ -14,6 +14,7 @@
 @property (nonatomic, retain) NSString *text;
 @property (nonatomic, retain) NSNumber *isUsed;
 @property (nonatomic, retain) NSNumber *colorIndex;
+@property (nonatomic, retain) NSString *icon;
 @property (nonatomic, retain) NSSet *memos;
 
 - (UIColor *)color;

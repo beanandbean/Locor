@@ -13,6 +13,9 @@
 
 #import "CPAppearanceManager.h"
 
+#import "CPPassDataManager.h"
+#import "CPPassword.h"
+
 #import "CPNotificationCenter.h"
 
 #import "CPProcessManager.h"
@@ -22,6 +25,8 @@
 @interface CPPassCell ()
 
 @property (weak, nonatomic) id<CPPassCellDelegate> delegate;
+
+@property (strong, nonatomic) NSString *iconName;
 
 @property (nonatomic) int removingDirection;
 @property (strong, nonatomic) UIView *removingView;
@@ -34,14 +39,17 @@
 
 @implementation CPPassCell
 
-- (id)initWithIndex:(NSUInteger)index color:(UIColor *)color delegate:(id<CPPassCellDelegate>)delegate {
+- (id)initWithIndex:(NSUInteger)index delegate:(id<CPPassCellDelegate>)delegate {
     self = [super init];
     if (self) {
         self.index = index;
-        self.backgroundColor = color;
         self.delegate = delegate;
         self.clipsToBounds = YES;
         self.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        CPPassword *password = [[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:index];
+        self.backgroundColor = password.displayColor;
+        self.iconName = password.icon;
         
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
         singleTap.numberOfTapsRequired = 1;

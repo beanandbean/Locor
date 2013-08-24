@@ -91,12 +91,10 @@
 }
 
 - (void)createPassCells {
-    NSFetchedResultsController *passwordsController = [CPPassDataManager defaultManager].passwordsController;
     for (int row = 0; row < PASS_GRID_ROW_COUNT; row++) {
         for (int column = 0; column < PASS_GRID_COLUMN_COUNT; column++) {
             NSUInteger index = row * PASS_GRID_COLUMN_COUNT + column;
-            CPPassword *password = [passwordsController.fetchedObjects objectAtIndex:index];
-            CPPassCell *cell = [[CPPassCell alloc] initWithIndex:index color:password.displayColor delegate:self];
+            CPPassCell *cell = [[CPPassCell alloc] initWithIndex:index delegate:self];
             
             if (row == 0) {
                 [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.passGridView attribute:NSLayoutAttributeTop multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];

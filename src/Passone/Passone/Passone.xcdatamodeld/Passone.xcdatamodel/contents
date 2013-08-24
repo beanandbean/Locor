@@ -5,14 +5,15 @@
         <relationship name="password" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Password" inverseName="memos" inverseEntity="Password" syncable="YES"/>
     </entity>
     <entity name="Password" representedClassName="CPPassword" syncable="YES">
-        <attribute name="colorIndex" attributeType="Integer 16" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="colorIndex" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="icon" attributeType="String" syncable="YES"/>
         <attribute name="index" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="isUsed" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="text" attributeType="String" syncable="YES"/>
         <relationship name="memos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Memo" inverseName="password" inverseEntity="Memo" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Memo" positionX="0" positionY="0" width="128" height="75"/>
-        <element name="Password" positionX="-603" positionY="78" width="128" height="118"/>
+        <element name="Memo" positionX="0" positionY="0" width="128" height="73"/>
+        <element name="Password" positionX="-603" positionY="78" width="128" height="133"/>
     </elements>
 </model>

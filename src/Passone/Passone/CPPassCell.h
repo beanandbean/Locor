@@ -24,6 +24,6 @@
 
 @property (nonatomic) NSUInteger index;
 
-- (id)initWithIndex:(NSUInteger)index color:(UIColor *)color delegate:(id<CPPassCellDelegate>)delegate;
+- (id)initWithIndex:(NSUInteger)index delegate:(id<CPPassCellDelegate>)delegate;
 
 @end
