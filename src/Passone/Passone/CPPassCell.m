@@ -65,6 +65,7 @@
 }
 
 - (void)handleSingleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
+    // TODO: Not copy to clipboard if password is not used.
     [UIPasteboard generalPasteboard].string = ((CPPassword *)[[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index]).text;
     [CPNotificationCenter insertNotification:[NSString stringWithFormat:@"Password No %d copied to clipboard.", self.index]];
 }

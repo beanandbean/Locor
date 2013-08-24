@@ -10,7 +10,6 @@
 
 @interface CPMemo : NSManagedObject
 
-@property (nonatomic, retain) NSDate *creationDate;
 @property (nonatomic, retain) NSString *text;
 @property (nonatomic, retain) CPPassword *password;
 

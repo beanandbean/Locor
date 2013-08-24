@@ -45,27 +45,13 @@ static NSString *_passwordCacheName = @"PasswordCache";
         [_passwordsController performFetch:nil];
         
         if (!_passwordsController.fetchedObjects.count) {
-            static const CGFloat colors[] = {
-                1.0, 0.0, 0.0,
-                1.0, 0.89, 0.0,
-                0.22, 0.08, 0.68,
-                0.0, 0.8, 0.0,
-                1.0, 0.57, 0.0,
-                0.8, 0.96, 0.0,
-                0.65, 0.0, 0.65,
-                0.04, 0.38, 0.64,
-                0.0, 0.32, 1.0
-            };
             // TODO: The third and last two colors for cells are too similar, so they need to be changed.
             for (NSUInteger index = 0; index < 9; index++) {
                 CPPassword *password = [NSEntityDescription insertNewObjectForEntityForName:@"Password" inManagedObjectContext:self.managedObjectContext];
                 password.isUsed = [NSNumber numberWithBool:NO];
                 password.text = @"";
                 password.index = [NSNumber numberWithUnsignedInteger:index];
-                password.creationDate = [[NSDate alloc] initWithTimeIntervalSince1970:0];
-                password.colorRed = [NSNumber numberWithFloat:colors[index * 3]];
-                password.colorGreen = [NSNumber numberWithFloat:colors[index * 3 + 1]];
-                password.colorBlue = [NSNumber numberWithFloat:colors[index * 3 + 2]];
+                password.colorIndex = [NSNumber numberWithInt:index];
             }
             [_passwordsController performFetch:nil];
         }
@@ -89,7 +75,6 @@ static NSString *_passwordCacheName = @"PasswordCache";
             [password removeMemos:password.memos];
         }
         password.text = text;
-        password.creationDate = [[NSDate alloc] init];
         password.isUsed = [NSNumber numberWithBool:YES];
     }
     
@@ -102,7 +87,6 @@ static NSString *_passwordCacheName = @"PasswordCache";
     
     CPMemo *memo = [NSEntityDescription insertNewObjectForEntityForName:@"Memo" inManagedObjectContext:self.managedObjectContext];
     memo.text = text;
-    memo.creationDate = [[NSDate alloc] init];
     memo.password = password;
     [password addMemosObject:memo];
     

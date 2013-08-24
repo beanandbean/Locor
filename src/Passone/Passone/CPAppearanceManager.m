@@ -28,6 +28,26 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
     return result;
 }
 
++ (float)boxSeparatorSize {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        return 8.0;
+    } else {
+        return 12.0;
+    }
+}
+
++ (float)barHeight {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        return 36.0;
+    } else {
+        return 44.0;
+    }    
+}
+
++ (float)cellHeight {
+    return 66.0;
+}
+
 + (void)registerStandardForEdge:(CPMarginEdge)edge asItem:(id)view attribute:(NSLayoutAttribute)attr multiplier:(CGFloat)multiplier constant:(CGFloat)c {
     if (!standardViews) {
         standardViews = [CPAppearanceManager arrayWithInitialValue:[NSNull null]];

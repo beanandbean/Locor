@@ -242,7 +242,7 @@ sg75
 S'The third and last two colors for cells are too similar, so they need to be changed.'
 p98
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 59.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 48.'
 p99
 sg79
 I00
@@ -280,7 +280,7 @@ sg75
 S'MAY ABORT! Handle the error appropriately when saving context.'
 p108
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 179.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 163.'
 p109
 sg79
 I00
@@ -298,7 +298,7 @@ sg75
 S'MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.'
 p112
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 216.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 200.'
 p113
 sg79
 I00
@@ -694,7 +694,7 @@ S'Adjust font of pass cell removing label.'
 p269
 sS'detail'
 p270
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 122.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 123.'
 p271
 sS'exported'
 p272
@@ -721,7 +721,7 @@ S'Change behavior of pass cell removing view & label if cannot toggle remove sta
 p282
 sS'detail'
 p283
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 179.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 180.'
 p284
 sS'exported'
 p285
@@ -944,7 +944,7 @@ S'Improve animation for removing a memo cell.'
 p379
 sS'detail'
 p380
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 235.'
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 236.'
 p381
 sS'exported'
 p382
@@ -1017,7 +1017,7 @@ S'Determine if the memo cell should fall back to original position when you star
 p410
 sS'detail'
 p411
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 172.'
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 173.'
 p412
 sS'exported'
 p413
@@ -1059,233 +1059,280 @@ S'src/Passone/Passone/CPSearchViewManager.m'
 p430
 sS'condition'
 p431
-g90
-sa(dp432
+S'done'
+p432
+sa(dp433
 S'author'
-p433
-S'TODO grabber'
 p434
-sS'text'
+S'TODO grabber'
 p435
-S'When removing pass cell, use images instead of single-colored views.'
+sS'text'
 p436
-sS'detail'
+S'When removing pass cell, use images instead of single-colored views.'
 p437
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 105.'
+sS'detail'
 p438
-sS'exported'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 106.'
 p439
-I00
-sS'time'
+sS'exported'
 p440
-S'2013-08-19 18:36:37'
+I00
+sS'time'
 p441
-sS'path'
+S'2013-08-19 18:36:37'
 p442
-S'src/Passone/Passone/CPPassCell.m'
+sS'path'
 p443
-sS'condition'
+S'src/Passone/Passone/CPPassCell.m'
 p444
+sS'condition'
+p445
 g90
-sa(dp445
+sa(dp446
 S'author'
-p446
-S'TODO grabber'
 p447
-sS'text'
+S'TODO grabber'
 p448
-S'Adjust appearance of notification labels.'
+sS'text'
 p449
-sS'detail'
+S'Adjust appearance of notification labels.'
 p450
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 107.'
+sS'detail'
 p451
-sS'exported'
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 107.'
 p452
-I00
-sS'time'
+sS'exported'
 p453
-S'2013-08-20 17:17:18'
+I00
+sS'time'
 p454
-sS'path'
+S'2013-08-20 17:17:18'
 p455
-S'src/Passone/Passone/CPNotificationCenter.m'
+sS'path'
 p456
-sS'condition'
+S'src/Passone/Passone/CPNotificationCenter.m'
 p457
+sS'condition'
+p458
 g90
-sa(dp458
+sa(dp459
 S'author'
-p459
-S'TODO grabber'
 p460
-sS'text'
+S'TODO grabber'
 p461
-S'Not let keyboard hide the notifications.'
+sS'text'
 p462
-sS'detail'
+S'Not let keyboard hide the notifications.'
 p463
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 61.'
+sS'detail'
 p464
-sS'exported'
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 61.'
 p465
-I01
-sS'time'
+sS'exported'
 p466
-S'2013-08-20 17:41:38'
+I01
+sS'time'
 p467
-sS'path'
+S'2013-08-20 17:41:38'
 p468
-S'src/Passone/Passone/CPNotificationCenter.m'
+sS'path'
 p469
-sS'condition'
+S'src/Passone/Passone/CPNotificationCenter.m'
 p470
-S'done'
+sS'condition'
 p471
-sa(dp472
-S'author'
-p473
-S'TODO grabber'
-p474
-sS'text'
-p475
-S'Determine if the keyboard is splited or not when resize notification come to memo collection view manager.'
-p476
-sS'detail'
-p477
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 274.'
-p478
-sS'exported'
-p479
-I01
-sS'time'
-p480
-S'2013-08-20 17:57:41'
-p481
-sS'path'
-p482
-S'src/Passone/Passone/CPMemoCollectionViewManager.m'
-p483
-sS'condition'
-p484
 S'done'
-p485
-sa(dp486
-g473
-g474
-sg475
-S'Determine if the keyboard is splited or not when resize notification come to notification center.'
-p487
-sg477
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 66.'
-p488
-sg479
-I01
-sg480
-S'2013-08-20 17:57:41'
-p489
-sg482
-S'src/Passone/Passone/CPNotificationCenter.m'
-p490
-sg484
-g485
-sa(dp491
-g473
-g474
-sg475
-S"Not change notification labels' position if keyboard hide and then show immediately."
-p492
-sg477
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 91.'
-p493
-sg479
-I00
-sg480
-S'2013-08-20 17:57:41'
-p494
-sg482
-g490
-sg484
-g90
-sa(dp495
+p472
+sa(dp473
 S'author'
-p496
+p474
 S'TODO grabber'
-p497
+p475
 sS'text'
-p498
-S'Figure out why editing cell will not rise if starting edit cell just after search bar.'
-p499
+p476
+S'Determine if the keyboard is splited or not when resize notification come to memo collection view manager.'
+p477
 sS'detail'
-p500
+p478
 S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 274.'
-p501
+p479
 sS'exported'
-p502
-I00
+p480
+I01
 sS'time'
-p503
-S'2013-08-20 18:41:30'
-p504
+p481
+S'2013-08-20 17:57:41'
+p482
 sS'path'
-p505
+p483
 S'src/Passone/Passone/CPMemoCollectionViewManager.m'
-p506
+p484
 sS'condition'
-p507
-g90
-sa(dp508
-S'author'
-p509
-S'TODO grabber'
-p510
-sS'text'
-p511
-S"Use other advertisements when apple's iAd is not reachable."
-p512
-sS'detail'
-p513
-S'TODO grabbed from src/Passone/Passone/CPAdManager.m, line 64.'
-p514
-sS'exported'
-p515
-I00
-sS'time'
-p516
-S'2013-08-22 17:57:56'
-p517
-sS'path'
-p518
-S'src/Passone/Passone/CPAdManager.m'
-p519
-sS'condition'
-p520
-g90
-sa(dp521
-S'author'
-p522
-S'TODO grabber'
-p523
-sS'text'
-p524
-S'BUG! When notifications come too fast, upper notifications will be removed without animation.'
-p525
-sS'detail'
-p526
-S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 151.'
-p527
-sS'exported'
-p528
-I00
-sS'time'
-p529
-S'2013-08-23 18:16:28'
-p530
-sS'path'
-p531
+p485
+S'done'
+p486
+sa(dp487
+g474
+g475
+sg476
+S'Determine if the keyboard is splited or not when resize notification come to notification center.'
+p488
+sg478
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 66.'
+p489
+sg480
+I01
+sg481
+S'2013-08-20 17:57:41'
+p490
+sg483
 S'src/Passone/Passone/CPNotificationCenter.m'
-p532
+p491
+sg485
+g486
+sa(dp492
+g474
+g475
+sg476
+S"Not change notification labels' position if keyboard hide and then show immediately."
+p493
+sg478
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 91.'
+p494
+sg480
+I00
+sg481
+S'2013-08-20 17:57:41'
+p495
+sg483
+g491
+sg485
+g90
+sa(dp496
+S'author'
+p497
+S'TODO grabber'
+p498
+sS'text'
+p499
+S'Figure out why editing cell will not rise if starting edit cell just after search bar.'
+p500
+sS'detail'
+p501
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 275.'
+p502
+sS'exported'
+p503
+I00
+sS'time'
+p504
+S'2013-08-20 18:41:30'
+p505
+sS'path'
+p506
+S'src/Passone/Passone/CPMemoCollectionViewManager.m'
+p507
 sS'condition'
+p508
+g90
+sa(dp509
+S'author'
+p510
+S'TODO grabber'
+p511
+sS'text'
+p512
+S"Use other advertisements when apple's iAd is not reachable."
+p513
+sS'detail'
+p514
+S'TODO grabbed from src/Passone/Passone/CPAdManager.m, line 64.'
+p515
+sS'exported'
+p516
+I00
+sS'time'
+p517
+S'2013-08-22 17:57:56'
+p518
+sS'path'
+p519
+S'src/Passone/Passone/CPAdManager.m'
+p520
+sS'condition'
+p521
+g90
+sa(dp522
+S'author'
+p523
+S'TODO grabber'
+p524
+sS'text'
+p525
+S'BUG! When notifications come too fast, upper notifications will be removed without animation.'
+p526
+sS'detail'
+p527
+S'TODO grabbed from src/Passone/Passone/CPNotificationCenter.m, line 151.'
+p528
+sS'exported'
+p529
+I00
+sS'time'
+p530
+S'2013-08-23 18:16:28'
+p531
+sS'path'
+p532
+S'src/Passone/Passone/CPNotificationCenter.m'
 p533
+sS'condition'
+p534
+g90
+sa(dp535
+S'author'
+p536
+S'TODO grabber'
+p537
+sS'text'
+p538
+S'Not copy to clipboard if password is not used.'
+p539
+sS'detail'
+p540
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 68.'
+p541
+sS'exported'
+p542
+I00
+sS'time'
+p543
+S'2013-08-24 18:42:01'
+p544
+sS'path'
+p545
+S'src/Passone/Passone/CPPassCell.m'
+p546
+sS'condition'
+p547
+g90
+sa(dp548
+g536
+g537
+sg538
+S'Stop it if being currently editing memo cells in pass edit view.'
+p549
+sg540
+S'TODO grabbed from src/Passone/Passone/CPTopBarAndSearchManager.m, line 177.'
+p550
+sg542
+I00
+sg543
+S'2013-08-24 18:42:01'
+p551
+sg545
+S'src/Passone/Passone/CPTopBarAndSearchManager.m'
+p552
+sg547
 g90
 sa.

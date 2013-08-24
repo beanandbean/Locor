@@ -11,7 +11,6 @@
 
 @implementation CPMemo
 
-@dynamic creationDate;
 @dynamic text;
 @dynamic password;
 

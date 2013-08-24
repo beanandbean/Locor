@@ -52,7 +52,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.minimumLineSpacing = 10.0;
+        layout.minimumLineSpacing = BOX_SEPARATOR_SIZE;
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
@@ -61,10 +61,11 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
         
         if (self.style == CPMemoCollectionViewStyleSearch) {
             _collectionView.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.9];
-            layout.sectionInset = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
+            layout.sectionInset = UIEdgeInsetsMake(BOX_SEPARATOR_SIZE, BOX_SEPARATOR_SIZE, BOX_SEPARATOR_SIZE, BOX_SEPARATOR_SIZE);
         } else if (self.style == CPMemoCollectionViewStyleInPassCell) {
             _collectionView.backgroundColor = [UIColor clearColor];
-            layout.sectionInset = UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0);
+            // Not leaving top and bottom insets because there have already been insets ouside superview
+            layout.sectionInset = UIEdgeInsetsMake(0.0, BOX_SEPARATOR_SIZE, 0.0, BOX_SEPARATOR_SIZE);
         } else {
             NSAssert(NO, @"Unexpected memo collection view style!");
         }
@@ -187,7 +188,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
                 self.collectionViewOffsetBeforeEdit = nil;
                 [CPProcessManager startProcess:[CPScrollingCollectionViewProcess process] withPreparation:^{
                     if (self.style == CPMemoCollectionViewStyleInPassCell) {
-                        self.draggingBasicOffset = CGPointMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y + 76.0);
+                        self.draggingBasicOffset = CGPointMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y + CELL_HEIGHT + BOX_SEPARATOR_SIZE);
                     } else {
                         self.draggingBasicOffset = self.collectionView.contentOffset;
                     }
@@ -247,8 +248,8 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
                     self.addingCell = nil;
                     [self.memos insertObject:[self.delegate newMemo] atIndex:0];
                 } else {
-                    offset = CGPointMake(offset.x, offset.y - 76.0);
-                    contentHeight = MAX(self.collectionView.contentSize.height - 76.0, self.collectionView.frame.size.height);
+                    offset = CGPointMake(offset.x, offset.y - CELL_HEIGHT - BOX_SEPARATOR_SIZE);
+                    contentHeight = MAX(self.collectionView.contentSize.height - CELL_HEIGHT - BOX_SEPARATOR_SIZE, self.collectionView.frame.size.height);
                 }
             }
             
@@ -278,8 +279,8 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
         if (rectObj) {
             CGRect rect = rectObj.CGRectValue;
             float transformedY = [self.collectionView convertPoint:rect.origin fromView:nil].y;
-            if (self.editingCell.frame.origin.y + self.editingCell.frame.size.height + 10 > transformedY) {
-                [self.collectionView setContentOffset:CGPointMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y + self.editingCell.frame.origin.y + self.editingCell.frame.size.height + 10 - transformedY) animated:YES];
+            if (self.editingCell.frame.origin.y + self.editingCell.frame.size.height + BOX_SEPARATOR_SIZE > transformedY) {
+                [self.collectionView setContentOffset:CGPointMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y + self.editingCell.frame.origin.y + self.editingCell.frame.size.height + BOX_SEPARATOR_SIZE - transformedY) animated:YES];
             }
         } else {
             [self.collectionView setContentOffset:self.collectionViewOffsetBeforeEdit.CGPointValue animated:YES];
@@ -401,9 +402,9 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
         // removingCellIndex is used once and then throw away
         self.removingCellIndexForLayout = nil;
         
-        return CGSizeMake(self.collectionView.frame.size.width - 20.0, 0.0);
+        return CGSizeMake(self.collectionView.frame.size.width - BOX_SEPARATOR_SIZE * 2, 0.0);
     } else {
-        return CGSizeMake(self.collectionView.frame.size.width - 20.0, 66.0);
+        return CGSizeMake(self.collectionView.frame.size.width - BOX_SEPARATOR_SIZE * 2, CELL_HEIGHT);
     }
 }
 

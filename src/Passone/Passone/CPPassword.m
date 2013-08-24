@@ -9,19 +9,28 @@
 #import "CPPassword.h"
 #import "CPMemo.h"
 
+static const CGFloat DEFAULT_COLORS[] = {
+    1.000, 0.000, 0.000,
+    0.000, 0.800, 0.000,
+    0.000, 0.000, 0.800,
+    1.000, 0.867, 0.000,
+    0.867, 0.000, 1.000,
+    1.000, 0.533, 0.000,
+    0.200, 0.800, 0.800,
+    0.600, 0.400, 0.200,
+    0.400, 0.200, 0.600
+};
+
 @implementation CPPassword
 
-@dynamic colorBlue;
-@dynamic creationDate;
-@dynamic colorGreen;
 @dynamic index;
-@dynamic colorRed;
 @dynamic text;
 @dynamic isUsed;
+@dynamic colorIndex;
 @dynamic memos;
 
 - (UIColor *)color {
-    return [[UIColor alloc] initWithRed:self.colorRed.floatValue green:self.colorGreen.floatValue blue:self.colorBlue.floatValue alpha:1.0];
+    return [[UIColor alloc] initWithRed:DEFAULT_COLORS[self.colorIndex.intValue * 3] green:DEFAULT_COLORS[self.colorIndex.intValue * 3 + 1] blue:DEFAULT_COLORS[self.colorIndex.intValue * 3 + 2] alpha:1.0];
 }
 
 - (UIColor *)displayColor {

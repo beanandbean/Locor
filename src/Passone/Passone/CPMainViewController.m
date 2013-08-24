@@ -34,6 +34,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor blackColor];
+    
     UIView *outerView = [[UIView alloc] init];
     outerView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:outerView];
@@ -64,10 +66,10 @@
     
     self.topBarAndSearchManager = [[CPTopBarAndSearchManager alloc] initWithSuperView:outerView];
     
-    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topBarAndSearchManager.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5.0]];
+    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topBarAndSearchManager.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
     [outerView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
     [outerView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
-    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-10.0]];
+    [outerView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
     
     // Not using main password while testing other parts of app.
     // self.mainPasswordManager = [[CPMainPasswordManager alloc] initWithSuperview:self.view];

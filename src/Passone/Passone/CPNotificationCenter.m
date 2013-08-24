@@ -52,7 +52,7 @@ static CPNotificationCenter *center;
 - (id)initWithSuperView:(UIView *)superView {
     self = [super init];
     if (self) {
-        self.bottomHeight = -10.0;
+        self.bottomHeight = -BOX_SEPARATOR_SIZE;
         self.forceRemovedCount = 0;
         self.superView = superView;
         self.notifications = [[NSMutableArray alloc] init];
@@ -80,9 +80,9 @@ static CPNotificationCenter *center;
     if (rectObj) {
         CGRect rect = rectObj.CGRectValue;
         float transformedY = [self.superView convertPoint:rect.origin fromView:nil].y;
-        self.bottomHeight = transformedY - self.superView.frame.size.height - 10.0;
+        self.bottomHeight = transformedY - self.superView.frame.size.height - BOX_SEPARATOR_SIZE;
     } else {
-        self.bottomHeight = -10.0;
+        self.bottomHeight = -BOX_SEPARATOR_SIZE;
     }
     [self refreshBottom];
 }
@@ -90,7 +90,7 @@ static CPNotificationCenter *center;
 - (void)keyboardDidHide:(NSNotification *)notification {
     // TODO: Not change notification labels' position if keyboard hide and then show immediately.
     
-    self.bottomHeight = -10.0;
+    self.bottomHeight = -BOX_SEPARATOR_SIZE;
     [self refreshBottom];
 }
 
@@ -111,11 +111,11 @@ static CPNotificationCenter *center;
     UILabel *notificationLabel = [[UILabel alloc] init];
     notificationLabel.translatesAutoresizingMaskIntoConstraints = NO;
     notificationLabel.text = notification;
-    notificationLabel.textColor = [UIColor whiteColor];
+    notificationLabel.textColor = [UIColor blackColor];
     notificationLabel.textAlignment = NSTextAlignmentCenter;
     notificationLabel.lineBreakMode = NSLineBreakByWordWrapping;
     notificationLabel.numberOfLines = 0;
-    notificationLabel.backgroundColor = [UIColor blackColor];
+    notificationLabel.backgroundColor = [UIColor whiteColor];
     notificationLabel.alpha = 0.0;
     
     [self.superView addSubview:notificationLabel];
@@ -143,7 +143,7 @@ static CPNotificationCenter *center;
     
     if (self.views.count > 1) {
         [self.superView removeConstraint:[self.bottomConstraints objectAtIndex:self.views.count - 2]];
-        NSLayoutConstraint *secondBottomConstraint = [NSLayoutConstraint constraintWithItem:[self.views objectAtIndex:self.views.count - 2] attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:notificationLabel attribute:NSLayoutAttributeTop multiplier:1.0 constant:-10.0];
+        NSLayoutConstraint *secondBottomConstraint = [NSLayoutConstraint constraintWithItem:[self.views objectAtIndex:self.views.count - 2] attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:notificationLabel attribute:NSLayoutAttributeTop multiplier:1.0 constant:-BOX_SEPARATOR_SIZE];
         [self.superView addConstraint:secondBottomConstraint];
         [self.bottomConstraints replaceObjectAtIndex:self.views.count - 2 withObject:secondBottomConstraint];
     }

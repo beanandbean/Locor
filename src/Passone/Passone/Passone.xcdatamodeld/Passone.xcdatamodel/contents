@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12E55" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Memo" representedClassName="CPMemo" syncable="YES">
-        <attribute name="creationDate" attributeType="Date" syncable="YES"/>
         <attribute name="text" attributeType="String" syncable="YES"/>
         <relationship name="password" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Password" inverseName="memos" inverseEntity="Password" syncable="YES"/>
     </entity>
     <entity name="Password" representedClassName="CPPassword" syncable="YES">
-        <attribute name="colorBlue" attributeType="Float" minValueString="0" maxValueString="1" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="colorGreen" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="colorRed" attributeType="Float" minValueString="0" maxValueString="1" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="creationDate" attributeType="Date" syncable="YES"/>
+        <attribute name="colorIndex" attributeType="Integer 16" defaultValueString="0.0" syncable="YES"/>
         <attribute name="index" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="isUsed" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="text" attributeType="String" syncable="YES"/>
         <relationship name="memos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Memo" inverseName="password" inverseEntity="Memo" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Memo" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Password" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Memo" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="Password" positionX="-603" positionY="78" width="128" height="118"/>
     </elements>
 </model>
