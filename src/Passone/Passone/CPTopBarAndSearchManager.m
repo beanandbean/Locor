@@ -8,6 +8,8 @@
 
 #import "CPTopBarAndSearchManager.h"
 
+#import "CPPassoneConfig.h"
+
 #import "CPMemoCollectionViewManager.h"
 
 #import "CPAppearanceManager.h"

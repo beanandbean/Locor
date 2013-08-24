@@ -12,14 +12,10 @@
 
 #define NO_PROCESS_LOG
 
+#define PROCESS_ARRAY [CPProcessManager processArray]
+
 static NSMutableArray *processArray;
 static int forbiddenCount = 0;
-
-@interface CPProcessManager ()
-
-+ (NSMutableArray *)processArray;
-
-@end
 
 @implementation CPProcessManager
 
@@ -31,17 +27,17 @@ static int forbiddenCount = 0;
 }
 
 + (bool)isInProcess:(id<CPProcess>)process {
-    return [[CPProcessManager processArray] indexOfObject:process] != NSNotFound;
+    return [PROCESS_ARRAY indexOfObject:process] != NSNotFound;
 }
 
 + (bool)startProcess:(id<CPProcess>)process {
-    if (!forbiddenCount && [[[CPProcessManager processArray] lastObject] allowSubprocess:process]) {
+    if (!forbiddenCount && [[PROCESS_ARRAY lastObject] allowSubprocess:process]) {
         [processArray addObject:process];
         return YES;
     } else {
         
 #ifndef NO_PROCESS_LOG
-        NSLog(@"Try to start process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), [CPProcessManager processArray]);
+        NSLog(@"Try to start process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), PROCESS_ARRAY);
 #endif
         
         return NO;
@@ -58,7 +54,7 @@ static int forbiddenCount = 0;
     } else {
         
 #ifndef NO_PROCESS_LOG
-        NSLog(@"Try to start process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), [CPProcessManager processArray]);
+        NSLog(@"Try to start process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), PROCESS_ARRAY);
 #endif
         
         return NO;
@@ -67,18 +63,18 @@ static int forbiddenCount = 0;
 
 + (bool)stopProcess:(id<CPProcess>)process {
     if (!forbiddenCount && process != [CPApplicationProcess process]) {
-        int index = [CPProcessManager processArray].count - 1;
-        while (index > 0 && [[CPProcessManager processArray] objectAtIndex:index] != process) {
+        int index = PROCESS_ARRAY.count - 1;
+        while (index > 0 && [PROCESS_ARRAY objectAtIndex:index] != process) {
             index--;
         }
-        if (index > 0 && (index == [CPProcessManager processArray].count - 1 || [[[CPProcessManager processArray] objectAtIndex:index - 1] allowSubprocess:[[CPProcessManager processArray] objectAtIndex:index + 1]])) {
-            [[CPProcessManager processArray] removeObjectAtIndex:index];
+        if (index > 0 && (index == PROCESS_ARRAY.count - 1 || [[PROCESS_ARRAY objectAtIndex:index - 1] allowSubprocess:[PROCESS_ARRAY objectAtIndex:index + 1]])) {
+            [PROCESS_ARRAY removeObjectAtIndex:index];
             return YES;
         }
     }
     
 #ifndef NO_PROCESS_LOG
-    NSLog(@"Try to stop process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), [CPProcessManager processArray]);
+    NSLog(@"Try to stop process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), PROCESS_ARRAY);
 #endif
     
     return NO;
@@ -93,7 +89,7 @@ static int forbiddenCount = 0;
     } else {
     
 #ifndef NO_PROCESS_LOG
-        NSLog(@"Try to stop process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), [CPProcessManager processArray]);
+        NSLog(@"Try to stop process \"%@\" not succeed.\nCurrent stack: %@", NSStringFromClass([process class]), PROCESS_ARRAY);
 #endif
     
         return NO;

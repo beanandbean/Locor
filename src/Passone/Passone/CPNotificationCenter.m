@@ -8,11 +8,9 @@
 
 #import "CPNotificationCenter.h"
 
-#import "CPAppearanceManager.h"
+#import "CPPassoneConfig.h"
 
-static const int NOTIFICATION_MAX_COUNT = 3;
-// TODO: Determine how long a notification should stay on the screen.
-static const float NOTIFICATION_STAY_TIME = 2.0;
+#import "CPAppearanceManager.h"
 
 static CPNotificationCenter *center;
 

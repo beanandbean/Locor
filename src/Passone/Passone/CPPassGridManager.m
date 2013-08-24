@@ -8,6 +8,8 @@
 
 #import "CPPassGridManager.h"
 
+#import "CPPassoneConfig.h"
+
 #import "CPPassCell.h"
 #import "CPPassDataManager.h"
 #import "CPPassEditViewManager.h"
@@ -35,11 +37,9 @@
 
 @implementation CPPassGridManager
 
-static const int ROWS = 3, COLUMNS = 3;
-
 - (NSMutableArray *)passCells {
     if (!_passCells) {
-        _passCells = [[NSMutableArray alloc] initWithCapacity:ROWS * COLUMNS];
+        _passCells = [[NSMutableArray alloc] initWithCapacity:PASS_GRID_ROW_COUNT * PASS_GRID_COLUMN_COUNT];
     }
     return _passCells;
 }
@@ -92,35 +92,35 @@ static const int ROWS = 3, COLUMNS = 3;
 
 - (void)createPassCells {
     NSFetchedResultsController *passwordsController = [CPPassDataManager defaultManager].passwordsController;
-    for (int row = 0; row < ROWS; row++) {
-        for (int column = 0; column < COLUMNS; column++) {
-            NSUInteger index = row * COLUMNS + column;
+    for (int row = 0; row < PASS_GRID_ROW_COUNT; row++) {
+        for (int column = 0; column < PASS_GRID_COLUMN_COUNT; column++) {
+            NSUInteger index = row * PASS_GRID_COLUMN_COUNT + column;
             CPPassword *password = [passwordsController.fetchedObjects objectAtIndex:index];
             CPPassCell *cell = [[CPPassCell alloc] initWithIndex:index color:password.displayColor delegate:self];
             
             if (row == 0) {
                 [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.passGridView attribute:NSLayoutAttributeTop multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
             } else {
-                UIView *topCell = [self.passCells objectAtIndex:(row - 1) * ROWS + column];
+                UIView *topCell = [self.passCells objectAtIndex:(row - 1) * PASS_GRID_ROW_COUNT + column];
                 NSAssert(topCell, @"Top cell hasn't been added before adding bottom cell!");
                 [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:topCell attribute:NSLayoutAttributeBottom multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
                 [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:topCell attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
             }
             
-            if (row == ROWS - 1) {
+            if (row == PASS_GRID_ROW_COUNT - 1) {
                 [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.passGridView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-BOX_SEPARATOR_SIZE]];
             }
             
             if (column == 0) {
                 [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.passGridView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
             } else {
-                UIView *leftCell = [self.passCells objectAtIndex:row * ROWS + column - 1];
+                UIView *leftCell = [self.passCells objectAtIndex:row * PASS_GRID_ROW_COUNT + column - 1];
                 NSAssert(leftCell, @"Left cell hasn't been added before adding right cell!");
                 [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:leftCell attribute:NSLayoutAttributeRight multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
                 [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:leftCell attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
             }
             
-            if (column == COLUMNS - 1) {
+            if (column == PASS_GRID_COLUMN_COUNT - 1) {
                 [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.passGridView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-BOX_SEPARATOR_SIZE]];
             }
             

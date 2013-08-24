@@ -10,6 +10,8 @@
 
 #import "CPMainPasswordManager.h"
 
+#import "CPPassoneConfig.h"
+
 #import "CPMainPasswordCanvas.h"
 
 #import "CPNotificationCenter.h"
@@ -46,8 +48,6 @@ typedef enum {
 
 @property (nonatomic) CPMainPasswordCanvasLastPointState lastPointState;
 
-+ (float)pointSize;
-
 + (BOOL)passwordPointWithCenter:(CGPoint)passCenter containsCGPoint:(CGPoint)point;
 
 + (BOOL)intArray:(NSArray *)array1 isEqualToArray:(NSArray *)array2;
@@ -65,16 +65,8 @@ typedef enum {
 
 @implementation CPMainPasswordManager
 
-+ (float)pointSize {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        return 100.0;
-    } else {
-        return 50.0;
-    }
-}
-
 + (BOOL)passwordPointWithCenter:(CGPoint)passCenter containsCGPoint:(CGPoint)point {
-    return sqrtf((passCenter.x - point.x) * (passCenter.x - point.x) + (passCenter.y - point.y) * (passCenter.y - point.y)) < [CPMainPasswordManager pointSize] / 2;
+    return sqrtf((passCenter.x - point.x) * (passCenter.x - point.x) + (passCenter.y - point.y) * (passCenter.y - point.y)) < MAIN_PASSWORD_POINT_SIZE / 2;
 }
 
 + (BOOL)intArray:(NSArray *)array1 isEqualToArray:(NSArray *)array2 {
@@ -239,8 +231,8 @@ typedef enum {
             
             passwordPoint.backgroundColor = [UIColor grayColor];
             
-            passwordPoint.layer.cornerRadius = [CPMainPasswordManager pointSize] / 2;
-            passwordPoint.layer.borderWidth = [CPMainPasswordManager pointSize] / 6;
+            passwordPoint.layer.cornerRadius = MAIN_PASSWORD_POINT_SIZE / 2;
+            passwordPoint.layer.borderWidth = MAIN_PASSWORD_POINT_SIZE / 6;
             passwordPoint.layer.borderColor = [UIColor blackColor].CGColor;
             
             [passwordPoints addObject:passwordPoint];
@@ -248,8 +240,8 @@ typedef enum {
             
             [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:j] attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
             [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i] attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-            [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:[CPMainPasswordManager pointSize]]];
-            [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:[CPMainPasswordManager pointSize]]];
+            [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:MAIN_PASSWORD_POINT_SIZE]];
+            [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:MAIN_PASSWORD_POINT_SIZE]];
         }
     }
     self.passwordPoints = passwordPoints;

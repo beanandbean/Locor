@@ -8,6 +8,8 @@
 
 #import "CPMemoCollectionViewManager.h"
 
+#import "CPPassoneConfig.h"
+
 #import "CPMemoCell.h"
 #import "CPMemoCellRemoving.h"
 
@@ -188,7 +190,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
                 self.collectionViewOffsetBeforeEdit = nil;
                 [CPProcessManager startProcess:[CPScrollingCollectionViewProcess process] withPreparation:^{
                     if (self.style == CPMemoCollectionViewStyleInPassCell) {
-                        self.draggingBasicOffset = CGPointMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y + CELL_HEIGHT + BOX_SEPARATOR_SIZE);
+                        self.draggingBasicOffset = CGPointMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y + MEMO_CELL_HEIGHT + BOX_SEPARATOR_SIZE);
                     } else {
                         self.draggingBasicOffset = self.collectionView.contentOffset;
                     }
@@ -248,8 +250,8 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
                     self.addingCell = nil;
                     [self.memos insertObject:[self.delegate newMemo] atIndex:0];
                 } else {
-                    offset = CGPointMake(offset.x, offset.y - CELL_HEIGHT - BOX_SEPARATOR_SIZE);
-                    contentHeight = MAX(self.collectionView.contentSize.height - CELL_HEIGHT - BOX_SEPARATOR_SIZE, self.collectionView.frame.size.height);
+                    offset = CGPointMake(offset.x, offset.y - MEMO_CELL_HEIGHT - BOX_SEPARATOR_SIZE);
+                    contentHeight = MAX(self.collectionView.contentSize.height - MEMO_CELL_HEIGHT - BOX_SEPARATOR_SIZE, self.collectionView.frame.size.height);
                 }
             }
             
@@ -404,7 +406,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
         
         return CGSizeMake(self.collectionView.frame.size.width - BOX_SEPARATOR_SIZE * 2, 0.0);
     } else {
-        return CGSizeMake(self.collectionView.frame.size.width - BOX_SEPARATOR_SIZE * 2, CELL_HEIGHT);
+        return CGSizeMake(self.collectionView.frame.size.width - BOX_SEPARATOR_SIZE * 2, MEMO_CELL_HEIGHT);
     }
 }
 
