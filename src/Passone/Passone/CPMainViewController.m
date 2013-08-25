@@ -19,6 +19,8 @@
 
 @interface CPMainViewController ()
 
+@property (strong, nonatomic) UIImageView *coverImage;
+
 @property (strong, nonatomic) CPMainPasswordManager *mainPasswordManager;
 @property (strong, nonatomic) CPAdManager *adManager;
 @property (strong, nonatomic) CPPassGridManager *passGridManager;
@@ -53,6 +55,7 @@
     
     UIView *contentView = [[UIView alloc] init];
     contentView.translatesAutoresizingMaskIntoConstraints = NO;
+    contentView.clipsToBounds = YES;
     [outerView addSubview:contentView];
     
     [CPNotificationCenter createNotificationCenterWithSuperView:outerView];
@@ -67,6 +70,22 @@
     [outerView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
     [outerView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
     [outerView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:outerView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
+    
+    NSString *bgName;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        bgName = @"bg-iphone";
+    } else {
+        bgName = @"bg-ipad";
+    }
+    
+    // TODO: Rotate the image on ipad if screen is vertical.
+    self.coverImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:bgName]];
+    self.coverImage.translatesAutoresizingMaskIntoConstraints = NO;
+    self.coverImage.alpha = 0.7;
+    [contentView addSubview:self.coverImage];
+    
+    [contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.coverImage attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    [contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.coverImage attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
     
     // Not using main password while testing other parts of app.
     // self.mainPasswordManager = [[CPMainPasswordManager alloc] initWithSuperview:self.view];

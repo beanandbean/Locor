@@ -18,6 +18,10 @@
 		2C6143681786D59D00430C64 /* CPDraggingPassCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6143671786D59D00430C64 /* CPDraggingPassCellProcess.m */; };
 		2C61436B1786D7AC00430C64 /* CPRemovingPassCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C61436A1786D7AC00430C64 /* CPRemovingPassCellProcess.m */; };
 		2CBDF767177DB96E00BC9E3E /* CPNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */; };
+		2CC7570217CA151D00800E09 /* bg-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CC756FE17CA151D00800E09 /* bg-ipad.png */; };
+		2CC7570317CA151D00800E09 /* bg-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CC756FF17CA151D00800E09 /* bg-ipad@2x.png */; };
+		2CC7570417CA151D00800E09 /* bg-iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CC7570017CA151D00800E09 /* bg-iphone.png */; };
+		2CC7570517CA151D00800E09 /* bg-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CC7570117CA151D00800E09 /* bg-iphone@2x.png */; };
 		2CC861F817AE3A64005B88ED /* CPMemoCollectionViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC861F717AE3A64005B88ED /* CPMemoCollectionViewManager.m */; };
 		2CD0AE9417B0FCBC0091E14D /* CPEditingPassCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD0AE9317B0FCBC0091E14D /* CPEditingPassCellProcess.m */; };
 		2CE1EB3117BF90C4005F32AC /* CPMainPasswordCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1EB3017BF90C4005F32AC /* CPMainPasswordCanvas.m */; };
@@ -72,6 +76,10 @@
 		2CBC71A817C8E663000F37B1 /* CPPassoneConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPPassoneConfig.h; sourceTree = "<group>"; };
 		2CBDF765177DB96E00BC9E3E /* CPNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPNotificationCenter.h; sourceTree = "<group>"; };
 		2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPNotificationCenter.m; sourceTree = "<group>"; };
+		2CC756FE17CA151D00800E09 /* bg-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-ipad.png"; sourceTree = "<group>"; };
+		2CC756FF17CA151D00800E09 /* bg-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-ipad@2x.png"; sourceTree = "<group>"; };
+		2CC7570017CA151D00800E09 /* bg-iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-iphone.png"; sourceTree = "<group>"; };
+		2CC7570117CA151D00800E09 /* bg-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-iphone@2x.png"; sourceTree = "<group>"; };
 		2CC861F617AE3A64005B88ED /* CPMemoCollectionViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMemoCollectionViewManager.h; sourceTree = "<group>"; };
 		2CC861F717AE3A64005B88ED /* CPMemoCollectionViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMemoCollectionViewManager.m; sourceTree = "<group>"; };
 		2CD0AE9217B0FCBC0091E14D /* CPEditingPassCellProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPEditingPassCellProcess.h; sourceTree = "<group>"; };
@@ -174,6 +182,17 @@
 			name = Process;
 			sourceTree = "<group>";
 		};
+		2CC756FD17CA0F2A00800E09 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2CC756FE17CA151D00800E09 /* bg-ipad.png */,
+				2CC756FF17CA151D00800E09 /* bg-ipad@2x.png */,
+				2CC7570017CA151D00800E09 /* bg-iphone.png */,
+				2CC7570117CA151D00800E09 /* bg-iphone@2x.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		FC4F2ACD1759EB0C002D9992 = {
 			isa = PBXGroup;
 			children = (
@@ -250,6 +269,7 @@
 				FCBF1E2717696C1A0014E56F /* Passone.xcdatamodeld */,
 				2C6143621786D23000430C64 /* Process */,
 				2C50932D17C4C4B10051A463 /* Reachability */,
+				2CC756FD17CA0F2A00800E09 /* Resources */,
 				FC4F2AE01759EB0C002D9992 /* Supporting Files */,
 			);
 			path = Passone;
@@ -326,6 +346,10 @@
 				FC4F2AEE1759EB0C002D9992 /* Default@2x.png in Resources */,
 				FC4F2AF01759EB0C002D9992 /* Default-568h@2x.png in Resources */,
 				FC4F2AF61759EB0C002D9992 /* MainStoryboard.storyboard in Resources */,
+				2CC7570217CA151D00800E09 /* bg-ipad.png in Resources */,
+				2CC7570317CA151D00800E09 /* bg-ipad@2x.png in Resources */,
+				2CC7570417CA151D00800E09 /* bg-iphone.png in Resources */,
+				2CC7570517CA151D00800E09 /* bg-iphone@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
