@@ -164,7 +164,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture {
     if (panGesture.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [panGesture translationInView:panGesture.view];
-        if ((![CPProcessManager isInProcess:[CPRemovingMemoCellProcess process]] && (![CPProcessManager isInProcess:[CPScrollingCollectionViewProcess process]]))) {
+        if ((![CPProcessManager isInProcess:REMOVING_MEMO_CELL_PROCESS] && (![CPProcessManager isInProcess:SCROLLING_COLLECTION_VIEW_PROCESS]))) {
             CGPoint location = [panGesture locationInView:panGesture.view];
             NSIndexPath *panningCellIndex = [self.collectionView indexPathForItemAtPoint:location];
             
@@ -175,7 +175,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
             // TODO: Determine if the memo cell should fall back to original position when you start removing after it is raised up when editing.
             
             if (fabsf(translation.x) > fabsf(translation.y) && panningCellIndex) {
-                [CPProcessManager startProcess:[CPRemovingMemoCellProcess process] withPreparation:^{
+                [CPProcessManager startProcess:REMOVING_MEMO_CELL_PROCESS withPreparation:^{
                     CPMemoCell *panningCell = (CPMemoCell *)[self.collectionView cellForItemAtIndexPath:panningCellIndex];
                     
                     UIGraphicsBeginImageContext(panningCell.bounds.size);
@@ -188,7 +188,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
                 }];
             } else {
                 self.collectionViewOffsetBeforeEdit = nil;
-                [CPProcessManager startProcess:[CPScrollingCollectionViewProcess process] withPreparation:^{
+                [CPProcessManager startProcess:SCROLLING_COLLECTION_VIEW_PROCESS withPreparation:^{
                     if (self.style == CPMemoCollectionViewStyleInPassCell) {
                         self.draggingBasicOffset = CGPointMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y + MEMO_CELL_HEIGHT + BOX_SEPARATOR_SIZE);
                     } else {
@@ -198,10 +198,10 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
                 }];
             }
         }
-        if ([CPProcessManager isInProcess:[CPRemovingMemoCellProcess process]]) {
+        if ([CPProcessManager isInProcess:REMOVING_MEMO_CELL_PROCESS]) {
             [self.removingCell setImageLeftOffset:translation.x];
         }
-        if ([CPProcessManager isInProcess:[CPScrollingCollectionViewProcess process]]) {
+        if ([CPProcessManager isInProcess:SCROLLING_COLLECTION_VIEW_PROCESS]) {
             CGPoint offset = CGPointMake(self.draggingBasicOffset.x, self.draggingBasicOffset.y - translation.y);
             [self.collectionView setContentOffset:offset animated:NO];
             
@@ -215,7 +215,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
         }
     } else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled || panGesture.state == UIGestureRecognizerStateFailed) {
         CGPoint translation = [panGesture translationInView:panGesture.view];
-        [CPProcessManager stopProcess:[CPRemovingMemoCellProcess process] withPreparation:^{
+        [CPProcessManager stopProcess:REMOVING_MEMO_CELL_PROCESS withPreparation:^{
             if (fabsf(translation.x) < self.removingCell.contentView.frame.size.width / 2) {
                 [self.removingCell setImageLeftOffset:0.0];
                 [CPAppearanceManager animateWithDuration:0.5 animations:^{
@@ -240,7 +240,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
             }
         }];
         
-        [CPProcessManager stopProcess:[CPScrollingCollectionViewProcess process] withPreparation:^{
+        [CPProcessManager stopProcess:SCROLLING_COLLECTION_VIEW_PROCESS withPreparation:^{
             CGPoint offset = CGPointMake(self.draggingBasicOffset.x, self.draggingBasicOffset.y - translation.y);
             float contentHeight = MAX(self.collectionView.contentSize.height, self.collectionView.frame.size.height);
 
@@ -319,7 +319,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 #pragma mark - UICollectionViewDataSource implement
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if ([CPProcessManager isInProcess:[CPScrollingCollectionViewProcess process]] && self.style == CPMemoCollectionViewStyleInPassCell) {
+    if ([CPProcessManager isInProcess:SCROLLING_COLLECTION_VIEW_PROCESS] && self.style == CPMemoCollectionViewStyleInPassCell) {
         return self.memos.count + 1;
     } else {
         return self.memos.count;
@@ -348,7 +348,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
         cell.label.backgroundColor = [UIColor clearColor];
         
         CPMemo *memo;
-        if ([CPProcessManager isInProcess:[CPScrollingCollectionViewProcess process]] && self.style == CPMemoCollectionViewStyleInPassCell) {
+        if ([CPProcessManager isInProcess:SCROLLING_COLLECTION_VIEW_PROCESS] && self.style == CPMemoCollectionViewStyleInPassCell) {
             if (indexPath.row == 0) {
                 cell.label.text = @"Drag to add a new memo";
                 cell.backgroundColor = [UIColor whiteColor];

@@ -80,7 +80,7 @@
         [self.delegate.editingCell endEditingAtIndexPath:[(UICollectionView *)self.superview indexPathForCell:self.delegate.editingCell]];
     }
     
-    [CPProcessManager startProcess:[CPEditingMemoCellProcess process] withPreparation:^{
+    [CPProcessManager startProcess:EDITING_MEMO_CELL_PROCESS withPreparation:^{
         self.delegate.editingCell = self;
         
         float offset = ((UIScrollView *)self.superview).contentOffset.y;
@@ -111,7 +111,7 @@
 
 - (void)endEditingAtIndexPath:(NSIndexPath *)indexPath {
     if ([self isEditing]) {
-        [CPProcessManager stopProcess:[CPEditingMemoCellProcess process] withPreparation:^{
+        [CPProcessManager stopProcess:EDITING_MEMO_CELL_PROCESS withPreparation:^{
             self.delegate.editingCell = nil;
             self.label.hidden = NO;
             self.delegate.textField.hidden = YES;

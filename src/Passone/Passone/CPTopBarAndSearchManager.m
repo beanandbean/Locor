@@ -133,9 +133,9 @@
 }
 
 - (IBAction)barButtonTouched:(id)sender {
-    if ([CPProcessManager isInProcess:[CPSearchingProcess process]]) {
+    if ([CPProcessManager isInProcess:SEARCHING_PROCESS]) {
         [self.resultMemoCollectionViewManager endEditing];
-        [CPProcessManager stopProcess:[CPSearchingProcess process] withPreparation:^{
+        [CPProcessManager stopProcess:SEARCHING_PROCESS withPreparation:^{
             [CPAppearanceManager animateWithDuration:0.3 animations:^{
                 self.resultMemoCollectionViewManager.collectionView.alpha = 0.0;
             } completion:^(BOOL finished) {
@@ -172,12 +172,12 @@
 #pragma mark - UISearchBarDelegate implement
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-    if ([CPProcessManager isInProcess:[CPSearchingProcess process]]) {
+    if ([CPProcessManager isInProcess:SEARCHING_PROCESS]) {
         self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchBar.text] mutableCopy];
         return YES;
     } else {
         // TODO: Stop it if being currently editing memo cells in pass edit view.
-        return [CPProcessManager startProcess:[CPSearchingProcess process] withPreparation:^{
+        return [CPProcessManager startProcess:SEARCHING_PROCESS withPreparation:^{
             [self.superView addSubview:self.resultContainer];
             [self.superView addConstraints:self.resultContainerConstraints];
             

@@ -8,6 +8,8 @@
 
 #import "CPProcessManager.h"
 
+#define SCROLLING_COLLECTION_VIEW_PROCESS [CPScrollingCollectionViewProcess process]
+
 @interface CPScrollingCollectionViewProcess : NSObject <CPProcess>
 
 @end

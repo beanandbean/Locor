@@ -21,7 +21,7 @@ static int forbiddenCount = 0;
 
 + (NSMutableArray *)processArray {
     if (!processArray) {
-        processArray = [NSMutableArray arrayWithObject:[CPApplicationProcess process]];
+        processArray = [NSMutableArray arrayWithObject:APPLICATION_PROCESS];
     }
     return processArray;
 }
@@ -62,7 +62,7 @@ static int forbiddenCount = 0;
 }
 
 + (bool)stopProcess:(id<CPProcess>)process {
-    if (!forbiddenCount && process != [CPApplicationProcess process]) {
+    if (!forbiddenCount && process != APPLICATION_PROCESS) {
         int index = PROCESS_ARRAY.count - 1;
         while (index > 0 && [PROCESS_ARRAY objectAtIndex:index] != process) {
             index--;

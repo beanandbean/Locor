@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 #import "CPProcess.h"
+
+#define APPLICATION_PROCESS [CPApplicationProcess process]
 
 @interface CPApplicationProcess : NSObject <CPProcess>
 

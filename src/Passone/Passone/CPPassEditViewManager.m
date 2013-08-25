@@ -51,7 +51,7 @@
 - (void)showPassEditViewForCellAtIndex:(NSUInteger)index {
     NSAssert(self.index == -1, @"Already have a pass editing view open when opening one!");
     
-    [CPProcessManager startProcess:[CPEditingPassCellProcess process] withPreparation:^{
+    [CPProcessManager startProcess:EDITING_PASS_CELL_PROCESS withPreparation:^{
         self.index = index;
         
         CPPassword *password = [[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index];
@@ -117,7 +117,7 @@
 - (void)hidePassEditView {
     [self.memoCollectionViewManager endEditing];
     
-    [CPProcessManager stopProcess:[CPEditingPassCellProcess process] withPreparation:^{
+    [CPProcessManager stopProcess:EDITING_PASS_CELL_PROCESS withPreparation:^{
         UIView *cell = [self.passCells objectAtIndex:self.index];
         [self.superView removeConstraints:self.constraints];
         self.constraints = [[NSArray alloc] initWithObjects:

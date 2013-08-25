@@ -93,12 +93,12 @@
 - (void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPressGesture {
     if (longPressGesture.state == UIGestureRecognizerStateBegan) {
         // [self.delegate swipePassCell:self];
-        [CPProcessManager startProcess:[CPDraggingPassCellProcess process] withPreparation:^{
+        [CPProcessManager startProcess:DRAGGING_PASS_CELL_PROCESS withPreparation:^{
             [self.delegate startDragPassCell:self];
         }];
     } else if (longPressGesture.state == UIGestureRecognizerStateEnded || longPressGesture.state == UIGestureRecognizerStateCancelled || longPressGesture.state == UIGestureRecognizerStateFailed) {
-        if ([CPProcessManager isInProcess:[CPDraggingPassCellProcess process]] && [self.delegate canStopDragPassCell:self]) {
-            [CPProcessManager stopProcess:[CPDraggingPassCellProcess process] withPreparation:^{
+        if ([CPProcessManager isInProcess:DRAGGING_PASS_CELL_PROCESS] && [self.delegate canStopDragPassCell:self]) {
+            [CPProcessManager stopProcess:DRAGGING_PASS_CELL_PROCESS withPreparation:^{
                 [self.delegate stopDragPassCell:self];
             }];
         }
@@ -107,7 +107,7 @@
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture {
     if (panGesture.state == UIGestureRecognizerStateBegan) {
-        [CPProcessManager startProcess:[CPRemovingPassCellProcess process] withPreparation:^{
+        [CPProcessManager startProcess:REMOVING_PASS_CELL_PROCESS withPreparation:^{
             self.removingView = [[UIView alloc] init];
             [self addSubview:self.removingView];
             
@@ -142,11 +142,11 @@
         }];
     } else if (panGesture.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [panGesture translationInView:panGesture.view];
-        if ([CPProcessManager isInProcess:[CPDraggingPassCellProcess process]]) {
+        if ([CPProcessManager isInProcess:DRAGGING_PASS_CELL_PROCESS]) {
             CGPoint location = [panGesture locationInView:panGesture.view];
             [self.delegate dragPassCell:self location:location translation:translation];
             [panGesture setTranslation:CGPointZero inView:panGesture.view];
-        } else if ([CPProcessManager isInProcess:[CPRemovingPassCellProcess process]]) {
+        } else if ([CPProcessManager isInProcess:REMOVING_PASS_CELL_PROCESS]) {
             if (self.removingView) {
                 if (self.removingDirection == -1) {
                     if (fabsf(translation.x) > fabsf(translation.y)) {
@@ -221,13 +221,13 @@
             }
         }
     } else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled || panGesture.state == UIGestureRecognizerStateFailed) {
-        if ([CPProcessManager isInProcess:[CPDraggingPassCellProcess process]] && [self.delegate canStopDragPassCell:self]) {
-            [CPProcessManager stopProcess:[CPDraggingPassCellProcess process] withPreparation:^{
+        if ([CPProcessManager isInProcess:DRAGGING_PASS_CELL_PROCESS] && [self.delegate canStopDragPassCell:self]) {
+            [CPProcessManager stopProcess:DRAGGING_PASS_CELL_PROCESS withPreparation:^{
                 [self.delegate stopDragPassCell:self];
             }];
         }
-        if ([CPProcessManager isInProcess:[CPRemovingPassCellProcess process]] && self.removingView) {
-            [CPProcessManager stopProcess:[CPRemovingPassCellProcess process] withPreparation:^{
+        if ([CPProcessManager isInProcess:REMOVING_PASS_CELL_PROCESS] && self.removingView) {
+            [CPProcessManager stopProcess:REMOVING_PASS_CELL_PROCESS withPreparation:^{
                 CGPoint translation = [panGesture translationInView:panGesture.view];
                 if ((self.removingDirection % 2 && abs(translation.x) >= self.bounds.size.width / 2) || (!self.removingDirection % 2 && abs(translation.y) >= self.bounds.size.height / 2)) {
                     if ([[CPPassDataManager defaultManager] canToggleRemoveStateOfPasswordAtIndex:self.index]) {

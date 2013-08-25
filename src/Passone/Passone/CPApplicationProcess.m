@@ -27,7 +27,7 @@ static NSArray *allowedProcess;
 
 - (bool)allowSubprocess:(id<CPProcess>)process {
     if (!allowedProcess) {
-        allowedProcess = [NSArray arrayWithObjects:[CPDraggingPassCellProcess process], [CPEditingPassCellProcess process], [CPRemovingPassCellProcess process], [CPSearchingProcess process], nil];
+        allowedProcess = [NSArray arrayWithObjects:DRAGGING_PASS_CELL_PROCESS, EDITING_PASS_CELL_PROCESS, REMOVING_PASS_CELL_PROCESS, SEARCHING_PROCESS, nil];
     }
     return [allowedProcess indexOfObject:process] != NSNotFound;
 }

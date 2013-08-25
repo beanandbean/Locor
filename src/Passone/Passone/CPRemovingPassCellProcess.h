@@ -8,6 +8,8 @@
 
 #import "CPProcess.h"
 
+#define REMOVING_PASS_CELL_PROCESS [CPRemovingPassCellProcess process]
+
 @interface CPRemovingPassCellProcess : NSObject <CPProcess>
 
 @end
