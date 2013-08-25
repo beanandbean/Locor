@@ -20,6 +20,8 @@
 
 @interface CPPassGridManager ()
 
+@property (weak, nonatomic) UIView *superview;
+
 @property (strong, nonatomic) NSMutableArray *passCells;
 
 @property (strong, nonatomic) CPPassEditViewManager *passEditViewManager;
@@ -46,7 +48,7 @@
 
 - (CPPassEditViewManager *)passEditViewManager {
     if (!_passEditViewManager) {
-        _passEditViewManager = [[CPPassEditViewManager alloc] initWithSuperView:self.passGridView cells:self.passCells];
+        _passEditViewManager = [[CPPassEditViewManager alloc] initWithSuperView:self.superview cells:self.passCells];
     }
     return _passEditViewManager;
 }
@@ -55,6 +57,8 @@
     self = [super init];
     if (self) {
         [CPPassDataManager defaultManager].passwordsController.delegate = self;
+        
+        self.superview = superView;
         
         self.passGridView = [[UIView alloc] init];
         self.passGridView.translatesAutoresizingMaskIntoConstraints = NO;

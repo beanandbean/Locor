@@ -76,10 +76,10 @@
         // align with cell
         [self.superView removeConstraints:self.constraints];
         self.constraints = [[NSArray alloc] initWithObjects:
-                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0],
-                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0],
-                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0],
-                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0],
+                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-PASS_EDIT_VIEW_BORDER_WIDTH],
+                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeTop multiplier:1.0 constant:-PASS_EDIT_VIEW_BORDER_WIDTH],
+                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeRight multiplier:1.0 constant:PASS_EDIT_VIEW_BORDER_WIDTH],
+                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeBottom multiplier:1.0 constant:PASS_EDIT_VIEW_BORDER_WIDTH],
                             nil];
         [self.superView addConstraints:self.constraints];
         [self.superView layoutIfNeeded];
@@ -87,18 +87,28 @@
         // enlarge to align with all cells
         [self.superView removeConstraints:self.constraints];
         
-        UIView *leftTopCell = [self.passCells objectAtIndex:0];
-        UIView *rightBottomCell = [self.passCells lastObject];
-        self.constraints = [[NSArray alloc] initWithObjects:
-                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:leftTopCell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0],
-                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:leftTopCell attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0],
-                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:rightBottomCell attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0],
-                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:rightBottomCell attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0],
-                            nil];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            self.constraints = [[NSArray alloc] initWithObjects:
+                                [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:BOX_SEPARATOR_SIZE - PASS_EDIT_VIEW_BORDER_WIDTH],
+                                [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeTop multiplier:1.0 constant:BOX_SEPARATOR_SIZE - PASS_EDIT_VIEW_BORDER_WIDTH],
+                                [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-BOX_SEPARATOR_SIZE + PASS_EDIT_VIEW_BORDER_WIDTH],
+                                [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-BOX_SEPARATOR_SIZE + PASS_EDIT_VIEW_BORDER_WIDTH],
+                                nil];
+        } else {
+            UIView *leftTopCell = [self.passCells objectAtIndex:0];
+            UIView *rightBottomCell = [self.passCells lastObject];
+            self.constraints = [[NSArray alloc] initWithObjects:
+                                [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:leftTopCell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-PASS_EDIT_VIEW_BORDER_WIDTH],
+                                [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:leftTopCell attribute:NSLayoutAttributeTop multiplier:1.0 constant:-PASS_EDIT_VIEW_BORDER_WIDTH],
+                                [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:rightBottomCell attribute:NSLayoutAttributeRight multiplier:1.0 constant:PASS_EDIT_VIEW_BORDER_WIDTH],
+                                [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:rightBottomCell attribute:NSLayoutAttributeBottom multiplier:1.0 constant:PASS_EDIT_VIEW_BORDER_WIDTH],
+                                nil];
+        }
+        
         [self.superView addConstraints:self.constraints];
         [CPAppearanceManager animateWithDuration:0.5 animations:^{
             [self.superView layoutIfNeeded];
-            self.view.backgroundColor = password.color; //password.color;
+            self.view.backgroundColor = password.color;
             
             if (password.isUsed.boolValue) {
                 self.memoCollectionViewManager.memos = [[password.memos sortedArrayUsingDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:NO], nil]] mutableCopy];
@@ -121,10 +131,10 @@
         UIView *cell = [self.passCells objectAtIndex:self.index];
         [self.superView removeConstraints:self.constraints];
         self.constraints = [[NSArray alloc] initWithObjects:
-                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0],
-                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0],
-                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0],
-                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0],
+                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-PASS_EDIT_VIEW_BORDER_WIDTH],
+                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeTop multiplier:1.0 constant:-PASS_EDIT_VIEW_BORDER_WIDTH],
+                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeRight multiplier:1.0 constant:PASS_EDIT_VIEW_BORDER_WIDTH],
+                            [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cell attribute:NSLayoutAttributeBottom multiplier:1.0 constant:PASS_EDIT_VIEW_BORDER_WIDTH],
                             nil];
         [self.superView addConstraints:self.constraints];
         
@@ -159,6 +169,9 @@
     if (!_view) {
         _view = [[UIView alloc] init];
         _view.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        _view.layer.borderColor = [UIColor blackColor].CGColor;
+        _view.layer.borderWidth = PASS_EDIT_VIEW_BORDER_WIDTH;
         
         UIView *passwordTextFieldContainer = [[UIView alloc] init];
         passwordTextFieldContainer.backgroundColor = [UIColor clearColor];
