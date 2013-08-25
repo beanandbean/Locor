@@ -16,9 +16,6 @@
 #import "CPTopBarAndSearchManager.h"
 
 #import "CPNotificationCenter.h"
-#import "CPAppearanceManager.h"
-
-#import "CPProcessManager.h"
 
 @interface CPMainViewController ()
 
