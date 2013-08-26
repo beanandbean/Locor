@@ -8,6 +8,8 @@
 
 #import "CPPassCell.h"
 
+#import "CPPassoneConfig.h"
+
 #import "CPPassDataManager.h"
 #import "CPPassword.h"
 
@@ -51,15 +53,19 @@
         self.backgroundColor = password.displayColor;
         self.iconName = password.icon;
         
-        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
-        singleTap.numberOfTapsRequired = 1;
-        [self addGestureRecognizer:singleTap];
+        NSMutableArray *gestureArray = [[NSMutableArray alloc] initWithObjects:[NSNull null], [NSNull null], nil];
         
-        UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapGesture:)];
-        doubleTap.numberOfTapsRequired = 2;
-        [self addGestureRecognizer:doubleTap];
+        UITapGestureRecognizer *editing = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditingGesture:)];
+        editing.numberOfTapsRequired = EDITING_TAP_NUMBER;
+        [self addGestureRecognizer:editing];
+        [gestureArray replaceObjectAtIndex:EDITING_TAP_NUMBER - 1 withObject:editing];
         
-        [singleTap requireGestureRecognizerToFail:doubleTap];
+        UITapGestureRecognizer *copyPassword = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleCopyPasswordGesture:)];
+        copyPassword.numberOfTapsRequired = COPY_PASSWORD_TAP_NUMBER;
+        [self addGestureRecognizer:copyPassword];
+        [gestureArray replaceObjectAtIndex:COPY_PASSWORD_TAP_NUMBER - 1 withObject:copyPassword];
+        
+        [[gestureArray objectAtIndex:0] requireGestureRecognizerToFail:[gestureArray objectAtIndex:1]];
         
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
         longPress.delegate = self;
@@ -72,14 +78,14 @@
     return self;
 }
 
-- (void)handleSingleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
+- (void)handleEditingGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
+    [self.delegate tapPassCell:self];
+}
+
+- (void)handleCopyPasswordGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
     // TODO: Not copy to clipboard if password is not used.
     [UIPasteboard generalPasteboard].string = ((CPPassword *)[[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index]).text;
     [CPNotificationCenter insertNotification:[NSString stringWithFormat:@"Password No %d copied to clipboard.", self.index]];
-}
-
-- (void)handleDoubleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
-    [self.delegate tapPassCell:self];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {

@@ -8,6 +8,8 @@
 
 #import "CPMainPasswordCanvas.h"
 
+#import "CPPassoneConfig.h"
+
 @implementation CPMainPasswordCanvas
 
 - (id)initWithFrame:(CGRect)frame {
@@ -26,7 +28,7 @@
         CGFloat color[4] = {0.0, 0.0, 0.0, 1.0};
         CGContextSetStrokeColor(context, color);
         CGContextSetFillColor(context, color);
-        CGContextSetLineWidth(context, 20.0);
+        CGContextSetLineWidth(context, MAIN_PASSWORD_LINE_WIDTH);
         CGContextSetLineCap(context, kCGLineCapRound);
         CGContextSetLineJoin(context, kCGLineJoinRound);
         

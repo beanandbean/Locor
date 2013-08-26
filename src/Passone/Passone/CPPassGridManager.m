@@ -28,6 +28,8 @@
 
 @property (strong, nonatomic) UIView *passGridView;
 
+@property (strong, nonatomic) UIImageView *coverImage;
+
 @property (strong, nonatomic) UIView *dragView;
 @property (weak, nonatomic) CPPassCell *dragSourceCell;
 @property (weak, nonatomic) CPPassCell *dragDestinationCell;
@@ -79,6 +81,22 @@
         // innerView.width == innerView.height
         [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.passGridView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
         [superView addSubview:self.passGridView];
+        
+        NSString *coverName;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            coverName = @"bg-iphone";
+        } else {
+            coverName = @"bg-ipad";
+        }
+        
+        self.coverImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:coverName]];
+        self.coverImage.transform = CGAffineTransformMakeRotation(M_PI_2);
+        self.coverImage.translatesAutoresizingMaskIntoConstraints = NO;
+        self.coverImage.alpha = WATER_MARK_ALPHA;
+        [self.superview addSubview:self.coverImage];
+        
+        [self.superview.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.coverImage attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.superview.superview attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+        [self.superview.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.coverImage attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.superview.superview attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
         
         [self createPassCells];
         
@@ -154,9 +172,9 @@
     
     self.dragView = [[UIView alloc] init];
     
-    self.dragView.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.dragView.layer.shadowOffset = CGSizeMake(0.0, 0.0);
-    self.dragView.layer.shadowOpacity = 0.8;
+    self.dragView.layer.shadowColor = [UIColor whiteColor].CGColor;
+    self.dragView.layer.shadowOffset = CGSizeZero;
+    self.dragView.layer.shadowOpacity = 1.0;
     self.dragView.layer.shadowRadius = 5.0;
     self.dragView.layer.masksToBounds = NO;
     
@@ -174,7 +192,7 @@
     
     [self.passGridView layoutIfNeeded];
     
-    UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRect:CGRectInset(self.dragView.bounds, -1.0, -1.0)];
+    UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRect:CGRectInset(self.dragView.bounds, -5.0, -5.0)];
     self.dragView.layer.shadowPath = bezierPath.CGPath;
 }
 

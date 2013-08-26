@@ -269,6 +269,9 @@ typedef enum {
                 [UIView animateWithDuration:1.0 animations:^{
                     passwordPoint.backgroundColor = [UIColor grayColor];
                 }];
+            } else if (self.lastPointState == CPMainPasswordCanvasLastPointStateMouse) {
+                [self.pointsContainer.points removeLastObject];
+                self.lastPointState = CPMainPasswordCanvasLastPointStatePassPoint;
             }
             sign = NO;
         }

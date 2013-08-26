@@ -183,9 +183,9 @@
         
         [_view addSubview:passwordTextFieldContainer];
         [_view addConstraints:[[NSArray alloc] initWithObjects:
-                               [NSLayoutConstraint constraintWithItem:passwordTextFieldContainer attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:BOX_SEPARATOR_SIZE],
-                               [NSLayoutConstraint constraintWithItem:passwordTextFieldContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeTop multiplier:1.0 constant:BOX_SEPARATOR_SIZE],
-                               [NSLayoutConstraint constraintWithItem:passwordTextFieldContainer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeRight multiplier:1.0 constant:-BOX_SEPARATOR_SIZE],
+                               [NSLayoutConstraint constraintWithItem:passwordTextFieldContainer attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:PASS_EDIT_VIEW_BORDER_WIDTH + BOX_SEPARATOR_SIZE],
+                               [NSLayoutConstraint constraintWithItem:passwordTextFieldContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeTop multiplier:1.0 constant:PASS_EDIT_VIEW_BORDER_WIDTH + BOX_SEPARATOR_SIZE],
+                               [NSLayoutConstraint constraintWithItem:passwordTextFieldContainer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeRight multiplier:1.0 constant:-PASS_EDIT_VIEW_BORDER_WIDTH - BOX_SEPARATOR_SIZE],
                                nil]];
         
         _passwordTextField = [[UITextField alloc] init];
@@ -208,10 +208,10 @@
         memosView.translatesAutoresizingMaskIntoConstraints = NO;
         [_view addSubview:memosView];
         [_view addConstraints:[[NSArray alloc] initWithObjects:
-                               [NSLayoutConstraint constraintWithItem:memosView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0],
+                               [NSLayoutConstraint constraintWithItem:memosView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:PASS_EDIT_VIEW_BORDER_WIDTH],
                                [NSLayoutConstraint constraintWithItem:memosView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:passwordTextFieldContainer attribute:NSLayoutAttributeBottom multiplier:1.0 constant:BOX_SEPARATOR_SIZE],
-                               [NSLayoutConstraint constraintWithItem:memosView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0],
-                               [NSLayoutConstraint constraintWithItem:memosView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-BOX_SEPARATOR_SIZE],
+                               [NSLayoutConstraint constraintWithItem:memosView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeRight multiplier:1.0 constant:-PASS_EDIT_VIEW_BORDER_WIDTH],
+                               [NSLayoutConstraint constraintWithItem:memosView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-PASS_EDIT_VIEW_BORDER_WIDTH - BOX_SEPARATOR_SIZE],
                                nil]];
         
         _memoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:memosView style:CPMemoCollectionViewStyleInPassCell andDelegate:self];

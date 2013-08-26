@@ -676,7 +676,7 @@ S'Adjust font of pass cell removing label.'
 p265
 sS'detail'
 p266
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 131.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 137.'
 p267
 sS'exported'
 p268
@@ -703,7 +703,7 @@ S'Change behavior of pass cell removing view & label if cannot toggle remove sta
 p278
 sS'detail'
 p279
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 188.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 194.'
 p280
 sS'exported'
 p281
@@ -1026,7 +1026,7 @@ S'When removing pass cell, use images instead of single-colored views.'
 p419
 sS'detail'
 p420
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 114.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 120.'
 p421
 sS'exported'
 p422
@@ -1254,7 +1254,7 @@ S'Not copy to clipboard if password is not used.'
 p521
 sS'detail'
 p522
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 76.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 86.'
 p523
 sS'exported'
 p524
@@ -1289,58 +1289,4 @@ S'src/Passone/Passone/CPTopBarAndSearchManager.m'
 p534
 sg529
 g97
-sa(dp535
-S'author'
-p536
-S'TODO grabber'
-p537
-sS'text'
-p538
-S'Determine how long a notification should stay on the screen.'
-p539
-sS'detail'
-p540
-S'TODO grabbed from src/Passone/Passone/CPPassoneConfig.h, line 18.'
-p541
-sS'exported'
-p542
-I00
-sS'time'
-p543
-S'2013-08-24 21:17:23'
-p544
-sS'path'
-p545
-S'src/Passone/Passone/CPPassoneConfig.h'
-p546
-sS'condition'
-p547
-g97
-sa(dp548
-S'author'
-p549
-S'TODO grabber'
-p550
-sS'text'
-p551
-S'Rotate the image on ipad if screen is vertical.'
-p552
-sS'detail'
-p553
-S'TODO grabbed from src/Passone/Passone/CPMainViewController.m, line 81.'
-p554
-sS'exported'
-p555
-I00
-sS'time'
-p556
-S'2013-08-25 18:44:33'
-p557
-sS'path'
-p558
-S'src/Passone/Passone/CPMainViewController.m'
-p559
-sS'condition'
-p560
-g97
-sa.
+saNaNa.
