@@ -23,6 +23,54 @@
 		2CC7570417CA151D00800E09 /* bg-iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CC7570017CA151D00800E09 /* bg-iphone.png */; };
 		2CC7570517CA151D00800E09 /* bg-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CC7570117CA151D00800E09 /* bg-iphone@2x.png */; };
 		2CC861F817AE3A64005B88ED /* CPMemoCollectionViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC861F717AE3A64005B88ED /* CPMemoCollectionViewManager.m */; };
+		2CCFB6C417CB5D4E009CE894 /* aquarius_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB69417CB5D4E009CE894 /* aquarius_ipad.png */; };
+		2CCFB6C517CB5D4E009CE894 /* aquarius_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB69517CB5D4E009CE894 /* aquarius_ipad@2x.png */; };
+		2CCFB6C617CB5D4E009CE894 /* aquarius.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB69617CB5D4E009CE894 /* aquarius.png */; };
+		2CCFB6C717CB5D4E009CE894 /* aquarius@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB69717CB5D4E009CE894 /* aquarius@2x.png */; };
+		2CCFB6C817CB5D4E009CE894 /* aries_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB69817CB5D4E009CE894 /* aries_ipad.png */; };
+		2CCFB6C917CB5D4E009CE894 /* aries_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB69917CB5D4E009CE894 /* aries_ipad@2x.png */; };
+		2CCFB6CA17CB5D4E009CE894 /* aries.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB69A17CB5D4E009CE894 /* aries.png */; };
+		2CCFB6CB17CB5D4E009CE894 /* aries@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB69B17CB5D4E009CE894 /* aries@2x.png */; };
+		2CCFB6CC17CB5D4E009CE894 /* cancer_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB69C17CB5D4E009CE894 /* cancer_ipad.png */; };
+		2CCFB6CD17CB5D4E009CE894 /* cancer_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB69D17CB5D4E009CE894 /* cancer_ipad@2x.png */; };
+		2CCFB6CE17CB5D4E009CE894 /* cancer.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB69E17CB5D4E009CE894 /* cancer.png */; };
+		2CCFB6CF17CB5D4E009CE894 /* cancer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB69F17CB5D4E009CE894 /* cancer@2x.png */; };
+		2CCFB6D017CB5D4E009CE894 /* gemini_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6A017CB5D4E009CE894 /* gemini_ipad.png */; };
+		2CCFB6D117CB5D4E009CE894 /* gemini_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6A117CB5D4E009CE894 /* gemini_ipad@2x.png */; };
+		2CCFB6D217CB5D4E009CE894 /* gemini.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6A217CB5D4E009CE894 /* gemini.png */; };
+		2CCFB6D317CB5D4E009CE894 /* gemini@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6A317CB5D4E009CE894 /* gemini@2x.png */; };
+		2CCFB6D417CB5D4E009CE894 /* leo_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6A417CB5D4E009CE894 /* leo_ipad.png */; };
+		2CCFB6D517CB5D4E009CE894 /* leo_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6A517CB5D4E009CE894 /* leo_ipad@2x.png */; };
+		2CCFB6D617CB5D4E009CE894 /* leo.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6A617CB5D4E009CE894 /* leo.png */; };
+		2CCFB6D717CB5D4E009CE894 /* leo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6A717CB5D4E009CE894 /* leo@2x.png */; };
+		2CCFB6D817CB5D4E009CE894 /* libra_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6A817CB5D4E009CE894 /* libra_ipad.png */; };
+		2CCFB6D917CB5D4E009CE894 /* libra_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6A917CB5D4E009CE894 /* libra_ipad@2x.png */; };
+		2CCFB6DA17CB5D4E009CE894 /* libra.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6AA17CB5D4E009CE894 /* libra.png */; };
+		2CCFB6DB17CB5D4E009CE894 /* libra@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6AB17CB5D4E009CE894 /* libra@2x.png */; };
+		2CCFB6DC17CB5D4E009CE894 /* pisces_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6AC17CB5D4E009CE894 /* pisces_ipad.png */; };
+		2CCFB6DD17CB5D4E009CE894 /* pisces_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6AD17CB5D4E009CE894 /* pisces_ipad@2x.png */; };
+		2CCFB6DE17CB5D4E009CE894 /* pisces.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6AE17CB5D4E009CE894 /* pisces.png */; };
+		2CCFB6DF17CB5D4E009CE894 /* pisces@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6AF17CB5D4E009CE894 /* pisces@2x.png */; };
+		2CCFB6E017CB5D4E009CE894 /* sagittarius_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6B017CB5D4E009CE894 /* sagittarius_ipad.png */; };
+		2CCFB6E117CB5D4E009CE894 /* sagittarius_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6B117CB5D4E009CE894 /* sagittarius_ipad@2x.png */; };
+		2CCFB6E217CB5D4E009CE894 /* sagittarius.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6B217CB5D4E009CE894 /* sagittarius.png */; };
+		2CCFB6E317CB5D4E009CE894 /* sagittarius@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6B317CB5D4E009CE894 /* sagittarius@2x.png */; };
+		2CCFB6EC17CB5D4E009CE894 /* taurus_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6BC17CB5D4E009CE894 /* taurus_ipad.png */; };
+		2CCFB6ED17CB5D4E009CE894 /* taurus_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6BD17CB5D4E009CE894 /* taurus_ipad@2x.png */; };
+		2CCFB6EE17CB5D4E009CE894 /* taurus.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6BE17CB5D4E009CE894 /* taurus.png */; };
+		2CCFB6EF17CB5D4E009CE894 /* taurus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6BF17CB5D4E009CE894 /* taurus@2x.png */; };
+		2CCFB6F017CB5D4E009CE894 /* virgo_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6C017CB5D4E009CE894 /* virgo_ipad.png */; };
+		2CCFB6F117CB5D4E009CE894 /* virgo_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6C117CB5D4E009CE894 /* virgo_ipad@2x.png */; };
+		2CCFB6F217CB5D4E009CE894 /* virgo.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6C217CB5D4E009CE894 /* virgo.png */; };
+		2CCFB6F317CB5D4E009CE894 /* virgo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6C317CB5D4E009CE894 /* virgo@2x.png */; };
+		2CCFB6FC17CB5F4F009CE894 /* capricorn_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6F417CB5F3F009CE894 /* capricorn_ipad.png */; };
+		2CCFB6FD17CB5F4F009CE894 /* capricorn_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6F517CB5F40009CE894 /* capricorn_ipad@2x.png */; };
+		2CCFB6FE17CB5F4F009CE894 /* capricorn.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6F617CB5F43009CE894 /* capricorn.png */; };
+		2CCFB6FF17CB5F4F009CE894 /* capricorn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6F717CB5F45009CE894 /* capricorn@2x.png */; };
+		2CCFB70017CB5F4F009CE894 /* scorpio_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6F817CB5F47009CE894 /* scorpio_ipad.png */; };
+		2CCFB70117CB5F4F009CE894 /* scorpio_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6F917CB5F49009CE894 /* scorpio_ipad@2x.png */; };
+		2CCFB70217CB5F4F009CE894 /* scorpio.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6FA17CB5F4B009CE894 /* scorpio.png */; };
+		2CCFB70317CB5F4F009CE894 /* scorpio@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6FB17CB5F4E009CE894 /* scorpio@2x.png */; };
 		2CD0AE9417B0FCBC0091E14D /* CPEditingPassCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD0AE9317B0FCBC0091E14D /* CPEditingPassCellProcess.m */; };
 		2CE1EB3117BF90C4005F32AC /* CPMainPasswordCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1EB3017BF90C4005F32AC /* CPMainPasswordCanvas.m */; };
 		2CE543A41796A207004CF538 /* CPEditingMemoCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE543A31796A207004CF538 /* CPEditingMemoCellProcess.m */; };
@@ -82,6 +130,54 @@
 		2CC7570117CA151D00800E09 /* bg-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-iphone@2x.png"; sourceTree = "<group>"; };
 		2CC861F617AE3A64005B88ED /* CPMemoCollectionViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMemoCollectionViewManager.h; sourceTree = "<group>"; };
 		2CC861F717AE3A64005B88ED /* CPMemoCollectionViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMemoCollectionViewManager.m; sourceTree = "<group>"; };
+		2CCFB69417CB5D4E009CE894 /* aquarius_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aquarius_ipad.png; sourceTree = "<group>"; };
+		2CCFB69517CB5D4E009CE894 /* aquarius_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aquarius_ipad@2x.png"; sourceTree = "<group>"; };
+		2CCFB69617CB5D4E009CE894 /* aquarius.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aquarius.png; sourceTree = "<group>"; };
+		2CCFB69717CB5D4E009CE894 /* aquarius@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aquarius@2x.png"; sourceTree = "<group>"; };
+		2CCFB69817CB5D4E009CE894 /* aries_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aries_ipad.png; sourceTree = "<group>"; };
+		2CCFB69917CB5D4E009CE894 /* aries_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aries_ipad@2x.png"; sourceTree = "<group>"; };
+		2CCFB69A17CB5D4E009CE894 /* aries.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aries.png; sourceTree = "<group>"; };
+		2CCFB69B17CB5D4E009CE894 /* aries@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aries@2x.png"; sourceTree = "<group>"; };
+		2CCFB69C17CB5D4E009CE894 /* cancer_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancer_ipad.png; sourceTree = "<group>"; };
+		2CCFB69D17CB5D4E009CE894 /* cancer_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancer_ipad@2x.png"; sourceTree = "<group>"; };
+		2CCFB69E17CB5D4E009CE894 /* cancer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancer.png; sourceTree = "<group>"; };
+		2CCFB69F17CB5D4E009CE894 /* cancer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancer@2x.png"; sourceTree = "<group>"; };
+		2CCFB6A017CB5D4E009CE894 /* gemini_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gemini_ipad.png; sourceTree = "<group>"; };
+		2CCFB6A117CB5D4E009CE894 /* gemini_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gemini_ipad@2x.png"; sourceTree = "<group>"; };
+		2CCFB6A217CB5D4E009CE894 /* gemini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gemini.png; sourceTree = "<group>"; };
+		2CCFB6A317CB5D4E009CE894 /* gemini@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gemini@2x.png"; sourceTree = "<group>"; };
+		2CCFB6A417CB5D4E009CE894 /* leo_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leo_ipad.png; sourceTree = "<group>"; };
+		2CCFB6A517CB5D4E009CE894 /* leo_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leo_ipad@2x.png"; sourceTree = "<group>"; };
+		2CCFB6A617CB5D4E009CE894 /* leo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leo.png; sourceTree = "<group>"; };
+		2CCFB6A717CB5D4E009CE894 /* leo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leo@2x.png"; sourceTree = "<group>"; };
+		2CCFB6A817CB5D4E009CE894 /* libra_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = libra_ipad.png; sourceTree = "<group>"; };
+		2CCFB6A917CB5D4E009CE894 /* libra_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "libra_ipad@2x.png"; sourceTree = "<group>"; };
+		2CCFB6AA17CB5D4E009CE894 /* libra.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = libra.png; sourceTree = "<group>"; };
+		2CCFB6AB17CB5D4E009CE894 /* libra@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "libra@2x.png"; sourceTree = "<group>"; };
+		2CCFB6AC17CB5D4E009CE894 /* pisces_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pisces_ipad.png; sourceTree = "<group>"; };
+		2CCFB6AD17CB5D4E009CE894 /* pisces_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pisces_ipad@2x.png"; sourceTree = "<group>"; };
+		2CCFB6AE17CB5D4E009CE894 /* pisces.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pisces.png; sourceTree = "<group>"; };
+		2CCFB6AF17CB5D4E009CE894 /* pisces@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pisces@2x.png"; sourceTree = "<group>"; };
+		2CCFB6B017CB5D4E009CE894 /* sagittarius_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sagittarius_ipad.png; sourceTree = "<group>"; };
+		2CCFB6B117CB5D4E009CE894 /* sagittarius_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sagittarius_ipad@2x.png"; sourceTree = "<group>"; };
+		2CCFB6B217CB5D4E009CE894 /* sagittarius.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sagittarius.png; sourceTree = "<group>"; };
+		2CCFB6B317CB5D4E009CE894 /* sagittarius@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sagittarius@2x.png"; sourceTree = "<group>"; };
+		2CCFB6BC17CB5D4E009CE894 /* taurus_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = taurus_ipad.png; sourceTree = "<group>"; };
+		2CCFB6BD17CB5D4E009CE894 /* taurus_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taurus_ipad@2x.png"; sourceTree = "<group>"; };
+		2CCFB6BE17CB5D4E009CE894 /* taurus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = taurus.png; sourceTree = "<group>"; };
+		2CCFB6BF17CB5D4E009CE894 /* taurus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taurus@2x.png"; sourceTree = "<group>"; };
+		2CCFB6C017CB5D4E009CE894 /* virgo_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = virgo_ipad.png; sourceTree = "<group>"; };
+		2CCFB6C117CB5D4E009CE894 /* virgo_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "virgo_ipad@2x.png"; sourceTree = "<group>"; };
+		2CCFB6C217CB5D4E009CE894 /* virgo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = virgo.png; sourceTree = "<group>"; };
+		2CCFB6C317CB5D4E009CE894 /* virgo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "virgo@2x.png"; sourceTree = "<group>"; };
+		2CCFB6F417CB5F3F009CE894 /* capricorn_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = capricorn_ipad.png; sourceTree = "<group>"; };
+		2CCFB6F517CB5F40009CE894 /* capricorn_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "capricorn_ipad@2x.png"; sourceTree = "<group>"; };
+		2CCFB6F617CB5F43009CE894 /* capricorn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = capricorn.png; sourceTree = "<group>"; };
+		2CCFB6F717CB5F45009CE894 /* capricorn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "capricorn@2x.png"; sourceTree = "<group>"; };
+		2CCFB6F817CB5F47009CE894 /* scorpio_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scorpio_ipad.png; sourceTree = "<group>"; };
+		2CCFB6F917CB5F49009CE894 /* scorpio_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scorpio_ipad@2x.png"; sourceTree = "<group>"; };
+		2CCFB6FA17CB5F4B009CE894 /* scorpio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scorpio.png; sourceTree = "<group>"; };
+		2CCFB6FB17CB5F4E009CE894 /* scorpio@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scorpio@2x.png"; sourceTree = "<group>"; };
 		2CD0AE9217B0FCBC0091E14D /* CPEditingPassCellProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPEditingPassCellProcess.h; sourceTree = "<group>"; };
 		2CD0AE9317B0FCBC0091E14D /* CPEditingPassCellProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPEditingPassCellProcess.m; sourceTree = "<group>"; };
 		2CE1EB2F17BF90C4005F32AC /* CPMainPasswordCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMainPasswordCanvas.h; sourceTree = "<group>"; };
@@ -185,12 +281,68 @@
 		2CC756FD17CA0F2A00800E09 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2CCFB69317CB5CDF009CE894 /* Star Signs */,
 				2CC756FE17CA151D00800E09 /* bg-ipad.png */,
 				2CC756FF17CA151D00800E09 /* bg-ipad@2x.png */,
 				2CC7570017CA151D00800E09 /* bg-iphone.png */,
 				2CC7570117CA151D00800E09 /* bg-iphone@2x.png */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		2CCFB69317CB5CDF009CE894 /* Star Signs */ = {
+			isa = PBXGroup;
+			children = (
+				2CCFB6F417CB5F3F009CE894 /* capricorn_ipad.png */,
+				2CCFB6F517CB5F40009CE894 /* capricorn_ipad@2x.png */,
+				2CCFB6F617CB5F43009CE894 /* capricorn.png */,
+				2CCFB6F717CB5F45009CE894 /* capricorn@2x.png */,
+				2CCFB6F817CB5F47009CE894 /* scorpio_ipad.png */,
+				2CCFB6F917CB5F49009CE894 /* scorpio_ipad@2x.png */,
+				2CCFB6FA17CB5F4B009CE894 /* scorpio.png */,
+				2CCFB6FB17CB5F4E009CE894 /* scorpio@2x.png */,
+				2CCFB69417CB5D4E009CE894 /* aquarius_ipad.png */,
+				2CCFB69517CB5D4E009CE894 /* aquarius_ipad@2x.png */,
+				2CCFB69617CB5D4E009CE894 /* aquarius.png */,
+				2CCFB69717CB5D4E009CE894 /* aquarius@2x.png */,
+				2CCFB69817CB5D4E009CE894 /* aries_ipad.png */,
+				2CCFB69917CB5D4E009CE894 /* aries_ipad@2x.png */,
+				2CCFB69A17CB5D4E009CE894 /* aries.png */,
+				2CCFB69B17CB5D4E009CE894 /* aries@2x.png */,
+				2CCFB69C17CB5D4E009CE894 /* cancer_ipad.png */,
+				2CCFB69D17CB5D4E009CE894 /* cancer_ipad@2x.png */,
+				2CCFB69E17CB5D4E009CE894 /* cancer.png */,
+				2CCFB69F17CB5D4E009CE894 /* cancer@2x.png */,
+				2CCFB6A017CB5D4E009CE894 /* gemini_ipad.png */,
+				2CCFB6A117CB5D4E009CE894 /* gemini_ipad@2x.png */,
+				2CCFB6A217CB5D4E009CE894 /* gemini.png */,
+				2CCFB6A317CB5D4E009CE894 /* gemini@2x.png */,
+				2CCFB6A417CB5D4E009CE894 /* leo_ipad.png */,
+				2CCFB6A517CB5D4E009CE894 /* leo_ipad@2x.png */,
+				2CCFB6A617CB5D4E009CE894 /* leo.png */,
+				2CCFB6A717CB5D4E009CE894 /* leo@2x.png */,
+				2CCFB6A817CB5D4E009CE894 /* libra_ipad.png */,
+				2CCFB6A917CB5D4E009CE894 /* libra_ipad@2x.png */,
+				2CCFB6AA17CB5D4E009CE894 /* libra.png */,
+				2CCFB6AB17CB5D4E009CE894 /* libra@2x.png */,
+				2CCFB6AC17CB5D4E009CE894 /* pisces_ipad.png */,
+				2CCFB6AD17CB5D4E009CE894 /* pisces_ipad@2x.png */,
+				2CCFB6AE17CB5D4E009CE894 /* pisces.png */,
+				2CCFB6AF17CB5D4E009CE894 /* pisces@2x.png */,
+				2CCFB6B017CB5D4E009CE894 /* sagittarius_ipad.png */,
+				2CCFB6B117CB5D4E009CE894 /* sagittarius_ipad@2x.png */,
+				2CCFB6B217CB5D4E009CE894 /* sagittarius.png */,
+				2CCFB6B317CB5D4E009CE894 /* sagittarius@2x.png */,
+				2CCFB6BC17CB5D4E009CE894 /* taurus_ipad.png */,
+				2CCFB6BD17CB5D4E009CE894 /* taurus_ipad@2x.png */,
+				2CCFB6BE17CB5D4E009CE894 /* taurus.png */,
+				2CCFB6BF17CB5D4E009CE894 /* taurus@2x.png */,
+				2CCFB6C017CB5D4E009CE894 /* virgo_ipad.png */,
+				2CCFB6C117CB5D4E009CE894 /* virgo_ipad@2x.png */,
+				2CCFB6C217CB5D4E009CE894 /* virgo.png */,
+				2CCFB6C317CB5D4E009CE894 /* virgo@2x.png */,
+			);
+			name = "Star Signs";
 			sourceTree = "<group>";
 		};
 		FC4F2ACD1759EB0C002D9992 = {
@@ -350,6 +502,54 @@
 				2CC7570317CA151D00800E09 /* bg-ipad@2x.png in Resources */,
 				2CC7570417CA151D00800E09 /* bg-iphone.png in Resources */,
 				2CC7570517CA151D00800E09 /* bg-iphone@2x.png in Resources */,
+				2CCFB6C417CB5D4E009CE894 /* aquarius_ipad.png in Resources */,
+				2CCFB6C517CB5D4E009CE894 /* aquarius_ipad@2x.png in Resources */,
+				2CCFB6C617CB5D4E009CE894 /* aquarius.png in Resources */,
+				2CCFB6C717CB5D4E009CE894 /* aquarius@2x.png in Resources */,
+				2CCFB6C817CB5D4E009CE894 /* aries_ipad.png in Resources */,
+				2CCFB6C917CB5D4E009CE894 /* aries_ipad@2x.png in Resources */,
+				2CCFB6CA17CB5D4E009CE894 /* aries.png in Resources */,
+				2CCFB6CB17CB5D4E009CE894 /* aries@2x.png in Resources */,
+				2CCFB6CC17CB5D4E009CE894 /* cancer_ipad.png in Resources */,
+				2CCFB6CD17CB5D4E009CE894 /* cancer_ipad@2x.png in Resources */,
+				2CCFB6CE17CB5D4E009CE894 /* cancer.png in Resources */,
+				2CCFB6CF17CB5D4E009CE894 /* cancer@2x.png in Resources */,
+				2CCFB6D017CB5D4E009CE894 /* gemini_ipad.png in Resources */,
+				2CCFB6D117CB5D4E009CE894 /* gemini_ipad@2x.png in Resources */,
+				2CCFB6D217CB5D4E009CE894 /* gemini.png in Resources */,
+				2CCFB6D317CB5D4E009CE894 /* gemini@2x.png in Resources */,
+				2CCFB6D417CB5D4E009CE894 /* leo_ipad.png in Resources */,
+				2CCFB6D517CB5D4E009CE894 /* leo_ipad@2x.png in Resources */,
+				2CCFB6D617CB5D4E009CE894 /* leo.png in Resources */,
+				2CCFB6D717CB5D4E009CE894 /* leo@2x.png in Resources */,
+				2CCFB6D817CB5D4E009CE894 /* libra_ipad.png in Resources */,
+				2CCFB6D917CB5D4E009CE894 /* libra_ipad@2x.png in Resources */,
+				2CCFB6DA17CB5D4E009CE894 /* libra.png in Resources */,
+				2CCFB6DB17CB5D4E009CE894 /* libra@2x.png in Resources */,
+				2CCFB6DC17CB5D4E009CE894 /* pisces_ipad.png in Resources */,
+				2CCFB6DD17CB5D4E009CE894 /* pisces_ipad@2x.png in Resources */,
+				2CCFB6DE17CB5D4E009CE894 /* pisces.png in Resources */,
+				2CCFB6DF17CB5D4E009CE894 /* pisces@2x.png in Resources */,
+				2CCFB6E017CB5D4E009CE894 /* sagittarius_ipad.png in Resources */,
+				2CCFB6E117CB5D4E009CE894 /* sagittarius_ipad@2x.png in Resources */,
+				2CCFB6E217CB5D4E009CE894 /* sagittarius.png in Resources */,
+				2CCFB6E317CB5D4E009CE894 /* sagittarius@2x.png in Resources */,
+				2CCFB6EC17CB5D4E009CE894 /* taurus_ipad.png in Resources */,
+				2CCFB6ED17CB5D4E009CE894 /* taurus_ipad@2x.png in Resources */,
+				2CCFB6EE17CB5D4E009CE894 /* taurus.png in Resources */,
+				2CCFB6EF17CB5D4E009CE894 /* taurus@2x.png in Resources */,
+				2CCFB6F017CB5D4E009CE894 /* virgo_ipad.png in Resources */,
+				2CCFB6F117CB5D4E009CE894 /* virgo_ipad@2x.png in Resources */,
+				2CCFB6F217CB5D4E009CE894 /* virgo.png in Resources */,
+				2CCFB6F317CB5D4E009CE894 /* virgo@2x.png in Resources */,
+				2CCFB6FC17CB5F4F009CE894 /* capricorn_ipad.png in Resources */,
+				2CCFB6FD17CB5F4F009CE894 /* capricorn_ipad@2x.png in Resources */,
+				2CCFB6FE17CB5F4F009CE894 /* capricorn.png in Resources */,
+				2CCFB6FF17CB5F4F009CE894 /* capricorn@2x.png in Resources */,
+				2CCFB70017CB5F4F009CE894 /* scorpio_ipad.png in Resources */,
+				2CCFB70117CB5F4F009CE894 /* scorpio_ipad@2x.png in Resources */,
+				2CCFB70217CB5F4F009CE894 /* scorpio.png in Resources */,
+				2CCFB70317CB5F4F009CE894 /* scorpio@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

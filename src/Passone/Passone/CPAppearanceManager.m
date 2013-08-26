@@ -63,6 +63,15 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
     return [NSLayoutConstraint constraintWithItem:view attribute:attr relatedBy:relation toItem:toView attribute:toAttr multiplier:multiplier constant:finalConstant];
 }
 
++ (NSArray *)constraintsForView:(UIView *)view1 toEqualToView:(UIView *)view2 {
+    return [NSArray arrayWithObjects:
+            [NSLayoutConstraint constraintWithItem:view1 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view2 attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0],
+            [NSLayoutConstraint constraintWithItem:view1 attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:view2 attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0],
+            [NSLayoutConstraint constraintWithItem:view1 attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:view2 attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0],
+            [NSLayoutConstraint constraintWithItem:view1 attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:view2 attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0],
+            nil];
+}
+
 + (void)animateWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations {
     [CPProcessManager increaseForbiddenCount];
     [UIView animateWithDuration:duration animations:animations completion:^(BOOL finished) {

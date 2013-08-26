@@ -30,6 +30,8 @@
 
 @property (strong, nonatomic) UIImageView *coverImage;
 
+@property (strong, nonatomic) UIView *iconLayer;
+
 @property (strong, nonatomic) UIView *dragView;
 @property (weak, nonatomic) CPPassCell *dragSourceCell;
 @property (weak, nonatomic) CPPassCell *dragDestinationCell;
@@ -53,6 +55,18 @@
         _passEditViewManager = [[CPPassEditViewManager alloc] initWithSuperView:self.superview cells:self.passCells];
     }
     return _passEditViewManager;
+}
+
+- (UIView *)iconLayer {
+    if (!_iconLayer) {
+        _iconLayer = [[UIView alloc] init];
+        _iconLayer.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        [self.superview addSubview:_iconLayer];
+        
+        [self.superview addConstraints:[CPAppearanceManager constraintsForView:_iconLayer toEqualToView:self.passGridView]];
+    }
+    return _iconLayer;
 }
 
 - (id)initWithSuperView:(UIView *)superView {
@@ -89,14 +103,15 @@
             coverName = @"bg-ipad";
         }
         
+        // TODO: Make cover images bigger.
         self.coverImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:coverName]];
         self.coverImage.transform = CGAffineTransformMakeRotation(M_PI_2);
         self.coverImage.translatesAutoresizingMaskIntoConstraints = NO;
         self.coverImage.alpha = WATER_MARK_ALPHA;
         [self.superview addSubview:self.coverImage];
         
-        [self.superview.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.coverImage attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.superview.superview attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-        [self.superview.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.coverImage attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.superview.superview attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+        [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.coverImage attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+        [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.coverImage attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
         
         [self createPassCells];
         

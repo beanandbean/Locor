@@ -11,6 +11,8 @@
 
 @protocol CPPassCellDelegate <NSObject>
 
+- (UIView *)iconLayer;
+
 - (void)tapPassCell:(CPPassCell *)passCell;
 
 - (void)startDragPassCell:(CPPassCell *)passCell;

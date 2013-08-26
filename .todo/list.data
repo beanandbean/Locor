@@ -676,7 +676,7 @@ S'Adjust font of pass cell removing label.'
 p265
 sS'detail'
 p266
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 137.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 158.'
 p267
 sS'exported'
 p268
@@ -703,7 +703,7 @@ S'Change behavior of pass cell removing view & label if cannot toggle remove sta
 p278
 sS'detail'
 p279
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 194.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 215.'
 p280
 sS'exported'
 p281
@@ -1026,7 +1026,7 @@ S'When removing pass cell, use images instead of single-colored views.'
 p419
 sS'detail'
 p420
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 120.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 141.'
 p421
 sS'exported'
 p422
@@ -1254,7 +1254,7 @@ S'Not copy to clipboard if password is not used.'
 p521
 sS'detail'
 p522
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 86.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 107.'
 p523
 sS'exported'
 p524
@@ -1289,4 +1289,31 @@ S'src/Passone/Passone/CPTopBarAndSearchManager.m'
 p534
 sg529
 g97
-saNaNa.
+saNaNa(dp535
+S'author'
+p536
+S'TODO grabber'
+p537
+sS'text'
+p538
+S'Make cover images bigger.'
+p539
+sS'detail'
+p540
+S'TODO grabbed from src/Passone/Passone/CPPassGridManager.m, line 106.'
+p541
+sS'exported'
+p542
+I00
+sS'time'
+p543
+S'2013-08-26 17:58:01'
+p544
+sS'path'
+p545
+S'src/Passone/Passone/CPPassGridManager.m'
+p546
+sS'condition'
+p547
+g97
+sa.

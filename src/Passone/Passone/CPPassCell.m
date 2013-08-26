@@ -29,6 +29,8 @@
 @property (weak, nonatomic) id<CPPassCellDelegate> delegate;
 
 @property (strong, nonatomic) NSString *iconName;
+@property (strong, nonatomic) UIView *iconView;
+@property (strong, nonatomic) UIImageView *iconImage;
 
 @property (nonatomic) int removingDirection;
 @property (strong, nonatomic) UIView *removingView;
@@ -53,6 +55,25 @@
         self.backgroundColor = password.displayColor;
         self.iconName = password.icon;
         
+        self.iconView = [[UIView alloc] init];
+        self.iconView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        [self.delegate.iconLayer addSubview:self.iconView];
+        [self.delegate.iconLayer.superview addConstraints:[CPAppearanceManager constraintsForView:self.iconView toEqualToView:self]];
+        
+        NSString *suffix = @"";
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            suffix = @"_ipad";
+        }
+        
+        self.iconImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@.png", self.iconName, suffix]]];
+        self.iconImage.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        [self.iconView addSubview:self.iconImage];
+        
+        [self.iconView addConstraint:[NSLayoutConstraint constraintWithItem:self.iconImage attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+        [self.iconView addConstraint:[NSLayoutConstraint constraintWithItem:self.iconImage attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+        
         NSMutableArray *gestureArray = [[NSMutableArray alloc] initWithObjects:[NSNull null], [NSNull null], nil];
         
         UITapGestureRecognizer *editing = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditingGesture:)];
@@ -69,11 +90,11 @@
         
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
         longPress.delegate = self;
-        [self addGestureRecognizer: longPress];
+        [self addGestureRecognizer:longPress];
         
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
         pan.delegate = self;
-        [self addGestureRecognizer: pan];
+        [self addGestureRecognizer:pan];
     }
     return self;
 }
