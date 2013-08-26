@@ -31,12 +31,14 @@
 @property (strong, nonatomic) NSString *iconName;
 @property (strong, nonatomic) UIView *iconView;
 @property (strong, nonatomic) UIImageView *iconImage;
+@property (strong, nonatomic) NSArray *iconImagePositionConstraints;
 
 @property (nonatomic) int removingDirection;
 @property (strong, nonatomic) UIView *removingView;
 @property (strong, nonatomic) UILabel *removingLabel1;
 @property (strong, nonatomic) UILabel *removingLabel2;
 @property (strong, nonatomic) NSArray *removingConstraints;
+@property (strong, nonatomic) NSArray *removingIconConstraints;
 @property (strong, nonatomic) NSArray *removingLabelConstraints;
 
 @end
@@ -56,6 +58,7 @@
         self.iconName = password.icon;
         
         self.iconView = [[UIView alloc] init];
+        self.iconView.clipsToBounds = YES;
         self.iconView.translatesAutoresizingMaskIntoConstraints = NO;
         
         [self.delegate.iconLayer addSubview:self.iconView];
@@ -71,30 +74,33 @@
         
         [self.iconView addSubview:self.iconImage];
         
-        [self.iconView addConstraint:[NSLayoutConstraint constraintWithItem:self.iconImage attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-        [self.iconView addConstraint:[NSLayoutConstraint constraintWithItem:self.iconImage attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+        self.iconImagePositionConstraints = [NSArray arrayWithObjects:
+                                             [NSLayoutConstraint constraintWithItem:self.iconImage attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0],
+                                             [NSLayoutConstraint constraintWithItem:self.iconImage attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0],
+                                             nil];
+        [self.iconView addConstraints:self.iconImagePositionConstraints];
         
         NSMutableArray *gestureArray = [[NSMutableArray alloc] initWithObjects:[NSNull null], [NSNull null], nil];
         
         UITapGestureRecognizer *editing = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditingGesture:)];
         editing.numberOfTapsRequired = EDITING_TAP_NUMBER;
-        [self addGestureRecognizer:editing];
+        [self.iconView addGestureRecognizer:editing];
         [gestureArray replaceObjectAtIndex:EDITING_TAP_NUMBER - 1 withObject:editing];
         
         UITapGestureRecognizer *copyPassword = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleCopyPasswordGesture:)];
         copyPassword.numberOfTapsRequired = COPY_PASSWORD_TAP_NUMBER;
-        [self addGestureRecognizer:copyPassword];
+        [self.iconView addGestureRecognizer:copyPassword];
         [gestureArray replaceObjectAtIndex:COPY_PASSWORD_TAP_NUMBER - 1 withObject:copyPassword];
         
         [[gestureArray objectAtIndex:0] requireGestureRecognizerToFail:[gestureArray objectAtIndex:1]];
         
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
         longPress.delegate = self;
-        [self addGestureRecognizer:longPress];
+        [self.iconView addGestureRecognizer:longPress];
         
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
         pan.delegate = self;
-        [self addGestureRecognizer:pan];
+        [self.iconView addGestureRecognizer:pan];
     }
     return self;
 }
@@ -119,7 +125,6 @@
 
 - (void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPressGesture {
     if (longPressGesture.state == UIGestureRecognizerStateBegan) {
-        // [self.delegate swipePassCell:self];
         [CPProcessManager startProcess:DRAGGING_PASS_CELL_PROCESS withPreparation:^{
             [self.delegate startDragPassCell:self];
         }];
@@ -224,7 +229,7 @@
                 }
                 NSString *swipe = [NSString stringWithFormat:@"Swipe to %@", action];
                 NSString *release = [NSString stringWithFormat:@"Release to %@", action];
-                if (self.removingDirection % 2) {
+                if (self.removingDirection) {
                     constant = abs(translation.x) > self.bounds.size.width ? translation.x >= 0 ? self.bounds.size.width : -self.bounds.size.width : translation.x;
                     if (abs(translation.x) < self.bounds.size.width / 2) {
                         self.removingLabel1.text = swipe;
@@ -244,7 +249,8 @@
                     }
                 }
                 ((NSLayoutConstraint *)[self.removingConstraints objectAtIndex:self.removingDirection]).constant = constant;
-                [self layoutIfNeeded];
+                ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:self.removingDirection]).constant = constant;
+                [self.superview.superview layoutIfNeeded];
             }
         }
     } else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled || panGesture.state == UIGestureRecognizerStateFailed) {
@@ -256,17 +262,18 @@
         if ([CPProcessManager isInProcess:REMOVING_PASS_CELL_PROCESS] && self.removingView) {
             [CPProcessManager stopProcess:REMOVING_PASS_CELL_PROCESS withPreparation:^{
                 CGPoint translation = [panGesture translationInView:panGesture.view];
-                if ((self.removingDirection % 2 && abs(translation.x) >= self.bounds.size.width / 2) || (!self.removingDirection % 2 && abs(translation.y) >= self.bounds.size.height / 2)) {
+                if ((self.removingDirection && abs(translation.x) >= self.bounds.size.width / 2) || (!self.removingDirection && abs(translation.y) >= self.bounds.size.height / 2)) {
                     if ([[CPPassDataManager defaultManager] canToggleRemoveStateOfPasswordAtIndex:self.index]) {
                         float constant = 0;
-                        if (self.removingDirection % 2) {
+                        if (self.removingDirection) {
                             constant = translation.x >= 0 ? self.bounds.size.width : -self.bounds.size.width;
                         } else {
                             constant = translation.y >= 0 ? self.bounds.size.height : -self.bounds.size.height;
                         }
                         ((NSLayoutConstraint *)[self.removingConstraints objectAtIndex:self.removingDirection]).constant = constant;
+                        ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:self.removingDirection]).constant = constant;
                         [CPAppearanceManager animateWithDuration:0.3 animations:^{
-                            [self layoutIfNeeded];
+                            [self.superview.superview layoutIfNeeded];
                             self.removingLabel1.alpha = 0.0;
                             self.removingLabel2.alpha = 0.0;
                         } completion:^(BOOL finished) {
@@ -287,8 +294,9 @@
                         }];
                     } else {
                         ((NSLayoutConstraint *)[self.removingConstraints objectAtIndex:self.removingDirection]).constant = 0;
+                        ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:self.removingDirection]).constant = 0;
                         [CPAppearanceManager animateWithDuration:0.3 animations:^{
-                            [self layoutIfNeeded];
+                            [self.superview.superview layoutIfNeeded];
                             self.removingLabel1.alpha = 0.0;
                             self.removingLabel2.alpha = 0.0;
                         } completion:^(BOOL finished) {
@@ -314,8 +322,9 @@
                     [[CPPassDataManager defaultManager] toggleRemoveStateOfPasswordAtIndex:self.index];
                 } else {
                     ((NSLayoutConstraint *)[self.removingConstraints objectAtIndex:self.removingDirection]).constant = 0;
+                    ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:self.removingDirection]).constant = 0;
                     [CPAppearanceManager animateWithDuration:0.3 animations:^{
-                        [self layoutIfNeeded];
+                        [self.superview.superview layoutIfNeeded];
                         self.removingLabel1.alpha = 0.0;
                         self.removingLabel2.alpha = 0.0;
                     } completion:^(BOOL finished) {
