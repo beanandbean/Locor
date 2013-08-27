@@ -11,14 +11,16 @@
 
 #define CONFIG_RELATED_TO_DEVICE(phone, pad) (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? phone : pad)
 
-#define WATER_MARK_ALPHA            0.7
-#define EDITING_TAP_NUMBER          1
-#define COPY_PASSWORD_TAP_NUMBER    2
-#define PASS_GRID_ROW_COUNT         3
-#define PASS_GRID_COLUMN_COUNT      3
-#define MEMO_CELL_HEIGHT            66.0
-#define NOTIFICATION_MAX_COUNT      3
-#define NOTIFICATION_STAY_TIME      2.0
+#define WATER_MARK_ALPHA                               0.7
+#define EDITING_TAP_NUMBER                             1
+#define COPY_PASSWORD_TAP_NUMBER                       2
+#define PASS_GRID_ROW_COUNT                            3
+#define PASS_GRID_COLUMN_COUNT                         3
+#define PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE 5.0
+#define MEMO_CELL_HEIGHT                               66.0
+#define MEMO_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE 5.0
+#define NOTIFICATION_MAX_COUNT                         3
+#define NOTIFICATION_STAY_TIME                         2.0
 
 #define BOX_SEPARATOR_SIZE          CONFIG_RELATED_TO_DEVICE(8.0,  12.0)
 #define BAR_HEIGHT                  CONFIG_RELATED_TO_DEVICE(36.0, 44.0)

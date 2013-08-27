@@ -21,6 +21,9 @@
 - (UIColor *)displayColor;
 - (UIColor *)reversedColor;
 
+- (NSString *)displayIcon;
+- (NSString *)reversedIcon;
+
 @end
 
 @interface CPPassword (CoreDataGeneratedAccessors)

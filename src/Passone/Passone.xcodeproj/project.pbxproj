@@ -76,6 +76,10 @@
 		2CE543A41796A207004CF538 /* CPEditingMemoCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE543A31796A207004CF538 /* CPEditingMemoCellProcess.m */; };
 		2CE543A71796A585004CF538 /* CPScrollingCollectionViewProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE543A61796A585004CF538 /* CPScrollingCollectionViewProcess.m */; };
 		2CE543AA1796A781004CF538 /* CPRemovingMemoCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE543A91796A781004CF538 /* CPRemovingMemoCellProcess.m */; };
+		2CE7F89E17CCA63C0029F670 /* add_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CE7F89A17CCA63C0029F670 /* add_ipad.png */; };
+		2CE7F89F17CCA63C0029F670 /* add_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CE7F89B17CCA63C0029F670 /* add_ipad@2x.png */; };
+		2CE7F8A017CCA63C0029F670 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CE7F89C17CCA63C0029F670 /* add.png */; };
+		2CE7F8A117CCA63C0029F670 /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CE7F89D17CCA63C0029F670 /* add@2x.png */; };
 		2CEB0D5217BCD506000404C2 /* CPMainPasswordManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB0D5117BCD506000404C2 /* CPMainPasswordManager.m */; };
 		2CF920151797F10C00637B7D /* CPMemoCellRemoving.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF920141797F10C00637B7D /* CPMemoCellRemoving.m */; };
 		FC03FCDA178AF99A004C2B15 /* CPMemoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FC03FCD9178AF99A004C2B15 /* CPMemoCell.m */; };
@@ -188,6 +192,10 @@
 		2CE543A61796A585004CF538 /* CPScrollingCollectionViewProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPScrollingCollectionViewProcess.m; sourceTree = "<group>"; };
 		2CE543A81796A780004CF538 /* CPRemovingMemoCellProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPRemovingMemoCellProcess.h; sourceTree = "<group>"; };
 		2CE543A91796A781004CF538 /* CPRemovingMemoCellProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPRemovingMemoCellProcess.m; sourceTree = "<group>"; };
+		2CE7F89A17CCA63C0029F670 /* add_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_ipad.png; sourceTree = "<group>"; };
+		2CE7F89B17CCA63C0029F670 /* add_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_ipad@2x.png"; sourceTree = "<group>"; };
+		2CE7F89C17CCA63C0029F670 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
+		2CE7F89D17CCA63C0029F670 /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = "<group>"; };
 		2CEB0D5017BCD506000404C2 /* CPMainPasswordManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMainPasswordManager.h; sourceTree = "<group>"; };
 		2CEB0D5117BCD506000404C2 /* CPMainPasswordManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMainPasswordManager.m; sourceTree = "<group>"; };
 		2CF920131797F10C00637B7D /* CPMemoCellRemoving.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMemoCellRemoving.h; sourceTree = "<group>"; };
@@ -281,6 +289,10 @@
 		2CC756FD17CA0F2A00800E09 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2CE7F89A17CCA63C0029F670 /* add_ipad.png */,
+				2CE7F89B17CCA63C0029F670 /* add_ipad@2x.png */,
+				2CE7F89C17CCA63C0029F670 /* add.png */,
+				2CE7F89D17CCA63C0029F670 /* add@2x.png */,
 				2CCFB69317CB5CDF009CE894 /* Star Signs */,
 				2CC756FE17CA151D00800E09 /* bg-ipad.png */,
 				2CC756FF17CA151D00800E09 /* bg-ipad@2x.png */,
@@ -550,6 +562,10 @@
 				2CCFB70117CB5F4F009CE894 /* scorpio_ipad@2x.png in Resources */,
 				2CCFB70217CB5F4F009CE894 /* scorpio.png in Resources */,
 				2CCFB70317CB5F4F009CE894 /* scorpio@2x.png in Resources */,
+				2CE7F89E17CCA63C0029F670 /* add_ipad.png in Resources */,
+				2CE7F89F17CCA63C0029F670 /* add_ipad@2x.png in Resources */,
+				2CE7F8A017CCA63C0029F670 /* add.png in Resources */,
+				2CE7F8A117CCA63C0029F670 /* add@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

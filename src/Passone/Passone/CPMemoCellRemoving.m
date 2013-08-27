@@ -8,6 +8,8 @@
 
 #import "CPMemoCellRemoving.h"
 
+#import "CPPassoneConfig.h"
+
 @interface CPMemoCellRemoving ()
 
 @property (strong, nonatomic) NSLayoutConstraint *imageViewLeftConstraint;
@@ -44,7 +46,7 @@
     self.leftLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.leftLabel];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-5.0]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-MEMO_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE]];
     
     self.rightLabel = [[UILabel alloc] init];
     self.rightLabel.text = @"Swipe to remove";
@@ -53,7 +55,7 @@
     self.rightLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.rightLabel];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.rightLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.rightLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:5.0]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.rightLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:MEMO_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE]];
 }
 
 - (void)setImageLeftOffset:(float)offset {
