@@ -221,7 +221,7 @@
     [self.superview addConstraints:self.dragIconContainerConstraints];
     
     self.dragIcon = [[UIImageView alloc] initWithImage:self.dragSourceCell.iconImage.image];
-    self.dragIconContainer.translatesAutoresizingMaskIntoConstraints = NO;
+    self.dragIcon.translatesAutoresizingMaskIntoConstraints = NO;
     [self.dragIconContainer addSubview:self.dragIcon];
     [self.dragIconContainer addConstraint:[NSLayoutConstraint constraintWithItem:self.dragIcon attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.dragIconContainer attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
     [self.dragIconContainer addConstraint:[NSLayoutConstraint constraintWithItem:self.dragIcon attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.dragIconContainer attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
