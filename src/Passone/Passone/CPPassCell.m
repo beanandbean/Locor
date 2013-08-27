@@ -29,7 +29,6 @@
 @property (weak, nonatomic) id<CPPassCellDelegate> delegate;
 
 @property (strong, nonatomic) UIView *iconView;
-@property (strong, nonatomic) UIImageView *iconImage;
 @property (strong, nonatomic) NSArray *iconImagePositionConstraints;
 
 @property (nonatomic) int removingDirection;
@@ -47,6 +46,13 @@
 @end
 
 @implementation CPPassCell
+
+- (void)setAlpha:(CGFloat)alpha {
+    [super setAlpha:alpha];
+    if (self.iconImage) {
+        self.iconImage.alpha = alpha;
+    }
+}
 
 - (id)initWithIndex:(NSUInteger)index delegate:(id<CPPassCellDelegate>)delegate {
     self = [super init];

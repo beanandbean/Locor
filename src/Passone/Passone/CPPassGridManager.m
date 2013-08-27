@@ -33,11 +33,15 @@
 @property (strong, nonatomic) UIView *iconLayer;
 
 @property (strong, nonatomic) UIView *dragView;
+@property (strong, nonatomic) UIView *dragIconContainer;
+@property (strong, nonatomic) UIImageView *dragIcon;
 @property (weak, nonatomic) CPPassCell *dragSourceCell;
 @property (weak, nonatomic) CPPassCell *dragDestinationCell;
 @property (strong, nonatomic) UIColor *dragSourceBackgroundColor;
 @property (strong, nonatomic) NSLayoutConstraint *dragViewLeftConstraint;
 @property (strong, nonatomic) NSLayoutConstraint *dragViewTopConstraint;
+@property (strong, nonatomic) NSArray *dragViewSizeConstraints;
+@property (strong, nonatomic) NSArray *dragIconContainerConstraints;
 
 @end
 
@@ -195,6 +199,7 @@
     
     self.dragView.translatesAutoresizingMaskIntoConstraints = NO;
     self.dragView.backgroundColor = self.dragSourceCell.backgroundColor;
+
     [self.passGridView addSubview:self.dragView];
     
     self.dragViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.dragView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.dragSourceCell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
@@ -202,10 +207,26 @@
     self.dragViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.dragView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.dragSourceCell attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
     [self.passGridView addConstraint:self.dragViewTopConstraint];
     
-    [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:self.dragView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.dragSourceCell attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
-    [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:self.dragView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.dragSourceCell attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
+    self.dragViewSizeConstraints = [[NSArray alloc] initWithObjects:
+                                    [NSLayoutConstraint constraintWithItem:self.dragView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.dragSourceCell attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0],
+                                    [NSLayoutConstraint constraintWithItem:self.dragView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.dragSourceCell attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0],
+                                    nil];
+    [self.passGridView addConstraints:self.dragViewSizeConstraints];
     
-    [self.passGridView layoutIfNeeded];
+    self.dragIconContainer = [[UIView alloc] init];
+    self.dragIconContainer.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.iconLayer addSubview:self.dragIconContainer];
+    
+    self.dragIconContainerConstraints = [CPAppearanceManager constraintsForView:self.dragIconContainer toEqualToView:self.dragView];
+    [self.superview addConstraints:self.dragIconContainerConstraints];
+    
+    self.dragIcon = [[UIImageView alloc] initWithImage:self.dragSourceCell.iconImage.image];
+    self.dragIconContainer.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.dragIconContainer addSubview:self.dragIcon];
+    [self.dragIconContainer addConstraint:[NSLayoutConstraint constraintWithItem:self.dragIcon attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.dragIconContainer attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    [self.dragIconContainer addConstraint:[NSLayoutConstraint constraintWithItem:self.dragIcon attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.dragIconContainer attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+    
+    [self.superview layoutIfNeeded];
     
     UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRect:CGRectInset(self.dragView.bounds, -5.0, -5.0)];
     self.dragView.layer.shadowPath = bezierPath.CGPath;
@@ -287,6 +308,9 @@
         self.dragSourceCell.alpha = 1.0;
     }
     
+    [self.passGridView removeConstraint:self.dragViewLeftConstraint];
+    [self.passGridView removeConstraint:self.dragViewTopConstraint];
+    [self.passGridView removeConstraints:self.dragViewSizeConstraints];
     [self.dragView removeFromSuperview];
     
     self.dragView = nil;

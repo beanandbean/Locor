@@ -25,6 +25,7 @@
 @interface CPPassCell : UIView <UIGestureRecognizerDelegate>
 
 @property (nonatomic) NSUInteger index;
+@property (strong, nonatomic) UIImageView *iconImage;
 
 - (id)initWithIndex:(NSUInteger)index delegate:(id<CPPassCellDelegate>)delegate;
 
