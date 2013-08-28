@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 @interface CPNotificationCenter : NSObject
 
 + (void)createNotificationCenterWithSuperView:(UIView *)superView;

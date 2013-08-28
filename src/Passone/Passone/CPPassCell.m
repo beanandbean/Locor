@@ -10,9 +10,6 @@
 
 #import "CPPassoneConfig.h"
 
-#import "CPPassDataManager.h"
-#import "CPPassword.h"
-
 #import "CPAppearanceManager.h"
 
 #import "CPPassDataManager.h"

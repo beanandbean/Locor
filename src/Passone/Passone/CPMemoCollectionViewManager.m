@@ -17,10 +17,7 @@
 
 #import "CPPassDataManager.h"
 #import "CPPassword.h"
-#import "CPMemo.h"
 
-#import "CPProcessManager.h"
-#import "CPEditingMemoCellProcess.h"
 #import "CPRemovingMemoCellProcess.h"
 #import "CPScrollingCollectionViewProcess.h"
 

@@ -12,9 +12,7 @@
 
 #import "CPMemoCollectionViewManager.h"
 
-#import "CPPassDataManager.h"
 #import "CPPassword.h"
-#import "CPMemo.h"
 
 #import "CPNotificationCenter.h"
 

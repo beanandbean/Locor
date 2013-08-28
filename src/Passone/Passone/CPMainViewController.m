@@ -9,9 +9,7 @@
 #import "CPMainViewController.h"
 
 #import "CPMainPasswordManager.h"
-
 #import "CPAdManager.h"
-
 #import "CPPassGridManager.h"
 #import "CPTopBarAndSearchManager.h"
 

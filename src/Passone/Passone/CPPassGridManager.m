@@ -10,13 +10,12 @@
 
 #import "CPPassoneConfig.h"
 
-#import "CPPassCell.h"
-#import "CPPassDataManager.h"
 #import "CPPassEditViewManager.h"
+
+#import "CPPassDataManager.h"
 #import "CPPassword.h"
 
 #import "CPAppearanceManager.h"
-#import "CPNotificationCenter.h"
 
 @interface CPPassGridManager ()
 
@@ -285,7 +284,7 @@
 
     self.dragSourceCell.hidden = NO;
     
-    // Add animation to exchange pass cells.
+    // TODO: Add animation to exchange pass cells.
     
     if (self.dragDestinationCell) {
         [[CPPassDataManager defaultManager] exchangePasswordBetweenIndex1:self.dragSourceCell.index andIndex2:self.dragDestinationCell.index];

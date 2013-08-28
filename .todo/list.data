@@ -676,7 +676,7 @@ S'Adjust font of pass cell removing label.'
 p265
 sS'detail'
 p266
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 194.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 191.'
 p267
 sS'exported'
 p268
@@ -703,7 +703,7 @@ S'Change behavior of pass cell removing view & label if cannot toggle remove sta
 p278
 sS'detail'
 p279
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 282.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 279.'
 p280
 sS'exported'
 p281
@@ -926,7 +926,7 @@ S'Improve animation for removing a memo cell.'
 p375
 sS'detail'
 p376
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 238.'
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 235.'
 p377
 sS'exported'
 p378
@@ -999,7 +999,7 @@ S'Determine if the memo cell should fall back to original position when you star
 p406
 sS'detail'
 p407
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 175.'
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 172.'
 p408
 sS'exported'
 p409
@@ -1026,7 +1026,7 @@ S'When removing pass cell, use images instead of single-colored views.'
 p419
 sS'detail'
 p420
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 159.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 156.'
 p421
 sS'exported'
 p422
@@ -1173,7 +1173,7 @@ S'Figure out why editing cell will not rise if starting edit cell just after sea
 p482
 sS'detail'
 p483
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 277.'
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 274.'
 p484
 sS'exported'
 p485
@@ -1254,7 +1254,7 @@ S'Not copy to clipboard if password is not used.'
 p521
 sS'detail'
 p522
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 126.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 123.'
 p523
 sS'exported'
 p524
@@ -1300,7 +1300,7 @@ S'Make cover images bigger.'
 p539
 sS'detail'
 p540
-S'TODO grabbed from src/Passone/Passone/CPPassGridManager.m, line 107.'
+S'TODO grabbed from src/Passone/Passone/CPPassGridManager.m, line 106.'
 p541
 sS'exported'
 p542
@@ -1315,5 +1315,32 @@ S'src/Passone/Passone/CPPassGridManager.m'
 p546
 sS'condition'
 p547
+g97
+sa(dp548
+S'author'
+p549
+S'TODO grabber'
+p550
+sS'text'
+p551
+S'Add animation to exchange pass cells.'
+p552
+sS'detail'
+p553
+S'TODO grabbed from src/Passone/Passone/CPPassGridManager.m, line 287.'
+p554
+sS'exported'
+p555
+I00
+sS'time'
+p556
+S'2013-08-28 17:52:36'
+p557
+sS'path'
+p558
+S'src/Passone/Passone/CPPassGridManager.m'
+p559
+sS'condition'
+p560
 g97
 sa.

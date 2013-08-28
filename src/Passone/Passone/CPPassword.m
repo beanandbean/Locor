@@ -7,7 +7,6 @@
 //
 
 #import "CPPassword.h"
-#import "CPMemo.h"
 
 static const CGFloat DEFAULT_COLORS[] = {
     1.000, 0.000, 0.000,

@@ -1,5 +1,5 @@
 //
-//  CPMarginStandard.h
+//  CPAppearanceManager.h
 //  Passone
 //
 //  Created by wangsw on 7/7/13.

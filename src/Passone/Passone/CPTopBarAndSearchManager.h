@@ -1,5 +1,5 @@
 //
-//  CPSearchViewManager.h
+//  CPTopBarAndSearchManager.h
 //  Passone
 //
 //  Created by wangyw on 7/7/13.
