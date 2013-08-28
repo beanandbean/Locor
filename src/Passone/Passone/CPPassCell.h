@@ -27,6 +27,8 @@
 @property (nonatomic) NSUInteger index;
 @property (strong, nonatomic) UIImageView *iconImage;
 
+- (void)setIcon:(NSString *)icon;
+
 - (id)initWithIndex:(NSUInteger)index delegate:(id<CPPassCellDelegate>)delegate;
 
 @end

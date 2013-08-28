@@ -33,15 +33,12 @@
 @property (strong, nonatomic) UIView *iconLayer;
 
 @property (strong, nonatomic) UIView *dragView;
-@property (strong, nonatomic) UIView *dragIconContainer;
-@property (strong, nonatomic) UIImageView *dragIcon;
 @property (weak, nonatomic) CPPassCell *dragSourceCell;
 @property (weak, nonatomic) CPPassCell *dragDestinationCell;
-@property (strong, nonatomic) UIColor *dragSourceBackgroundColor;
 @property (strong, nonatomic) NSLayoutConstraint *dragViewLeftConstraint;
 @property (strong, nonatomic) NSLayoutConstraint *dragViewTopConstraint;
 @property (strong, nonatomic) NSArray *dragViewSizeConstraints;
-@property (strong, nonatomic) NSArray *dragIconContainerConstraints;
+@property (strong, nonatomic) NSArray *dragViewCoverConstraints;
 
 @end
 
@@ -185,9 +182,7 @@
     NSAssert(!self.dragViewTopConstraint, @"Already dragging a pass cell when start dragging one!");
     
     self.dragSourceCell = passCell;
-    self.dragSourceBackgroundColor = self.dragSourceCell.backgroundColor;
-    self.dragSourceCell.alpha = 0.0;
-    //self.dragSourceCell.hidden = YES;
+    self.dragSourceCell.hidden = YES;
     
     self.dragView = [[UIView alloc] init];
     
@@ -200,31 +195,43 @@
     self.dragView.translatesAutoresizingMaskIntoConstraints = NO;
     self.dragView.backgroundColor = self.dragSourceCell.backgroundColor;
 
-    [self.passGridView addSubview:self.dragView];
+    [self.superview addSubview:self.dragView];
     
     self.dragViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.dragView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.dragSourceCell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
-    [self.passGridView addConstraint:self.dragViewLeftConstraint];
+    [self.superview addConstraint:self.dragViewLeftConstraint];
     self.dragViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.dragView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.dragSourceCell attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
-    [self.passGridView addConstraint:self.dragViewTopConstraint];
+    [self.superview addConstraint:self.dragViewTopConstraint];
     
     self.dragViewSizeConstraints = [[NSArray alloc] initWithObjects:
                                     [NSLayoutConstraint constraintWithItem:self.dragView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.dragSourceCell attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0],
                                     [NSLayoutConstraint constraintWithItem:self.dragView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.dragSourceCell attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0],
                                     nil];
-    [self.passGridView addConstraints:self.dragViewSizeConstraints];
+    [self.superview addConstraints:self.dragViewSizeConstraints];
     
-    self.dragIconContainer = [[UIView alloc] init];
-    self.dragIconContainer.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.iconLayer addSubview:self.dragIconContainer];
+    UIView *fakeCoverContainer = [[UIView alloc] init];
+    fakeCoverContainer.clipsToBounds = YES;
+    fakeCoverContainer.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.dragView addSubview:fakeCoverContainer];
+    [self.dragView addConstraints:[CPAppearanceManager constraintsForView:fakeCoverContainer toEqualToView:self.dragView]];
     
-    self.dragIconContainerConstraints = [CPAppearanceManager constraintsForView:self.dragIconContainer toEqualToView:self.dragView];
-    [self.superview addConstraints:self.dragIconContainerConstraints];
+    UIImageView *fakeCover = [[UIImageView alloc] initWithImage:self.coverImage.image];
+    fakeCover.alpha = self.coverImage.alpha;
+    fakeCover.transform = self.coverImage.transform;
+    fakeCover.translatesAutoresizingMaskIntoConstraints = NO;
     
-    self.dragIcon = [[UIImageView alloc] initWithImage:self.dragSourceCell.iconImage.image];
-    self.dragIcon.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.dragIconContainer addSubview:self.dragIcon];
-    [self.dragIconContainer addConstraint:[NSLayoutConstraint constraintWithItem:self.dragIcon attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.dragIconContainer attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-    [self.dragIconContainer addConstraint:[NSLayoutConstraint constraintWithItem:self.dragIcon attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.dragIconContainer attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+    [fakeCoverContainer addSubview:fakeCover];
+    self.dragViewCoverConstraints = [[NSArray alloc] initWithObjects:
+                                     [NSLayoutConstraint constraintWithItem:fakeCover attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.coverImage attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0],
+                                     [NSLayoutConstraint constraintWithItem:fakeCover attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.coverImage attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0],
+                                     nil];
+    [self.superview addConstraints:self.dragViewCoverConstraints];
+    
+    UIImageView *fakeIcon = [[UIImageView alloc] initWithImage:self.dragSourceCell.iconImage.image];
+    fakeIcon.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self.dragView addSubview:fakeIcon];
+    [self.dragView addConstraint:[NSLayoutConstraint constraintWithItem:fakeIcon attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.dragView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    [self.dragView addConstraint:[NSLayoutConstraint constraintWithItem:fakeIcon attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.dragView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
     
     [self.superview layoutIfNeeded];
     
@@ -240,14 +247,16 @@
     if (passCell == self.dragSourceCell) {
         self.dragViewLeftConstraint.constant += translation.x;
         self.dragViewTopConstraint.constant += translation.y;
-        [self.passGridView layoutIfNeeded];
+        [self.superview layoutIfNeeded];
+        
+        CGPoint centerInPassGridView = [self.passGridView convertPoint:self.dragView.center fromView:self.superview];
         
         CPPassCell *newDragDestinationCell = nil;
         if (CGRectContainsPoint(self.passGridView.bounds, self.dragView.center)) {
             newDragDestinationCell = [self.passCells objectAtIndex:0];
-            float distance = hypotf(newDragDestinationCell.center.x - self.dragView.center.x, newDragDestinationCell.center.y - self.dragView.center.y);
+            float distance = hypotf(newDragDestinationCell.center.x - centerInPassGridView.x, newDragDestinationCell.center.y - centerInPassGridView.y);
             for (CPPassCell *cell in self.passCells) {
-                float newDistance = hypotf(cell.center.x - self.dragView.center.x, cell.center.y - self.dragView.center.y);
+                float newDistance = hypotf(cell.center.x - centerInPassGridView.x, cell.center.y - centerInPassGridView.y);
                 if (newDistance < distance) {
                     newDragDestinationCell = cell;
                     distance = newDistance;
@@ -259,33 +268,8 @@
         }
         
         if (newDragDestinationCell != self.dragDestinationCell) {
-            if (self.dragDestinationCell) {
-                self.dragDestinationCell.alpha = 1.0;
-            }
-            
             self.dragDestinationCell = newDragDestinationCell;
-            if (self.dragDestinationCell) {
-                self.dragSourceCell.backgroundColor = self.dragDestinationCell.backgroundColor;
-            } else {
-                self.dragSourceCell.backgroundColor = self.dragSourceBackgroundColor;
-                self.dragSourceCell.alpha = 0.0;
-            }
         }
-        
-        if (self.dragDestinationCell) {
-            float range = 0.7;
-            float baseDistance = self.dragView.bounds.size.width;
-            float xDistance = fabsf(self.dragDestinationCell.center.x - self.dragView.center.x);
-            float yDistance = fabsf(self.dragDestinationCell.center.y - self.dragView.center.y);
-            float maxDistance = xDistance > yDistance ? xDistance : yDistance;
-            maxDistance = maxDistance - baseDistance * (1 - range);
-            maxDistance = maxDistance > 0 ? maxDistance : 0;
-            float alpha = 2 * maxDistance / baseDistance / range;
-            alpha = alpha < 1 ? alpha : 1;
-            self.dragDestinationCell.alpha = alpha;
-            self.dragSourceCell.alpha = 1 - alpha;
-        }
-
     }
 }
 
@@ -299,18 +283,18 @@
     NSAssert(self.dragViewLeftConstraint, @"Haven't started dragging pass cell when to stop it!");
     NSAssert(self.dragViewTopConstraint, @"Haven't started dragging pass cell when to stop it!");
 
+    self.dragSourceCell.hidden = NO;
+    
+    // Add animation to exchange pass cells.
+    
     if (self.dragDestinationCell) {
-        self.dragDestinationCell.alpha = 1.0;
-        self.dragSourceCell.alpha = 1.0;
         [[CPPassDataManager defaultManager] exchangePasswordBetweenIndex1:self.dragSourceCell.index andIndex2:self.dragDestinationCell.index];
-    } else {
-        self.dragSourceCell.backgroundColor = self.dragSourceBackgroundColor;
-        self.dragSourceCell.alpha = 1.0;
     }
     
-    [self.passGridView removeConstraint:self.dragViewLeftConstraint];
-    [self.passGridView removeConstraint:self.dragViewTopConstraint];
-    [self.passGridView removeConstraints:self.dragViewSizeConstraints];
+    [self.superview removeConstraint:self.dragViewLeftConstraint];
+    [self.superview removeConstraint:self.dragViewTopConstraint];
+    [self.superview removeConstraints:self.dragViewSizeConstraints];
+    [self.superview removeConstraints:self.dragViewCoverConstraints];
     [self.dragView removeFromSuperview];
     
     self.dragView = nil;
@@ -329,14 +313,17 @@
             password = [controller.fetchedObjects objectAtIndex:indexPath.row];
             cell = [self.passCells objectAtIndex:indexPath.row];
             cell.backgroundColor = password.displayColor;
+            cell.icon = password.displayIcon;
             break;
         case NSFetchedResultsChangeMove:
             password = [controller.fetchedObjects objectAtIndex:indexPath.row];
             cell = [self.passCells objectAtIndex:indexPath.row];
             cell.backgroundColor = password.displayColor;
+            cell.icon = password.displayIcon;
             password = [controller.fetchedObjects objectAtIndex:newIndexPath.row];
             cell = [self.passCells objectAtIndex:newIndexPath.row];
             cell.backgroundColor = password.displayColor;
+            cell.icon = password.displayIcon;
             break;
         default:
             NSAssert(NO, @"Unknowed change reported by NSFetchResultsController!");

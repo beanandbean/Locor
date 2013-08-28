@@ -676,7 +676,7 @@ S'Adjust font of pass cell removing label.'
 p265
 sS'detail'
 p266
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 177.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 194.'
 p267
 sS'exported'
 p268
@@ -703,7 +703,7 @@ S'Change behavior of pass cell removing view & label if cannot toggle remove sta
 p278
 sS'detail'
 p279
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 265.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 282.'
 p280
 sS'exported'
 p281
@@ -1026,7 +1026,7 @@ S'When removing pass cell, use images instead of single-colored views.'
 p419
 sS'detail'
 p420
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 142.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 159.'
 p421
 sS'exported'
 p422
@@ -1254,7 +1254,7 @@ S'Not copy to clipboard if password is not used.'
 p521
 sS'detail'
 p522
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 109.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 126.'
 p523
 sS'exported'
 p524
@@ -1300,7 +1300,7 @@ S'Make cover images bigger.'
 p539
 sS'detail'
 p540
-S'TODO grabbed from src/Passone/Passone/CPPassGridManager.m, line 106.'
+S'TODO grabbed from src/Passone/Passone/CPPassGridManager.m, line 107.'
 p541
 sS'exported'
 p542

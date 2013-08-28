@@ -54,6 +54,17 @@
     }
 }
 
+- (void)setHidden:(BOOL)hidden {
+    [super setHidden:hidden];
+    if (self.iconImage) {
+        self.iconImage.hidden = hidden;
+    }
+}
+
+- (void)setIcon:(NSString *)icon {
+    self.iconImage.image = [UIImage imageNamed:icon];
+}
+
 - (id)initWithIndex:(NSUInteger)index delegate:(id<CPPassCellDelegate>)delegate {
     self = [super init];
     if (self) {
