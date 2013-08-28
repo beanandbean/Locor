@@ -1270,77 +1270,86 @@ p528
 sS'condition'
 p529
 g97
-sa(dp530
-g518
-g519
-sg520
-S'Stop it if being currently editing memo cells in pass edit view.'
+saNaNaNa(dp530
+S'author'
 p531
-sg522
-S'TODO grabbed from src/Passone/Passone/CPTopBarAndSearchManager.m, line 179.'
+S'TODO grabber'
 p532
-sg524
-I00
-sg525
-S'2013-08-24 18:42:01'
+sS'text'
 p533
-sg527
-S'src/Passone/Passone/CPTopBarAndSearchManager.m'
-p534
-sg529
-g97
-saNaNa(dp535
-S'author'
-p536
-S'TODO grabber'
-p537
-sS'text'
-p538
 S'Make cover images bigger.'
-p539
+p534
 sS'detail'
-p540
-S'TODO grabbed from src/Passone/Passone/CPPassGridManager.m, line 106.'
-p541
+p535
+S'TODO grabbed from src/Passone/Passone/CPPassGridManager.m, line 107.'
+p536
 sS'exported'
-p542
+p537
 I00
 sS'time'
-p543
+p538
 S'2013-08-26 17:58:01'
-p544
+p539
 sS'path'
-p545
+p540
 S'src/Passone/Passone/CPPassGridManager.m'
-p546
+p541
 sS'condition'
-p547
+p542
 g97
-sa(dp548
+sa(dp543
 S'author'
-p549
+p544
 S'TODO grabber'
-p550
+p545
 sS'text'
-p551
+p546
 S'Add animation to exchange pass cells.'
-p552
+p547
 sS'detail'
-p553
-S'TODO grabbed from src/Passone/Passone/CPPassGridManager.m, line 287.'
-p554
+p548
+S'TODO grabbed from src/Passone/Passone/CPPassGridManager.m, line 285.'
+p549
 sS'exported'
+p550
+I01
+sS'time'
+p551
+S'2013-08-28 17:52:36'
+p552
+sS'path'
+p553
+S'src/Passone/Passone/CPPassGridManager.m'
+p554
+sS'condition'
 p555
+S'done'
+p556
+sa(dp557
+S'author'
+p558
+S'TODO grabber'
+p559
+sS'text'
+p560
+S'When search bar is focused, stop if being currently editing memo cells in pass edit view.'
+p561
+sS'detail'
+p562
+S'TODO grabbed from src/Passone/Passone/CPTopBarAndSearchManager.m, line 179.'
+p563
+sS'exported'
+p564
 I00
 sS'time'
-p556
-S'2013-08-28 17:52:36'
-p557
+p565
+S'2013-08-28 18:05:44'
+p566
 sS'path'
-p558
-S'src/Passone/Passone/CPPassGridManager.m'
-p559
+p567
+S'src/Passone/Passone/CPTopBarAndSearchManager.m'
+p568
 sS'condition'
-p560
+p569
 g97
 sa.

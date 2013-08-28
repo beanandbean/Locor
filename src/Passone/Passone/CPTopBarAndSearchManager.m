@@ -176,7 +176,7 @@
         self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchBar.text] mutableCopy];
         return YES;
     } else {
-        // TODO: Stop it if being currently editing memo cells in pass edit view.
+        // TODO: When search bar is focused, stop if being currently editing memo cells in pass edit view.
         return [CPProcessManager startProcess:SEARCHING_PROCESS withPreparation:^{
             [self.superView addSubview:self.resultContainer];
             [self.superView addConstraints:self.resultContainerConstraints];
