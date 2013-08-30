@@ -12,12 +12,10 @@
 
 @property (nonatomic) NSInteger index;
 
-- (id)initWithSuperView:(UIView *)superView cells:(NSArray *)cells;
+- (id)initWithSuperView:(UIView *)superView coverImage:(UIImageView *)coverImage andCells:(NSArray *)cells;
 
 - (void)showPassEditViewForCellAtIndex:(NSUInteger)index;
 
 - (void)hidePassEditView;
-
-- (void)setPassword;
 
 @end

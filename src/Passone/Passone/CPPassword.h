@@ -21,6 +21,7 @@
 - (UIColor *)displayColor;
 - (UIColor *)reversedColor;
 
+- (NSString *)trueIcon;
 - (NSString *)displayIcon;
 - (NSString *)reversedIcon;
 

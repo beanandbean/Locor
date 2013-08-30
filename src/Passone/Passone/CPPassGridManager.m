@@ -44,6 +44,79 @@
 
 @implementation CPPassGridManager
 
++ (void)makeShadowOnCell:(UIView *)cell withColor:(UIColor *)color opacity:(float)opacity andRadius:(float)radius {
+    cell.layer.shadowColor = color.CGColor;
+    cell.layer.shadowOffset = CGSizeZero;
+    cell.layer.shadowOpacity = opacity;
+    cell.layer.shadowRadius = radius;
+    cell.layer.masksToBounds = NO;
+}
+
++ (void)expandShadowOnCell:(UIView *)cell withSize:(float)size; {
+    UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRect:CGRectInset(cell.bounds, -size, -size)];
+    cell.layer.shadowPath = bezierPath.CGPath;
+}
+
++ (void)removeShadowOnCell:(UIView *)cell {
+    cell.layer.shadowColor = [UIColor clearColor].CGColor;
+    cell.layer.shadowOffset = CGSizeZero;
+    cell.layer.shadowOpacity = 0.0;
+    cell.layer.shadowRadius = 0.0;
+}
+
++ (NSArray *)makeDraggingCellFromCell:(CPPassCell *)passCell onView:(UIView *)view withCover:(UIImageView *)cover {
+    UIView *dragView = [[UIView alloc] init];
+    
+    [CPPassGridManager makeShadowOnCell:dragView withColor:passCell.backgroundColor opacity:1.0 andRadius:5.0];
+    
+    dragView.translatesAutoresizingMaskIntoConstraints = NO;
+    dragView.backgroundColor = passCell.backgroundColor;
+    
+    [view addSubview:dragView];
+    
+    NSLayoutConstraint *dragViewLeftConstraint = [NSLayoutConstraint constraintWithItem:dragView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:passCell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
+    [view addConstraint:dragViewLeftConstraint];
+    NSLayoutConstraint *dragViewTopConstraint = [NSLayoutConstraint constraintWithItem:dragView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:passCell attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
+    [view addConstraint:dragViewTopConstraint];
+    
+    NSArray *dragViewSizeConstraints = [[NSArray alloc] initWithObjects:
+                                        [NSLayoutConstraint constraintWithItem:dragView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:passCell attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0],
+                                        [NSLayoutConstraint constraintWithItem:dragView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:passCell attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0],
+                                        nil];
+    [view addConstraints:dragViewSizeConstraints];
+    
+    UIView *fakeCoverContainer = [[UIView alloc] init];
+    fakeCoverContainer.clipsToBounds = YES;
+    fakeCoverContainer.translatesAutoresizingMaskIntoConstraints = NO;
+    [dragView addSubview:fakeCoverContainer];
+    [dragView addConstraints:[CPAppearanceManager constraintsForView:fakeCoverContainer toEqualToView:dragView]];
+    
+    UIImageView *fakeCover = [[UIImageView alloc] initWithImage:cover.image];
+    fakeCover.alpha = cover.alpha;
+    fakeCover.transform = cover.transform;
+    fakeCover.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [fakeCoverContainer addSubview:fakeCover];
+    NSArray *dragViewCoverConstraints = [[NSArray alloc] initWithObjects:
+                                         [NSLayoutConstraint constraintWithItem:fakeCover attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:cover attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0],
+                                         [NSLayoutConstraint constraintWithItem:fakeCover attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:cover attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0],
+                                         nil];
+    [view addConstraints:dragViewCoverConstraints];
+    
+    UIImageView *fakeIcon = [[UIImageView alloc] initWithImage:passCell.iconImage.image];
+    fakeIcon.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [dragView addSubview:fakeIcon];
+    [dragView addConstraint:[NSLayoutConstraint constraintWithItem:fakeIcon attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:dragView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    [dragView addConstraint:[NSLayoutConstraint constraintWithItem:fakeIcon attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:dragView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+    
+    [view layoutIfNeeded];
+    
+    [CPPassGridManager expandShadowOnCell:dragView withSize:5.0];
+    
+    return [NSArray arrayWithObjects:dragView, dragViewLeftConstraint, dragViewTopConstraint, dragViewSizeConstraints, dragViewCoverConstraints, fakeIcon, nil];
+}
+
 - (NSMutableArray *)passCells {
     if (!_passCells) {
         _passCells = [[NSMutableArray alloc] initWithCapacity:PASS_GRID_ROW_COUNT * PASS_GRID_COLUMN_COUNT];
@@ -53,7 +126,7 @@
 
 - (CPPassEditViewManager *)passEditViewManager {
     if (!_passEditViewManager) {
-        _passEditViewManager = [[CPPassEditViewManager alloc] initWithSuperView:self.superview cells:self.passCells];
+        _passEditViewManager = [[CPPassEditViewManager alloc] initWithSuperView:self.superview coverImage:self.coverImage andCells:self.passCells];
     }
     return _passEditViewManager;
 }
@@ -124,7 +197,6 @@
 
 - (void)tappedBy:(UITapGestureRecognizer *)tapGuestureRecognizer {
     if (self.passEditViewManager.index != -1) {
-        [self.passEditViewManager setPassword];
         [self.passEditViewManager hidePassEditView];
     }
 }
@@ -167,79 +239,6 @@
     }
 }
 
-- (void)makeShadowOnCell:(UIView *)cell withColor:(UIColor *)color opacity:(float)opacity andRadius:(float)radius {
-    cell.layer.shadowColor = color.CGColor;
-    cell.layer.shadowOffset = CGSizeZero;
-    cell.layer.shadowOpacity = opacity;
-    cell.layer.shadowRadius = radius;
-    cell.layer.masksToBounds = NO;
-}
-
-- (void)expandShadowOnCell:(UIView *)cell withSize:(float)size; {
-    UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRect:CGRectInset(cell.bounds, -size, -size)];
-    cell.layer.shadowPath = bezierPath.CGPath;
-}
-
-- (void)removeShadowOnCell:(UIView *)cell {
-    cell.layer.shadowColor = [UIColor clearColor].CGColor;
-    cell.layer.shadowOffset = CGSizeZero;
-    cell.layer.shadowOpacity = 0.0;
-    cell.layer.shadowRadius = 0.0;
-}
-
-- (NSArray *)makeDraggingCellFromCell:(CPPassCell *)passCell {
-    UIView *dragView = [[UIView alloc] init];
-    
-    [self makeShadowOnCell:dragView withColor:passCell.backgroundColor opacity:1.0 andRadius:5.0];
-    
-    dragView.translatesAutoresizingMaskIntoConstraints = NO;
-    dragView.backgroundColor = passCell.backgroundColor;
-    
-    [self.superview addSubview:dragView];
-    
-    NSLayoutConstraint *dragViewLeftConstraint = [NSLayoutConstraint constraintWithItem:dragView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:passCell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
-    [self.superview addConstraint:dragViewLeftConstraint];
-    NSLayoutConstraint *dragViewTopConstraint = [NSLayoutConstraint constraintWithItem:dragView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:passCell attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
-    [self.superview addConstraint:dragViewTopConstraint];
-    
-    NSArray *dragViewSizeConstraints = [[NSArray alloc] initWithObjects:
-                                        [NSLayoutConstraint constraintWithItem:dragView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:passCell attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0],
-                                        [NSLayoutConstraint constraintWithItem:dragView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:passCell attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0],
-                                        nil];
-    [self.superview addConstraints:dragViewSizeConstraints];
-    
-    UIView *fakeCoverContainer = [[UIView alloc] init];
-    fakeCoverContainer.clipsToBounds = YES;
-    fakeCoverContainer.translatesAutoresizingMaskIntoConstraints = NO;
-    [dragView addSubview:fakeCoverContainer];
-    [dragView addConstraints:[CPAppearanceManager constraintsForView:fakeCoverContainer toEqualToView:dragView]];
-    
-    UIImageView *fakeCover = [[UIImageView alloc] initWithImage:self.coverImage.image];
-    fakeCover.alpha = self.coverImage.alpha;
-    fakeCover.transform = self.coverImage.transform;
-    fakeCover.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [fakeCoverContainer addSubview:fakeCover];
-    NSArray *dragViewCoverConstraints = [[NSArray alloc] initWithObjects:
-                                         [NSLayoutConstraint constraintWithItem:fakeCover attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.coverImage attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0],
-                                         [NSLayoutConstraint constraintWithItem:fakeCover attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.coverImage attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0],
-                                         nil];
-    [self.superview addConstraints:dragViewCoverConstraints];
-    
-    UIImageView *fakeIcon = [[UIImageView alloc] initWithImage:passCell.iconImage.image];
-    fakeIcon.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [dragView addSubview:fakeIcon];
-    [dragView addConstraint:[NSLayoutConstraint constraintWithItem:fakeIcon attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:dragView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-    [dragView addConstraint:[NSLayoutConstraint constraintWithItem:fakeIcon attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:dragView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-    
-    [self.superview layoutIfNeeded];
-    
-    [self expandShadowOnCell:dragView withSize:5.0];
-    
-    return [NSArray arrayWithObjects:dragView, dragViewLeftConstraint, dragViewTopConstraint, dragViewSizeConstraints, dragViewCoverConstraints, nil];
-}
-
 #pragma mark - CPPassCellDelegate
 
 - (void)tapPassCell:(CPPassCell *)passCell {
@@ -257,7 +256,7 @@
     self.dragSourceCell = passCell;
     self.dragSourceCell.hidden = YES;
     
-    NSArray *dragCellDetail = [self makeDraggingCellFromCell:self.dragSourceCell];
+    NSArray *dragCellDetail = [CPPassGridManager makeDraggingCellFromCell:self.dragSourceCell onView:self.superview withCover:self.coverImage];
     self.dragView = [dragCellDetail objectAtIndex:0];
     self.dragViewLeftConstraint = [dragCellDetail objectAtIndex:1];
     self.dragViewTopConstraint = [dragCellDetail objectAtIndex:2];
@@ -303,7 +302,7 @@
             }
             
             self.dragDestinationCell = newDragDestinationCell;
-            self.dragDestinationShadowCellDetail = [self makeDraggingCellFromCell:self.dragDestinationCell];
+            self.dragDestinationShadowCellDetail = [CPPassGridManager makeDraggingCellFromCell:self.dragDestinationCell onView:self.superview withCover:self.coverImage];
             [self.superview bringSubviewToFront:self.dragView];
         }
     }

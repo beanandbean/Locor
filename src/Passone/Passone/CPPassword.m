@@ -41,6 +41,14 @@ static const CGFloat DEFAULT_COLORS[] = {
     return self.isUsed.boolValue ? [[UIColor alloc] initWithRed:0.7 green:0.7 blue:0.7 alpha:1.0] : self.color;
 }
 
+- (NSString *)trueIcon {
+    NSString *suffix = @"";
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        suffix = @"_ipad";
+    }
+    return [NSString stringWithFormat:@"%@%@.png", self.icon, suffix];
+}
+
 - (NSString *)displayIcon {
     NSString *iconName = self.isUsed.boolValue ? self.icon : @"add";
     NSString *suffix = @"";
