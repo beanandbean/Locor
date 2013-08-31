@@ -10,7 +10,7 @@
 
 #import "CPPassoneConfig.h"
 
-#import "CPMemoCollectionViewManager.h"
+#import "CPSingleViewMemoCollectionViewManager.h"
 
 #import "CPAppearanceManager.h"
 
@@ -30,7 +30,7 @@
 @property (strong, nonatomic) UIView *resultContainer;
 @property (strong, nonatomic) NSArray *resultContainerConstraints;
 
-@property (strong, nonatomic) CPMemoCollectionViewManager *resultMemoCollectionViewManager;
+@property (strong, nonatomic) CPSingleViewMemoCollectionViewManager *resultMemoCollectionViewManager;
 
 - (IBAction)barButtonTouched:(id)sender;
 
@@ -102,9 +102,9 @@
     return _resultContainerConstraints;
 }
 
-- (CPMemoCollectionViewManager *)resultMemoCollectionViewManager {
+- (CPSingleViewMemoCollectionViewManager *)resultMemoCollectionViewManager {
     if (!_resultMemoCollectionViewManager) {
-        _resultMemoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:self.resultContainer style:CPMemoCollectionViewStyleSearch andDelegate:nil];
+        _resultMemoCollectionViewManager = [[CPSingleViewMemoCollectionViewManager alloc] initWithSuperview:self.resultContainer style:CPMemoCollectionViewStyleSearch andDelegate:nil];
     }
     return _resultMemoCollectionViewManager;
 }

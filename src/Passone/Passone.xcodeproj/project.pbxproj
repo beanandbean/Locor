@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C0D2D8D178AC72600485CE5 /* CPSearchingProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D2D8C178AC72600485CE5 /* CPSearchingProcess.m */; };
+		2C1541C517D1F1490057733D /* CPMemoCollectionViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1541C417D1F1490057733D /* CPMemoCollectionViewManager.m */; };
 		2C50933317C4C51E0051A463 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C50933217C4C51E0051A463 /* Reachability.m */; };
 		2C50933617C4C5660051A463 /* CPAdManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C50933517C4C5660051A463 /* CPAdManager.m */; };
 		2C50933817C4C8D70051A463 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C50933717C4C8D70051A463 /* SystemConfiguration.framework */; };
@@ -22,7 +23,7 @@
 		2CC7570317CA151D00800E09 /* bg-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CC756FF17CA151D00800E09 /* bg-ipad@2x.png */; };
 		2CC7570417CA151D00800E09 /* bg-iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CC7570017CA151D00800E09 /* bg-iphone.png */; };
 		2CC7570517CA151D00800E09 /* bg-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CC7570117CA151D00800E09 /* bg-iphone@2x.png */; };
-		2CC861F817AE3A64005B88ED /* CPMemoCollectionViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC861F717AE3A64005B88ED /* CPMemoCollectionViewManager.m */; };
+		2CC861F817AE3A64005B88ED /* CPSingleViewMemoCollectionViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC861F717AE3A64005B88ED /* CPSingleViewMemoCollectionViewManager.m */; };
 		2CCFB6C417CB5D4E009CE894 /* aquarius_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB69417CB5D4E009CE894 /* aquarius_ipad.png */; };
 		2CCFB6C517CB5D4E009CE894 /* aquarius_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB69517CB5D4E009CE894 /* aquarius_ipad@2x.png */; };
 		2CCFB6C617CB5D4E009CE894 /* aquarius.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB69617CB5D4E009CE894 /* aquarius.png */; };
@@ -108,6 +109,8 @@
 /* Begin PBXFileReference section */
 		2C0D2D8B178AC72600485CE5 /* CPSearchingProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPSearchingProcess.h; sourceTree = "<group>"; };
 		2C0D2D8C178AC72600485CE5 /* CPSearchingProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPSearchingProcess.m; sourceTree = "<group>"; };
+		2C1541C317D1F1490057733D /* CPMemoCollectionViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMemoCollectionViewManager.h; sourceTree = "<group>"; };
+		2C1541C417D1F1490057733D /* CPMemoCollectionViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMemoCollectionViewManager.m; sourceTree = "<group>"; };
 		2C50933117C4C51E0051A463 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		2C50933217C4C51E0051A463 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		2C50933417C4C5660051A463 /* CPAdManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPAdManager.h; sourceTree = "<group>"; };
@@ -132,8 +135,8 @@
 		2CC756FF17CA151D00800E09 /* bg-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-ipad@2x.png"; sourceTree = "<group>"; };
 		2CC7570017CA151D00800E09 /* bg-iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-iphone.png"; sourceTree = "<group>"; };
 		2CC7570117CA151D00800E09 /* bg-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-iphone@2x.png"; sourceTree = "<group>"; };
-		2CC861F617AE3A64005B88ED /* CPMemoCollectionViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMemoCollectionViewManager.h; sourceTree = "<group>"; };
-		2CC861F717AE3A64005B88ED /* CPMemoCollectionViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMemoCollectionViewManager.m; sourceTree = "<group>"; };
+		2CC861F617AE3A64005B88ED /* CPSingleViewMemoCollectionViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPSingleViewMemoCollectionViewManager.h; sourceTree = "<group>"; };
+		2CC861F717AE3A64005B88ED /* CPSingleViewMemoCollectionViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPSingleViewMemoCollectionViewManager.m; sourceTree = "<group>"; };
 		2CCFB69417CB5D4E009CE894 /* aquarius_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aquarius_ipad.png; sourceTree = "<group>"; };
 		2CCFB69517CB5D4E009CE894 /* aquarius_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aquarius_ipad@2x.png"; sourceTree = "<group>"; };
 		2CCFB69617CB5D4E009CE894 /* aquarius.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aquarius.png; sourceTree = "<group>"; };
@@ -409,8 +412,8 @@
 				FC03FCD9178AF99A004C2B15 /* CPMemoCell.m */,
 				2CF920131797F10C00637B7D /* CPMemoCellRemoving.h */,
 				2CF920141797F10C00637B7D /* CPMemoCellRemoving.m */,
-				2CC861F617AE3A64005B88ED /* CPMemoCollectionViewManager.h */,
-				2CC861F717AE3A64005B88ED /* CPMemoCollectionViewManager.m */,
+				2C1541C317D1F1490057733D /* CPMemoCollectionViewManager.h */,
+				2C1541C417D1F1490057733D /* CPMemoCollectionViewManager.m */,
 				2CBDF765177DB96E00BC9E3E /* CPNotificationCenter.h */,
 				2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */,
 				FCBB156717709854005DC611 /* CPPassCell.h */,
@@ -427,6 +430,8 @@
 				2C6143611786D1E300430C64 /* CPProcess.h */,
 				2C61435E1786D1C100430C64 /* CPProcessManager.h */,
 				2C61435F1786D1C100430C64 /* CPProcessManager.m */,
+				2CC861F617AE3A64005B88ED /* CPSingleViewMemoCollectionViewManager.h */,
+				2CC861F717AE3A64005B88ED /* CPSingleViewMemoCollectionViewManager.m */,
 				FCA4009F17896F000087AECF /* CPTopBarAndSearchManager.h */,
 				FCA400A017896F000087AECF /* CPTopBarAndSearchManager.m */,
 				FC4F2AF41759EB0C002D9992 /* MainStoryboard.storyboard */,
@@ -599,12 +604,13 @@
 				2CE543A71796A585004CF538 /* CPScrollingCollectionViewProcess.m in Sources */,
 				2CE543AA1796A781004CF538 /* CPRemovingMemoCellProcess.m in Sources */,
 				2CF920151797F10C00637B7D /* CPMemoCellRemoving.m in Sources */,
-				2CC861F817AE3A64005B88ED /* CPMemoCollectionViewManager.m in Sources */,
+				2CC861F817AE3A64005B88ED /* CPSingleViewMemoCollectionViewManager.m in Sources */,
 				2CD0AE9417B0FCBC0091E14D /* CPEditingPassCellProcess.m in Sources */,
 				2CEB0D5217BCD506000404C2 /* CPMainPasswordManager.m in Sources */,
 				2CE1EB3117BF90C4005F32AC /* CPMainPasswordCanvas.m in Sources */,
 				2C50933317C4C51E0051A463 /* Reachability.m in Sources */,
 				2C50933617C4C5660051A463 /* CPAdManager.m in Sources */,
+				2C1541C517D1F1490057733D /* CPMemoCollectionViewManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

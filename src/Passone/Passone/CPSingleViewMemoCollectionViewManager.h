@@ -2,7 +2,7 @@
 //  CPMemoCollectionViewManager.h
 //  Passone
 //
-//  Created by wangsw on 8/31/13.
+//  Created by wangsw on 8/4/13.
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
@@ -15,20 +15,18 @@ typedef enum {
 
 @class CPMemoCell;
 
-@protocol CPMemoCollectionViewManagerDelegate <NSObject>
+@protocol CPSingleViewMemoCollectionViewManagerDelegate <NSObject>
 
 - (CPMemo *)newMemo;
 
 @end
 
-@interface CPMemoCollectionViewManager : NSObject <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
+@interface CPSingleViewMemoCollectionViewManager : NSObject <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
 
-@property (weak, nonatomic) id<CPMemoCollectionViewManagerDelegate> delegate;
+@property (weak, nonatomic) id<CPSingleViewMemoCollectionViewManagerDelegate> delegate;
 
 @property (strong, nonatomic) NSMutableArray *memos;
-
-@property (strong, nonatomic) UICollectionView *frontCollectionView;
-@property (strong, nonatomic) UICollectionView *backCollectionView;
+@property (strong, nonatomic) UICollectionView *collectionView;
 
 @property (strong, nonatomic) CPMemoCell *editingCell;
 
@@ -38,7 +36,7 @@ typedef enum {
 @property (strong, nonatomic) UIView *textFieldContainer;
 @property (strong, nonatomic) NSArray *textFieldContainerConstraints;
 
-- (id)initWithSuperview:(UIView *)superview frontLayer:(UIView *)frontLayer backLayer:(UIView *)backLayer style:(CPMemoCollectionViewStyle)style andDelegate:(id<CPMemoCollectionViewManagerDelegate>)delegate;
+- (id)initWithSuperview:(UIView *)superview style:(CPMemoCollectionViewStyle)style andDelegate:(id<CPSingleViewMemoCollectionViewManagerDelegate>)delegate;
 
 - (void)endEditing;
 

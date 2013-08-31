@@ -20,7 +20,7 @@
 
 #import "CPAppearanceManager.h"
 
-#import "CPMemoCollectionViewManager.h"
+#import "CPSingleViewMemoCollectionViewManager.h"
 
 #import "CPProcessManager.h"
 #import "CPEditingPassCellProcess.h"
@@ -35,7 +35,7 @@
 @property (strong, nonatomic) NSArray *outerViewConstraints;
 
 @property (strong, nonatomic) UITextField *passwordTextField;
-@property (strong, nonatomic) CPMemoCollectionViewManager *memoCollectionViewManager;
+@property (strong, nonatomic) CPSingleViewMemoCollectionViewManager *memoCollectionViewManager;
 
 @property (strong, nonatomic) NSArray *constraints;
 
@@ -61,14 +61,6 @@
         self.index = index;
         
         CPPassword *password = [[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index];
-        
-        [CPAppearanceManager animateWithDuration:0.4 animations:^{
-            for (CPPassCell *cell in self.passCells) {
-                if (cell.index != index) {
-                    cell.alpha = 0.0;
-                }
-            }
-        }];
         
         // Create outer view
         
@@ -123,15 +115,64 @@
         NSArray *draggingCellDetail = [CPPassGridManager makeDraggingCellFromCell:[self.passCells objectAtIndex:index] onView:self.superView withCover:self.superCoverImage];
         ((CPPassCell *)[self.passCells objectAtIndex:index]).alpha = 0.0;
         
-        [self.superView removeConstraint:[draggingCellDetail objectAtIndex:1]];
-        [self.superView removeConstraint:[draggingCellDetail objectAtIndex:2]];
+        // Create Password Text Field
         
-        NSLayoutConstraint *draggingCellCenterXConstraint = [NSLayoutConstraint constraintWithItem:[draggingCellDetail objectAtIndex:0] attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0];
-        [self.superView addConstraint:draggingCellCenterXConstraint];
-        NSLayoutConstraint *draggingCellTopConstraint = [NSLayoutConstraint constraintWithItem:[draggingCellDetail objectAtIndex:0] attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeTop multiplier:1.0 constant:BOX_SEPARATOR_SIZE];
-        [self.superView addConstraint:draggingCellTopConstraint];
+        UIView *textFieldBackground = [[UIView alloc] init];
+        textFieldBackground.backgroundColor = [[UIColor alloc] initWithRed:0.7 green:0.7 blue:0.7 alpha:1.0];
+        textFieldBackground.translatesAutoresizingMaskIntoConstraints = NO;
+        [backLayer addSubview:textFieldBackground];
         
+        NSLayoutConstraint *textFieldBackgroundRightConstraint = [NSLayoutConstraint constraintWithItem:textFieldBackground attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:0.0];
+        [backLayer addConstraint:textFieldBackgroundRightConstraint];
+        
+        [backLayer addConstraint:[NSLayoutConstraint constraintWithItem:textFieldBackground attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:backLayer attribute:NSLayoutAttributeLeft multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
+        [backLayer addConstraint:[NSLayoutConstraint constraintWithItem:textFieldBackground attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cellBackground attribute:NSLayoutAttributeBottom multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
+        [backLayer addConstraint:[NSLayoutConstraint constraintWithItem:textFieldBackground attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:MEMO_CELL_HEIGHT]];
+        
+        self.passwordTextField = [[UITextField alloc] init];
+        self.passwordTextField.returnKeyType = UIReturnKeyDone;
+        self.passwordTextField.textColor = [UIColor whiteColor];
+        self.passwordTextField.font = [UIFont boldSystemFontOfSize:24.0];
+        self.passwordTextField.backgroundColor = [UIColor clearColor];
+        self.passwordTextField.translatesAutoresizingMaskIntoConstraints = NO;
+        self.passwordTextField.delegate = self;
+        self.passwordTextField.alpha = 0.0;
+        
+        if (password.isUsed.boolValue) {
+            self.passwordTextField.text = password.text;
+            self.passwordTextField.secureTextEntry = YES;
+        } else {
+            self.passwordTextField.text = @"";
+            self.passwordTextField.secureTextEntry = NO;
+            [self.passwordTextField becomeFirstResponder];
+        }
+        
+        [frontLayer addSubview:self.passwordTextField];
+        
+        [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationLessThanOrEqual toItem:textFieldBackground attribute:NSLayoutAttributeLeft multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
+        [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:textFieldBackground attribute:NSLayoutAttributeRight multiplier:1.0 constant:-BOX_SEPARATOR_SIZE]];
+        [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:textFieldBackground attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+        
+        [self.superView layoutIfNeeded];
+        
+        [CPAppearanceManager animateWithDuration:0.4 animations:^{
+            for (CPPassCell *cell in self.passCells) {
+                if (cell.index != index) {
+                    cell.alpha = 0.0;
+                }
+            }
+        }];
+        
+        __block NSLayoutConstraint *draggingCellCenterXConstraint, *draggingCellTopConstraint;
         [CPAppearanceManager animateWithDuration:0.5 animations:^{
+            [self.superView removeConstraint:[draggingCellDetail objectAtIndex:1]];
+            [self.superView removeConstraint:[draggingCellDetail objectAtIndex:2]];
+            
+            draggingCellCenterXConstraint = [NSLayoutConstraint constraintWithItem:[draggingCellDetail objectAtIndex:0] attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0];
+            [self.superView addConstraint:draggingCellCenterXConstraint];
+            draggingCellTopConstraint = [NSLayoutConstraint constraintWithItem:[draggingCellDetail objectAtIndex:0] attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeTop multiplier:1.0 constant:BOX_SEPARATOR_SIZE];
+            [self.superView addConstraint:draggingCellTopConstraint];
+            
             [self.superView layoutIfNeeded];
             ((UIView *)[draggingCellDetail objectAtIndex:0]).backgroundColor = password.color;
             
@@ -151,6 +192,16 @@
             [self.superView removeConstraints:[draggingCellDetail objectAtIndex:4]];
             [(UIView *)[draggingCellDetail objectAtIndex:0] removeFromSuperview];
         }];
+        
+        [CPAppearanceManager animateWithDuration:0.4 delay:0.3 options:0 animations:^{
+            [backLayer removeConstraint:textFieldBackgroundRightConstraint];
+            [backLayer addConstraint:[NSLayoutConstraint constraintWithItem:textFieldBackground attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:backLayer attribute:NSLayoutAttributeRight multiplier:1.0 constant:-BOX_SEPARATOR_SIZE]];
+            [backLayer layoutIfNeeded];
+        } completion:nil];
+        
+        [CPAppearanceManager animateWithDuration:0.3 delay:0.4 options:0 animations:^{
+            self.passwordTextField.alpha = 1.0;
+        } completion:nil];
         
         /*CPPassword *password = [[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index];
         self.view.backgroundColor = password.displayColor;
