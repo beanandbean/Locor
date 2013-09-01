@@ -90,19 +90,21 @@
                                              nil];
         [self.iconView addConstraints:self.iconImagePositionConstraints];
         
-        NSMutableArray *gestureArray = [[NSMutableArray alloc] initWithObjects:[NSNull null], [NSNull null], nil];
+        // Remove editing gesture for notification test.
         
-        UITapGestureRecognizer *editing = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditingGesture:)];
-        editing.numberOfTapsRequired = EDITING_TAP_NUMBER;
-        [self.iconView addGestureRecognizer:editing];
-        [gestureArray replaceObjectAtIndex:EDITING_TAP_NUMBER - 1 withObject:editing];
+        //NSMutableArray *gestureArray = [[NSMutableArray alloc] initWithObjects:[NSNull null], [NSNull null], nil];
+        
+        //UITapGestureRecognizer *editing = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditingGesture:)];
+        //editing.numberOfTapsRequired = EDITING_TAP_NUMBER;
+        //[self.iconView addGestureRecognizer:editing];
+        //[gestureArray replaceObjectAtIndex:EDITING_TAP_NUMBER - 1 withObject:editing];
         
         UITapGestureRecognizer *copyPassword = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleCopyPasswordGesture:)];
         copyPassword.numberOfTapsRequired = COPY_PASSWORD_TAP_NUMBER;
         [self.iconView addGestureRecognizer:copyPassword];
-        [gestureArray replaceObjectAtIndex:COPY_PASSWORD_TAP_NUMBER - 1 withObject:copyPassword];
+        //[gestureArray replaceObjectAtIndex:COPY_PASSWORD_TAP_NUMBER - 1 withObject:copyPassword];
         
-        [[gestureArray objectAtIndex:0] requireGestureRecognizerToFail:[gestureArray objectAtIndex:1]];
+        //[[gestureArray objectAtIndex:0] requireGestureRecognizerToFail:[gestureArray objectAtIndex:1]];
         
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
         longPress.delegate = self;

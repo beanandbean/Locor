@@ -19,19 +19,10 @@ static CPNotificationCenter *center;
 @property (nonatomic) float bottomHeight;
 @property (nonatomic) int forceRemovedCount;
 @property (weak, nonatomic) UIView *superView;
-@property (strong, nonatomic) NSMutableArray *notifications;
-@property (strong, nonatomic) NSMutableArray *views;
-@property (strong, nonatomic) NSMutableArray *leftConstraints;
-@property (strong, nonatomic) NSMutableArray *rightConstraints;
-@property (strong, nonatomic) NSMutableArray *bottomConstraints;
-
-- (id)initWithSuperView:(UIView *)superView;
-
-- (void)insertNotification:(NSString *)notification;
-
-- (void)removeNotification:(UIView *)notification forced:(BOOL)isForced;
-
-- (void)notificationFired:(NSTimer *)timer;
+@property (strong, nonatomic) UILabel *notification;
+@property (strong, nonatomic) NSLayoutConstraint *leftConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *rightConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *bottomConstraint;
 
 @end
 
@@ -53,11 +44,6 @@ static CPNotificationCenter *center;
         self.bottomHeight = -BOX_SEPARATOR_SIZE;
         self.forceRemovedCount = 0;
         self.superView = superView;
-        self.notifications = [[NSMutableArray alloc] init];
-        self.views = [[NSMutableArray alloc] init];
-        self.leftConstraints = [[NSMutableArray alloc] init];
-        self.rightConstraints = [[NSMutableArray alloc] init];
-        self.bottomConstraints = [[NSMutableArray alloc] init];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidResize:) name:UIKeyboardDidShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidChangeFrameNotification object:nil];
@@ -93,8 +79,8 @@ static CPNotificationCenter *center;
 }
 
 - (void)refreshBottom {
-    if (self.bottomConstraints.count) {
-        ((NSLayoutConstraint *)[self.bottomConstraints lastObject]).constant = self.bottomHeight;
+    if (self.bottomConstraint) {
+        self.bottomConstraint.constant = self.bottomHeight;
         [UIView animateWithDuration:0.3 animations:^{
             [self.superView layoutIfNeeded];
         }];
@@ -102,104 +88,106 @@ static CPNotificationCenter *center;
 }
 
 - (void)insertNotification:(NSString *)notification {
-    // TODO: Adjust appearance of notification labels.
-
-    [self.notifications addObject:notification];
-    
     UILabel *notificationLabel = [[UILabel alloc] init];
     notificationLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    notificationLabel.font = [UIFont boldSystemFontOfSize:NOTIFICATION_FONT_SIZE];
     notificationLabel.text = notification;
     notificationLabel.textColor = [UIColor blackColor];
     notificationLabel.textAlignment = NSTextAlignmentCenter;
     notificationLabel.lineBreakMode = NSLineBreakByWordWrapping;
     notificationLabel.numberOfLines = 0;
     notificationLabel.backgroundColor = [UIColor whiteColor];
-    notificationLabel.alpha = 0.0;
     
     [self.superView addSubview:notificationLabel];
-    [self.views addObject:notificationLabel];
     
-    NSLayoutConstraint *leftConstraint = [CPAppearanceManager constraintWithItem:notificationLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft];
+    NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:notificationLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0];
     [self.superView addConstraint:leftConstraint];
-    [self.leftConstraints addObject:leftConstraint];
     
-    NSLayoutConstraint *rightConstraint = [CPAppearanceManager constraintWithItem:notificationLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight];
+    NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:notificationLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0];
     [self.superView addConstraint:rightConstraint];
-    [self.rightConstraints addObject:rightConstraint];
-    
-    [self.superView layoutIfNeeded];
-    
-    CGSize maximumLabelSize = CGSizeMake(notificationLabel.bounds.size.width, FLT_MAX);
-    CGSize expectedLabelSize = [notification sizeWithFont:notificationLabel.font constrainedToSize:maximumLabelSize lineBreakMode:notificationLabel.lineBreakMode];
-    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:notificationLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:expectedLabelSize.height + 10.0];
-    [notificationLabel addConstraint:heightConstraint];
-    [self.superView layoutIfNeeded];
     
     NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:notificationLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:self.bottomHeight];
     [self.superView addConstraint:bottomConstraint];
-    [self.bottomConstraints addObject:bottomConstraint];
     
-    if (self.views.count > 1) {
-        [self.superView removeConstraint:[self.bottomConstraints objectAtIndex:self.views.count - 2]];
-        NSLayoutConstraint *secondBottomConstraint = [NSLayoutConstraint constraintWithItem:[self.views objectAtIndex:self.views.count - 2] attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:notificationLabel attribute:NSLayoutAttributeTop multiplier:1.0 constant:-BOX_SEPARATOR_SIZE];
-        [self.superView addConstraint:secondBottomConstraint];
-        [self.bottomConstraints replaceObjectAtIndex:self.views.count - 2 withObject:secondBottomConstraint];
-    }
+    CGSize maximumLabelSize = CGSizeMake(self.superView.bounds.size.width - BOX_SEPARATOR_SIZE * 2, FLT_MAX);
+    CGSize expectedLabelSize = [notification sizeWithFont:notificationLabel.font constrainedToSize:maximumLabelSize lineBreakMode:notificationLabel.lineBreakMode];
+    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:notificationLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:expectedLabelSize.height + 10.0];
+    [notificationLabel addConstraint:heightConstraint];
+
+    [self.superView layoutIfNeeded];
+        
+    [self.superView removeConstraint:leftConstraint];
+    leftConstraint = [CPAppearanceManager constraintWithItem:notificationLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft];
+    [self.superView addConstraint:leftConstraint];
     
-    // TODO: BUG! When notifications come too fast, upper notifications will be removed without animation.
-    if (NOTIFICATION_MAX_COUNT < self.notifications.count) {
-        for (int i = NOTIFICATION_MAX_COUNT; i < self.notifications.count; i++) {
-            [self removeNotification:(UIView *)[self.views objectAtIndex:i - NOTIFICATION_MAX_COUNT] forced:YES];
-        }
+    [self.superView removeConstraint:rightConstraint];
+    rightConstraint = [CPAppearanceManager constraintWithItem:notificationLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight];
+    [self.superView addConstraint:rightConstraint];
+    
+    NSLayoutConstraint *oldRightConstraint, *widthConstraint;
+    if (self.notification) {
+        oldRightConstraint = [NSLayoutConstraint constraintWithItem:self.notification attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
+        
+        widthConstraint = [NSLayoutConstraint constraintWithItem:self.notification attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:self.notification.frame.size.width];
+        
+        [self.superView removeConstraint:self.leftConstraint];
+        [self.superView removeConstraint:self.rightConstraint];
+        [self.superView addConstraint:oldRightConstraint];
+        [self.superView addConstraint:widthConstraint];
     }
     
     // Not protectiong the animation which doesn't affect main view
     [UIView animateWithDuration:0.5 animations:^{
         [self.superView layoutIfNeeded];
-    } completion:^(BOOL finished){
-        [UIView animateWithDuration:0.5 animations:^{
-            notificationLabel.alpha = 1.0;
-        }completion:^(BOOL finished){
-            [NSTimer scheduledTimerWithTimeInterval:NOTIFICATION_STAY_TIME target:self selector:@selector(notificationFired:) userInfo:notificationLabel repeats:NO];
-        }];
+    }completion:^(BOOL finished){        
+        if (self.notification) {
+            self.forceRemovedCount++;
+            [self.superView removeConstraint:oldRightConstraint];
+            [self.superView removeConstraint:widthConstraint];
+            [self.superView removeConstraint:self.bottomConstraint];
+            [self.notification removeFromSuperview];
+        }
+        
+        self.notification = notificationLabel;
+        self.leftConstraint = leftConstraint;
+        self.rightConstraint = rightConstraint;
+        self.bottomConstraint = bottomConstraint;
+        
+        [NSTimer scheduledTimerWithTimeInterval:NOTIFICATION_STAY_TIME target:self selector:@selector(notificationFired:) userInfo:notificationLabel repeats:NO];
     }];
 }
 
-- (void)removeNotification:(UIView *)notification forced:(BOOL)isForced {
-    if (isForced) {
-        self.forceRemovedCount++;
-    }
-    
-    [UIView animateWithDuration:0.5 animations:^{
-        notification.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        if (finished) {
-            [self.superView removeConstraint:[self.leftConstraints objectAtIndex:0]];
-            [self.leftConstraints removeObjectAtIndex:0];
-            
-            [self.superView removeConstraint:[self.rightConstraints objectAtIndex:0]];
-            [self.rightConstraints removeObjectAtIndex:0];
-            
-            [self.superView removeConstraint:[self.bottomConstraints objectAtIndex:0]];
-            [self.bottomConstraints removeObjectAtIndex:0];
-            
-            [[self.views objectAtIndex:0] removeFromSuperview];
-            [self.views removeObjectAtIndex:0];
-            
+- (void)removeNotification {
+    if (self.forceRemovedCount) {
+        self.forceRemovedCount--;
+    } else if (self.notification) {
+        NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.notification attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
+        
+        NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:self.notification attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:self.notification.frame.size.width];
+        
+        [self.superView removeConstraint:self.leftConstraint];
+        [self.superView removeConstraint:self.rightConstraint];
+        [self.superView addConstraint:rightConstraint];
+        [self.superView addConstraint:widthConstraint];
+        
+        [UIView animateWithDuration:0.5 animations:^{
             [self.superView layoutIfNeeded];
-            [self.notifications removeObjectAtIndex:0];
-        } else {
-            [self removeNotification:notification forced:NO];
-        }
-    }];
+        }completion:^(BOOL finished){
+            [self.superView removeConstraint:rightConstraint];
+            [self.superView removeConstraint:widthConstraint];
+            [self.superView removeConstraint:self.bottomConstraint];
+            [self.notification removeFromSuperview];
+            
+            self.notification = nil;
+            self.leftConstraint = nil;
+            self.rightConstraint = nil;
+            self.bottomConstraint = nil;
+        }];
+    }
 }
 
 - (void)notificationFired:(NSTimer *)timer {
-    if (self.forceRemovedCount) {
-        self.forceRemovedCount--;
-    } else {
-        [self removeNotification:(UIView *)timer.userInfo forced:NO];
-    }
+    [self removeNotification];
 }
 
 @end
