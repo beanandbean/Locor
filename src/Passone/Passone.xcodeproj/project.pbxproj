@@ -84,6 +84,8 @@
 		2CEB0D5217BCD506000404C2 /* CPMainPasswordManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB0D5117BCD506000404C2 /* CPMainPasswordManager.m */; };
 		2CF920151797F10C00637B7D /* CPMemoCellRemoving.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF920141797F10C00637B7D /* CPMemoCellRemoving.m */; };
 		FC03FCDA178AF99A004C2B15 /* CPMemoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FC03FCD9178AF99A004C2B15 /* CPMemoCell.m */; };
+		FC3732B817D54D0B00014998 /* CPSettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC3732B717D54D0B00014998 /* CPSettingsManager.m */; };
+		FC3732BA17D556E900014998 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC982CED17824842009CC784 /* QuartzCore.framework */; };
 		FC4F2ADA1759EB0C002D9992 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2AD91759EB0C002D9992 /* UIKit.framework */; };
 		FC4F2ADC1759EB0C002D9992 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2ADB1759EB0C002D9992 /* Foundation.framework */; };
 		FC4F2ADE1759EB0C002D9992 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2ADD1759EB0C002D9992 /* CoreGraphics.framework */; };
@@ -205,6 +207,9 @@
 		2CF920141797F10C00637B7D /* CPMemoCellRemoving.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMemoCellRemoving.m; sourceTree = "<group>"; };
 		FC03FCD8178AF99A004C2B15 /* CPMemoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMemoCell.h; sourceTree = "<group>"; };
 		FC03FCD9178AF99A004C2B15 /* CPMemoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMemoCell.m; sourceTree = "<group>"; };
+		FC3732B617D54D0B00014998 /* CPSettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPSettingsManager.h; sourceTree = "<group>"; };
+		FC3732B717D54D0B00014998 /* CPSettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPSettingsManager.m; sourceTree = "<group>"; };
+		FC3732B917D54E6F00014998 /* CPViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPViewManager.h; sourceTree = "<group>"; };
 		FC4F2AD61759EB0C002D9992 /* Passone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Passone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC4F2AD91759EB0C002D9992 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FC4F2ADB1759EB0C002D9992 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -245,6 +250,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC3732BA17D556E900014998 /* QuartzCore.framework in Frameworks */,
 				2C50933A17C4CB410051A463 /* iAd.framework in Frameworks */,
 				2C50933817C4C8D70051A463 /* SystemConfiguration.framework in Frameworks */,
 				FC501F5A17680E1300E987B5 /* CoreData.framework in Frameworks */,
@@ -380,13 +386,13 @@
 		FC4F2AD81759EB0C002D9992 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2C50933917C4CB410051A463 /* iAd.framework */,
-				2C50933717C4C8D70051A463 /* SystemConfiguration.framework */,
-				FC982CED17824842009CC784 /* QuartzCore.framework */,
 				FC501F5917680E1300E987B5 /* CoreData.framework */,
-				FC4F2AD91759EB0C002D9992 /* UIKit.framework */,
-				FC4F2ADB1759EB0C002D9992 /* Foundation.framework */,
 				FC4F2ADD1759EB0C002D9992 /* CoreGraphics.framework */,
+				FC4F2ADB1759EB0C002D9992 /* Foundation.framework */,
+				2C50933917C4CB410051A463 /* iAd.framework */,
+				FC982CED17824842009CC784 /* QuartzCore.framework */,
+				2C50933717C4C8D70051A463 /* SystemConfiguration.framework */,
+				FC4F2AD91759EB0C002D9992 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -430,10 +436,13 @@
 				2C6143611786D1E300430C64 /* CPProcess.h */,
 				2C61435E1786D1C100430C64 /* CPProcessManager.h */,
 				2C61435F1786D1C100430C64 /* CPProcessManager.m */,
+				FC3732B617D54D0B00014998 /* CPSettingsManager.h */,
+				FC3732B717D54D0B00014998 /* CPSettingsManager.m */,
 				2CC861F617AE3A64005B88ED /* CPSingleViewMemoCollectionViewManager.h */,
 				2CC861F717AE3A64005B88ED /* CPSingleViewMemoCollectionViewManager.m */,
 				FCA4009F17896F000087AECF /* CPTopBarAndSearchManager.h */,
 				FCA400A017896F000087AECF /* CPTopBarAndSearchManager.m */,
+				FC3732B917D54E6F00014998 /* CPViewManager.h */,
 				FC4F2AF41759EB0C002D9992 /* MainStoryboard.storyboard */,
 				FCBF1E2717696C1A0014E56F /* Passone.xcdatamodeld */,
 				2C6143621786D23000430C64 /* Process */,
@@ -611,6 +620,7 @@
 				2C50933317C4C51E0051A463 /* Reachability.m in Sources */,
 				2C50933617C4C5660051A463 /* CPAdManager.m in Sources */,
 				2C1541C517D1F1490057733D /* CPMemoCollectionViewManager.m in Sources */,
+				FC3732B817D54D0B00014998 /* CPSettingsManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

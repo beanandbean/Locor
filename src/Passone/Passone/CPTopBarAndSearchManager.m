@@ -16,6 +16,8 @@
 
 #import "CPPassDataManager.h"
 
+#import "CPSettingsManager.h"
+
 #import "CPProcessManager.h"
 #import "CPSearchingProcess.h"
 
@@ -31,6 +33,8 @@
 @property (strong, nonatomic) NSArray *resultContainerConstraints;
 
 @property (strong, nonatomic) CPSingleViewMemoCollectionViewManager *resultMemoCollectionViewManager;
+
+@property (strong, nonatomic) CPSettingsManager *settingsManager;
 
 - (IBAction)barButtonTouched:(id)sender;
 
@@ -109,6 +113,14 @@
     return _resultMemoCollectionViewManager;
 }
 
+- (CPSettingsManager *)settingsManager {
+    if (!_settingsManager) {
+        NSAssert(self.superView, @"");
+        _settingsManager = [[CPSettingsManager alloc] initWithSuperview:self.superView];
+    }
+    return _settingsManager;
+}
+
 - (id)initWithSuperView:(UIView *)superView {
     self = [super init];
     if (self) {
@@ -158,6 +170,8 @@
                 }];
             }];
         }];
+    } else {
+        [self.settingsManager loadViews];
     }
 }
 
