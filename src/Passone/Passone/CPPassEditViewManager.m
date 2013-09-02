@@ -20,8 +20,6 @@
 
 #import "CPAppearanceManager.h"
 
-#import "CPSingleViewMemoCollectionViewManager.h"
-
 #import "CPProcessManager.h"
 #import "CPEditingPassCellProcess.h"
 
@@ -35,7 +33,7 @@
 @property (strong, nonatomic) NSArray *outerViewConstraints;
 
 @property (strong, nonatomic) UITextField *passwordTextField;
-@property (strong, nonatomic) CPSingleViewMemoCollectionViewManager *memoCollectionViewManager;
+@property (strong, nonatomic) CPMemoCollectionViewManager *memoCollectionViewManager;
 
 @property (strong, nonatomic) NSArray *constraints;
 
@@ -153,7 +151,34 @@
         [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:textFieldBackground attribute:NSLayoutAttributeRight multiplier:1.0 constant:-BOX_SEPARATOR_SIZE]];
         [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:textFieldBackground attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
         
+        // Create Memo Collection View
+        
+        UIView *backMemoContainer = [[UIView alloc] init];
+        backMemoContainer.translatesAutoresizingMaskIntoConstraints = NO;
+        [backLayer addSubview:backMemoContainer];
+        
+        [backLayer addConstraint:[NSLayoutConstraint constraintWithItem:backMemoContainer attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:backLayer attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
+        [backLayer addConstraint:[NSLayoutConstraint constraintWithItem:backMemoContainer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:backLayer attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
+        [backLayer addConstraint:[NSLayoutConstraint constraintWithItem:backMemoContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:textFieldBackground attribute:NSLayoutAttributeBottom multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
+        [backLayer addConstraint:[NSLayoutConstraint constraintWithItem:backMemoContainer attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:backLayer attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-BOX_SEPARATOR_SIZE]];
+        
+        UIView *frontMemoContainer = [[UIView alloc] init];
+        frontMemoContainer.translatesAutoresizingMaskIntoConstraints = NO;
+        [frontLayer addSubview:frontMemoContainer];
+        
+        [self.superView addConstraints:[CPAppearanceManager constraintsForView:frontMemoContainer toEqualToView:backMemoContainer]];
+        
+        self.memoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:self.superView frontLayer:frontMemoContainer backLayer:backMemoContainer style:CPMemoCollectionViewStyleInPassCell andDelegate:self];
+        
+        if (password.isUsed.boolValue) {
+            self.memoCollectionViewManager.memos = [[password.memos sortedArrayUsingDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"text" ascending:NO], nil]] mutableCopy];
+        } else {
+            self.memoCollectionViewManager.memos = [NSMutableArray array];
+        }
+        
         [self.superView layoutIfNeeded];
+        
+        // Animations
         
         [CPAppearanceManager animateWithDuration:0.4 animations:^{
             for (CPPassCell *cell in self.passCells) {

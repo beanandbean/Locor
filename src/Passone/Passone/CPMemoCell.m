@@ -10,7 +10,7 @@
 
 #import "CPPassoneConfig.h"
 
-#import "CPSingleViewMemoCollectionViewManager.h"
+#import "CPMemoCollectionViewManager.h"
 
 #import "CPPassword.h"
 

@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-@class CPSingleViewMemoCollectionViewManager;
+@class CPMemoCollectionViewManager;
 
 @interface CPMemoCell : UICollectionViewCell <UITextFieldDelegate>
 
-@property (weak, nonatomic) CPSingleViewMemoCollectionViewManager *delegate;
+@property (weak, nonatomic) CPMemoCollectionViewManager *delegate;
 @property (strong, nonatomic) UILabel *label;
 
 - (void)refreshingConstriants;
