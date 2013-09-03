@@ -223,7 +223,7 @@ sg75
 S'The third and last two colors for cells are too similar, so they need to be changed.'
 p93
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 48.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 63.'
 p94
 sg79
 I00
@@ -262,7 +262,7 @@ sg75
 S'MAY ABORT! Handle the error appropriately when saving context.'
 p104
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 166.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 181.'
 p105
 sg79
 I00
@@ -280,7 +280,7 @@ sg75
 S'MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.'
 p108
 sg77
-S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 203.'
+S'TODO grabbed from src/Passone/Passone/CPPassDataManager.m, line 218.'
 p109
 sg79
 I00
@@ -676,7 +676,7 @@ S'Adjust font of pass cell removing label.'
 p265
 sS'detail'
 p266
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 193.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 191.'
 p267
 sS'exported'
 p268
@@ -703,7 +703,7 @@ S'Change behavior of pass cell removing view & label if cannot toggle remove sta
 p278
 sS'detail'
 p279
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 281.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 279.'
 p280
 sS'exported'
 p281
@@ -972,7 +972,7 @@ S'When removing pass cell, use images instead of single-colored views.'
 p393
 sS'detail'
 p394
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 158.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 156.'
 p395
 sS'exported'
 p396
@@ -1120,7 +1120,7 @@ S'Figure out why editing cell will not rise if starting edit cell just after sea
 p457
 sS'detail'
 p458
-S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 176.'
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 313.'
 p459
 sS'exported'
 p460
@@ -1201,7 +1201,7 @@ S'Not copy to clipboard if password is not used.'
 p496
 sS'detail'
 p497
-S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 125.'
+S'TODO grabbed from src/Passone/Passone/CPPassCell.m, line 123.'
 p498
 sS'exported'
 p499
@@ -1283,7 +1283,7 @@ S'When search bar is focused, stop if being currently editing memo cells in pass
 p536
 sS'detail'
 p537
-S'TODO grabbed from src/Passone/Passone/CPTopBarAndSearchManager.m, line 179.'
+S'TODO grabbed from src/Passone/Passone/CPTopBarAndSearchManager.m, line 193.'
 p538
 sS'exported'
 p539
@@ -1299,7 +1299,7 @@ p543
 sS'condition'
 p544
 g97
-sa(dp545
+saNaNaNa(dp545
 S'author'
 p546
 S'TODO grabber'
@@ -1310,18 +1310,18 @@ S'Determine if the memo cell should fall back to original position when you star
 p549
 sS'detail'
 p550
-S'TODO grabbed from src/Passone/Passone/CPSingleViewMemoCollectionViewManager.m, line 172.'
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 211.'
 p551
 sS'exported'
 p552
 I00
 sS'time'
 p553
-S'2013-09-01 18:23:24'
+S'2013-09-03 18:02:39'
 p554
 sS'path'
 p555
-S'src/Passone/Passone/CPSingleViewMemoCollectionViewManager.m'
+S'src/Passone/Passone/CPMemoCollectionViewManager.m'
 p556
 sS'condition'
 p557
@@ -1333,31 +1333,13 @@ sg548
 S'Improve animation for removing a memo cell.'
 p559
 sg550
-S'TODO grabbed from src/Passone/Passone/CPSingleViewMemoCollectionViewManager.m, line 235.'
+S'TODO grabbed from src/Passone/Passone/CPMemoCollectionViewManager.m, line 269.'
 p560
 sg552
 I00
 sg553
-S'2013-09-01 18:23:24'
+S'2013-09-03 18:02:39'
 p561
-sg555
-g556
-sg557
-g97
-sa(dp562
-g546
-g547
-sg548
-S'Figure out why editing cell will not rise if starting edit cell just after search bar.'
-p563
-sg550
-S'TODO grabbed from src/Passone/Passone/CPSingleViewMemoCollectionViewManager.m, line 274.'
-p564
-sg552
-I00
-sg553
-S'2013-09-01 18:23:24'
-p565
 sg555
 g556
 sg557

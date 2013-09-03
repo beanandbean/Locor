@@ -12,32 +12,34 @@
 
 @interface CPMemoCellRemoving ()
 
-@property (strong, nonatomic) NSLayoutConstraint *imageViewLeftConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *leftConstraint;
 
 @end
 
 @implementation CPMemoCellRemoving
 
-- (void)setImage:(UIImage *)image {
-    _image = image;
-    
+- (void)setText:(NSString *)text {
     self.contentView.alpha = 1.0;
     [self.contentView removeConstraints:self.contentView.constraints];
     for (UIView *subview in self.contentView.subviews) {
         [subview removeFromSuperview];
     }
     
-    self.imageView = [[UIImageView alloc] init];
-    self.imageView.image = image;
-    self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.label = [[UILabel alloc] init];
+    self.label.text = text;
+    self.label.backgroundColor = [UIColor clearColor];
+    self.label.translatesAutoresizingMaskIntoConstraints = NO;
     
-    [self.contentView addSubview:self.imageView];
+    [self.contentView addSubview:self.label];
     
-    self.imageViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
-    [self.contentView addConstraint:self.imageViewLeftConstraint];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:image.size.width]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:image.size.height]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+    self.leftConstraint = [NSLayoutConstraint constraintWithItem:self.label attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:10.0];
+    [self.contentView addConstraint:self.leftConstraint];
+    [self.contentView addConstraints:[[NSArray alloc] initWithObjects:
+                                      [NSLayoutConstraint constraintWithItem:self.label attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:5.0],
+                                      [NSLayoutConstraint constraintWithItem:self.label attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:-20.0],
+                                      [NSLayoutConstraint constraintWithItem:self.label attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-10.0],
+                                      nil]];
+
     
     self.leftLabel = [[UILabel alloc] init];
     self.leftLabel.text = @"Swipe to remove";
@@ -46,7 +48,7 @@
     self.leftLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.leftLabel];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-MEMO_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.label attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-10.0 - MEMO_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE]];
     
     self.rightLabel = [[UILabel alloc] init];
     self.rightLabel.text = @"Swipe to remove";
@@ -55,11 +57,11 @@
     self.rightLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.rightLabel];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.rightLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.rightLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:MEMO_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.rightLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.label attribute:NSLayoutAttributeRight multiplier:1.0 constant:10.0 + MEMO_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE]];
 }
 
-- (void)setImageLeftOffset:(float)offset {
-    self.imageViewLeftConstraint.constant = offset;
+- (void)setLeftOffset:(float)offset {
+    self.leftConstraint.constant = offset + 10.0;
     
     if (fabsf(offset) < self.contentView.frame.size.width / 2) {
         self.leftLabel.text = @"Swipe to remove";

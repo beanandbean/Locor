@@ -10,7 +10,7 @@
 
 #import "CPPassoneConfig.h"
 
-#import "CPSingleViewMemoCollectionViewManager.h"
+//#import "CPSingleViewMemoCollectionViewManager.h"
 
 #import "CPAppearanceManager.h"
 
@@ -32,7 +32,7 @@
 @property (strong, nonatomic) UIView *resultContainer;
 @property (strong, nonatomic) NSArray *resultContainerConstraints;
 
-@property (strong, nonatomic) CPSingleViewMemoCollectionViewManager *resultMemoCollectionViewManager;
+//@property (strong, nonatomic) CPSingleViewMemoCollectionViewManager *resultMemoCollectionViewManager;
 
 @property (strong, nonatomic) CPSettingsManager *settingsManager;
 
@@ -106,12 +106,12 @@
     return _resultContainerConstraints;
 }
 
-- (CPSingleViewMemoCollectionViewManager *)resultMemoCollectionViewManager {
+/*- (CPSingleViewMemoCollectionViewManager *)resultMemoCollectionViewManager {
     if (!_resultMemoCollectionViewManager) {
         _resultMemoCollectionViewManager = [[CPSingleViewMemoCollectionViewManager alloc] initWithSuperview:self.resultContainer style:CPMemoCollectionViewStyleSearch andDelegate:nil];
     }
     return _resultMemoCollectionViewManager;
-}
+}*/
 
 - (CPSettingsManager *)settingsManager {
     if (!_settingsManager) {
@@ -146,10 +146,10 @@
 
 - (IBAction)barButtonTouched:(id)sender {
     if ([CPProcessManager isInProcess:SEARCHING_PROCESS]) {
-        [self.resultMemoCollectionViewManager endEditing];
+        //[self.resultMemoCollectionViewManager endEditing];
         [CPProcessManager stopProcess:SEARCHING_PROCESS withPreparation:^{
             [CPAppearanceManager animateWithDuration:0.3 animations:^{
-                self.resultMemoCollectionViewManager.collectionView.alpha = 0.0;
+                //self.resultMemoCollectionViewManager.collectionView.alpha = 0.0;
             } completion:^(BOOL finished) {
                 [self.superView removeConstraints:self.resultContainerConstraints];
                 [self.resultContainer removeFromSuperview];
@@ -158,7 +158,7 @@
                 
                 self.resultContainer = nil;
                 self.resultContainerConstraints = nil;
-                self.resultMemoCollectionViewManager = nil;
+                //self.resultMemoCollectionViewManager = nil;
                 
                 self.searchBar.text = @"";
                 if ([self.searchBar isFirstResponder]) {
@@ -178,7 +178,7 @@
 - (void)handleTapOnSearchBar:(UITapGestureRecognizer *)tapGesture {
     self.searchBarTextField.enabled = YES;
     if (![self.searchBar isFirstResponder]) {
-        [self.resultMemoCollectionViewManager endEditing];
+        //[self.resultMemoCollectionViewManager endEditing];
         [self.searchBar becomeFirstResponder];
     }
 }
@@ -187,7 +187,7 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     if ([CPProcessManager isInProcess:SEARCHING_PROCESS]) {
-        self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchBar.text] mutableCopy];
+        //self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchBar.text] mutableCopy];
         return YES;
     } else {
         // TODO: When search bar is focused, stop if being currently editing memo cells in pass edit view.
@@ -197,14 +197,14 @@
             
             [self.barButton setTitle:@"X" forState:UIControlStateNormal];
                         
-            self.resultMemoCollectionViewManager.collectionView.alpha = 0.0;
-            self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchBar.text] mutableCopy];
+            //self.resultMemoCollectionViewManager.collectionView.alpha = 0.0;
+            //self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchBar.text] mutableCopy];
             
             [CPAppearanceManager animateWithDuration:0.5 animations:^{
                 [self.superView layoutIfNeeded];
             } completion:^(BOOL finished) {
                 [CPAppearanceManager animateWithDuration:0.3 animations:^{
-                    self.resultMemoCollectionViewManager.collectionView.alpha = 1.0;
+                    //self.resultMemoCollectionViewManager.collectionView.alpha = 1.0;
                 }];
             }];
         }];
@@ -216,12 +216,12 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchText] mutableCopy];
+    //self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchText] mutableCopy];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
-    [self.resultMemoCollectionViewManager endEditing];
+    //[self.resultMemoCollectionViewManager endEditing];
 }
 
 @end
