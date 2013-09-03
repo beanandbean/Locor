@@ -60,7 +60,9 @@
         
         CPPassword *password = [[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index];
         
-        // Create outer view
+        // View Initialization
+        
+        // - Outer View Initialization
         
         self.outerView = [[UIView alloc] init];
         self.outerView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -69,7 +71,7 @@
         self.outerViewConstraints = [CPAppearanceManager constraintsForView:self.outerView toEqualToView:self.superView];
         [self.superView addConstraints:self.outerViewConstraints];
         
-        // Create back and front layers
+        // - Back And Front Layers Initialization
         
         UIView *backLayer = [[UIView alloc] init];
         backLayer.translatesAutoresizingMaskIntoConstraints = NO;
@@ -89,7 +91,7 @@
         [self.outerView addSubview:frontLayer];
         [self.outerView addConstraints:[CPAppearanceManager constraintsForView:frontLayer toEqualToView:self.outerView]];
         
-        // Create top cell
+        // - Top Cell Initialization
         
         UIView *cellBackground = [[UIView alloc] init];
         cellBackground.hidden = YES;
@@ -113,7 +115,7 @@
         NSArray *draggingCellDetail = [CPPassGridManager makeDraggingCellFromCell:[self.passCells objectAtIndex:index] onView:self.superView withCover:self.superCoverImage];
         ((CPPassCell *)[self.passCells objectAtIndex:index]).alpha = 0.0;
         
-        // Create Password Text Field
+        // - Password Text Field Initialization
         
         UIView *textFieldBackground = [[UIView alloc] init];
         textFieldBackground.backgroundColor = [[UIColor alloc] initWithRed:0.7 green:0.7 blue:0.7 alpha:1.0];
@@ -151,7 +153,7 @@
         [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:textFieldBackground attribute:NSLayoutAttributeRight multiplier:1.0 constant:-BOX_SEPARATOR_SIZE]];
         [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:textFieldBackground attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
         
-        // Create Memo Collection View
+        // - Memo Collection View Initialization
         
         UIView *backMemoContainer = [[UIView alloc] init];
         backMemoContainer.translatesAutoresizingMaskIntoConstraints = NO;
@@ -170,16 +172,20 @@
         
         self.memoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:self.superView frontLayer:frontMemoContainer backLayer:backMemoContainer style:CPMemoCollectionViewStyleInPassCell andDelegate:self];
         
+        self.memoCollectionViewManager.frontCollectionView.alpha = 0.0;
+        self.memoCollectionViewManager.backCollectionView.alpha = 0.0;
+        
         if (password.isUsed.boolValue) {
             self.memoCollectionViewManager.memos = [[password.memos sortedArrayUsingDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"text" ascending:NO], nil]] mutableCopy];
         } else {
             self.memoCollectionViewManager.memos = [NSMutableArray array];
         }
-        
+                
         [self.superView layoutIfNeeded];
         
         // Animations
         
+        // - Pass Cell Animations
         [CPAppearanceManager animateWithDuration:0.4 animations:^{
             for (CPPassCell *cell in self.passCells) {
                 if (cell.index != index) {
@@ -218,6 +224,7 @@
             [(UIView *)[draggingCellDetail objectAtIndex:0] removeFromSuperview];
         }];
         
+        // - Text Field Animations
         [CPAppearanceManager animateWithDuration:0.4 delay:0.3 options:0 animations:^{
             [backLayer removeConstraint:textFieldBackgroundRightConstraint];
             [backLayer addConstraint:[NSLayoutConstraint constraintWithItem:textFieldBackground attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:backLayer attribute:NSLayoutAttributeRight multiplier:1.0 constant:-BOX_SEPARATOR_SIZE]];
@@ -226,6 +233,55 @@
         
         [CPAppearanceManager animateWithDuration:0.3 delay:0.4 options:0 animations:^{
             self.passwordTextField.alpha = 1.0;
+        } completion:nil];
+        
+        // - Memo Collection View Animations
+        UIView *fakeMemoContainer = [[UIView alloc] init];
+        fakeMemoContainer.clipsToBounds = YES;
+        fakeMemoContainer.translatesAutoresizingMaskIntoConstraints = NO;
+        [backLayer addSubview:fakeMemoContainer];
+        
+        NSArray *fakeMemoContainerConstraints = [CPAppearanceManager constraintsForView:fakeMemoContainer toEqualToView:backMemoContainer];
+        [backLayer addConstraints:fakeMemoContainerConstraints];
+        
+        NSMutableArray *fakeMemos = [NSMutableArray array];
+        NSMutableArray *fakeMemoConstraints = [NSMutableArray array];
+        for (UIView *realMemo in self.memoCollectionViewManager.backCollectionView.subviews) {
+            UIView *fakeMemo = [[UIView alloc] init];
+            fakeMemo.backgroundColor = realMemo.backgroundColor;
+            fakeMemo.translatesAutoresizingMaskIntoConstraints = NO;
+            [fakeMemoContainer addSubview:fakeMemo];
+            [fakeMemos addObject:fakeMemo];
+            
+            NSLayoutConstraint *fakeMemoTopConstraint = [NSLayoutConstraint constraintWithItem:fakeMemo attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:realMemo attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
+            [backLayer addConstraint:fakeMemoTopConstraint];
+            [fakeMemoConstraints addObject:fakeMemoTopConstraint];
+            NSLayoutConstraint *fakeMemoBottomConstraint = [NSLayoutConstraint constraintWithItem:fakeMemo attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:realMemo attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
+            [backLayer addConstraint:fakeMemoBottomConstraint];
+            [fakeMemoConstraints addObject:fakeMemoBottomConstraint];
+            NSLayoutConstraint *fakeMemoLeftConstraint = [NSLayoutConstraint constraintWithItem:fakeMemo attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:realMemo attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
+            [backLayer addConstraint:fakeMemoLeftConstraint];
+            [fakeMemoConstraints addObject:fakeMemoLeftConstraint];
+            NSLayoutConstraint *fakeMemoWidthConstraint= [NSLayoutConstraint constraintWithItem:fakeMemo attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:0.0];
+            [fakeMemo addConstraint:fakeMemoWidthConstraint];
+        }
+        
+        [self.superView layoutIfNeeded];
+        
+        for (int i = 0; i < fakeMemos.count; i++) {
+            [CPAppearanceManager animateWithDuration:0.4 delay:0.34 + 0.04 * i options:0 animations:^{
+                ((NSLayoutConstraint *)[((UIView *)[fakeMemos objectAtIndex:i]).constraints objectAtIndex:0]).constant = self.memoCollectionViewManager.backCollectionView.frame.size.width - 2 * BOX_SEPARATOR_SIZE;
+                [(UIView *)[fakeMemos objectAtIndex:i] layoutIfNeeded];
+            } completion:^(BOOL finished) {
+                if (i == fakeMemos.count - 1) {
+                    self.memoCollectionViewManager.backCollectionView.alpha = 1.0;
+                    [backLayer removeConstraints:fakeMemoContainerConstraints];
+                    [fakeMemoContainer removeFromSuperview];
+                }
+            }];
+        }
+        [CPAppearanceManager animateWithDuration:0.4 delay:0.6 options:0 animations:^{
+            self.memoCollectionViewManager.frontCollectionView.alpha = 1.0;
         } completion:nil];
         
         /*CPPassword *password = [[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index];
