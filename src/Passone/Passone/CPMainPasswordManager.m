@@ -14,6 +14,8 @@
 
 #import "CPMainPasswordCanvas.h"
 
+#import "CPAppearanceManager.h"
+
 #import "CPNotificationCenter.h"
 
 typedef enum {
@@ -36,7 +38,7 @@ typedef enum {
 @property (strong, nonatomic) UIView *outerview;
 @property (strong, nonatomic) NSArray *outerConstraints;
 
-@property (nonatomic) CPMainPasswordCanvas *pointsContainer;
+@property (strong, nonatomic) CPMainPasswordCanvas *pointsContainer;
 
 @property (strong, nonatomic) UILabel *stateLabel;
 @property (strong, nonatomic) UIButton *redrawButton;
@@ -123,12 +125,7 @@ typedef enum {
     
     [self.superview addSubview:self.outerview];
     
-    self.outerConstraints = [NSArray arrayWithObjects:
-                             [NSLayoutConstraint constraintWithItem:self.outerview attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0],
-                             [NSLayoutConstraint constraintWithItem:self.outerview attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0],
-                             [NSLayoutConstraint constraintWithItem:self.outerview attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0],
-                             [NSLayoutConstraint constraintWithItem:self.outerview attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0],
-                             nil];
+    self.outerConstraints = [CPAppearanceManager constraintsForView:self.outerview toEqualToView:self.superview];
     [self.superview addConstraints:self.outerConstraints];
     
     self.pointsContainer = [[CPMainPasswordCanvas alloc] init];

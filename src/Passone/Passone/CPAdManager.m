@@ -12,7 +12,7 @@
 
 @interface CPAdManager ()
 
-@property (strong, nonatomic) UIView *superview;
+@property (weak, nonatomic) UIView *superview;
 @property (strong, nonatomic) NSLayoutConstraint *heightConstraint;
 
 @property (strong, nonatomic) ADBannerView *iAdBannerView;
@@ -53,6 +53,10 @@
         [self displayAdBannerForFirstTime:YES];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 }
 
 - (void)reachabilityChanged:(NSNotification *)notification {
