@@ -12,11 +12,13 @@
 
 //#import "CPSingleViewMemoCollectionViewManager.h"
 
+#import "CPSettingsManager.h"
+
 #import "CPAppearanceManager.h"
 
-#import "CPPassDataManager.h"
+#import "CPBarButtonManager.h"
 
-#import "CPSettingsManager.h"
+#import "CPPassDataManager.h"
 
 #import "CPProcessManager.h"
 #import "CPSearchingProcess.h"
@@ -25,9 +27,9 @@
 
 @property (weak, nonatomic) UIView *superView;
 
-@property (weak, nonatomic) UITextField *searchBarTextField;
-
 @property (strong, nonatomic) UIButton *barButton;
+
+@property (weak, nonatomic) UITextField *searchBarTextField;
 
 @property (strong, nonatomic) UIView *resultContainer;
 @property (strong, nonatomic) NSArray *resultContainerConstraints;
@@ -79,9 +81,10 @@
         _barButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _barButton.translatesAutoresizingMaskIntoConstraints = NO;
         _barButton.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0];
-        [_barButton setTitle:@"S" forState:UIControlStateNormal];
         [_barButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [_barButton addTarget:self action:@selector(barButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [CPBarButtonManager initializeWithBarButton:_barButton];
+        [CPBarButtonManager pushBarButtonStateWithTitle:@"S" target:self action:@selector(barButtonTouched:) andControlEvents:UIControlEventTouchUpInside];
     }
     return _barButton;
 }

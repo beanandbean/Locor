@@ -72,6 +72,7 @@
 		2CCFB70217CB5F4F009CE894 /* scorpio.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6FA17CB5F4B009CE894 /* scorpio.png */; };
 		2CCFB70317CB5F4F009CE894 /* scorpio@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCFB6FB17CB5F4E009CE894 /* scorpio@2x.png */; };
 		2CD0AE9417B0FCBC0091E14D /* CPEditingPassCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD0AE9317B0FCBC0091E14D /* CPEditingPassCellProcess.m */; };
+		2CD4A94517D732AD00150687 /* CPBarButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD4A94417D732AD00150687 /* CPBarButtonManager.m */; };
 		2CD8212517D5E8EF0014199A /* CPMemoCellRemovingBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD8212417D5E8EF0014199A /* CPMemoCellRemovingBackground.m */; };
 		2CE1EB3117BF90C4005F32AC /* CPMainPasswordCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1EB3017BF90C4005F32AC /* CPMainPasswordCanvas.m */; };
 		2CE543A41796A207004CF538 /* CPEditingMemoCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE543A31796A207004CF538 /* CPEditingMemoCellProcess.m */; };
@@ -187,6 +188,8 @@
 		2CCFB6FB17CB5F4E009CE894 /* scorpio@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scorpio@2x.png"; sourceTree = "<group>"; };
 		2CD0AE9217B0FCBC0091E14D /* CPEditingPassCellProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPEditingPassCellProcess.h; sourceTree = "<group>"; };
 		2CD0AE9317B0FCBC0091E14D /* CPEditingPassCellProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPEditingPassCellProcess.m; sourceTree = "<group>"; };
+		2CD4A94317D732AD00150687 /* CPBarButtonManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPBarButtonManager.h; sourceTree = "<group>"; };
+		2CD4A94417D732AD00150687 /* CPBarButtonManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPBarButtonManager.m; sourceTree = "<group>"; };
 		2CD8212317D5E8EE0014199A /* CPMemoCellRemovingBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMemoCellRemovingBackground.h; sourceTree = "<group>"; };
 		2CD8212417D5E8EF0014199A /* CPMemoCellRemovingBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMemoCellRemovingBackground.m; sourceTree = "<group>"; };
 		2CE1EB2F17BF90C4005F32AC /* CPMainPasswordCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMainPasswordCanvas.h; sourceTree = "<group>"; };
@@ -406,6 +409,8 @@
 				FC4F2AE91759EB0C002D9992 /* CPAppDelegate.m */,
 				2C57A043178979A2004F1547 /* CPAppearanceManager.h */,
 				2C57A044178979A2004F1547 /* CPAppearanceManager.m */,
+				2CD4A94317D732AD00150687 /* CPBarButtonManager.h */,
+				2CD4A94417D732AD00150687 /* CPBarButtonManager.m */,
 				2CE1EB2F17BF90C4005F32AC /* CPMainPasswordCanvas.h */,
 				2CE1EB3017BF90C4005F32AC /* CPMainPasswordCanvas.m */,
 				2CEB0D5017BCD506000404C2 /* CPMainPasswordManager.h */,
@@ -621,6 +626,7 @@
 				2C1541C517D1F1490057733D /* CPMemoCollectionViewManager.m in Sources */,
 				FC3732B817D54D0B00014998 /* CPSettingsManager.m in Sources */,
 				2CD8212517D5E8EF0014199A /* CPMemoCellRemovingBackground.m in Sources */,
+				2CD4A94517D732AD00150687 /* CPBarButtonManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

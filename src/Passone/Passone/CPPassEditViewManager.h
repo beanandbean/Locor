@@ -16,6 +16,4 @@
 
 - (void)showPassEditViewForCellAtIndex:(NSUInteger)index;
 
-- (void)hidePassEditView;
-
 @end
