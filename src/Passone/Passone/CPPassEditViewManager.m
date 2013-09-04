@@ -31,6 +31,8 @@
 @property (weak, nonatomic) UIImageView *superCoverImage;
 @property (weak, nonatomic) NSArray *passCells;
 
+@property (nonatomic) BOOL allowEdit;
+
 @property (strong, nonatomic) UIView *outerView;
 @property (strong, nonatomic) NSArray *outerViewConstraints;
 
@@ -64,6 +66,7 @@
         self.index = index;
         
         CPPassword *password = [[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index];
+        self.allowEdit = password.isUsed.boolValue;
         
         [CPBarButtonManager pushBarButtonStateWithTitle:@"X" target:self action:@selector(hidePassEditView) andControlEvents:UIControlEventTouchUpInside];
         
@@ -159,7 +162,7 @@
         [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeLeft multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
         [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeRight multiplier:1.0 constant:-BOX_SEPARATOR_SIZE]];
         [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-        
+                
         // - Memo Collection View Initialization
         
         UIView *backMemoContainer = [[UIView alloc] init];
@@ -237,7 +240,11 @@
         
         [CPAppearanceManager animateWithDuration:0.3 delay:0.4 options:0 animations:^{
             self.passwordTextField.alpha = 1.0;
-        } completion:nil];
+        } completion:^(BOOL finished) {
+            if (!password.isUsed.boolValue) {
+                [self.passwordTextField becomeFirstResponder];
+            }
+        }];
         
         // - Memo Collection View Animations
         UIView *fakeMemoContainer = [[UIView alloc] init];
@@ -419,6 +426,26 @@
     if (textField == self.passwordTextField) {
         self.passwordTextField.secureTextEntry = YES;
     }
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (!range.location && range.length == textField.text.length && [string isEqualToString:@""]) {
+        if (self.allowEdit) {
+            self.allowEdit = NO;
+            [CPAppearanceManager animateWithDuration:0.3 animations:^{
+                self.cellIcon.alpha = 0.0;
+            }];
+        }
+    } else if ([textField.text isEqualToString:@""]) {
+        if (!self.allowEdit) {
+            self.allowEdit = YES;
+            [CPAppearanceManager animateWithDuration:0.3 animations:^{
+                self.cellIcon.alpha = 1.0;
+            }];
+        }
+    }
+    
+    return YES;
 }
 
 @end
