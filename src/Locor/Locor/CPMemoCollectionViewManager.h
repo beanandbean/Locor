@@ -26,6 +26,7 @@ typedef enum {
 @property (weak, nonatomic) id<CPMemoCollectionViewManagerDelegate> delegate;
 
 @property (strong, nonatomic) NSMutableArray *memos;
+@property (strong, nonatomic) UIColor *inPasswordMemoColor;
 
 @property (strong, nonatomic) UICollectionView *frontCollectionView;
 @property (strong, nonatomic) UICollectionView *backCollectionView;

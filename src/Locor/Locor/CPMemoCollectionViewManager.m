@@ -427,7 +427,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
             
             if ([CPProcessManager isInProcess:SCROLLING_COLLECTION_VIEW_PROCESS] && self.style == CPMemoCollectionViewStyleInPassCell) {
                 if (indexPath.row == 0) {
-                    memo = [self.memos objectAtIndex:indexPath.row];
+                    initializedCell.backgroundColor = self.inPasswordMemoColor;
                 } else {
                     memo = [self.memos objectAtIndex:indexPath.row - 1];
                 }
@@ -435,7 +435,9 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
                 memo = [self.memos objectAtIndex:indexPath.row];
             }
             
-            initializedCell.backgroundColor = memo.password.color;
+            if (memo) {
+                initializedCell.backgroundColor = memo.password.color;
+            }
         }
     }
     

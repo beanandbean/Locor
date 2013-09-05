@@ -181,6 +181,7 @@
         [self.superView addConstraints:[CPAppearanceManager constraintsForView:frontMemoContainer toEqualToView:backMemoContainer]];
         
         self.memoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:self.superView frontLayer:frontMemoContainer backLayer:backMemoContainer style:CPMemoCollectionViewStyleInPassCell andDelegate:self];
+        self.memoCollectionViewManager.inPasswordMemoColor = password.color;
         
         if (password.isUsed.boolValue) {
             self.memoCollectionViewManager.memos = [[password.memos sortedArrayUsingDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"text" ascending:NO], nil]] mutableCopy];
