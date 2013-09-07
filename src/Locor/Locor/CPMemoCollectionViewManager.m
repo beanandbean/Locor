@@ -102,14 +102,14 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
 
 - (NSArray *)frontCollectionViewConstraints {
     if (!_frontCollectionViewConstraints) {
-        _frontCollectionViewConstraints = [CPAppearanceManager constraintsWithView:self.frontCollectionView alignToView:self.frontLayer];
+        _frontCollectionViewConstraints = [CPAppearanceManager constraintsWithView:self.frontCollectionView edgesAlignToView:self.frontLayer];
     }
     return _frontCollectionViewConstraints;
 }
 
 - (NSArray *)backCollectionViewConstraints {
     if (!_backCollectionViewConstraints) {
-        _backCollectionViewConstraints = [CPAppearanceManager constraintsWithView:self.backCollectionView alignToView:self.backLayer];
+        _backCollectionViewConstraints = [CPAppearanceManager constraintsWithView:self.backCollectionView edgesAlignToView:self.backLayer];
     }
     return _backCollectionViewConstraints;
 }

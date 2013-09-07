@@ -39,20 +39,14 @@
     [scrollView addConstraints:[NSArray arrayWithObjects:
                                 [CPAppearanceManager constraintWithView:closeButton width:100.0],
                                 [CPAppearanceManager constraintWithView:closeButton height:44.0],
-                                [CPAppearanceManager constraintWithView:closeButton attribute:NSLayoutAttributeCenterX alignToView:scrollView],
-                                [CPAppearanceManager constraintWithView:closeButton attribute:NSLayoutAttributeCenterY alignToView:scrollView],
                                 nil]];
+    [scrollView addConstraints:[CPAppearanceManager constraintsWithView:closeButton centerAlignToView:scrollView]];
+    
+    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:scrollView alignToView:self.superview attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, NSLayoutAttributeTop, ATTR_END]];
+    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:pageControl alignToView:self.superview attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, NSLayoutAttributeBottom, ATTR_END]];
     
     [self.superview addConstraints:[NSArray arrayWithObjects:
-                                    [CPAppearanceManager constraintWithView:scrollView attribute:NSLayoutAttributeTop alignToView:self.superview],
-                                    [CPAppearanceManager constraintWithView:scrollView attribute:NSLayoutAttributeLeft alignToView:self.superview],
-                                    [CPAppearanceManager constraintWithView:scrollView attribute:NSLayoutAttributeRight alignToView:self.superview],
-                                    
                                     [CPAppearanceManager constraintWithView:pageControl height:44.0],
-                                    [CPAppearanceManager constraintWithView:pageControl attribute:NSLayoutAttributeLeft alignToView:self.superview],
-                                    [CPAppearanceManager constraintWithView:pageControl attribute:NSLayoutAttributeRight alignToView:self.superview],
-                                    [CPAppearanceManager constraintWithView:pageControl attribute:NSLayoutAttributeBottom alignToView:self.superview],
-                                    
                                     [CPAppearanceManager constraintWithView:scrollView attribute:NSLayoutAttributeBottom alignToView:pageControl attribute:NSLayoutAttributeTop],
                                     nil]];
 }

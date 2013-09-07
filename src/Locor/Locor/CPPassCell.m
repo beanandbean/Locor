@@ -82,7 +82,7 @@
     self.iconView.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.delegate.iconLayer addSubview:self.iconView];
-    [self.delegate.iconLayer.superview addConstraints:[CPAppearanceManager constraintsWithView:self.iconView alignToView:self]];
+    [self.delegate.iconLayer.superview addConstraints:[CPAppearanceManager constraintsWithView:self.iconView edgesAlignToView:self]];
     
     CPPassword *password = [[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index];
     self.iconImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:password.displayIcon]];
@@ -90,10 +90,7 @@
     
     [self.iconView addSubview:self.iconImage];
     
-    self.iconImagePositionConstraints = [NSArray arrayWithObjects:
-                                         [NSLayoutConstraint constraintWithItem:self.iconImage attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0],
-                                         [NSLayoutConstraint constraintWithItem:self.iconImage attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0],
-                                         nil];
+    self.iconImagePositionConstraints = [CPAppearanceManager constraintsWithView:self.iconImage centerAlignToView:self.iconView];
     [self.iconView addConstraints:self.iconImagePositionConstraints];
     
     NSMutableArray *gestureArray = [[NSMutableArray alloc] initWithObjects:[NSNull null], [NSNull null], nil];

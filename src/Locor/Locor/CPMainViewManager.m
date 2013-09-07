@@ -35,17 +35,10 @@
     adView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.superview addSubview:adView];
     
-    [self.superview addConstraints:[NSArray arrayWithObjects:
-                                    [CPAppearanceManager constraintWithView:contentView attribute:NSLayoutAttributeTop alignToView:self.superview],
-                                    [CPAppearanceManager constraintWithView:contentView attribute:NSLayoutAttributeLeft alignToView:self.superview],
-                                    [CPAppearanceManager constraintWithView:contentView attribute:NSLayoutAttributeRight alignToView:self.superview],
-                                    
-                                    [CPAppearanceManager constraintWithView:adView attribute:NSLayoutAttributeLeft alignToView:self.superview],
-                                    [CPAppearanceManager constraintWithView:adView attribute:NSLayoutAttributeRight alignToView:self.superview],
-                                    [CPAppearanceManager constraintWithView:adView attribute:NSLayoutAttributeBottom alignToView:self.superview],
-                                    
-                                    [CPAppearanceManager constraintWithView:contentView attribute:NSLayoutAttributeBottom alignToView:adView attribute:NSLayoutAttributeTop],
-                                    nil]];
+    [self.superview addConstraint:[CPAppearanceManager constraintWithView:contentView attribute:NSLayoutAttributeBottom alignToView:adView attribute:NSLayoutAttributeTop]];
+    
+    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:contentView alignToView:self.superview attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, NSLayoutAttributeTop, ATTR_END]];
+    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:adView alignToView:self.superview attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, NSLayoutAttributeBottom, ATTR_END]];
     
     UIView *passGridView = [[UIView alloc] init];
     passGridView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -59,12 +52,9 @@
     
     self.adManager = [[CPAdManager alloc] initWithSuperview:adView];
     
-    [contentView addConstraints:[NSArray arrayWithObjects:
-                                 [CPAppearanceManager constraintWithView:passGridView attribute:NSLayoutAttributeTop alignToView:self.topBarAndSearchManager.searchBar attribute:NSLayoutAttributeTop],
-                                 [CPAppearanceManager constraintWithView:passGridView attribute:NSLayoutAttributeLeft alignToView:contentView],
-                                 [CPAppearanceManager constraintWithView:passGridView attribute:NSLayoutAttributeRight alignToView:contentView],
-                                 [CPAppearanceManager constraintWithView:passGridView attribute:NSLayoutAttributeBottom alignToView:contentView],
-                                 nil]];
+    [contentView addConstraint:[CPAppearanceManager constraintWithView:passGridView attribute:NSLayoutAttributeTop alignToView:self.topBarAndSearchManager.searchBar attribute:NSLayoutAttributeTop]];
+    
+    [contentView addConstraints:[CPAppearanceManager constraintsWithView:passGridView alignToView:contentView attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, NSLayoutAttributeBottom]];
 }
 
 @end

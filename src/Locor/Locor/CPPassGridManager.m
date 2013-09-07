@@ -89,7 +89,7 @@
     fakeCoverContainer.clipsToBounds = YES;
     fakeCoverContainer.translatesAutoresizingMaskIntoConstraints = NO;
     [dragView addSubview:fakeCoverContainer];
-    [dragView addConstraints:[CPAppearanceManager constraintsWithView:fakeCoverContainer alignToView:dragView]];
+    [dragView addConstraints:[CPAppearanceManager constraintsWithView:fakeCoverContainer edgesAlignToView:dragView]];
     
     UIImageView *fakeCover = [[UIImageView alloc] initWithImage:cover.image];
     fakeCover.alpha = cover.alpha;
@@ -138,7 +138,7 @@
         
         [self.superview addSubview:_iconLayer];
         
-        [self.superview addConstraints:[CPAppearanceManager constraintsWithView:_iconLayer alignToView:self.passGridView]];
+        [self.superview addConstraints:[CPAppearanceManager constraintsWithView:_iconLayer edgesAlignToView:self.passGridView]];
     }
     return _iconLayer;
 }

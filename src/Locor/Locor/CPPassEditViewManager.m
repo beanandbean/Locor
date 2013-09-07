@@ -78,7 +78,7 @@
         self.outerView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.superView addSubview:self.outerView];
         
-        self.outerViewConstraints = [CPAppearanceManager constraintsWithView:self.outerView alignToView:self.superView];
+        self.outerViewConstraints = [CPAppearanceManager constraintsWithView:self.outerView edgesAlignToView:self.superView];
         [self.superView addConstraints:self.outerViewConstraints];
         
         // - Back And Front Layers Initialization
@@ -86,7 +86,7 @@
         UIView *backLayer = [[UIView alloc] init];
         backLayer.translatesAutoresizingMaskIntoConstraints = NO;
         [self.outerView addSubview:backLayer];
-        [self.outerView addConstraints:[CPAppearanceManager constraintsWithView:backLayer alignToView:self.outerView]];
+        [self.outerView addConstraints:[CPAppearanceManager constraintsWithView:backLayer edgesAlignToView:self.outerView]];
         
         UIImageView *coverImage = [[UIImageView alloc] initWithImage:self.superCoverImage.image];
         coverImage.translatesAutoresizingMaskIntoConstraints = NO;
@@ -99,7 +99,7 @@
         UIView *frontLayer = [[UIView alloc] init];
         frontLayer.translatesAutoresizingMaskIntoConstraints = NO;
         [self.outerView addSubview:frontLayer];
-        [self.outerView addConstraints:[CPAppearanceManager constraintsWithView:frontLayer alignToView:self.outerView]];
+        [self.outerView addConstraints:[CPAppearanceManager constraintsWithView:frontLayer edgesAlignToView:self.outerView]];
         
         // - Top Cell Initialization
         
@@ -178,7 +178,7 @@
         frontMemoContainer.translatesAutoresizingMaskIntoConstraints = NO;
         [frontLayer addSubview:frontMemoContainer];
         
-        [self.superView addConstraints:[CPAppearanceManager constraintsWithView:frontMemoContainer alignToView:backMemoContainer]];
+        [self.superView addConstraints:[CPAppearanceManager constraintsWithView:frontMemoContainer edgesAlignToView:backMemoContainer]];
         
         self.memoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:self.superView frontLayer:frontMemoContainer backLayer:backMemoContainer style:CPMemoCollectionViewStyleInPassCell andDelegate:self];
         self.memoCollectionViewManager.inPasswordMemoColor = password.color;
@@ -253,7 +253,7 @@
         fakeMemoContainer.translatesAutoresizingMaskIntoConstraints = NO;
         [backLayer addSubview:fakeMemoContainer];
         
-        NSArray *fakeMemoContainerConstraints = [CPAppearanceManager constraintsWithView:fakeMemoContainer alignToView:backMemoContainer];
+        NSArray *fakeMemoContainerConstraints = [CPAppearanceManager constraintsWithView:fakeMemoContainer edgesAlignToView:backMemoContainer];
         [backLayer addConstraints:fakeMemoContainerConstraints];
         
         NSMutableArray *fakeMemos = [NSMutableArray array];

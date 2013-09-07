@@ -125,7 +125,7 @@ typedef enum {
     
     [self.superview addSubview:self.outerview];
     
-    self.outerConstraints = [CPAppearanceManager constraintsWithView:self.outerview alignToView:self.superview];
+    self.outerConstraints = [CPAppearanceManager constraintsWithView:self.outerview edgesAlignToView:self.superview];
     [self.superview addConstraints:self.outerConstraints];
     
     self.pointsContainer = [[CPMainPasswordCanvas alloc] init];
