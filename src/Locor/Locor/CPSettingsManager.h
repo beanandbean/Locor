@@ -8,7 +8,7 @@
 
 #import "CPViewManager.h"
 
-@interface CPSettingsManager : NSObject <CPViewManager>
+@interface CPSettingsManager : CPViewManager
 
 - (id)initWithSuperview:(UIView *)superview;
 

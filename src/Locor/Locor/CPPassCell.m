@@ -72,47 +72,52 @@
         
         CPPassword *password = [[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:index];
         self.backgroundColor = password.displayColor;
-        self.iconView = [[UIView alloc] init];
-        self.iconView.clipsToBounds = YES;
-        self.iconView.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        [self.delegate.iconLayer addSubview:self.iconView];
-        [self.delegate.iconLayer.superview addConstraints:[CPAppearanceManager constraintsForView:self.iconView toEqualToView:self]];
-        
-        self.iconImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:password.displayIcon]];
-        self.iconImage.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        [self.iconView addSubview:self.iconImage];
-        
-        self.iconImagePositionConstraints = [NSArray arrayWithObjects:
-                                             [NSLayoutConstraint constraintWithItem:self.iconImage attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0],
-                                             [NSLayoutConstraint constraintWithItem:self.iconImage attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0],
-                                             nil];
-        [self.iconView addConstraints:self.iconImagePositionConstraints];
-        
-        NSMutableArray *gestureArray = [[NSMutableArray alloc] initWithObjects:[NSNull null], [NSNull null], nil];
-        
-        UITapGestureRecognizer *editing = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditingGesture:)];
-        editing.numberOfTapsRequired = EDITING_TAP_NUMBER;
-        [self.iconView addGestureRecognizer:editing];
-        [gestureArray replaceObjectAtIndex:EDITING_TAP_NUMBER - 1 withObject:editing];
-        
-        UITapGestureRecognizer *copyPassword = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleCopyPasswordGesture:)];
-        copyPassword.numberOfTapsRequired = COPY_PASSWORD_TAP_NUMBER;
-        [self.iconView addGestureRecognizer:copyPassword];
-        [gestureArray replaceObjectAtIndex:COPY_PASSWORD_TAP_NUMBER - 1 withObject:copyPassword];
-        
-        [[gestureArray objectAtIndex:0] requireGestureRecognizerToFail:[gestureArray objectAtIndex:1]];
-        
-        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
-        longPress.delegate = self;
-        [self.iconView addGestureRecognizer:longPress];
-        
-        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
-        pan.delegate = self;
-        [self.iconView addGestureRecognizer:pan];
     }
     return self;
+}
+
+- (void)initializeIcon {
+    self.iconView = [[UIView alloc] init];
+    self.iconView.clipsToBounds = YES;
+    self.iconView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self.delegate.iconLayer addSubview:self.iconView];
+    [self.delegate.iconLayer.superview addConstraints:[CPAppearanceManager constraintsWithView:self.iconView alignToView:self]];
+    
+    CPPassword *password = [[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index];
+    self.iconImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:password.displayIcon]];
+    self.iconImage.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self.iconView addSubview:self.iconImage];
+    
+    self.iconImagePositionConstraints = [NSArray arrayWithObjects:
+                                         [NSLayoutConstraint constraintWithItem:self.iconImage attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0],
+                                         [NSLayoutConstraint constraintWithItem:self.iconImage attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0],
+                                         nil];
+    [self.iconView addConstraints:self.iconImagePositionConstraints];
+    
+    NSMutableArray *gestureArray = [[NSMutableArray alloc] initWithObjects:[NSNull null], [NSNull null], nil];
+    
+    UITapGestureRecognizer *editing = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditingGesture:)];
+    editing.numberOfTapsRequired = EDITING_TAP_NUMBER;
+    [self.iconView addGestureRecognizer:editing];
+    [gestureArray replaceObjectAtIndex:EDITING_TAP_NUMBER - 1 withObject:editing];
+    
+    UITapGestureRecognizer *copyPassword = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleCopyPasswordGesture:)];
+    copyPassword.numberOfTapsRequired = COPY_PASSWORD_TAP_NUMBER;
+    [self.iconView addGestureRecognizer:copyPassword];
+    [gestureArray replaceObjectAtIndex:COPY_PASSWORD_TAP_NUMBER - 1 withObject:copyPassword];
+    
+    [[gestureArray objectAtIndex:0] requireGestureRecognizerToFail:[gestureArray objectAtIndex:1]];
+    
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
+    longPress.delegate = self;
+    [self.iconView addGestureRecognizer:longPress];
+    
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
+    pan.delegate = self;
+    [self.iconView addGestureRecognizer:pan];
+
 }
 
 - (void)handleEditingGesture:(UITapGestureRecognizer *)tapGestureRecognizer {

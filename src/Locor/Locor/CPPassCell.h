@@ -31,4 +31,6 @@
 
 - (id)initWithIndex:(NSUInteger)index delegate:(id<CPPassCellDelegate>)delegate;
 
+- (void)initializeIcon;
+
 @end

@@ -89,7 +89,7 @@
     fakeCoverContainer.clipsToBounds = YES;
     fakeCoverContainer.translatesAutoresizingMaskIntoConstraints = NO;
     [dragView addSubview:fakeCoverContainer];
-    [dragView addConstraints:[CPAppearanceManager constraintsForView:fakeCoverContainer toEqualToView:dragView]];
+    [dragView addConstraints:[CPAppearanceManager constraintsWithView:fakeCoverContainer alignToView:dragView]];
     
     UIImageView *fakeCover = [[UIImageView alloc] initWithImage:cover.image];
     fakeCover.alpha = cover.alpha;
@@ -138,7 +138,7 @@
         
         [self.superview addSubview:_iconLayer];
         
-        [self.superview addConstraints:[CPAppearanceManager constraintsForView:_iconLayer toEqualToView:self.passGridView]];
+        [self.superview addConstraints:[CPAppearanceManager constraintsWithView:_iconLayer alignToView:self.passGridView]];
     }
     return _iconLayer;
 }
@@ -152,6 +152,7 @@
         
         self.passGridView = [[UIView alloc] init];
         self.passGridView.translatesAutoresizingMaskIntoConstraints = NO;
+        [superView addSubview:self.passGridView];
         
         [superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
         [superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
@@ -165,7 +166,6 @@
         [superView addConstraint:lowPriorityEqualConstraint];
         // innerView.width == innerView.height
         [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.passGridView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
-        [superView addSubview:self.passGridView];
         
         NSString *coverName;
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
@@ -198,6 +198,11 @@
             NSUInteger index = row * PASS_GRID_COLUMN_COUNT + column;
             CPPassCell *cell = [[CPPassCell alloc] initWithIndex:index delegate:self];
             
+            [self.passCells addObject:cell];
+            [self.passGridView addSubview:cell];
+            
+            [cell initializeIcon];
+            
             if (row == 0) {
                 [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.passGridView attribute:NSLayoutAttributeTop multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
             } else {
@@ -223,9 +228,6 @@
             if (column == PASS_GRID_COLUMN_COUNT - 1) {
                 [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.passGridView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-BOX_SEPARATOR_SIZE]];
             }
-            
-            [self.passCells addObject:cell];
-            [self.passGridView addSubview:cell];
         }
     }
 }

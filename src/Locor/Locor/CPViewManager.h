@@ -2,14 +2,21 @@
 //  CPViewManager.h
 //  Locor
 //
-//  Created by wangyw on 9/3/13.
+//  Created by wangyw on 9/6/13.
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-@protocol CPViewManager <NSObject>
+@interface CPViewManager : NSObject
 
-- (void)loadViews;
+@property (weak, nonatomic) CPViewManager *supermanager;
+@property (weak, nonatomic) UIView *superview;
 
-- (void)unloadViews;
+- (id)initWithSupermanager:(CPViewManager *)supermanager andSuperview:(UIView *)superview;
+
+- (void)loadAnimated:(BOOL)animated;
+- (void)unloadAnimated:(BOOL)animated;
+
+- (void)submanagerWillUnload:(CPViewManager *)submanager;
+- (void)submanagerDidUnload:(CPViewManager *)submanager;
 
 @end

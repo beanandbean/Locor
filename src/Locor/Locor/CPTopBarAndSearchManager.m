@@ -174,7 +174,7 @@
             }];
         }];
     } else {
-        [self.settingsManager loadViews];
+        //[self.settingsManager loadViews];
     }
 }
 
