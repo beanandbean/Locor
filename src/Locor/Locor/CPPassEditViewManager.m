@@ -12,6 +12,8 @@
 
 #import "CPLocorConfig.h"
 
+#import "CPCoverImageView.h"
+
 #import "CPPassGridManager.h"
 
 #import "CPBarButtonManager.h"
@@ -28,7 +30,6 @@
 @interface CPPassEditViewManager ()
 
 @property (weak, nonatomic) UIView *superView;
-@property (weak, nonatomic) UIImageView *superCoverImage;
 @property (weak, nonatomic) NSArray *passCells;
 
 @property (nonatomic) BOOL allowEdit;
@@ -48,12 +49,11 @@
 
 @implementation CPPassEditViewManager
 
-- (id)initWithSuperView:(UIView *)superView coverImage:(UIImageView *)coverImage andCells:(NSArray *)cells {
+- (id)initWithSuperView:(UIView *)superView andCells:(NSArray *)cells {
     self = [super init];
     if (self) {
         self.index = -1;
         self.superView = superView;
-        self.superCoverImage = coverImage;
         self.passCells = cells;
     }
     return self;
@@ -88,13 +88,9 @@
         [self.outerView addSubview:backLayer];
         [self.outerView addConstraints:[CPAppearanceManager constraintsWithView:backLayer edgesAlignToView:self.outerView]];
         
-        UIImageView *coverImage = [[UIImageView alloc] initWithImage:self.superCoverImage.image];
-        coverImage.translatesAutoresizingMaskIntoConstraints = NO;
-        coverImage.transform = self.superCoverImage.transform;
-        coverImage.alpha = self.superCoverImage.alpha;
+        CPCoverImageView *coverImage = [[CPCoverImageView alloc] init];
         [self.outerView addSubview:coverImage];
-        [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:coverImage attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.superCoverImage attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-        [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:coverImage attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.superCoverImage attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+        [self.superView addConstraints:[CPAppearanceManager constraintsWithViewCenterAlignToStandardCoverImageCenter:coverImage]];
         
         UIView *frontLayer = [[UIView alloc] init];
         frontLayer.translatesAutoresizingMaskIntoConstraints = NO;
@@ -122,7 +118,7 @@
         [self.outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.cellIcon attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.cellBackground attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
         [self.outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.cellIcon attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.cellBackground attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
         
-        NSArray *draggingCellDetail = [CPPassGridManager makeDraggingCellFromCell:[self.passCells objectAtIndex:index] onView:self.superView withCover:self.superCoverImage];
+        NSArray *draggingCellDetail = [CPPassGridManager makeDraggingCellFromCell:[self.passCells objectAtIndex:index] onView:self.superView];
         ((CPPassCell *)[self.passCells objectAtIndex:index]).hidden = YES;
         
         // - Password Text Field Initialization
@@ -341,7 +337,7 @@
             }
         } completion:nil];
         
-        NSArray *draggingCellDetail = [CPPassGridManager makeDraggingCellFromCell:[self.passCells objectAtIndex:self.index] onView:self.superView withCover:self.superCoverImage];
+        NSArray *draggingCellDetail = [CPPassGridManager makeDraggingCellFromCell:[self.passCells objectAtIndex:self.index] onView:self.superView];
         
         [self.superView removeConstraint:[draggingCellDetail objectAtIndex:1]];
         [self.superView removeConstraint:[draggingCellDetail objectAtIndex:2]];

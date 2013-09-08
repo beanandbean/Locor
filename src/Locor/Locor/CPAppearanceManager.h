@@ -9,21 +9,20 @@
 #define ATTR_END -1
 
 typedef enum {
-    CPMarginEdgeLeft,
-    CPMarginEdgeRight,
-    CPMarginEdgeCount
-} CPMarginEdge;
+    CPStandardMarginEdgeLeft,
+    CPStandardMarginEdgeRight,
+    CPStandardCoverImageCenterX,
+    CPStandardCoverImageCenterY,
+    CPStandardPositionCount
+} CPStandardPosition;
 
 @interface CPAppearanceManager : NSObject
 
-+ (void)registerStandardForEdge:(CPMarginEdge)edge asItem:(UIView *)view attribute:(NSLayoutAttribute)attr multiplier:(CGFloat)multiplier constant:(CGFloat)c;
-+ (NSLayoutConstraint *)constraintWithItem:(UIView *)view attribute:(NSLayoutAttribute)attr relatedBy:(NSLayoutRelation)relation constant:(CGFloat)c toEdge:(CPMarginEdge)edge;
-
 + (void)animateWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations;
-+ (void)animateWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion;
-+ (void)animateWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options animations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion;
++ (void)animateWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations completion:(void (^)(BOOL))completion;
++ (void)animateWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options animations:(void (^)(void))animations completion:(void (^)(BOOL))completion;
 
-#pragma mark - constraint helper
+#pragma mark - Constraints Helper
 
 + (NSArray *)constraintsWithView:(UIView *)view1 edgesAlignToView:(UIView *)view2;
 + (NSArray *)constraintsWithView:(UIView *)view1 centerAlignToView:(UIView *)view2;
@@ -34,5 +33,13 @@ typedef enum {
 
 + (NSLayoutConstraint *)constraintWithView:(UIView *)view width:(CGFloat)width;
 + (NSLayoutConstraint *)constraintWithView:(UIView *)view height:(CGFloat)height;
+
+#pragma mark - Standard Constraints Helper
+
++ (void)registerStandardForPosition:(CPStandardPosition)edge asItem:(UIView *)view attribute:(NSLayoutAttribute)attr multiplier:(CGFloat)multiplier constant:(CGFloat)c;
+
++ (NSArray *)constraintsWithViewCenterAlignToStandardCoverImageCenter:(UIView *)view;
+
++ (NSLayoutConstraint *)constraintWithView:(UIView *)view attribute:(NSLayoutAttribute)attr relatedBy:(NSLayoutRelation)relation constant:(CGFloat)c toPosition:(CPStandardPosition)edge;
 
 @end

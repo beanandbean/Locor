@@ -10,6 +10,8 @@
 
 #import "CPLocorConfig.h"
 
+#import "CPCoverImageView.h"
+
 #import "CPPassEditViewManager.h"
 
 #import "CPPassDataManager.h"
@@ -25,7 +27,7 @@
 
 @property (strong, nonatomic) UIView *passGridView;
 
-@property (strong, nonatomic) UIImageView *coverImage;
+@property (strong, nonatomic) CPCoverImageView *coverImage;
 
 @property (strong, nonatomic) UIView *iconLayer;
 
@@ -62,7 +64,7 @@
     cell.layer.shadowRadius = 0.0;
 }
 
-+ (NSArray *)makeDraggingCellFromCell:(CPPassCell *)passCell onView:(UIView *)view withCover:(UIImageView *)cover {
++ (NSArray *)makeDraggingCellFromCell:(CPPassCell *)passCell onView:(UIView *)view {
     UIView *dragView = [[UIView alloc] init];
     
     [CPPassGridManager makeShadowOnCell:dragView withColor:passCell.backgroundColor opacity:1.0 andRadius:5.0];
@@ -89,13 +91,10 @@
     [dragView addSubview:fakeCoverContainer];
     [dragView addConstraints:[CPAppearanceManager constraintsWithView:fakeCoverContainer edgesAlignToView:dragView]];
     
-    UIImageView *fakeCover = [[UIImageView alloc] initWithImage:cover.image];
-    fakeCover.alpha = cover.alpha;
-    fakeCover.transform = cover.transform;
-    fakeCover.translatesAutoresizingMaskIntoConstraints = NO;
-    
+    CPCoverImageView *fakeCover = [[CPCoverImageView alloc] init];
     [fakeCoverContainer addSubview:fakeCover];
-    NSArray *dragViewCoverConstraints = [CPAppearanceManager constraintsWithView:fakeCover centerAlignToView:cover];
+    
+    NSArray *dragViewCoverConstraints = [CPAppearanceManager constraintsWithViewCenterAlignToStandardCoverImageCenter:fakeCover];
     [view addConstraints:dragViewCoverConstraints];
     
     UIImageView *fakeIcon = [[UIImageView alloc] initWithImage:passCell.iconImage.image];
@@ -129,26 +128,18 @@
     [self.superview addConstraint:lowPriorityEqualConstraint];
     [self.passGridView addConstraint:[CPAppearanceManager constraintWithView:self.passGridView attribute:NSLayoutAttributeWidth alignToView:self.passGridView attribute:NSLayoutAttributeHeight]];
     
-    NSString *coverName;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        coverName = @"bg-iphone";
-    } else {
-        coverName = @"bg-ipad";
-    }
+    [CPAppearanceManager registerStandardForPosition:CPStandardCoverImageCenterX asItem:self.superview attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0];
+    [CPAppearanceManager registerStandardForPosition:CPStandardCoverImageCenterY asItem:self.superview attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0];
     
     // TODO: Make cover images bigger.
-    self.coverImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:coverName]];
-    self.coverImage.transform = CGAffineTransformMakeRotation(M_PI_2);
-    self.coverImage.translatesAutoresizingMaskIntoConstraints = NO;
-    self.coverImage.alpha = WATER_MARK_ALPHA;
+    self.coverImage = [[CPCoverImageView alloc] init];
     [self.superview addSubview:self.coverImage];
-    
-    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.coverImage centerAlignToView:self.superview]];
+    [self.superview addConstraints:[CPAppearanceManager constraintsWithViewCenterAlignToStandardCoverImageCenter:self.coverImage]];
     
     [self createPassCells];
     
-    [CPAppearanceManager registerStandardForEdge:CPMarginEdgeLeft asItem:[self.passCells objectAtIndex:0] attribute:NSLayoutAttributeLeft multiplier:1.0 constant:PASS_GRID_HORIZONTAL_INDENT];
-    [CPAppearanceManager registerStandardForEdge:CPMarginEdgeRight asItem:[self.passCells objectAtIndex:2] attribute:NSLayoutAttributeRight multiplier:1.0 constant:-PASS_GRID_HORIZONTAL_INDENT];
+    [CPAppearanceManager registerStandardForPosition:CPStandardMarginEdgeLeft asItem:[self.passCells objectAtIndex:0] attribute:NSLayoutAttributeLeft multiplier:1.0 constant:PASS_GRID_HORIZONTAL_INDENT];
+    [CPAppearanceManager registerStandardForPosition:CPStandardMarginEdgeRight asItem:[self.passCells objectAtIndex:2] attribute:NSLayoutAttributeRight multiplier:1.0 constant:-PASS_GRID_HORIZONTAL_INDENT];
 }
 
 - (void)createPassCells {
@@ -208,7 +199,7 @@
     self.dragSourceCell = passCell;
     self.dragSourceCell.hidden = YES;
     
-    NSArray *dragCellDetail = [CPPassGridManager makeDraggingCellFromCell:self.dragSourceCell onView:self.superview withCover:self.coverImage];
+    NSArray *dragCellDetail = [CPPassGridManager makeDraggingCellFromCell:self.dragSourceCell onView:self.superview];
     self.dragView = [dragCellDetail objectAtIndex:0];
     self.dragViewLeftConstraint = [dragCellDetail objectAtIndex:1];
     self.dragViewTopConstraint = [dragCellDetail objectAtIndex:2];
@@ -254,7 +245,7 @@
             }
             
             self.dragDestinationCell = newDragDestinationCell;
-            self.dragDestinationShadowCellDetail = [CPPassGridManager makeDraggingCellFromCell:self.dragDestinationCell onView:self.superview withCover:self.coverImage];
+            self.dragDestinationShadowCellDetail = [CPPassGridManager makeDraggingCellFromCell:self.dragDestinationCell onView:self.superview];
             [self.superview bringSubviewToFront:self.dragView];
         }
     }
@@ -380,7 +371,7 @@
 
 - (CPPassEditViewManager *)passEditViewManager {
     if (!_passEditViewManager) {
-        _passEditViewManager = [[CPPassEditViewManager alloc] initWithSuperView:self.superview coverImage:self.coverImage andCells:self.passCells];
+        _passEditViewManager = [[CPPassEditViewManager alloc] initWithSuperView:self.superview andCells:self.passCells];
     }
     return _passEditViewManager;
 }

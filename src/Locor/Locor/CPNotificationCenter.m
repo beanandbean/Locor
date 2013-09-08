@@ -117,11 +117,11 @@ static CPNotificationCenter *_center;
     [self.superview layoutIfNeeded];
         
     [self.superview removeConstraint:leftConstraint];
-    leftConstraint = [CPAppearanceManager constraintWithItem:notificationLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft];
+    leftConstraint = [CPAppearanceManager constraintWithView:notificationLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toPosition:CPStandardMarginEdgeLeft];
     [self.superview addConstraint:leftConstraint];
     
     [self.superview removeConstraint:rightConstraint];
-    rightConstraint = [CPAppearanceManager constraintWithItem:notificationLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight];
+    rightConstraint = [CPAppearanceManager constraintWithView:notificationLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toPosition:CPStandardMarginEdgeRight];
     [self.superview addConstraint:rightConstraint];
     
     NSLayoutConstraint *oldRightConstraint, *widthConstraint;

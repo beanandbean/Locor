@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2C0D2D8D178AC72600485CE5 /* CPSearchingProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D2D8C178AC72600485CE5 /* CPSearchingProcess.m */; };
 		2C1541C517D1F1490057733D /* CPMemoCollectionViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1541C417D1F1490057733D /* CPMemoCollectionViewManager.m */; };
+		2C3317D217DC8697008A6A0C /* CPCoverImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3317D117DC8697008A6A0C /* CPCoverImageView.m */; };
 		2C50933317C4C51E0051A463 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C50933217C4C51E0051A463 /* Reachability.m */; };
 		2C50933617C4C5660051A463 /* CPAdManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C50933517C4C5660051A463 /* CPAdManager.m */; };
 		2C50933817C4C8D70051A463 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C50933717C4C8D70051A463 /* SystemConfiguration.framework */; };
@@ -118,6 +119,8 @@
 		2C0D2D8C178AC72600485CE5 /* CPSearchingProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPSearchingProcess.m; sourceTree = "<group>"; };
 		2C1541C317D1F1490057733D /* CPMemoCollectionViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMemoCollectionViewManager.h; sourceTree = "<group>"; };
 		2C1541C417D1F1490057733D /* CPMemoCollectionViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMemoCollectionViewManager.m; sourceTree = "<group>"; };
+		2C3317D017DC8697008A6A0C /* CPCoverImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPCoverImageView.h; sourceTree = "<group>"; };
+		2C3317D117DC8697008A6A0C /* CPCoverImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPCoverImageView.m; sourceTree = "<group>"; };
 		2C50933117C4C51E0051A463 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		2C50933217C4C51E0051A463 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		2C50933417C4C5660051A463 /* CPAdManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPAdManager.h; sourceTree = "<group>"; };
@@ -443,6 +446,8 @@
 				2C57A044178979A2004F1547 /* CPAppearanceManager.m */,
 				2CD4A94317D732AD00150687 /* CPBarButtonManager.h */,
 				2CD4A94417D732AD00150687 /* CPBarButtonManager.m */,
+				2C3317D017DC8697008A6A0C /* CPCoverImageView.h */,
+				2C3317D117DC8697008A6A0C /* CPCoverImageView.m */,
 				2CBC71A817C8E663000F37B1 /* CPLocorConfig.h */,
 				2CE1EB2F17BF90C4005F32AC /* CPMainPasswordCanvas.h */,
 				2CE1EB3017BF90C4005F32AC /* CPMainPasswordCanvas.m */,
@@ -657,6 +662,7 @@
 				FC1E514D17DA132900691F79 /* CPHelpManager.m in Sources */,
 				FC1E515017DA13C100691F79 /* CPMainViewManager.m in Sources */,
 				FC926EC817DAFCE100E26367 /* CPRootManager.m in Sources */,
+				2C3317D217DC8697008A6A0C /* CPCoverImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

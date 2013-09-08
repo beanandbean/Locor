@@ -12,6 +12,6 @@
 
 @interface CPPassGridManager : CPViewManager <CPPassCellDelegate, NSFetchedResultsControllerDelegate>
 
-+ (NSArray *)makeDraggingCellFromCell:(CPPassCell *)passCell onView:(UIView *)view withCover:(UIImageView *)cover;
++ (NSArray *)makeDraggingCellFromCell:(CPPassCell *)passCell onView:(UIView *)view;
 
 @end

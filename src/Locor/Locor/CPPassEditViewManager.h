@@ -12,7 +12,7 @@
 
 @property (nonatomic) NSInteger index;
 
-- (id)initWithSuperView:(UIView *)superView coverImage:(UIImageView *)coverImage andCells:(NSArray *)cells;
+- (id)initWithSuperView:(UIView *)superView andCells:(NSArray *)cells;
 
 - (void)showPassEditViewForCellAtIndex:(NSUInteger)index;
 

@@ -985,7 +985,7 @@ S"Use other advertisements when apple's iAd is not reachable."
 p420
 sS'detail'
 p421
-S'TODO grabbed from src/Locor/Locor/CPAdManager.m, line 68.'
+S'TODO grabbed from src/Locor/Locor/CPAdManager.m, line 51.'
 p422
 sS'exported'
 p423
@@ -1102,7 +1102,7 @@ sg419
 S'Not copy to clipboard if password is not used.'
 p454
 sg421
-S'TODO grabbed from src/Locor/Locor/CPPassCell.m, line 123.'
+S'TODO grabbed from src/Locor/Locor/CPPassCell.m, line 125.'
 p455
 sg423
 I00
@@ -1121,7 +1121,7 @@ sg419
 S'When removing pass cell, use images instead of single-colored views.'
 p459
 sg421
-S'TODO grabbed from src/Locor/Locor/CPPassCell.m, line 156.'
+S'TODO grabbed from src/Locor/Locor/CPPassCell.m, line 158.'
 p460
 sg423
 I00
@@ -1139,7 +1139,7 @@ sg419
 S'Adjust font of pass cell removing label.'
 p463
 sg421
-S'TODO grabbed from src/Locor/Locor/CPPassCell.m, line 191.'
+S'TODO grabbed from src/Locor/Locor/CPPassCell.m, line 193.'
 p464
 sg423
 I00
@@ -1157,7 +1157,7 @@ sg419
 S'Change behavior of pass cell removing view & label if cannot toggle remove state.'
 p467
 sg421
-S'TODO grabbed from src/Locor/Locor/CPPassCell.m, line 279.'
+S'TODO grabbed from src/Locor/Locor/CPPassCell.m, line 281.'
 p468
 sg423
 I00
@@ -1230,7 +1230,7 @@ sg419
 S'Make cover images bigger.'
 p484
 sg421
-S'TODO grabbed from src/Locor/Locor/CPPassGridManager.m, line 177.'
+S'TODO grabbed from src/Locor/Locor/CPPassGridManager.m, line 134.'
 p485
 sg423
 I00
@@ -1252,7 +1252,7 @@ sg421
 S'TODO grabbed from src/Locor/Locor/CPTopBarAndSearchManager.m, line 196.'
 p490
 sg423
-I00
+I01
 sg424
 S'2013-09-05 20:16:51'
 p491
@@ -1260,5 +1260,33 @@ sg426
 S'src/Locor/Locor/CPTopBarAndSearchManager.m'
 p492
 sg428
+S'done'
+p493
+sa(dp494
+S'author'
+p495
+S'TODO grabber'
+p496
+sS'text'
+p497
+S'When search bar is focused, stop if being currently editing memo cells in pass edit view.'
+p498
+sS'detail'
+p499
+S'TODO grabbed from src/Locor/Locor/CPTopBarManager.m, line 109.'
+p500
+sS'exported'
+p501
+I00
+sS'time'
+p502
+S'2013-09-08 18:47:13'
+p503
+sS'path'
+p504
+S'src/Locor/Locor/CPTopBarManager.m'
+p505
+sS'condition'
+p506
 g429
 sa.
