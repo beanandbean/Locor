@@ -310,7 +310,7 @@
                     }
                 }
                 ((NSLayoutConstraint *)[self.removingConstraints objectAtIndex:self.removingDirection]).constant = constant;
-                ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:self.removingDirection]).constant = constant;
+                ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:1 - self.removingDirection]).constant = constant;
                 ((NSLayoutConstraint *)[self.removingIconConstraints objectAtIndex:0]).constant = constant;
                 ((NSLayoutConstraint *)[self.removingIconConstraints objectAtIndex:1]).constant = constant;
                 ((NSLayoutConstraint *)[self.removingLabelConstraints objectAtIndex:0]).constant = constant - PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE;
@@ -336,7 +336,7 @@
                             constant = translation.y >= 0 ? self.bounds.size.height : -self.bounds.size.height;
                         }
                         ((NSLayoutConstraint *)[self.removingConstraints objectAtIndex:self.removingDirection]).constant = constant;
-                        ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:self.removingDirection]).constant = constant;
+                        ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:1 - self.removingDirection]).constant = constant;
                         ((NSLayoutConstraint *)[self.removingIconConstraints objectAtIndex:0]).constant = constant;
                         ((NSLayoutConstraint *)[self.removingIconConstraints objectAtIndex:1]).constant = constant;
                         ((NSLayoutConstraint *)[self.removingLabelConstraints objectAtIndex:0]).constant = constant - PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE;
@@ -367,7 +367,7 @@
                             [self.removingView removeFromSuperview];
                             
                             self.iconImage.image = self.removingIcon1.image;
-                            ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:self.removingDirection]).constant = 0.0;
+                            ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:1 - self.removingDirection]).constant = 0.0;
                             
                             self.removingDirection = -1;
                             self.removingView = nil;
@@ -381,7 +381,7 @@
                         }];
                     } else {
                         ((NSLayoutConstraint *)[self.removingConstraints objectAtIndex:self.removingDirection]).constant = 0.0;
-                        ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:self.removingDirection]).constant = 0.0;
+                        ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:1 - self.removingDirection]).constant = 0.0;
                         ((NSLayoutConstraint *)[self.removingIconConstraints objectAtIndex:0]).constant = 0.0;
                         ((NSLayoutConstraint *)[self.removingIconConstraints objectAtIndex:1]).constant = 0.0;
                         ((NSLayoutConstraint *)[self.removingLabelConstraints objectAtIndex:0]).constant = -PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE;
@@ -426,7 +426,7 @@
                     [[CPPassDataManager defaultManager] toggleRemoveStateOfPasswordAtIndex:self.index];
                 } else {
                     ((NSLayoutConstraint *)[self.removingConstraints objectAtIndex:self.removingDirection]).constant = 0.0;
-                    ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:self.removingDirection]).constant = 0.0;
+                    ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:1 - self.removingDirection]).constant = 0.0;
                     ((NSLayoutConstraint *)[self.removingIconConstraints objectAtIndex:0]).constant = 0.0;
                     ((NSLayoutConstraint *)[self.removingIconConstraints objectAtIndex:1]).constant = 0.0;
                     ((NSLayoutConstraint *)[self.removingLabelConstraints objectAtIndex:0]).constant = -PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE;

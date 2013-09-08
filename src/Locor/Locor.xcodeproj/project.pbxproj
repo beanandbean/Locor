@@ -106,7 +106,7 @@
 		FC80BE5A17791438007BDC13 /* CPMemo.m in Sources */ = {isa = PBXBuildFile; fileRef = FC80BE5917791438007BDC13 /* CPMemo.m */; };
 		FC80BE5D17791438007BDC13 /* CPPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = FC80BE5C17791438007BDC13 /* CPPassword.m */; };
 		FC926EC817DAFCE100E26367 /* CPRootManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC926EC717DAFCE100E26367 /* CPRootManager.m */; };
-		FCA400A117896F000087AECF /* CPTopBarAndSearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FCA400A017896F000087AECF /* CPTopBarAndSearchManager.m */; };
+		FCA400A117896F000087AECF /* CPTopBarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FCA400A017896F000087AECF /* CPTopBarManager.m */; };
 		FCB034F9175C154D008D1DC8 /* CPPassEditViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB034F8175C154D008D1DC8 /* CPPassEditViewManager.m */; };
 		FCBB156917709854005DC611 /* CPPassCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FCBB156817709854005DC611 /* CPPassCell.m */; };
 		FCBF1E26176966E80014E56F /* CPPassDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FCBF1E25176966E80014E56F /* CPPassDataManager.m */; };
@@ -248,8 +248,8 @@
 		FC926EC617DAFCE100E26367 /* CPRootManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPRootManager.h; sourceTree = "<group>"; };
 		FC926EC717DAFCE100E26367 /* CPRootManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPRootManager.m; sourceTree = "<group>"; };
 		FC982CED17824842009CC784 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		FCA4009F17896F000087AECF /* CPTopBarAndSearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPTopBarAndSearchManager.h; sourceTree = "<group>"; };
-		FCA400A017896F000087AECF /* CPTopBarAndSearchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPTopBarAndSearchManager.m; sourceTree = "<group>"; };
+		FCA4009F17896F000087AECF /* CPTopBarManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPTopBarManager.h; sourceTree = "<group>"; };
+		FCA400A017896F000087AECF /* CPTopBarManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPTopBarManager.m; sourceTree = "<group>"; };
 		FCB034F7175C154D008D1DC8 /* CPPassEditViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPassEditViewManager.h; sourceTree = "<group>"; };
 		FCB034F8175C154D008D1DC8 /* CPPassEditViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPassEditViewManager.m; sourceTree = "<group>"; };
 		FCBB156717709854005DC611 /* CPPassCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPassCell.h; sourceTree = "<group>"; };
@@ -383,12 +383,20 @@
 		FC1E514A17DA12D000691F79 /* ViewManager */ = {
 			isa = PBXGroup;
 			children = (
+				2C50933417C4C5660051A463 /* CPAdManager.h */,
+				2C50933517C4C5660051A463 /* CPAdManager.m */,
 				FC1E514B17DA132900691F79 /* CPHelpManager.h */,
 				FC1E514C17DA132900691F79 /* CPHelpManager.m */,
 				FC1E514E17DA13C100691F79 /* CPMainViewManager.h */,
 				FC1E514F17DA13C100691F79 /* CPMainViewManager.m */,
+				2CBDF765177DB96E00BC9E3E /* CPNotificationCenter.h */,
+				2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */,
+				FC79174E176DFE0800CCF63B /* CPPassGridManager.h */,
+				FC79174F176DFE0800CCF63B /* CPPassGridManager.m */,
 				FC926EC617DAFCE100E26367 /* CPRootManager.h */,
 				FC926EC717DAFCE100E26367 /* CPRootManager.m */,
+				FCA4009F17896F000087AECF /* CPTopBarManager.h */,
+				FCA400A017896F000087AECF /* CPTopBarManager.m */,
 				FC1E514717DA12A700691F79 /* CPViewManager.h */,
 				FC1E514817DA12A700691F79 /* CPViewManager.m */,
 			);
@@ -429,8 +437,6 @@
 		FC4F2ADF1759EB0C002D9992 /* Locor */ = {
 			isa = PBXGroup;
 			children = (
-				2C50933417C4C5660051A463 /* CPAdManager.h */,
-				2C50933517C4C5660051A463 /* CPAdManager.m */,
 				FC4F2AE81759EB0C002D9992 /* CPAppDelegate.h */,
 				FC4F2AE91759EB0C002D9992 /* CPAppDelegate.m */,
 				2C57A043178979A2004F1547 /* CPAppearanceManager.h */,
@@ -454,16 +460,12 @@
 				2CD8212417D5E8EF0014199A /* CPMemoCellRemovingBackground.m */,
 				2C1541C317D1F1490057733D /* CPMemoCollectionViewManager.h */,
 				2C1541C417D1F1490057733D /* CPMemoCollectionViewManager.m */,
-				2CBDF765177DB96E00BC9E3E /* CPNotificationCenter.h */,
-				2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */,
 				FCBB156717709854005DC611 /* CPPassCell.h */,
 				FCBB156817709854005DC611 /* CPPassCell.m */,
 				FCBF1E24176966E80014E56F /* CPPassDataManager.h */,
 				FCBF1E25176966E80014E56F /* CPPassDataManager.m */,
 				FCB034F7175C154D008D1DC8 /* CPPassEditViewManager.h */,
 				FCB034F8175C154D008D1DC8 /* CPPassEditViewManager.m */,
-				FC79174E176DFE0800CCF63B /* CPPassGridManager.h */,
-				FC79174F176DFE0800CCF63B /* CPPassGridManager.m */,
 				FC80BE5B17791438007BDC13 /* CPPassword.h */,
 				FC80BE5C17791438007BDC13 /* CPPassword.m */,
 				2C6143611786D1E300430C64 /* CPProcess.h */,
@@ -471,8 +473,6 @@
 				2C61435F1786D1C100430C64 /* CPProcessManager.m */,
 				FC3732B617D54D0B00014998 /* CPSettingsManager.h */,
 				FC3732B717D54D0B00014998 /* CPSettingsManager.m */,
-				FCA4009F17896F000087AECF /* CPTopBarAndSearchManager.h */,
-				FCA400A017896F000087AECF /* CPTopBarAndSearchManager.m */,
 				FCBF1E2717696C1A0014E56F /* Locor.xcdatamodeld */,
 				FC4F2AF41759EB0C002D9992 /* MainStoryboard.storyboard */,
 				2C6143621786D23000430C64 /* Process */,
@@ -636,7 +636,7 @@
 				2C6143651786D26100430C64 /* CPApplicationProcess.m in Sources */,
 				2C6143681786D59D00430C64 /* CPDraggingPassCellProcess.m in Sources */,
 				2C61436B1786D7AC00430C64 /* CPRemovingPassCellProcess.m in Sources */,
-				FCA400A117896F000087AECF /* CPTopBarAndSearchManager.m in Sources */,
+				FCA400A117896F000087AECF /* CPTopBarManager.m in Sources */,
 				2C57A045178979A2004F1547 /* CPAppearanceManager.m in Sources */,
 				2C0D2D8D178AC72600485CE5 /* CPSearchingProcess.m in Sources */,
 				FC03FCDA178AF99A004C2B15 /* CPMemoCell.m in Sources */,

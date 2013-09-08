@@ -8,14 +8,15 @@
 
 #import "CPAdManager.h"
 
+#import "CPAppearanceManager.h"
+
 #import "Reachability.h"
 
 @interface CPAdManager ()
 
-@property (weak, nonatomic) UIView *superview;
-@property (strong, nonatomic) NSLayoutConstraint *heightConstraint;
-
 @property (strong, nonatomic) ADBannerView *iAdBannerView;
+
+@property (strong, nonatomic) NSLayoutConstraint *heightConstraint;
 
 @property (strong, nonatomic) Reachability *appleReachability;
 
@@ -23,71 +24,48 @@
 
 @implementation CPAdManager
 
-- (ADBannerView *)iAdBannerView {
-    if (!_iAdBannerView) {
-        _iAdBannerView = [[ADBannerView alloc] init];
-        _iAdBannerView.delegate = self;
-        _iAdBannerView.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        [self.superview addSubview:_iAdBannerView];
-        
-        [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:_iAdBannerView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
-        [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:_iAdBannerView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
-        [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:_iAdBannerView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
-        [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:_iAdBannerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
-    }
-    return _iAdBannerView;
+- (void)loadAnimated:(BOOL)animated {
+    [super loadAnimated:animated];
+    
+    [self.superview addSubview:self.iAdBannerView];
+    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.superview edgesAlignToView:self.iAdBannerView]];
+    [self.superview addConstraint:self.heightConstraint];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    [self.appleReachability startNotifier];
+    [self displayAdBanner];
 }
 
-- (id)initWithSuperview:(UIView *)superview {
-    self = [super init];
-    if (self) {
-        self.superview = superview;
-        self.heightConstraint = [NSLayoutConstraint constraintWithItem:self.superview attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:0.0];
-        [self.superview addConstraint:self.heightConstraint];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-        self.appleReachability = [Reachability reachabilityWithHostName:@"www.apple.com"];
-        [self.appleReachability startNotifier];
-        
-        [self displayAdBannerForFirstTime:YES];
-    }
-    return self;
-}
-
-- (void)dealloc {
+- (void)unloadAnimated:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+    
+    [super unloadAnimated:animated];
 }
 
 - (void)reachabilityChanged:(NSNotification *)notification {
-    [self displayAdBannerForFirstTime:NO];
+    [self displayAdBanner];
 }
 
-- (void)displayAdBannerForFirstTime:(BOOL)isFirstTime {
+- (void)displayAdBanner {
     if (self.appleReachability.currentReachabilityStatus == NotReachable || !self.iAdBannerView.bannerLoaded) {
         // TODO: Use other advertisements when apple's iAd is not reachable.
         
-        self.heightConstraint.constant = 0.0;
-        self.iAdBannerView.hidden = YES;
+        // self.heightConstraint.constant = 0.0;
+        // self.iAdBannerView.hidden = YES;
     } else {
         self.heightConstraint.constant = ((UIView *)[self.iAdBannerView.subviews objectAtIndex:0]).frame.size.height;
         self.iAdBannerView.hidden = NO;
-    }
-    if (!isFirstTime) {
-        [UIView animateWithDuration:0.5 animations:^{
-            [self.superview.superview layoutIfNeeded];
-        }];
     }
 }
 
 #pragma mark - AdBannerViewDelegate implementation
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner {
-    [self displayAdBannerForFirstTime:NO];
+    [self displayAdBanner];
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
-    [self displayAdBannerForFirstTime:NO];
+    [self displayAdBanner];
 }
 
 - (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave {
@@ -95,6 +73,31 @@
 }
 
 - (void)bannerViewActionDidFinish:(ADBannerView *)banner {
+}
+
+#pragma mark - lazy init
+
+- (ADBannerView *)iAdBannerView {
+    if (!_iAdBannerView) {
+        _iAdBannerView = [[ADBannerView alloc] init];
+        _iAdBannerView.delegate = self;
+        _iAdBannerView.translatesAutoresizingMaskIntoConstraints = NO;        
+    }
+    return _iAdBannerView;
+}
+
+- (NSLayoutConstraint *)heightConstraint {
+    if (!_heightConstraint) {
+        _heightConstraint = [CPAppearanceManager constraintWithView:self.superview height:0.0];
+    }
+    return _heightConstraint;
+}
+
+- (Reachability *)appleReachability {
+    if (!_appleReachability) {
+        _appleReachability = [Reachability reachabilityWithHostName:@"www.apple.com"];
+    }
+    return _appleReachability;
 }
          
 @end

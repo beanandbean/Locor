@@ -8,10 +8,10 @@
 
 #import "CPMemoCell.h"
 
-@interface CPTopBarAndSearchManager : NSObject <UISearchBarDelegate>
+#import "CPViewManager.h"
+
+@interface CPTopBarManager : CPViewManager <UISearchBarDelegate>
 
 @property (strong, nonatomic) UISearchBar *searchBar;
-
-- (id)initWithSuperView:(UIView *)superView;
 
 @end

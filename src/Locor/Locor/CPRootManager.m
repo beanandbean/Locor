@@ -26,6 +26,8 @@
     NSAssert(self.superview, @"");
     NSAssert(!self.helpManager, @"");
     
+    [super loadAnimated:animated];
+    
     self.helpManager = [[CPHelpManager alloc] initWithSupermanager:self andSuperview:self.superview];
     [self.helpManager loadAnimated:animated];
 }

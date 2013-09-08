@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-@interface CPNotificationCenter : NSObject
+#import "CPViewManager.h"
 
-+ (void)createNotificationCenterWithSuperView:(UIView *)superView;
+@interface CPNotificationCenter : CPViewManager
 
 + (void)insertNotification:(NSString *)notification;
 

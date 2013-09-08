@@ -1,0 +1,223 @@
+//
+//  CPTopBarAndSearchManager.m
+//  Locor
+//
+//  Created by wangyw on 7/7/13.
+//  Copyright (c) 2013 codingpotato. All rights reserved.
+//
+
+#import "CPTopBarManager.h"
+
+#import "CPLocorConfig.h"
+
+#import "CPMemoCollectionViewManager.h"
+#import "CPSettingsManager.h"
+
+#import "CPAppearanceManager.h"
+
+#import "CPBarButtonManager.h"
+
+#import "CPPassDataManager.h"
+
+#import "CPProcessManager.h"
+#import "CPSearchingProcess.h"
+
+@interface CPTopBarManager ()
+
+@property (strong, nonatomic) UIButton *barButton;
+
+@property (weak, nonatomic) UITextField *searchBarTextField;
+
+@property (strong, nonatomic) UIView *resultContainer;
+@property (strong, nonatomic) NSArray *resultContainerConstraints;
+
+@property (strong, nonatomic) CPMemoCollectionViewManager *resultMemoCollectionViewManager;
+
+@property (strong, nonatomic) CPSettingsManager *settingsManager;
+
+- (IBAction)barButtonTouched:(id)sender;
+
+- (void)handleTapOnSearchBar:(UITapGestureRecognizer *)tapGesture;
+
+@end
+
+@implementation CPTopBarManager
+
+- (void)loadAnimated:(BOOL)animated {
+    [self.superview addSubview:self.searchBar];
+    [self.superview addSubview:self.barButton];
+    
+    [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.searchBar attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
+    [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.searchBar attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:BAR_HEIGHT]];
+    
+    [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.barButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
+    [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.barButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:BAR_HEIGHT]];
+    
+    [self.superview addConstraint:[CPAppearanceManager constraintWithItem:self.searchBar attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft]];
+    [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.barButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeRight multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
+    [self.superview addConstraint:[CPAppearanceManager constraintWithItem:self.barButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight]];
+    
+    [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.barButton attribute:NSLayoutAttributeWidth alignToView:self.barButton attribute:NSLayoutAttributeHeight]];
+}
+
+- (IBAction)barButtonTouched:(id)sender {
+    if ([CPProcessManager isInProcess:SEARCHING_PROCESS]) {
+        //[self.resultMemoCollectionViewManager endEditing];
+        [CPProcessManager stopProcess:SEARCHING_PROCESS withPreparation:^{
+            [CPAppearanceManager animateWithDuration:0.3 animations:^{
+                //self.resultMemoCollectionViewManager.collectionView.alpha = 0.0;
+            } completion:^(BOOL finished) {
+                [self.superview removeConstraints:self.resultContainerConstraints];
+                [self.resultContainer removeFromSuperview];
+                
+                [self.barButton setTitle:@"S" forState:UIControlStateNormal];
+                
+                self.resultContainer = nil;
+                self.resultContainerConstraints = nil;
+                //self.resultMemoCollectionViewManager = nil;
+                
+                self.searchBar.text = @"";
+                if ([self.searchBar isFirstResponder]) {
+                    [self.searchBar resignFirstResponder];
+                }
+                
+                [CPAppearanceManager animateWithDuration:0.5 animations:^{
+                    [self.superview layoutIfNeeded];
+                }];
+            }];
+        }];
+    } else {
+        //[self.settingsManager loadViews];
+    }
+}
+
+- (void)handleTapOnSearchBar:(UITapGestureRecognizer *)tapGesture {
+    self.searchBarTextField.enabled = YES;
+    if (![self.searchBar isFirstResponder]) {
+        //[self.resultMemoCollectionViewManager endEditing];
+        [self.searchBar becomeFirstResponder];
+    }
+}
+
+#pragma mark - UISearchBarDelegate implement
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+    if ([CPProcessManager isInProcess:SEARCHING_PROCESS]) {
+        //self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchBar.text] mutableCopy];
+        return YES;
+    } else {
+        // TODO: When search bar is focused, stop if being currently editing memo cells in pass edit view.
+        return [CPProcessManager startProcess:SEARCHING_PROCESS withPreparation:^{
+            [self.superview addSubview:self.resultContainer];
+            [self.superview addConstraints:self.resultContainerConstraints];
+            
+            [self.barButton setTitle:@"X" forState:UIControlStateNormal];
+                        
+            //self.resultMemoCollectionViewManager.collectionView.alpha = 0.0;
+            //self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchBar.text] mutableCopy];
+            
+            [CPAppearanceManager animateWithDuration:0.5 animations:^{
+                [self.superview layoutIfNeeded];
+            } completion:^(BOOL finished) {
+                [CPAppearanceManager animateWithDuration:0.3 animations:^{
+                    //self.resultMemoCollectionViewManager.collectionView.alpha = 1.0;
+                }];
+            }];
+        }];
+    }
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    self.searchBarTextField.enabled = NO;
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    //self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchText] mutableCopy];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+    //[self.resultMemoCollectionViewManager endEditing];
+}
+
+#pragma mark - lazy init
+
+- (UISearchBar *)searchBar {
+    if (!_searchBar) {
+        _searchBar = [[UISearchBar alloc] init];
+        _searchBar.delegate = self;
+        _searchBar.translatesAutoresizingMaskIntoConstraints = NO;
+        _searchBar.autocapitalizationType = NO;
+        
+        UIGraphicsBeginImageContext(CGSizeMake(1.0, 34.0));
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGContextSetRGBFillColor(context, 0.8, 0.8, 0.8, 1.0);
+        CGContextFillRect(context, CGRectMake(0.0, 0.0, 1.0, 34.0));
+        UIImage *backgroundImage = [UIGraphicsGetImageFromCurrentImageContext() resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)];
+        UIGraphicsEndImageContext();
+        
+        _searchBar.backgroundImage = backgroundImage;
+        [_searchBar setSearchFieldBackgroundImage:backgroundImage forState:UIControlStateNormal];
+        
+        [self.searchBar addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapOnSearchBar:)]];
+        
+        for (UIView *view in _searchBar.subviews) {
+            if ([view.class isSubclassOfClass:[UITextField class]]) {
+                self.searchBarTextField = (UITextField *)view;
+                self.searchBarTextField.enabled = NO;
+                break;
+            }
+        }
+    }
+    return _searchBar;
+}
+
+- (UIButton *)barButton {
+    if (!_barButton) {
+        _barButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _barButton.translatesAutoresizingMaskIntoConstraints = NO;
+        _barButton.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0];
+        [_barButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        
+        [CPBarButtonManager initializeWithBarButton:_barButton];
+        [CPBarButtonManager pushBarButtonStateWithTitle:@"S" target:self action:@selector(barButtonTouched:) andControlEvents:UIControlEventTouchUpInside];
+    }
+    return _barButton;
+}
+
+- (UIView *)resultContainer {
+    if (!_resultContainer) {
+        _resultContainer = [[UIView alloc] init];
+        _resultContainer.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _resultContainer;
+}
+
+- (NSArray *)resultContainerConstraints {
+    if (!_resultContainerConstraints) {
+        _resultContainerConstraints = [[NSArray alloc] initWithObjects:
+                                       [NSLayoutConstraint constraintWithItem:self.resultContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:BOX_SEPARATOR_SIZE],
+                                       [NSLayoutConstraint constraintWithItem:self.resultContainer attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-BOX_SEPARATOR_SIZE],
+                                       [CPAppearanceManager constraintWithItem:self.resultContainer attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeLeft],
+                                       [CPAppearanceManager constraintWithItem:self.resultContainer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toEdge:CPMarginEdgeRight],
+                                       nil];
+    }
+    return _resultContainerConstraints;
+}
+
+/*- (CPMemoCollectionViewManager *)resultMemoCollectionViewManager {
+    if (!_resultMemoCollectionViewManager) {
+        _resultMemoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:self.resultContainer frontLayer:nil backLayer:nil style:CPMemoCollectionViewStyleSearch andDelegate:nil];
+    }
+    return _resultMemoCollectionViewManager;
+}*/
+
+- (CPSettingsManager *)settingsManager {
+    if (!_settingsManager) {
+        NSAssert(self.superview, @"");
+        _settingsManager = [[CPSettingsManager alloc] initWithSuperview:self.superview];
+    }
+    return _settingsManager;
+}
+
+@end

@@ -12,49 +12,96 @@
 
 #import "CPAdManager.h"
 #import "CPPassGridManager.h"
-#import "CPTopBarAndSearchManager.h"
+#import "CPTopBarManager.h"
 
 #import "CPNotificationCenter.h"
 
 @interface CPMainViewManager ()
 
-@property (strong, nonatomic) CPAdManager *adManager;
 @property (strong, nonatomic) CPPassGridManager *passGridManager;
-@property (strong, nonatomic) CPTopBarAndSearchManager *topBarAndSearchManager;
+@property (strong, nonatomic) CPTopBarManager *topBarManager;
+@property (strong, nonatomic) CPNotificationCenter *notificationCenter;
+@property (strong, nonatomic) CPAdManager *adManager;
+
+@property (strong, nonatomic) UIView *mainView;
+@property (strong, nonatomic) UIView *adView;
+@property (strong, nonatomic) UIView *contentView;
 
 @end
 
 @implementation CPMainViewManager
 
 - (void)loadAnimated:(BOOL)animated {
-    UIView *contentView = [[UIView alloc] init];
-    contentView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.superview addSubview:contentView];
+    [self.superview addSubview:self.mainView];
+    [self.superview addSubview:self.adView];
+    [self.mainView addSubview:self.contentView];    
+    
+    [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.mainView attribute:NSLayoutAttributeBottom alignToView:self.adView attribute:NSLayoutAttributeTop]];
+    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.mainView alignToView:self.superview attribute:NSLayoutAttributeTop, NSLayoutAttributeLeft, NSLayoutAttributeRight, ATTR_END]];
+    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.adView alignToView:self.superview attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, NSLayoutAttributeBottom, ATTR_END]];
+    
+    [self.passGridManager loadAnimated:NO];
+    // topBarAndSearchManager must init after passGridManager
+    [self.topBarManager loadAnimated:NO];
+    [self.notificationCenter loadAnimated:NO];
+    [self.adManager loadAnimated:NO];
+    
+    [self.mainView addConstraint:[CPAppearanceManager constraintWithView:self.contentView attribute:NSLayoutAttributeTop alignToView:self.topBarManager.searchBar attribute:NSLayoutAttributeBottom]];
+    [self.mainView addConstraints:[CPAppearanceManager constraintsWithView:self.contentView alignToView:self.mainView attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, NSLayoutAttributeBottom]];
+}
 
-    UIView *adView = [[UIView alloc] init];
-    adView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.superview addSubview:adView];
-    
-    [self.superview addConstraint:[CPAppearanceManager constraintWithView:contentView attribute:NSLayoutAttributeBottom alignToView:adView attribute:NSLayoutAttributeTop]];
-    
-    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:contentView alignToView:self.superview attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, NSLayoutAttributeTop, ATTR_END]];
-    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:adView alignToView:self.superview attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, NSLayoutAttributeBottom, ATTR_END]];
-    
-    UIView *passGridView = [[UIView alloc] init];
-    passGridView.translatesAutoresizingMaskIntoConstraints = NO;
-    [contentView addSubview:passGridView];
-    
-    [CPNotificationCenter createNotificationCenterWithSuperView:contentView];
-    
-    self.passGridManager = [[CPPassGridManager alloc] initWithSuperView:passGridView];
-    
-    self.topBarAndSearchManager = [[CPTopBarAndSearchManager alloc] initWithSuperView:contentView];
-    
-    self.adManager = [[CPAdManager alloc] initWithSuperview:adView];
-    
-    [contentView addConstraint:[CPAppearanceManager constraintWithView:passGridView attribute:NSLayoutAttributeTop alignToView:self.topBarAndSearchManager.searchBar attribute:NSLayoutAttributeTop]];
-    
-    [contentView addConstraints:[CPAppearanceManager constraintsWithView:passGridView alignToView:contentView attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, NSLayoutAttributeBottom]];
+#pragma mark - lazy init
+
+- (CPPassGridManager *)passGridManager {
+    if (!_passGridManager) {
+        _passGridManager = [[CPPassGridManager alloc] initWithSupermanager:self andSuperview:self.contentView];
+    }
+    return _passGridManager;
+}
+
+- (CPTopBarManager *)topBarManager {
+    if (!_topBarManager) {
+        _topBarManager = [[CPTopBarManager alloc] initWithSupermanager:self andSuperview:self.mainView];
+    }
+    return _topBarManager;
+}
+
+- (CPNotificationCenter *)notificationCenter {
+    if (!_notificationCenter) {
+        _notificationCenter = [[CPNotificationCenter alloc] initWithSupermanager:self andSuperview:self.contentView];
+    }
+    return _notificationCenter;
+}
+
+- (CPAdManager *)adManager {
+    if (!_adManager) {
+        _adManager = [[CPAdManager alloc] initWithSupermanager:self andSuperview:self.adView];
+    }
+    return _adManager;
+}
+
+- (UIView *)mainView {
+    if (!_mainView) {
+        _mainView = [[UIView alloc] init];
+        _mainView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _mainView;
+}
+
+- (UIView *)adView {
+    if (!_adView) {
+        _adView = [[UIView alloc] init];
+        _adView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _adView;
+}
+
+- (UIView *)contentView {
+    if (!_contentView) {
+        _contentView = [[UIView alloc] init];
+        _contentView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _contentView;
 }
 
 @end

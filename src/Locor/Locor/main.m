@@ -10,6 +10,14 @@
 
 int main(int argc, char *argv[]) {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([CPAppDelegate class]));
+        @try {
+            return UIApplicationMain(argc, argv, nil, NSStringFromClass([CPAppDelegate class]));
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception.reason);
+            NSLog(@"%@", exception.callStackSymbols);
+        }
+        @finally {
+        }
     }
 }

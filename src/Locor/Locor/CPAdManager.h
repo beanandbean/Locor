@@ -8,8 +8,8 @@
 
 #import <iAd/iAd.h>
 
-@interface CPAdManager : NSObject <ADBannerViewDelegate>
+#import "CPViewManager.h"
 
-- (id)initWithSuperview:(UIView *)superview;
+@interface CPAdManager : CPViewManager <ADBannerViewDelegate>
 
 @end

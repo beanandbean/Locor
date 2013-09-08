@@ -19,8 +19,6 @@
 
 @interface CPPassGridManager ()
 
-@property (weak, nonatomic) UIView *superview;
-
 @property (strong, nonatomic) NSMutableArray *passCells;
 
 @property (strong, nonatomic) CPPassEditViewManager *passEditViewManager;
@@ -73,15 +71,15 @@
     dragView.backgroundColor = passCell.backgroundColor;
     
     [view addSubview:dragView];
-    
-    NSLayoutConstraint *dragViewLeftConstraint = [NSLayoutConstraint constraintWithItem:dragView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:passCell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
+
+    NSLayoutConstraint *dragViewLeftConstraint = [CPAppearanceManager constraintWithView:dragView alignToView:passCell attribute:NSLayoutAttributeLeft];
     [view addConstraint:dragViewLeftConstraint];
-    NSLayoutConstraint *dragViewTopConstraint = [NSLayoutConstraint constraintWithItem:dragView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:passCell attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
+    NSLayoutConstraint *dragViewTopConstraint = [CPAppearanceManager constraintWithView:dragView alignToView:passCell attribute:NSLayoutAttributeTop];
     [view addConstraint:dragViewTopConstraint];
     
-    NSArray *dragViewSizeConstraints = [[NSArray alloc] initWithObjects:
-                                        [NSLayoutConstraint constraintWithItem:dragView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:passCell attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0],
-                                        [NSLayoutConstraint constraintWithItem:dragView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:passCell attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0],
+    NSArray *dragViewSizeConstraints = [NSArray arrayWithObjects:
+                                        [CPAppearanceManager constraintWithView:dragView alignToView:passCell attribute:NSLayoutAttributeWidth],
+                                        [CPAppearanceManager constraintWithView:dragView alignToView:passCell attribute:NSLayoutAttributeHeight],
                                         nil];
     [view addConstraints:dragViewSizeConstraints];
     
@@ -97,19 +95,15 @@
     fakeCover.translatesAutoresizingMaskIntoConstraints = NO;
     
     [fakeCoverContainer addSubview:fakeCover];
-    NSArray *dragViewCoverConstraints = [[NSArray alloc] initWithObjects:
-                                         [NSLayoutConstraint constraintWithItem:fakeCover attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:cover attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0],
-                                         [NSLayoutConstraint constraintWithItem:fakeCover attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:cover attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0],
-                                         nil];
+    NSArray *dragViewCoverConstraints = [CPAppearanceManager constraintsWithView:fakeCover centerAlignToView:cover];
     [view addConstraints:dragViewCoverConstraints];
     
     UIImageView *fakeIcon = [[UIImageView alloc] initWithImage:passCell.iconImage.image];
     fakeIcon.translatesAutoresizingMaskIntoConstraints = NO;
     
     [dragView addSubview:fakeIcon];
-    [dragView addConstraint:[NSLayoutConstraint constraintWithItem:fakeIcon attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:dragView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-    [dragView addConstraint:[NSLayoutConstraint constraintWithItem:fakeIcon attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:dragView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-    
+    [dragView addConstraints:[CPAppearanceManager constraintsWithView:fakeIcon centerAlignToView:dragView]];
+
     [view layoutIfNeeded];
     
     [CPPassGridManager expandShadowOnCell:dragView withSize:5.0];
@@ -117,79 +111,44 @@
     return [NSArray arrayWithObjects:dragView, dragViewLeftConstraint, dragViewTopConstraint, dragViewSizeConstraints, dragViewCoverConstraints, fakeIcon, nil];
 }
 
-- (NSMutableArray *)passCells {
-    if (!_passCells) {
-        _passCells = [[NSMutableArray alloc] initWithCapacity:PASS_GRID_ROW_COUNT * PASS_GRID_COLUMN_COUNT];
+- (void)loadAnimated:(BOOL)animated {
+    [CPPassDataManager defaultManager].passwordsController.delegate = self;
+    
+    self.passGridView = [[UIView alloc] init];
+    self.passGridView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.superview addSubview:self.passGridView];
+    
+    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.passGridView centerAlignToView:self.superview]];
+    [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.superview attribute:NSLayoutAttributeWidth multiplier:1.0 constant:PASS_GRID_HORIZONTAL_INDENT * 2]];
+    NSLayoutConstraint *lowPriorityEqualConstraint = [NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeWidth multiplier:1.0 constant:PASS_GRID_HORIZONTAL_INDENT * 2];
+    lowPriorityEqualConstraint.priority = 999;
+    [self.superview addConstraint:lowPriorityEqualConstraint];
+    [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.superview attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
+    lowPriorityEqualConstraint = [CPAppearanceManager constraintWithView:self.passGridView alignToView:self.superview attribute:NSLayoutAttributeHeight];
+    lowPriorityEqualConstraint.priority = 999;
+    [self.superview addConstraint:lowPriorityEqualConstraint];
+    [self.passGridView addConstraint:[CPAppearanceManager constraintWithView:self.passGridView attribute:NSLayoutAttributeWidth alignToView:self.passGridView attribute:NSLayoutAttributeHeight]];
+    
+    NSString *coverName;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        coverName = @"bg-iphone";
+    } else {
+        coverName = @"bg-ipad";
     }
-    return _passCells;
-}
-
-- (CPPassEditViewManager *)passEditViewManager {
-    if (!_passEditViewManager) {
-        _passEditViewManager = [[CPPassEditViewManager alloc] initWithSuperView:self.superview coverImage:self.coverImage andCells:self.passCells];
-    }
-    return _passEditViewManager;
-}
-
-- (UIView *)iconLayer {
-    if (!_iconLayer) {
-        _iconLayer = [[UIView alloc] init];
-        _iconLayer.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        [self.superview addSubview:_iconLayer];
-        
-        [self.superview addConstraints:[CPAppearanceManager constraintsWithView:_iconLayer edgesAlignToView:self.passGridView]];
-    }
-    return _iconLayer;
-}
-
-- (id)initWithSuperView:(UIView *)superView {
-    self = [super init];
-    if (self) {
-        [CPPassDataManager defaultManager].passwordsController.delegate = self;
-        
-        self.superview = superView;
-        
-        self.passGridView = [[UIView alloc] init];
-        self.passGridView.translatesAutoresizingMaskIntoConstraints = NO;
-        [superView addSubview:self.passGridView];
-        
-        [superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-        [superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-        [superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:superView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:PASS_GRID_HORIZONTAL_INDENT * 2]];
-        NSLayoutConstraint *lowPriorityEqualConstraint = [NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:PASS_GRID_HORIZONTAL_INDENT * 2];
-        lowPriorityEqualConstraint.priority = 999;
-        [superView addConstraint:lowPriorityEqualConstraint];
-        [superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:superView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
-        lowPriorityEqualConstraint = [NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0];
-        lowPriorityEqualConstraint.priority = 999;
-        [superView addConstraint:lowPriorityEqualConstraint];
-        // innerView.width == innerView.height
-        [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:self.passGridView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.passGridView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
-        
-        NSString *coverName;
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-            coverName = @"bg-iphone";
-        } else {
-            coverName = @"bg-ipad";
-        }
-        
-        // TODO: Make cover images bigger.
-        self.coverImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:coverName]];
-        self.coverImage.transform = CGAffineTransformMakeRotation(M_PI_2);
-        self.coverImage.translatesAutoresizingMaskIntoConstraints = NO;
-        self.coverImage.alpha = WATER_MARK_ALPHA;
-        [self.superview addSubview:self.coverImage];
-        
-        [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.coverImage attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-        [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.coverImage attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-        
-        [self createPassCells];
-        
-        [CPAppearanceManager registerStandardForEdge:CPMarginEdgeLeft asItem:[self.passCells objectAtIndex:0] attribute:NSLayoutAttributeLeft multiplier:1.0 constant:PASS_GRID_HORIZONTAL_INDENT];
-        [CPAppearanceManager registerStandardForEdge:CPMarginEdgeRight asItem:[self.passCells objectAtIndex:2] attribute:NSLayoutAttributeRight multiplier:1.0 constant:-PASS_GRID_HORIZONTAL_INDENT];
-    }
-    return self;
+    
+    // TODO: Make cover images bigger.
+    self.coverImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:coverName]];
+    self.coverImage.transform = CGAffineTransformMakeRotation(M_PI_2);
+    self.coverImage.translatesAutoresizingMaskIntoConstraints = NO;
+    self.coverImage.alpha = WATER_MARK_ALPHA;
+    [self.superview addSubview:self.coverImage];
+    
+    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.coverImage centerAlignToView:self.superview]];
+    
+    [self createPassCells];
+    
+    [CPAppearanceManager registerStandardForEdge:CPMarginEdgeLeft asItem:[self.passCells objectAtIndex:0] attribute:NSLayoutAttributeLeft multiplier:1.0 constant:PASS_GRID_HORIZONTAL_INDENT];
+    [CPAppearanceManager registerStandardForEdge:CPMarginEdgeRight asItem:[self.passCells objectAtIndex:2] attribute:NSLayoutAttributeRight multiplier:1.0 constant:-PASS_GRID_HORIZONTAL_INDENT];
 }
 
 - (void)createPassCells {
@@ -209,7 +168,7 @@
                 UIView *topCell = [self.passCells objectAtIndex:(row - 1) * PASS_GRID_ROW_COUNT + column];
                 NSAssert(topCell, @"Top cell hasn't been added before adding bottom cell!");
                 [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:topCell attribute:NSLayoutAttributeBottom multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
-                [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:topCell attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
+                [self.passGridView addConstraint:[CPAppearanceManager constraintWithView:cell alignToView:topCell attribute:NSLayoutAttributeHeight]];
             }
             
             if (row == PASS_GRID_ROW_COUNT - 1) {
@@ -222,7 +181,7 @@
                 UIView *leftCell = [self.passCells objectAtIndex:row * PASS_GRID_ROW_COUNT + column - 1];
                 NSAssert(leftCell, @"Left cell hasn't been added before adding right cell!");
                 [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:leftCell attribute:NSLayoutAttributeRight multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
-                [self.passGridView addConstraint:[NSLayoutConstraint constraintWithItem:cell attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:leftCell attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
+                [self.passGridView addConstraint:[CPAppearanceManager constraintWithView:cell alignToView:leftCell attribute:NSLayoutAttributeWidth]];
             }
             
             if (column == PASS_GRID_COLUMN_COUNT - 1) {
@@ -319,17 +278,17 @@
         [self.superview removeConstraint:self.dragViewLeftConstraint];
         [self.superview removeConstraint:self.dragViewTopConstraint];
         
-        self.dragViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.dragView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.dragDestinationCell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
+        self.dragViewLeftConstraint = [CPAppearanceManager constraintWithView:self.dragView alignToView:self.dragDestinationCell attribute:NSLayoutAttributeLeft];
         [self.superview addConstraint:self.dragViewLeftConstraint];
-        self.dragViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.dragView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.dragDestinationCell attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
+        self.dragViewTopConstraint = [CPAppearanceManager constraintWithView:self.dragView alignToView:self.dragDestinationCell attribute:NSLayoutAttributeTop];
         [self.superview addConstraint:self.dragViewTopConstraint];
         
         [self.superview removeConstraint:[destinationMovingCellDetail objectAtIndex:1]];
         [self.superview removeConstraint:[destinationMovingCellDetail objectAtIndex:2]];
         
-        [destinationMovingCellDetail replaceObjectAtIndex:1 withObject:[NSLayoutConstraint constraintWithItem:[destinationMovingCellDetail objectAtIndex:0] attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.dragSourceCell attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
+        [destinationMovingCellDetail replaceObjectAtIndex:1 withObject:[CPAppearanceManager constraintWithView:[destinationMovingCellDetail objectAtIndex:0] alignToView:self.dragSourceCell attribute:NSLayoutAttributeLeft]];
         [self.superview addConstraint:[destinationMovingCellDetail objectAtIndex:1]];
-        [destinationMovingCellDetail replaceObjectAtIndex:2 withObject:[NSLayoutConstraint constraintWithItem:[destinationMovingCellDetail objectAtIndex:0] attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.dragSourceCell attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
+        [destinationMovingCellDetail replaceObjectAtIndex:2 withObject:[CPAppearanceManager constraintWithView:[destinationMovingCellDetail objectAtIndex:0] alignToView:self.dragSourceCell attribute:NSLayoutAttributeTop]];
         [self.superview addConstraint:[destinationMovingCellDetail objectAtIndex:2]];
         
         [CPAppearanceManager animateWithDuration:0.5 animations:^{
@@ -408,6 +367,34 @@
             NSAssert(NO, @"Unknowed change reported by NSFetchResultsController!");
             break;
     }
+}
+
+#pragma mark - lazy init
+
+- (NSMutableArray *)passCells {
+    if (!_passCells) {
+        _passCells = [[NSMutableArray alloc] initWithCapacity:PASS_GRID_ROW_COUNT * PASS_GRID_COLUMN_COUNT];
+    }
+    return _passCells;
+}
+
+- (CPPassEditViewManager *)passEditViewManager {
+    if (!_passEditViewManager) {
+        _passEditViewManager = [[CPPassEditViewManager alloc] initWithSuperView:self.superview coverImage:self.coverImage andCells:self.passCells];
+    }
+    return _passEditViewManager;
+}
+
+- (UIView *)iconLayer {
+    if (!_iconLayer) {
+        _iconLayer = [[UIView alloc] init];
+        _iconLayer.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        [self.superview addSubview:_iconLayer];
+        
+        [self.superview addConstraints:[CPAppearanceManager constraintsWithView:_iconLayer edgesAlignToView:self.passGridView]];
+    }
+    return _iconLayer;
 }
 
 @end

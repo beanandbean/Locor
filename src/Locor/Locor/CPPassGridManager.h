@@ -8,10 +8,10 @@
 
 #import "CPPassCell.h"
 
-@interface CPPassGridManager : NSObject <CPPassCellDelegate, NSFetchedResultsControllerDelegate>
+#import "CPViewManager.h"
+
+@interface CPPassGridManager : CPViewManager <CPPassCellDelegate, NSFetchedResultsControllerDelegate>
 
 + (NSArray *)makeDraggingCellFromCell:(CPPassCell *)passCell onView:(UIView *)view withCover:(UIImageView *)cover;
-
-- (id)initWithSuperView:(UIView *)superView;
 
 @end
