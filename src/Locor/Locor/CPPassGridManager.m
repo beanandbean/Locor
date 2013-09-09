@@ -93,9 +93,7 @@
     
     CPCoverImageView *fakeCover = [[CPCoverImageView alloc] init];
     [fakeCoverContainer addSubview:fakeCover];
-    
-    NSArray *dragViewCoverConstraints = [CPAppearanceManager constraintsWithViewCenterAlignToStandardCoverImageCenter:fakeCover];
-    [view addConstraints:dragViewCoverConstraints];
+    [view addConstraints:fakeCover.positioningConstraints];
     
     UIImageView *fakeIcon = [[UIImageView alloc] initWithImage:passCell.iconImage.image];
     fakeIcon.translatesAutoresizingMaskIntoConstraints = NO;
@@ -107,7 +105,7 @@
     
     [CPPassGridManager expandShadowOnCell:dragView withSize:5.0];
     
-    return [NSArray arrayWithObjects:dragView, dragViewLeftConstraint, dragViewTopConstraint, dragViewSizeConstraints, dragViewCoverConstraints, fakeIcon, nil];
+    return [NSArray arrayWithObjects:dragView, dragViewLeftConstraint, dragViewTopConstraint, dragViewSizeConstraints, fakeCover.positioningConstraints, fakeIcon, nil];
 }
 
 - (void)loadAnimated:(BOOL)animated {
@@ -131,10 +129,9 @@
     [CPAppearanceManager registerStandardForPosition:CPStandardCoverImageCenterX asItem:self.superview attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0];
     [CPAppearanceManager registerStandardForPosition:CPStandardCoverImageCenterY asItem:self.superview attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0];
     
-    // TODO: Make cover images bigger.
     self.coverImage = [[CPCoverImageView alloc] init];
     [self.superview addSubview:self.coverImage];
-    [self.superview addConstraints:[CPAppearanceManager constraintsWithViewCenterAlignToStandardCoverImageCenter:self.coverImage]];
+    [self.superview addConstraints:self.coverImage.positioningConstraints];
     
     [self createPassCells];
     

@@ -57,25 +57,16 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
 @implementation CPMemoCollectionViewManager
 
 - (UICollectionView *)makeCollectionView {
-    UICollectionView *collectionView;
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.sectionInset = UIEdgeInsetsMake(0.0, BOX_SEPARATOR_SIZE, 0.0, BOX_SEPARATOR_SIZE);
     layout.minimumLineSpacing = BOX_SEPARATOR_SIZE;
-    collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+    
+    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+    collectionView.backgroundColor = [UIColor clearColor];
     collectionView.showsHorizontalScrollIndicator = NO;
     collectionView.dataSource = self;
     collectionView.delegate = self;
-    
-    if (self.style == CPMemoCollectionViewStyleSearch) {
-        collectionView.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.9];
-        layout.sectionInset = UIEdgeInsetsMake(BOX_SEPARATOR_SIZE, BOX_SEPARATOR_SIZE, BOX_SEPARATOR_SIZE, BOX_SEPARATOR_SIZE);
-    } else if (self.style == CPMemoCollectionViewStyleInPassCell) {
-        collectionView.backgroundColor = [UIColor clearColor];
-        // Not leaving top and bottom insets because there have already been insets ouside superview
-        layout.sectionInset = UIEdgeInsetsMake(0.0, BOX_SEPARATOR_SIZE, 0.0, BOX_SEPARATOR_SIZE);
-    } else {
-        NSAssert(NO, @"Unexpected memo collection view style!");
-    }
     
     [collectionView registerClass:[CPMemoCell class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_NORMAL];
     [collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_NORMAL_BACKGROUND];

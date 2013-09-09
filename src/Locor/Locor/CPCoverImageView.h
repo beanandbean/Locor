@@ -10,4 +10,6 @@
 
 @interface CPCoverImageView : UIImageView <CPDeviceRotateObserver>
 
+- (NSArray *)positioningConstraints;
+
 @end

@@ -10,6 +10,8 @@
 
 #import "CPLocorConfig.h"
 
+#import "CPAppearanceManager.h"
+
 static UIImage *coverImage;
 
 @implementation CPCoverImageView
@@ -32,6 +34,13 @@ static UIImage *coverImage;
         self.alpha = WATER_MARK_ALPHA;
     }
     return self;
+}
+
+- (NSArray *)positioningConstraints {
+    return [NSArray arrayWithObjects:
+            [CPAppearanceManager constraintWithView:self attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual constant:0.0 toPosition:CPStandardCoverImageCenterX],
+            [CPAppearanceManager constraintWithView:self attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual constant:0.0 toPosition:CPStandardCoverImageCenterY],
+            nil];
 }
 
 - (void)deviceWillRotateToOrientation:(UIInterfaceOrientation)orientation {

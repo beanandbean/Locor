@@ -38,8 +38,6 @@ typedef enum {
 
 + (void)registerStandardForPosition:(CPStandardPosition)edge asItem:(UIView *)view attribute:(NSLayoutAttribute)attr multiplier:(CGFloat)multiplier constant:(CGFloat)c;
 
-+ (NSArray *)constraintsWithViewCenterAlignToStandardCoverImageCenter:(UIView *)view;
-
 + (NSLayoutConstraint *)constraintWithView:(UIView *)view attribute:(NSLayoutAttribute)attr relatedBy:(NSLayoutRelation)relation constant:(CGFloat)c toPosition:(CPStandardPosition)edge;
 
 @end

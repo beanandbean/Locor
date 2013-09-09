@@ -90,7 +90,7 @@
         
         CPCoverImageView *coverImage = [[CPCoverImageView alloc] init];
         [self.outerView addSubview:coverImage];
-        [self.superView addConstraints:[CPAppearanceManager constraintsWithViewCenterAlignToStandardCoverImageCenter:coverImage]];
+        [self.superView addConstraints:coverImage.positioningConstraints];
         
         UIView *frontLayer = [[UIView alloc] init];
         frontLayer.translatesAutoresizingMaskIntoConstraints = NO;

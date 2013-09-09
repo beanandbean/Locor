@@ -55,7 +55,7 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
     }];
 }
 
-#pragma mark - constraint helper
+#pragma mark - Constraint Helper
 
 + (NSArray *)constraintsWithView:(UIView *)view1 edgesAlignToView:(UIView *)view2 {
     return [CPAppearanceManager constraintsWithView:view1 alignToView:view2 attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, NSLayoutAttributeTop, NSLayoutAttributeBottom, ATTR_END];
@@ -98,6 +98,8 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
     return [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:height];
 }
 
+#pragma mark - Standard Constraints Helper
+
 + (void)registerStandardForPosition:(CPStandardPosition)edge asItem:(UIView *)view attribute:(NSLayoutAttribute)attr multiplier:(CGFloat)multiplier constant:(CGFloat)c {
     if (!standardViews) {
         standardViews = [CPAppearanceManager arrayWithInitialValue:[NSNull null]];
@@ -119,13 +121,6 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
     [standardAttrs replaceObjectAtIndex:edge withObject:[NSNumber numberWithInt:attr]];
     [standardMultipliers replaceObjectAtIndex:edge withObject:[NSNumber numberWithFloat:multiplier]];
     [standardConstants replaceObjectAtIndex:edge withObject:[NSNumber numberWithFloat:c]];
-}
-
-+ (NSArray *)constraintsWithViewCenterAlignToStandardCoverImageCenter:(UIView *)view {
-    return [NSArray arrayWithObjects:
-            [CPAppearanceManager constraintWithView:view attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual constant:0.0 toPosition:CPStandardCoverImageCenterX],
-            [CPAppearanceManager constraintWithView:view attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual constant:0.0 toPosition:CPStandardCoverImageCenterY],
-            nil];
 }
 
 + (NSLayoutConstraint *)constraintWithView:(UIView *)view attribute:(NSLayoutAttribute)attr relatedBy:(NSLayoutRelation)relation constant:(CGFloat)c toPosition:(CPStandardPosition)edge {

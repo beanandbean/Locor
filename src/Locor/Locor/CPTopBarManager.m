@@ -10,6 +10,8 @@
 
 #import "CPLocorConfig.h"
 
+#import "CPCoverImageView.h"
+
 #import "CPMemoCollectionViewManager.h"
 #import "CPSettingsManager.h"
 
@@ -30,6 +32,13 @@
 
 @property (strong, nonatomic) UIView *resultContainer;
 @property (strong, nonatomic) NSArray *resultContainerConstraints;
+
+@property (strong, nonatomic) CPCoverImageView *coverImage;
+
+@property (strong, nonatomic) UIView *frontResultContainer;
+@property (strong, nonatomic) UIView *backResultContainer;
+@property (strong, nonatomic) NSArray *frontResultContainerConstraints;
+@property (strong, nonatomic) NSArray *backResultContainerConstraints;
 
 @property (strong, nonatomic) CPMemoCollectionViewManager *resultMemoCollectionViewManager;
 
@@ -62,19 +71,27 @@
 
 - (IBAction)barButtonTouched:(id)sender {
     if ([CPProcessManager isInProcess:SEARCHING_PROCESS]) {
-        //[self.resultMemoCollectionViewManager endEditing];
+        [self.resultMemoCollectionViewManager endEditing];
         [CPProcessManager stopProcess:SEARCHING_PROCESS withPreparation:^{
             [CPAppearanceManager animateWithDuration:0.3 animations:^{
-                //self.resultMemoCollectionViewManager.collectionView.alpha = 0.0;
+                self.backResultContainer.alpha = 0.0;
+                self.coverImage.alpha = 0.0;
+                self.frontResultContainer.alpha = 0.0;
             } completion:^(BOOL finished) {
                 [self.superview removeConstraints:self.resultContainerConstraints];
                 [self.resultContainer removeFromSuperview];
                 
-                [self.barButton setTitle:@"S" forState:UIControlStateNormal];
+                [CPBarButtonManager popBarButtonState];
+                
+                self.backResultContainer = nil;
+                self.coverImage = nil;
+                self.frontResultContainer = nil;
+                self.backResultContainerConstraints = nil;
+                self.frontResultContainerConstraints = nil;
+                self.resultMemoCollectionViewManager = nil;
                 
                 self.resultContainer = nil;
                 self.resultContainerConstraints = nil;
-                //self.resultMemoCollectionViewManager = nil;
                 
                 self.searchBar.text = @"";
                 if ([self.searchBar isFirstResponder]) {
@@ -94,7 +111,7 @@
 - (void)handleTapOnSearchBar:(UITapGestureRecognizer *)tapGesture {
     self.searchBarTextField.enabled = YES;
     if (![self.searchBar isFirstResponder]) {
-        //[self.resultMemoCollectionViewManager endEditing];
+        [self.resultMemoCollectionViewManager endEditing];
         [self.searchBar becomeFirstResponder];
     }
 }
@@ -103,7 +120,7 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     if ([CPProcessManager isInProcess:SEARCHING_PROCESS]) {
-        //self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchBar.text] mutableCopy];
+        self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchBar.text] mutableCopy];
         return YES;
     } else {
         // TODO: When search bar is focused, stop if being currently editing memo cells in pass edit view.
@@ -111,16 +128,29 @@
             [self.superview addSubview:self.resultContainer];
             [self.superview addConstraints:self.resultContainerConstraints];
             
-            [self.barButton setTitle:@"X" forState:UIControlStateNormal];
-                        
-            //self.resultMemoCollectionViewManager.collectionView.alpha = 0.0;
-            //self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchBar.text] mutableCopy];
+            [self.resultContainer addSubview:self.backResultContainer];
+            [self.resultContainer addSubview:self.coverImage];
+            [self.resultContainer addSubview:self.frontResultContainer];
+            [self.resultContainer addConstraints:self.backResultContainerConstraints];
+            [self.resultContainer addConstraints:self.frontResultContainerConstraints];
+            
+            [self.superview addConstraints:self.coverImage.positioningConstraints];
+            
+            [CPBarButtonManager pushBarButtonStateWithTitle:@"X" target:self action:@selector(barButtonTouched:) andControlEvents:UIControlEventTouchUpInside];
+            
+            self.backResultContainer.alpha = 0.0;
+            self.coverImage.alpha = 0.0;
+            self.frontResultContainer.alpha = 0.0;
+            
+            self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchBar.text] mutableCopy];
             
             [CPAppearanceManager animateWithDuration:0.5 animations:^{
                 [self.superview layoutIfNeeded];
             } completion:^(BOOL finished) {
                 [CPAppearanceManager animateWithDuration:0.3 animations:^{
-                    //self.resultMemoCollectionViewManager.collectionView.alpha = 1.0;
+                    self.backResultContainer.alpha = 1.0;
+                    self.coverImage.alpha = WATER_MARK_ALPHA;
+                    self.frontResultContainer.alpha = 1.0;
                 }];
             }];
         }];
@@ -132,12 +162,12 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    //self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchText] mutableCopy];
+    self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchText] mutableCopy];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
-    //[self.resultMemoCollectionViewManager endEditing];
+    [self.resultMemoCollectionViewManager endEditing];
 }
 
 #pragma mark - lazy init
@@ -188,6 +218,7 @@
 - (UIView *)resultContainer {
     if (!_resultContainer) {
         _resultContainer = [[UIView alloc] init];
+        _resultContainer.clipsToBounds = YES;
         _resultContainer.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _resultContainer;
@@ -196,21 +227,58 @@
 - (NSArray *)resultContainerConstraints {
     if (!_resultContainerConstraints) {
         _resultContainerConstraints = [[NSArray alloc] initWithObjects:
-                                       [NSLayoutConstraint constraintWithItem:self.resultContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:BOX_SEPARATOR_SIZE],
-                                       [NSLayoutConstraint constraintWithItem:self.resultContainer attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-BOX_SEPARATOR_SIZE],
-                                       [CPAppearanceManager constraintWithView:self.resultContainer attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toPosition:CPStandardMarginEdgeLeft],
-                                       [CPAppearanceManager constraintWithView:self.resultContainer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toPosition:CPStandardMarginEdgeRight],
-                                       nil];
+                                            [NSLayoutConstraint constraintWithItem:self.resultContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:BOX_SEPARATOR_SIZE],
+                                            [NSLayoutConstraint constraintWithItem:self.resultContainer attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-BOX_SEPARATOR_SIZE],
+                                            nil];
+        _resultContainerConstraints = [_resultContainerConstraints arrayByAddingObjectsFromArray:[CPAppearanceManager constraintsWithView:self.resultContainer alignToView:self.superview attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, ATTR_END]];
     }
     return _resultContainerConstraints;
 }
 
-/*- (CPMemoCollectionViewManager *)resultMemoCollectionViewManager {
+- (UIView *)frontResultContainer {
+    if (!_frontResultContainer) {
+        _frontResultContainer = [[UIView alloc] init];
+        _frontResultContainer.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _frontResultContainer;
+}
+
+- (UIView *)backResultContainer {
+    if (!_backResultContainer) {
+        _backResultContainer = [[UIView alloc] init];
+        _backResultContainer.backgroundColor = [UIColor blackColor];
+        _backResultContainer.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _backResultContainer;
+}
+
+- (NSArray *)frontResultContainerConstraints {
+    if (!_frontResultContainerConstraints) {
+        _frontResultContainerConstraints = [CPAppearanceManager constraintsWithView:self.frontResultContainer edgesAlignToView:self.resultContainer];
+    }
+    return _frontResultContainerConstraints;
+}
+
+- (NSArray *)backResultContainerConstraints {
+    if (!_backResultContainerConstraints) {
+        _backResultContainerConstraints = [CPAppearanceManager constraintsWithView:self.backResultContainer edgesAlignToView:self.resultContainer];
+    }
+    return _backResultContainerConstraints;
+}
+
+- (CPCoverImageView *)coverImage {
+    if (!_coverImage) {
+        _coverImage = [[CPCoverImageView alloc] init];
+    }
+    return _coverImage;
+}
+
+- (CPMemoCollectionViewManager *)resultMemoCollectionViewManager {
     if (!_resultMemoCollectionViewManager) {
-        _resultMemoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:self.resultContainer frontLayer:nil backLayer:nil style:CPMemoCollectionViewStyleSearch andDelegate:nil];
+        _resultMemoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:self.superview frontLayer:self.frontResultContainer backLayer:self.backResultContainer style:CPMemoCollectionViewStyleSearch andDelegate:nil];
     }
     return _resultMemoCollectionViewManager;
-}*/
+}
 
 - (CPSettingsManager *)settingsManager {
     if (!_settingsManager) {

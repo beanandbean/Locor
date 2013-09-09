@@ -1028,7 +1028,7 @@ sg419
 S'Determine if the memo cell should fall back to original position when you start removing after it is raised up when editing.'
 p436
 sg421
-S'TODO grabbed from src/Locor/Locor/CPMemoCollectionViewManager.m, line 211.'
+S'TODO grabbed from src/Locor/Locor/CPMemoCollectionViewManager.m, line 202.'
 p437
 sg423
 I00
@@ -1047,7 +1047,7 @@ sg419
 S'Improve animation for removing a memo cell.'
 p441
 sg421
-S'TODO grabbed from src/Locor/Locor/CPMemoCollectionViewManager.m, line 269.'
+S'TODO grabbed from src/Locor/Locor/CPMemoCollectionViewManager.m, line 260.'
 p442
 sg423
 I00
@@ -1065,7 +1065,7 @@ sg419
 S'Figure out why editing cell will not rise if starting edit cell just after search bar.'
 p445
 sg421
-S'TODO grabbed from src/Locor/Locor/CPMemoCollectionViewManager.m, line 313.'
+S'TODO grabbed from src/Locor/Locor/CPMemoCollectionViewManager.m, line 304.'
 p446
 sg423
 I00
@@ -1223,70 +1223,75 @@ sg426
 g474
 sg428
 g429
-sa(dp483
-g417
-g418
-sg419
-S'Make cover images bigger.'
-p484
-sg421
-S'TODO grabbed from src/Locor/Locor/CPPassGridManager.m, line 134.'
-p485
-sg423
-I00
-sg424
-S'2013-09-05 20:16:51'
-p486
-sg426
-S'src/Locor/Locor/CPPassGridManager.m'
-p487
-sg428
-g429
-sa(dp488
+saNa(dp483
 g417
 g418
 sg419
 S'When search bar is focused, stop if being currently editing memo cells in pass edit view.'
-p489
+p484
 sg421
 S'TODO grabbed from src/Locor/Locor/CPTopBarAndSearchManager.m, line 196.'
-p490
+p485
 sg423
 I01
 sg424
 S'2013-09-05 20:16:51'
-p491
+p486
 sg426
 S'src/Locor/Locor/CPTopBarAndSearchManager.m'
-p492
+p487
 sg428
 S'done'
-p493
-sa(dp494
+p488
+sa(dp489
 S'author'
-p495
+p490
 S'TODO grabber'
-p496
+p491
 sS'text'
-p497
+p492
 S'When search bar is focused, stop if being currently editing memo cells in pass edit view.'
-p498
+p493
 sS'detail'
-p499
-S'TODO grabbed from src/Locor/Locor/CPTopBarManager.m, line 109.'
-p500
+p494
+S'TODO grabbed from src/Locor/Locor/CPTopBarManager.m, line 126.'
+p495
 sS'exported'
-p501
+p496
 I00
 sS'time'
-p502
+p497
 S'2013-09-08 18:47:13'
-p503
+p498
 sS'path'
-p504
+p499
 S'src/Locor/Locor/CPTopBarManager.m'
-p505
+p500
 sS'condition'
-p506
+p501
 g429
+sa(dp502
+S'author'
+p503
+S'wangsw'
+p504
+sS'text'
+p505
+S'Make cover images bigger and use portrait image for ipad.'
+p506
+sS'detail'
+p507
+S"Now the cover image is as big as the device screen. However, as the center point of the image is not the center of the device screen but the center of a pass cell, the image is a bit lower and the top gap above the bar is not covered. Drag a pass cell to that area and the problem will be seen.\nAlso, now the iPad image is landscape and the iPhone image is portrait, so the method 'deviceWillRotateToOrientation:' which rotate the image according to orientation only work well for iPhone. We need to change iPad image to portrait too."
+p508
+sS'exported'
+p509
+I00
+sS'time'
+p510
+S'2013-09-09 17:31:50'
+p511
+sS'condition'
+p512
+S'open'
+p513
 sa.
