@@ -14,6 +14,8 @@
 
 #import "CPCoverImageView.h"
 
+#import "CPIconPicker.h"
+
 #import "CPPassGridManager.h"
 
 #import "CPBarButtonManager.h"
@@ -37,7 +39,7 @@
 @property (strong, nonatomic) UIView *outerView;
 @property (strong, nonatomic) NSArray *outerViewConstraints;
 
-@property (strong, nonatomic) UIImageView *cellIcon;
+@property (strong, nonatomic) CPIconPicker *cellIcon;
 @property (strong, nonatomic) UIView *cellBackground;
 
 @property (strong, nonatomic) UITextField *passwordTextField;
@@ -105,18 +107,19 @@
         self.cellBackground.translatesAutoresizingMaskIntoConstraints = NO;
         [backLayer addSubview:self.cellBackground];
         
-        [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.cellBackground attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-        [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.cellBackground attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeTop multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
+        [self.outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.cellBackground attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.outerView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+        [self.outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.cellBackground attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.outerView attribute:NSLayoutAttributeTop multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
         [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.cellBackground attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:[self.passCells objectAtIndex:index] attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
         [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.cellBackground attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:[self.passCells objectAtIndex:index] attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
         
-        self.cellIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:password.trueIcon]];
+        self.cellIcon = [[CPIconPicker alloc] init];
         self.cellIcon.alpha = 0.0;
+        self.cellIcon.backgroundColor = [UIColor clearColor];
         self.cellIcon.translatesAutoresizingMaskIntoConstraints = NO;
         [frontLayer addSubview:self.cellIcon];
         
-        [self.outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.cellIcon attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.cellBackground attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-        [self.outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.cellIcon attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.cellBackground attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+        [self.outerView addConstraints:[CPAppearanceManager constraintsWithView:self.cellIcon alignToView:self.cellBackground attribute:NSLayoutAttributeTop, NSLayoutAttributeBottom, ATTR_END]];
+        [self.outerView addConstraints:[CPAppearanceManager constraintsWithView:self.cellIcon alignToView:self.outerView attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, ATTR_END]];
         
         NSArray *draggingCellDetail = [CPPassGridManager makeDraggingCellFromCell:[self.passCells objectAtIndex:index] onView:self.superView];
         ((CPPassCell *)[self.passCells objectAtIndex:index]).hidden = YES;
@@ -155,9 +158,9 @@
         
         [frontLayer addSubview:self.passwordTextField];
         
-        [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeLeft multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
-        [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeRight multiplier:1.0 constant:-BOX_SEPARATOR_SIZE]];
-        [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+        [self.outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeLeft multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
+        [self.outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeRight multiplier:1.0 constant:-BOX_SEPARATOR_SIZE]];
+        [self.outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
                 
         // - Memo Collection View Initialization
         
@@ -174,7 +177,7 @@
         frontMemoContainer.translatesAutoresizingMaskIntoConstraints = NO;
         [frontLayer addSubview:frontMemoContainer];
         
-        [self.superView addConstraints:[CPAppearanceManager constraintsWithView:frontMemoContainer edgesAlignToView:backMemoContainer]];
+        [self.outerView addConstraints:[CPAppearanceManager constraintsWithView:frontMemoContainer edgesAlignToView:backMemoContainer]];
         
         self.memoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:self.superView frontLayer:frontMemoContainer backLayer:backMemoContainer style:CPMemoCollectionViewStyleInPassCell andDelegate:self];
         self.memoCollectionViewManager.inPasswordMemoColor = password.color;
