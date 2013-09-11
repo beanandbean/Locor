@@ -109,11 +109,12 @@
         
         [self.outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.cellBackground attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.outerView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
         [self.outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.cellBackground attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.outerView attribute:NSLayoutAttributeTop multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
-        [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.cellBackground attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:[self.passCells objectAtIndex:index] attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
-        [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.cellBackground attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:[self.passCells objectAtIndex:index] attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
+        [self.outerView addConstraint:[CPAppearanceManager constraintWithView:self.cellBackground height:PASS_EDIT_VIEW_CELL_SIZE]];
+        [self.outerView addConstraint:[CPAppearanceManager constraintWithView:self.cellBackground width:PASS_EDIT_VIEW_CELL_SIZE]];
         
-        self.cellIcon = [[CPIconPicker alloc] init];
-        self.cellIcon.alpha = 0.0;
+        self.cellIcon = [[CPIconPicker alloc] initWithDelegate:self];
+        self.cellIcon.enabled = NO;
+        self.cellIcon.startIcon = password.icon;
         self.cellIcon.backgroundColor = [UIColor clearColor];
         self.cellIcon.translatesAutoresizingMaskIntoConstraints = NO;
         [frontLayer addSubview:self.cellIcon];
@@ -121,7 +122,7 @@
         [self.outerView addConstraints:[CPAppearanceManager constraintsWithView:self.cellIcon alignToView:self.cellBackground attribute:NSLayoutAttributeTop, NSLayoutAttributeBottom, ATTR_END]];
         [self.outerView addConstraints:[CPAppearanceManager constraintsWithView:self.cellIcon alignToView:self.outerView attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, ATTR_END]];
         
-        NSArray *draggingCellDetail = [CPPassGridManager makeDraggingCellFromCell:[self.passCells objectAtIndex:index] onView:self.superView];
+        NSArray *draggingCellDetail = [CPPassGridManager makeDraggingCellFromCell:[self.passCells objectAtIndex:index] onView:self.superView withShadow:NO];
         ((CPPassCell *)[self.passCells objectAtIndex:index]).hidden = YES;
         
         // - Password Text Field Initialization
@@ -202,14 +203,22 @@
         }];
         
         __block NSLayoutConstraint *draggingCellCenterXConstraint, *draggingCellTopConstraint;
+        __block NSArray *draggingCellSizeConstraints;
         [CPAppearanceManager animateWithDuration:0.5 animations:^{
             [self.superView removeConstraint:[draggingCellDetail objectAtIndex:1]];
             [self.superView removeConstraint:[draggingCellDetail objectAtIndex:2]];
+            [self.superView removeConstraints:[draggingCellDetail objectAtIndex:3]];
             
             draggingCellCenterXConstraint = [NSLayoutConstraint constraintWithItem:[draggingCellDetail objectAtIndex:0] attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0];
             [self.superView addConstraint:draggingCellCenterXConstraint];
             draggingCellTopConstraint = [NSLayoutConstraint constraintWithItem:[draggingCellDetail objectAtIndex:0] attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeTop multiplier:1.0 constant:BOX_SEPARATOR_SIZE];
             [self.superView addConstraint:draggingCellTopConstraint];
+            
+            draggingCellSizeConstraints = [NSArray arrayWithObjects:
+                                           [CPAppearanceManager constraintWithView:[draggingCellDetail objectAtIndex:0] height:PASS_EDIT_VIEW_CELL_SIZE],
+                                           [CPAppearanceManager constraintWithView:[draggingCellDetail objectAtIndex:0] width:PASS_EDIT_VIEW_CELL_SIZE],
+                                           nil];
+            [self.superView addConstraints:draggingCellSizeConstraints];
             
             [self.superView layoutIfNeeded];
             ((UIView *)[draggingCellDetail objectAtIndex:0]).backgroundColor = password.color;
@@ -221,14 +230,22 @@
             self.cellBackground.hidden = NO;
             
             if (password.isUsed.boolValue) {
-                self.cellIcon.alpha = 1.0;
+                [CPAppearanceManager animateWithDuration:0.3 animations:^{
+                    self.cellIcon.enabled = YES;
+                } completion:^(BOOL finished) {
+                    [self.superView removeConstraint:draggingCellTopConstraint];
+                    [self.superView removeConstraint:draggingCellCenterXConstraint];
+                    [self.superView removeConstraints:draggingCellSizeConstraints];
+                    [self.superView removeConstraints:[draggingCellDetail objectAtIndex:4]];
+                    [(UIView *)[draggingCellDetail objectAtIndex:0] removeFromSuperview];
+                }];
+            } else {
+                [self.superView removeConstraint:draggingCellTopConstraint];
+                [self.superView removeConstraint:draggingCellCenterXConstraint];
+                [self.superView removeConstraints:draggingCellSizeConstraints];
+                [self.superView removeConstraints:[draggingCellDetail objectAtIndex:4]];
+                [(UIView *)[draggingCellDetail objectAtIndex:0] removeFromSuperview];
             }
-            
-            [self.superView removeConstraint:draggingCellTopConstraint];
-            [self.superView removeConstraint:draggingCellCenterXConstraint];
-            [self.superView removeConstraints:[draggingCellDetail objectAtIndex:3]];
-            [self.superView removeConstraints:[draggingCellDetail objectAtIndex:4]];
-            [(UIView *)[draggingCellDetail objectAtIndex:0] removeFromSuperview];
         }];
         
         // - Text Field Animations
@@ -340,15 +357,23 @@
             }
         } completion:nil];
         
-        NSArray *draggingCellDetail = [CPPassGridManager makeDraggingCellFromCell:[self.passCells objectAtIndex:self.index] onView:self.superView];
+        NSArray *draggingCellDetail = [CPPassGridManager makeDraggingCellFromCell:[self.passCells objectAtIndex:self.index] onView:self.superView withShadow:NO];
         
         [self.superView removeConstraint:[draggingCellDetail objectAtIndex:1]];
         [self.superView removeConstraint:[draggingCellDetail objectAtIndex:2]];
+        [self.superView removeConstraints:[draggingCellDetail objectAtIndex:3]];
         
         NSLayoutConstraint *draggingCellCenterXConstraint = [NSLayoutConstraint constraintWithItem:[draggingCellDetail objectAtIndex:0] attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0];
         [self.superView addConstraint:draggingCellCenterXConstraint];
         NSLayoutConstraint *draggingCellTopConstraint = [NSLayoutConstraint constraintWithItem:[draggingCellDetail objectAtIndex:0] attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeTop multiplier:1.0 constant:BOX_SEPARATOR_SIZE];
         [self.superView addConstraint:draggingCellTopConstraint];
+        
+        NSArray *draggingCellSizeConstraints = [NSArray arrayWithObjects:
+                                                [CPAppearanceManager constraintWithView:[draggingCellDetail objectAtIndex:0] height:PASS_EDIT_VIEW_CELL_SIZE],
+                                                [CPAppearanceManager constraintWithView:[draggingCellDetail objectAtIndex:0] width:PASS_EDIT_VIEW_CELL_SIZE],
+                                                nil];
+        [self.superView addConstraints:draggingCellSizeConstraints];
+
         
         [self.superView layoutIfNeeded];
         ((UIView *)[draggingCellDetail objectAtIndex:0]).backgroundColor = password.color;
@@ -358,14 +383,19 @@
         }
         
         self.cellBackground.hidden = YES;
-        self.cellIcon.alpha = 0.0;
+        
+        [CPAppearanceManager animateWithDuration:0.3 animations:^{
+            self.cellIcon.enabled = NO;
+        }];
         
         [CPAppearanceManager animateWithDuration:0.5 delay:0.3 options:0 animations:^{
             [self.superView removeConstraint:draggingCellCenterXConstraint];
             [self.superView removeConstraint:draggingCellTopConstraint];
+            [self.superView removeConstraints:draggingCellSizeConstraints];
             
             [self.superView addConstraint:[draggingCellDetail objectAtIndex:1]];
             [self.superView addConstraint:[draggingCellDetail objectAtIndex:2]];
+            [self.superView addConstraints:[draggingCellDetail objectAtIndex:3]];
 
             [self.superView layoutIfNeeded];
             ((UIView *)[draggingCellDetail objectAtIndex:0]).backgroundColor = password.displayColor;
@@ -402,7 +432,15 @@
     [self.passwordTextField becomeFirstResponder];
 }
 
-#pragma mark - CPMemoCollectionViewManagerDelegate
+#pragma mark - CPIconPickerDelegate implement
+
+- (void)iconSelected:(NSString *)iconName {
+    CPPassword *password = [[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index];
+    password.icon = iconName;
+    [[CPPassDataManager defaultManager] saveContext];
+}
+
+#pragma mark - CPMemoCollectionViewManagerDelegate implement
 
 - (CPMemo *)newMemo {
     return [[CPPassDataManager defaultManager] addMemoText:@"" intoIndex:self.index];
@@ -433,14 +471,14 @@
         if (self.allowEdit) {
             self.allowEdit = NO;
             [CPAppearanceManager animateWithDuration:0.3 animations:^{
-                self.cellIcon.alpha = 0.0;
+                self.cellIcon.enabled = NO;
             }];
         }
     } else if ([textField.text isEqualToString:@""]) {
         if (!self.allowEdit) {
             self.allowEdit = YES;
             [CPAppearanceManager animateWithDuration:0.3 animations:^{
-                self.cellIcon.alpha = 1.0;
+                self.cellIcon.enabled = YES;
             }];
         }
     }

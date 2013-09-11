@@ -6,9 +6,11 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
+#import "CPIconPicker.h"
+
 #import "CPMemoCollectionViewManager.h"
 
-@interface CPPassEditViewManager : NSObject <CPMemoCollectionViewManagerDelegate, UITextFieldDelegate>
+@interface CPPassEditViewManager : NSObject <CPIconPickerDelegate, CPMemoCollectionViewManagerDelegate, UITextFieldDelegate>
 
 @property (nonatomic) NSInteger index;
 

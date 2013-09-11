@@ -322,7 +322,7 @@
 				2CE7F89B17CCA63C0029F670 /* add_ipad@2x.png */,
 				2CE7F89C17CCA63C0029F670 /* add.png */,
 				2CE7F89D17CCA63C0029F670 /* add@2x.png */,
-				2CCFB69317CB5CDF009CE894 /* Star Signs */,
+				2CCFB69317CB5CDF009CE894 /* StarSigns */,
 				2CC756FE17CA151D00800E09 /* bg-ipad.png */,
 				2CC756FF17CA151D00800E09 /* bg-ipad@2x.png */,
 				2CC7570017CA151D00800E09 /* bg-iphone.png */,
@@ -331,7 +331,7 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		2CCFB69317CB5CDF009CE894 /* Star Signs */ = {
+		2CCFB69317CB5CDF009CE894 /* StarSigns */ = {
 			isa = PBXGroup;
 			children = (
 				2CCFB6F417CB5F3F009CE894 /* capricorn_ipad.png */,
@@ -383,7 +383,7 @@
 				2CCFB6C217CB5D4E009CE894 /* virgo.png */,
 				2CCFB6C317CB5D4E009CE894 /* virgo@2x.png */,
 			);
-			name = "Star Signs";
+			name = StarSigns;
 			sourceTree = "<group>";
 		};
 		FC1E514A17DA12D000691F79 /* ViewManager */ = {

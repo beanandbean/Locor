@@ -64,10 +64,12 @@
     cell.layer.shadowRadius = 0.0;
 }
 
-+ (NSArray *)makeDraggingCellFromCell:(CPPassCell *)passCell onView:(UIView *)view {
++ (NSArray *)makeDraggingCellFromCell:(CPPassCell *)passCell onView:(UIView *)view withShadow:(BOOL)shadow {
     UIView *dragView = [[UIView alloc] init];
     
-    [CPPassGridManager makeShadowOnCell:dragView withColor:passCell.backgroundColor opacity:1.0 andRadius:5.0];
+    if (shadow) {
+        [CPPassGridManager makeShadowOnCell:dragView withColor:passCell.backgroundColor opacity:1.0 andRadius:5.0];
+    }
     
     dragView.translatesAutoresizingMaskIntoConstraints = NO;
     dragView.backgroundColor = passCell.backgroundColor;
@@ -103,7 +105,9 @@
 
     [view layoutIfNeeded];
     
-    [CPPassGridManager expandShadowOnCell:dragView withSize:5.0];
+    if (shadow) {
+        [CPPassGridManager expandShadowOnCell:dragView withSize:5.0];
+    }
     
     return [NSArray arrayWithObjects:dragView, dragViewLeftConstraint, dragViewTopConstraint, dragViewSizeConstraints, fakeCover.positioningConstraints, fakeIcon, nil];
 }
@@ -196,7 +200,7 @@
     self.dragSourceCell = passCell;
     self.dragSourceCell.hidden = YES;
     
-    NSArray *dragCellDetail = [CPPassGridManager makeDraggingCellFromCell:self.dragSourceCell onView:self.superview];
+    NSArray *dragCellDetail = [CPPassGridManager makeDraggingCellFromCell:self.dragSourceCell onView:self.superview withShadow:YES];
     self.dragView = [dragCellDetail objectAtIndex:0];
     self.dragViewLeftConstraint = [dragCellDetail objectAtIndex:1];
     self.dragViewTopConstraint = [dragCellDetail objectAtIndex:2];
@@ -242,7 +246,7 @@
             }
             
             self.dragDestinationCell = newDragDestinationCell;
-            self.dragDestinationShadowCellDetail = [CPPassGridManager makeDraggingCellFromCell:self.dragDestinationCell onView:self.superview];
+            self.dragDestinationShadowCellDetail = [CPPassGridManager makeDraggingCellFromCell:self.dragDestinationCell onView:self.superview withShadow:YES];
             [self.superview bringSubviewToFront:self.dragView];
         }
     }
