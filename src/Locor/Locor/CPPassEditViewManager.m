@@ -126,7 +126,7 @@
         [self.outerView addConstraints:[CPAppearanceManager constraintsWithView:self.cellIcon alignToView:self.outerView attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, ATTR_END]];
         
         NSArray *draggingCellDetail = [CPPassGridManager makeDraggingCellFromCell:[self.passCells objectAtIndex:index] onView:self.superView withShadow:NO];
-        ((CPPassCell *)[self.passCells objectAtIndex:index]).hidden = YES;
+        ((CPPassCellManager *)[self.passCells objectAtIndex:index]).hidden = YES;
         
         // - Password Text Field Initialization
         
@@ -199,7 +199,7 @@
         
         // - Pass Cell Animations
         [CPAppearanceManager animateWithDuration:0.4 animations:^{
-            for (CPPassCell *cell in self.passCells) {
+            for (CPPassCellManager *cell in self.passCells) {
                 if (cell.index != index) {
                     cell.alpha = 0.0;
                 }
@@ -304,7 +304,7 @@
         // - Pass Cell Animations
         
         [CPAppearanceManager animateWithDuration:0.4 delay:0.2 options:0 animations:^{
-            for (CPPassCell *cell in self.passCells) {
+            for (CPPassCellManager *cell in self.passCells) {
                 if (cell.index != self.index) {
                     cell.alpha = 1.0;
                 }
@@ -357,7 +357,7 @@
             ((UIView *)[draggingCellDetail objectAtIndex:0]).backgroundColor = password.displayColor;
             ((UIView *)[draggingCellDetail objectAtIndex:5]).alpha = 1.0;
         } completion:^(BOOL finished) {
-            ((CPPassCell *)[self.passCells objectAtIndex:self.index]).hidden = NO;
+            ((CPPassCellManager *)[self.passCells objectAtIndex:self.index]).hidden = NO;
             
             [self.superView removeConstraint:draggingCellTopConstraint];
             [self.superView removeConstraint:draggingCellCenterXConstraint];

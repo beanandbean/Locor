@@ -6,12 +6,12 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-#import "CPPassCell.h"
+#import "CPPassCellManager.h"
 
 #import "CPViewManager.h"
 
 @interface CPPassGridManager : CPViewManager <CPPassCellDelegate, NSFetchedResultsControllerDelegate>
 
-+ (NSArray *)makeDraggingCellFromCell:(CPPassCell *)passCell onView:(UIView *)view withShadow:(BOOL)shadow;
++ (NSArray *)makeDraggingCellFromCell:(CPPassCellManager *)passCell onView:(UIView *)view withShadow:(BOOL)shadow;
 
 @end
