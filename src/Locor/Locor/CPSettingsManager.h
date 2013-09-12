@@ -6,10 +6,16 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-#import "CPViewManager.h"
+@protocol CPSettingsManagerDelegate <NSObject>
 
-@interface CPSettingsManager : CPViewManager
+- (void)settingsManagerClosed;
 
-- (id)initWithSuperview:(UIView *)superview;
+@end
+
+@interface CPSettingsManager : NSObject
+
+- (id)initWithSuperview:(UIView *)superview andDelegate:(id<CPSettingsManagerDelegate>)delegate;
+
+- (void)loadViews;
 
 @end

@@ -8,13 +8,22 @@
 
 #import "CPSettingsManager.h"
 
+#import "CPLocorConfig.h"
+
+#import "CPBarButtonManager.h"
+
+#import "CPAppearanceManager.h"
+
 @interface CPSettingsManager ()
+
+@property (weak, nonatomic) id<CPSettingsManagerDelegate> delegate;
 
 @property (weak, nonatomic) UIView *superView;
 
-@property (strong, nonatomic) UIView *buttonsView;
+@property (strong, nonatomic) UITapGestureRecognizer *tapGesture;
 
-- (void)helpButtonTouched:(id)sender;
+@property (strong, nonatomic) UIView *buttonList;
+@property (strong, nonatomic) NSArray *buttonListConstraints;
 
 @end
 
@@ -22,9 +31,10 @@
 
 #pragma mark - public methods
 
-- (id)initWithSuperview:(UIView *)superview {
+- (id)initWithSuperview:(UIView *)superview andDelegate:(id<CPSettingsManagerDelegate>)delegate {
     self = [super init];
     if (self) {
+        self.delegate = delegate;
         self.superView = superview;
     }
     return self;
@@ -32,48 +42,42 @@
 
 - (void)loadViews {
     NSAssert(self.superView, @"");
-    NSAssert(!self.buttonsView, @"");
     
-    self.buttonsView = [[UIView alloc] init];
-    self.buttonsView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.buttonsView.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+    [CPBarButtonManager pushBarButtonStateWithTitle:@"X" target:self action:@selector(unloadViews) andControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    helpButton.translatesAutoresizingMaskIntoConstraints = NO;
-    helpButton.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0];
-    [helpButton setTitle:@"H" forState:UIControlStateNormal];
-    [helpButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [helpButton addTarget:self action:@selector(helpButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
+    self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(unloadViews)];
+    [self.superView addGestureRecognizer:self.tapGesture];
     
-    [self.buttonsView addSubview:helpButton];
-    [self.superView addSubview:self.buttonsView];
+    self.superView.alpha = 0.0;
+    self.superView.backgroundColor = [UIColor blackColor];
     
-    [self.buttonsView addConstraint:[NSLayoutConstraint constraintWithItem:helpButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.buttonsView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
-    [self.buttonsView addConstraint:[NSLayoutConstraint constraintWithItem:helpButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.buttonsView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
-    [self.buttonsView addConstraint:[NSLayoutConstraint constraintWithItem:helpButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:44.0]];
-    [self.buttonsView addConstraint:[NSLayoutConstraint constraintWithItem:helpButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:44.0]];
+    self.buttonList = [[UIView alloc] init];
+    self.buttonList.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.superView addSubview:self.buttonList];
     
-    [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.buttonsView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
-    [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.buttonsView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
-    [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.buttonsView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.superView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
-    [self.superView addConstraint:[NSLayoutConstraint constraintWithItem:self.buttonsView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200.0]];
+    self.buttonListConstraints = [CPAppearanceManager constraintsWithView:self.buttonList alignToView:self.superView attribute:NSLayoutAttributeTop, NSLayoutAttributeBottom, NSLayoutAttributeRight, ATTR_END];
+    [self.superView addConstraints:self.buttonListConstraints];
     
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-    animation.duration = 1.0;
-    animation.fromValue = [NSNumber numberWithFloat:0.0];
-    animation.toValue = [NSNumber numberWithFloat:1.0];
-    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    [self.buttonsView.layer addAnimation:animation forKey:@""];
+    [self.buttonList addConstraint:[CPAppearanceManager constraintWithView:self.buttonList width:BAR_HEIGHT]];
+    
+    [CPAppearanceManager animateWithDuration:0.5 animations:^{
+        self.superView.alpha = 0.9;
+    }];
 }
 
 - (void)unloadViews {
-    NSAssert(self.buttonsView, @"");
-    [self.buttonsView removeFromSuperview];
-    self.buttonsView = nil;
-}
-
-- (void)helpButtonTouched:(id)sender {
-    [self unloadViews];
+    [CPBarButtonManager popBarButtonState];
+    
+    [self.superView removeGestureRecognizer:self.tapGesture];
+    
+    [self.superView removeConstraints:self.buttonListConstraints];
+    [self.buttonList removeFromSuperview];
+    
+    [CPAppearanceManager animateWithDuration:0.5 animations:^{
+        self.superView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        [self.delegate settingsManagerClosed];
+    }];
 }
 
 @end

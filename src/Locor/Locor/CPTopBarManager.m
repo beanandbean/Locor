@@ -13,7 +13,6 @@
 #import "CPCoverImageView.h"
 
 #import "CPMemoCollectionViewManager.h"
-#import "CPSettingsManager.h"
 
 #import "CPAppearanceManager.h"
 
@@ -42,9 +41,10 @@
 
 @property (strong, nonatomic) CPMemoCollectionViewManager *resultMemoCollectionViewManager;
 
-@property (strong, nonatomic) CPSettingsManager *settingsManager;
+@property (strong, nonatomic) UIView *settingsContainer;
+@property (strong, nonatomic) NSArray *settingsContainerConstraints;
 
-- (IBAction)barButtonTouched:(id)sender;
+@property (strong, nonatomic) CPSettingsManager *settingsManager;
 
 - (void)handleTapOnSearchBar:(UITapGestureRecognizer *)tapGesture;
 
@@ -69,43 +69,48 @@
     [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.barButton attribute:NSLayoutAttributeWidth alignToView:self.barButton attribute:NSLayoutAttributeHeight]];
 }
 
-- (IBAction)barButtonTouched:(id)sender {
-    if ([CPProcessManager isInProcess:SEARCHING_PROCESS]) {
-        [self.resultMemoCollectionViewManager endEditing];
-        [CPProcessManager stopProcess:SEARCHING_PROCESS withPreparation:^{
-            [CPAppearanceManager animateWithDuration:0.3 animations:^{
-                self.backResultContainer.alpha = 0.0;
-                self.coverImage.alpha = 0.0;
-                self.frontResultContainer.alpha = 0.0;
-            } completion:^(BOOL finished) {
-                [self.superview removeConstraints:self.resultContainerConstraints];
-                [self.resultContainer removeFromSuperview];
-                
-                [CPBarButtonManager popBarButtonState];
-                
-                self.backResultContainer = nil;
-                self.coverImage = nil;
-                self.frontResultContainer = nil;
-                self.backResultContainerConstraints = nil;
-                self.frontResultContainerConstraints = nil;
-                self.resultMemoCollectionViewManager = nil;
-                
-                self.resultContainer = nil;
-                self.resultContainerConstraints = nil;
-                
-                self.searchBar.text = @"";
-                if ([self.searchBar isFirstResponder]) {
-                    [self.searchBar resignFirstResponder];
-                }
-                
-                [CPAppearanceManager animateWithDuration:0.5 animations:^{
-                    [self.superview layoutIfNeeded];
-                }];
+- (void)openSetting {
+    [self.superview addSubview:self.settingsContainer];
+    [self.superview addConstraints:self.settingsContainerConstraints];
+    [self.superview bringSubviewToFront:self.searchBar];
+    [self.superview bringSubviewToFront:self.barButton];
+    [self.settingsManager loadViews];
+}
+
+- (void)stopSearching {
+    NSAssert([CPProcessManager isInProcess:SEARCHING_PROCESS], @"Receive an unexpected stop searching request!");
+    [self.resultMemoCollectionViewManager endEditing];
+    [CPProcessManager stopProcess:SEARCHING_PROCESS withPreparation:^{
+        [CPAppearanceManager animateWithDuration:0.3 animations:^{
+            self.backResultContainer.alpha = 0.0;
+            self.coverImage.alpha = 0.0;
+            self.frontResultContainer.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [self.superview removeConstraints:self.resultContainerConstraints];
+            [self.resultContainer removeFromSuperview];
+            
+            [CPBarButtonManager popBarButtonState];
+            
+            self.backResultContainer = nil;
+            self.coverImage = nil;
+            self.frontResultContainer = nil;
+            self.backResultContainerConstraints = nil;
+            self.frontResultContainerConstraints = nil;
+            self.resultMemoCollectionViewManager = nil;
+            
+            self.resultContainer = nil;
+            self.resultContainerConstraints = nil;
+            
+            self.searchBar.text = @"";
+            if ([self.searchBar isFirstResponder]) {
+                [self.searchBar resignFirstResponder];
+            }
+            
+            [CPAppearanceManager animateWithDuration:0.5 animations:^{
+                [self.superview layoutIfNeeded];
             }];
         }];
-    } else {
-        //[self.settingsManager loadViews];
-    }
+    }];
 }
 
 - (void)handleTapOnSearchBar:(UITapGestureRecognizer *)tapGesture {
@@ -114,6 +119,13 @@
         [self.resultMemoCollectionViewManager endEditing];
         [self.searchBar becomeFirstResponder];
     }
+}
+
+#pragma mark - CPSettingsManagerDelegate implement
+
+- (void)settingsManagerClosed {
+    [self.superview removeConstraints:self.settingsContainerConstraints];
+    [self.settingsContainer removeFromSuperview];
 }
 
 #pragma mark - UISearchBarDelegate implement
@@ -136,7 +148,7 @@
             
             [self.superview addConstraints:self.coverImage.positioningConstraints];
             
-            [CPBarButtonManager pushBarButtonStateWithTitle:@"X" target:self action:@selector(barButtonTouched:) andControlEvents:UIControlEventTouchUpInside];
+            [CPBarButtonManager pushBarButtonStateWithTitle:@"X" target:self action:@selector(stopSearching) andControlEvents:UIControlEventTouchUpInside];
             
             self.coverImage.alpha = 0.0;
             
@@ -207,7 +219,7 @@
         [_barButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         
         [CPBarButtonManager initializeWithBarButton:_barButton];
-        [CPBarButtonManager pushBarButtonStateWithTitle:@"S" target:self action:@selector(barButtonTouched:) andControlEvents:UIControlEventTouchUpInside];
+        [CPBarButtonManager pushBarButtonStateWithTitle:@"S" target:self action:@selector(openSetting) andControlEvents:UIControlEventTouchUpInside];
     }
     return _barButton;
 }
@@ -276,10 +288,30 @@
     return _resultMemoCollectionViewManager;
 }
 
+- (UIView *)settingsContainer {
+    if (!_settingsContainer) {
+        _settingsContainer = [[UIView alloc] init];
+        _settingsContainer.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _settingsContainer;
+}
+
+- (NSArray *)settingsContainerConstraints {
+    if (!_settingsContainerConstraints) {
+        _settingsContainerConstraints = [[NSArray alloc] initWithObjects:
+                                         [NSLayoutConstraint constraintWithItem:self.settingsContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:BOX_SEPARATOR_SIZE],
+                                         [NSLayoutConstraint constraintWithItem:self.settingsContainer attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeLeft multiplier:1.0 constant:BOX_SEPARATOR_SIZE],
+                                         [NSLayoutConstraint constraintWithItem:self.settingsContainer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeRight multiplier:1.0 constant:-BOX_SEPARATOR_SIZE],
+                                         [NSLayoutConstraint constraintWithItem:self.settingsContainer attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-BOX_SEPARATOR_SIZE],
+                                         nil];
+    }
+    return _settingsContainerConstraints;
+}
+
 - (CPSettingsManager *)settingsManager {
     if (!_settingsManager) {
         NSAssert(self.superview, @"");
-        _settingsManager = [[CPSettingsManager alloc] initWithSuperview:self.superview];
+        _settingsManager = [[CPSettingsManager alloc] initWithSuperview:self.settingsContainer andDelegate:self];
     }
     return _settingsManager;
 }
