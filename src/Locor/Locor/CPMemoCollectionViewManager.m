@@ -172,6 +172,71 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
 }
 
+- (void)showMemoCollectionViewAnimated {
+    UIView *fakeMemoContainer = [[UIView alloc] init];
+    fakeMemoContainer.clipsToBounds = YES;
+    fakeMemoContainer.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.backLayer addSubview:fakeMemoContainer];
+    
+    NSArray *fakeMemoContainerConstraints = [CPAppearanceManager constraintsWithView:fakeMemoContainer edgesAlignToView:self.backLayer];
+    [self.backLayer addConstraints:fakeMemoContainerConstraints];
+    
+    NSMutableArray *fakeMemos = [NSMutableArray array];
+    NSMutableArray *fakeMemoConstraints = [NSMutableArray array];
+    for (UIView *realMemo in self.backCollectionView.subviews) {
+        UIView *fakeMemo = [[UIView alloc] init];
+        fakeMemo.backgroundColor = realMemo.backgroundColor;
+        fakeMemo.translatesAutoresizingMaskIntoConstraints = NO;
+        [fakeMemoContainer addSubview:fakeMemo];
+        [fakeMemos addObject:fakeMemo];
+        
+        NSLayoutConstraint *fakeMemoTopConstraint = [NSLayoutConstraint constraintWithItem:fakeMemo attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:realMemo attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
+        [self.backLayer addConstraint:fakeMemoTopConstraint];
+        [fakeMemoConstraints addObject:fakeMemoTopConstraint];
+        NSLayoutConstraint *fakeMemoBottomConstraint = [NSLayoutConstraint constraintWithItem:fakeMemo attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:realMemo attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
+        [self.backLayer addConstraint:fakeMemoBottomConstraint];
+        [fakeMemoConstraints addObject:fakeMemoBottomConstraint];
+        NSLayoutConstraint *fakeMemoLeftConstraint = [NSLayoutConstraint constraintWithItem:fakeMemo attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:realMemo attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
+        [self.backLayer addConstraint:fakeMemoLeftConstraint];
+        [fakeMemoConstraints addObject:fakeMemoLeftConstraint];
+        NSLayoutConstraint *fakeMemoWidthConstraint= [NSLayoutConstraint constraintWithItem:fakeMemo attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:0.0];
+        [fakeMemo addConstraint:fakeMemoWidthConstraint];
+    }
+    
+    for (UIView *subview in self.frontCollectionView.subviews) {
+        subview.alpha = 0.0;
+    }
+    for (UIView *subview in self.backCollectionView.subviews) {
+        subview.alpha = 0.0;
+    }
+    
+    [self.superview layoutIfNeeded];
+    
+    for (int i = 0; i < fakeMemos.count; i++) {
+        [CPAppearanceManager animateWithDuration:0.4 delay:0.34 + 0.04 * i options:0 animations:^{
+            ((NSLayoutConstraint *)[((UIView *)[fakeMemos objectAtIndex:i]).constraints objectAtIndex:0]).constant = self.backCollectionView.frame.size.width - 2 * BOX_SEPARATOR_SIZE;
+            [(UIView *)[fakeMemos objectAtIndex:i] layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            ((UIView *)[self.backCollectionView.subviews objectAtIndex:i]).alpha = 1.0;
+            
+            if (i == fakeMemos.count - 1) {
+                [self.backLayer removeConstraints:fakeMemoContainerConstraints];
+                [fakeMemoContainer removeFromSuperview];
+            }
+        }];
+        
+        [CPAppearanceManager animateWithDuration:0.3 delay:0.44 + 0.04 * i options:0 animations:^{
+            ((UIView *)[self.frontCollectionView.subviews objectAtIndex:i]).alpha = 1.0;
+        } completion:nil];
+    }
+
+}
+
+- (void)setEnabled:(BOOL)enabled {
+    self.frontCollectionView.userInteractionEnabled = enabled;
+    self.frontCollectionView.alpha = self.backCollectionView.alpha = enabled ? 1.0 : 0.0;
+}
+
 - (void)endEditing {
     if (self.editingCell) {
         [self.editingCell endEditingAtIndexPath:[self.frontCollectionView indexPathForCell:self.editingCell]];

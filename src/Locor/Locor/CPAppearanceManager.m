@@ -20,6 +20,12 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
 
 @implementation CPAppearanceManager
 
++ (void)runBlock:(void (^)(void))block afterDelay:(NSTimeInterval)delay {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        block();
+    });
+}
+
 + (NSMutableArray *)arrayWithInitialValue:(id)value {
     NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:CPStandardPositionCount];
     for (int i = 0; i < CPStandardPositionCount; i++) {
@@ -29,30 +35,30 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
 }
 
 + (void)animateWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations {
-    [CPProcessManager increaseForbiddenCount];
-    [UIView animateWithDuration:duration animations:animations completion:^(BOOL finished) {
-        [CPProcessManager decreaseForbiddenCount];
-    }];
+    [CPAppearanceManager animateWithDuration:duration delay:0.0 options:0 preparation:nil animations:animations completion:nil];
 }
 
 + (void)animateWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations completion:(void (^)(BOOL))completion {
-    [CPProcessManager increaseForbiddenCount];
-    [UIView animateWithDuration:duration animations:animations completion:^(BOOL finished) {
-        if (completion) {
-            completion(finished);
-        }
-        [CPProcessManager decreaseForbiddenCount];
-    }];
+    [CPAppearanceManager animateWithDuration:duration delay:0.0 options:0 preparation:nil animations:animations completion:completion];
 }
 
 + (void)animateWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options animations:(void (^)(void))animations completion:(void (^)(BOOL))completion {
-    [CPProcessManager increaseForbiddenCount];
-    [UIView animateWithDuration:duration delay:delay options:options animations:animations completion:^(BOOL finished) {
-        if (completion) {
-            completion(finished);
+    [CPAppearanceManager animateWithDuration:duration delay:delay options:options preparation:nil animations:animations completion:completion];
+}
+
++ (void)animateWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options preparation:(void (^)(void))preparation animations:(void (^)(void))animations completion:(void (^)(BOOL))completion {
+    [CPAppearanceManager runBlock:^{
+        [CPProcessManager increaseForbiddenCount];
+        if (preparation) {
+            preparation();
         }
-        [CPProcessManager decreaseForbiddenCount];
-    }];
+        [UIView animateWithDuration:duration delay:0.0 options:options animations:animations completion:^(BOOL finished) {
+            if (completion) {
+                completion(finished);
+            }
+            [CPProcessManager decreaseForbiddenCount];
+        }];
+    } afterDelay:delay];
 }
 
 #pragma mark - Constraint Helper

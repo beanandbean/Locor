@@ -41,7 +41,11 @@ typedef enum {
 
 - (id)initWithSuperview:(UIView *)superview frontLayer:(UIView *)frontLayer backLayer:(UIView *)backLayer style:(CPMemoCollectionViewStyle)style andDelegate:(id<CPMemoCollectionViewManagerDelegate>)delegate;
 
+- (void)showMemoCollectionViewAnimated;
+
 - (void)endEditing;
+
+- (void)setEnabled:(BOOL)enabled;
 
 - (void)memoCellAtIndexPath:(NSIndexPath *)indexPath updateText:(NSString *)text;
 

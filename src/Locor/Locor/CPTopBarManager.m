@@ -138,21 +138,18 @@
             
             [CPBarButtonManager pushBarButtonStateWithTitle:@"X" target:self action:@selector(barButtonTouched:) andControlEvents:UIControlEventTouchUpInside];
             
-            self.backResultContainer.alpha = 0.0;
             self.coverImage.alpha = 0.0;
-            self.frontResultContainer.alpha = 0.0;
             
             self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchBar.text] mutableCopy];
             
-            [CPAppearanceManager animateWithDuration:0.5 animations:^{
-                [self.superview layoutIfNeeded];
-            } completion:^(BOOL finished) {
-                [CPAppearanceManager animateWithDuration:0.3 animations:^{
-                    self.backResultContainer.alpha = 1.0;
-                    self.coverImage.alpha = WATER_MARK_ALPHA;
-                    self.frontResultContainer.alpha = 1.0;
-                }];
-            }];
+            [self.superview layoutIfNeeded];
+            
+            [self.resultMemoCollectionViewManager showMemoCollectionViewAnimated];
+            
+            [CPAppearanceManager animateWithDuration:0.3 animations:^{
+                self.coverImage.alpha = WATER_MARK_ALPHA;
+                self.backResultContainer.backgroundColor = [UIColor blackColor];
+            } completion:nil];
         }];
     }
 }
@@ -246,7 +243,6 @@
 - (UIView *)backResultContainer {
     if (!_backResultContainer) {
         _backResultContainer = [[UIView alloc] init];
-        _backResultContainer.backgroundColor = [UIColor blackColor];
         _backResultContainer.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _backResultContainer;

@@ -39,6 +39,8 @@
 @property (strong, nonatomic) UIView *outerView;
 @property (strong, nonatomic) NSArray *outerViewConstraints;
 
+@property (strong, nonatomic) CPCoverImageView *coverImage;
+
 @property (strong, nonatomic) CPIconPicker *cellIcon;
 @property (strong, nonatomic) UIView *cellBackground;
 
@@ -90,9 +92,10 @@
         [self.outerView addSubview:backLayer];
         [self.outerView addConstraints:[CPAppearanceManager constraintsWithView:backLayer edgesAlignToView:self.outerView]];
         
-        CPCoverImageView *coverImage = [[CPCoverImageView alloc] init];
-        [self.outerView addSubview:coverImage];
-        [self.superView addConstraints:coverImage.positioningConstraints];
+        self.coverImage = [[CPCoverImageView alloc] init];
+        self.coverImage.alpha = 0.0;
+        [self.outerView addSubview:self.coverImage];
+        [self.superView addConstraints:self.coverImage.positioningConstraints];
         
         UIView *frontLayer = [[UIView alloc] init];
         frontLayer.translatesAutoresizingMaskIntoConstraints = NO;
@@ -181,6 +184,7 @@
         [self.outerView addConstraints:[CPAppearanceManager constraintsWithView:frontMemoContainer edgesAlignToView:backMemoContainer]];
         
         self.memoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:self.superView frontLayer:frontMemoContainer backLayer:backMemoContainer style:CPMemoCollectionViewStyleInPassCell andDelegate:self];
+        self.memoCollectionViewManager.enabled = password.isUsed.boolValue;
         self.memoCollectionViewManager.inPasswordMemoColor = password.color;
         
         if (password.isUsed.boolValue) {
@@ -200,6 +204,8 @@
                     cell.alpha = 0.0;
                 }
             }
+            
+            self.coverImage.alpha = WATER_MARK_ALPHA;
         }];
         
         __block NSLayoutConstraint *draggingCellCenterXConstraint, *draggingCellTopConstraint;
@@ -264,61 +270,9 @@
         }];
         
         // - Memo Collection View Animations
-        UIView *fakeMemoContainer = [[UIView alloc] init];
-        fakeMemoContainer.clipsToBounds = YES;
-        fakeMemoContainer.translatesAutoresizingMaskIntoConstraints = NO;
-        [backLayer addSubview:fakeMemoContainer];
         
-        NSArray *fakeMemoContainerConstraints = [CPAppearanceManager constraintsWithView:fakeMemoContainer edgesAlignToView:backMemoContainer];
-        [backLayer addConstraints:fakeMemoContainerConstraints];
-        
-        NSMutableArray *fakeMemos = [NSMutableArray array];
-        NSMutableArray *fakeMemoConstraints = [NSMutableArray array];
-        for (UIView *realMemo in self.memoCollectionViewManager.backCollectionView.subviews) {
-            UIView *fakeMemo = [[UIView alloc] init];
-            fakeMemo.backgroundColor = realMemo.backgroundColor;
-            fakeMemo.translatesAutoresizingMaskIntoConstraints = NO;
-            [fakeMemoContainer addSubview:fakeMemo];
-            [fakeMemos addObject:fakeMemo];
-            
-            NSLayoutConstraint *fakeMemoTopConstraint = [NSLayoutConstraint constraintWithItem:fakeMemo attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:realMemo attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
-            [backLayer addConstraint:fakeMemoTopConstraint];
-            [fakeMemoConstraints addObject:fakeMemoTopConstraint];
-            NSLayoutConstraint *fakeMemoBottomConstraint = [NSLayoutConstraint constraintWithItem:fakeMemo attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:realMemo attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
-            [backLayer addConstraint:fakeMemoBottomConstraint];
-            [fakeMemoConstraints addObject:fakeMemoBottomConstraint];
-            NSLayoutConstraint *fakeMemoLeftConstraint = [NSLayoutConstraint constraintWithItem:fakeMemo attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:realMemo attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
-            [backLayer addConstraint:fakeMemoLeftConstraint];
-            [fakeMemoConstraints addObject:fakeMemoLeftConstraint];
-            NSLayoutConstraint *fakeMemoWidthConstraint= [NSLayoutConstraint constraintWithItem:fakeMemo attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:0.0];
-            [fakeMemo addConstraint:fakeMemoWidthConstraint];
-        }
-        
-        for (UIView *subview in self.memoCollectionViewManager.frontCollectionView.subviews) {
-            subview.alpha = 0.0;
-        }
-        for (UIView *subview in self.memoCollectionViewManager.backCollectionView.subviews) {
-            subview.alpha = 0.0;
-        }
-        
-        [self.superView layoutIfNeeded];
-        
-        for (int i = 0; i < fakeMemos.count; i++) {
-            [CPAppearanceManager animateWithDuration:0.4 delay:0.34 + 0.04 * i options:0 animations:^{
-                ((NSLayoutConstraint *)[((UIView *)[fakeMemos objectAtIndex:i]).constraints objectAtIndex:0]).constant = self.memoCollectionViewManager.backCollectionView.frame.size.width - 2 * BOX_SEPARATOR_SIZE;
-                [(UIView *)[fakeMemos objectAtIndex:i] layoutIfNeeded];
-            } completion:^(BOOL finished) {
-                ((UIView *)[self.memoCollectionViewManager.backCollectionView.subviews objectAtIndex:i]).alpha = 1.0;
-                
-                if (i == fakeMemos.count - 1) {
-                    [backLayer removeConstraints:fakeMemoContainerConstraints];
-                    [fakeMemoContainer removeFromSuperview];
-                }
-            }];
-            
-            [CPAppearanceManager animateWithDuration:0.3 delay:0.44 + 0.04 * i options:0 animations:^{
-                ((UIView *)[self.memoCollectionViewManager.frontCollectionView.subviews objectAtIndex:i]).alpha = 1.0;
-            } completion:nil];
+        if (password.isUsed.boolValue) {
+            [self.memoCollectionViewManager showMemoCollectionViewAnimated];
         }
     }];
 }
@@ -355,6 +309,8 @@
                     cell.alpha = 1.0;
                 }
             }
+            
+            self.coverImage.alpha = 0.0;
         } completion:nil];
         
         NSArray *draggingCellDetail = [CPPassGridManager makeDraggingCellFromCell:[self.passCells objectAtIndex:self.index] onView:self.superView withShadow:NO];
@@ -471,14 +427,14 @@
         if (self.allowEdit) {
             self.allowEdit = NO;
             [CPAppearanceManager animateWithDuration:0.3 animations:^{
-                self.cellIcon.enabled = NO;
+                self.cellIcon.enabled = self.memoCollectionViewManager.enabled = NO;
             }];
         }
     } else if ([textField.text isEqualToString:@""]) {
         if (!self.allowEdit) {
             self.allowEdit = YES;
             [CPAppearanceManager animateWithDuration:0.3 animations:^{
-                self.cellIcon.enabled = YES;
+                self.cellIcon.enabled = self.memoCollectionViewManager.enabled = YES;
             }];
         }
     }

@@ -23,6 +23,7 @@
 @property (strong, nonatomic) CPNotificationCenter *notificationCenter;
 @property (strong, nonatomic) CPAdManager *adManager;
 
+@property (strong, nonatomic) UIView *outerView;
 @property (strong, nonatomic) UIView *mainView;
 @property (strong, nonatomic) UIView *adView;
 @property (strong, nonatomic) UIView *contentView;
@@ -32,13 +33,16 @@
 @implementation CPMainViewManager
 
 - (void)loadAnimated:(BOOL)animated {
-    [self.superview addSubview:self.mainView];
+    [self.superview addSubview:self.outerView];
     [self.superview addSubview:self.adView];
+    [self.outerView addSubview:self.mainView];
     [self.mainView addSubview:self.contentView];    
     
-    [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.mainView attribute:NSLayoutAttributeBottom alignToView:self.adView attribute:NSLayoutAttributeTop]];
-    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.mainView alignToView:self.superview attribute:NSLayoutAttributeTop, NSLayoutAttributeLeft, NSLayoutAttributeRight, ATTR_END]];
+    [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.outerView attribute:NSLayoutAttributeBottom alignToView:self.adView attribute:NSLayoutAttributeTop]];
+    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.outerView alignToView:self.superview attribute:NSLayoutAttributeTop, NSLayoutAttributeLeft, NSLayoutAttributeRight, ATTR_END]];
     [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.adView alignToView:self.superview attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, NSLayoutAttributeBottom, ATTR_END]];
+    
+    [self.outerView addConstraints:[CPAppearanceManager constraintsWithView:self.mainView edgesAlignToView:self.outerView]];
     
     [self.passGridManager loadAnimated:NO];
     // topBarAndSearchManager must init after passGridManager
@@ -68,7 +72,7 @@
 
 - (CPNotificationCenter *)notificationCenter {
     if (!_notificationCenter) {
-        _notificationCenter = [[CPNotificationCenter alloc] initWithSupermanager:self andSuperview:self.contentView];
+        _notificationCenter = [[CPNotificationCenter alloc] initWithSupermanager:self andSuperview:self.outerView];
     }
     return _notificationCenter;
 }
@@ -78,6 +82,14 @@
         _adManager = [[CPAdManager alloc] initWithSupermanager:self andSuperview:self.adView];
     }
     return _adManager;
+}
+
+- (UIView *)outerView {
+    if (!_outerView) {
+        _outerView = [[UIView alloc] init];
+        _outerView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _outerView;
 }
 
 - (UIView *)mainView {
