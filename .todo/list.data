@@ -1095,14 +1095,14 @@ S'src/Locor/Locor/CPNotificationCenter.m'
 p452
 sg428
 g429
-sa(dp453
+saNaNaNaNa(dp453
 g417
 g418
 sg419
-S'Not copy to clipboard if password is not used.'
+S'The third and last two colors for cells are too similar, so they need to be changed.'
 p454
 sg421
-S'TODO grabbed from src/Locor/Locor/CPPassCell.m, line 125.'
+S'TODO grabbed from src/Locor/Locor/CPPassDataManager.m, line 63.'
 p455
 sg423
 I00
@@ -1110,7 +1110,7 @@ sg424
 S'2013-09-05 20:16:51'
 p456
 sg426
-S'src/Locor/Locor/CPPassCell.m'
+S'src/Locor/Locor/CPPassDataManager.m'
 p457
 sg428
 g429
@@ -1118,10 +1118,10 @@ sa(dp458
 g417
 g418
 sg419
-S'When removing pass cell, use images instead of single-colored views.'
+S'MAY ABORT! Handle the error appropriately when saving context.'
 p459
 sg421
-S'TODO grabbed from src/Locor/Locor/CPPassCell.m, line 158.'
+S'TODO grabbed from src/Locor/Locor/CPPassDataManager.m, line 181.'
 p460
 sg423
 I00
@@ -1136,10 +1136,10 @@ sa(dp462
 g417
 g418
 sg419
-S'Adjust font of pass cell removing label.'
+S'MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.'
 p463
 sg421
-S'TODO grabbed from src/Locor/Locor/CPPassCell.m, line 193.'
+S'TODO grabbed from src/Locor/Locor/CPPassDataManager.m, line 218.'
 p464
 sg423
 I00
@@ -1150,148 +1150,156 @@ sg426
 g457
 sg428
 g429
-sa(dp466
-g417
-g418
-sg419
-S'Change behavior of pass cell removing view & label if cannot toggle remove state.'
-p467
-sg421
-S'TODO grabbed from src/Locor/Locor/CPPassCell.m, line 281.'
-p468
-sg423
-I00
-sg424
-S'2013-09-05 20:16:51'
-p469
-sg426
-g457
-sg428
-g429
-sa(dp470
-g417
-g418
-sg419
-S'The third and last two colors for cells are too similar, so they need to be changed.'
-p471
-sg421
-S'TODO grabbed from src/Locor/Locor/CPPassDataManager.m, line 63.'
-p472
-sg423
-I00
-sg424
-S'2013-09-05 20:16:51'
-p473
-sg426
-S'src/Locor/Locor/CPPassDataManager.m'
-p474
-sg428
-g429
-sa(dp475
-g417
-g418
-sg419
-S'MAY ABORT! Handle the error appropriately when saving context.'
-p476
-sg421
-S'TODO grabbed from src/Locor/Locor/CPPassDataManager.m, line 181.'
-p477
-sg423
-I00
-sg424
-S'2013-09-05 20:16:51'
-p478
-sg426
-g474
-sg428
-g429
-sa(dp479
-g417
-g418
-sg419
-S'MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.'
-p480
-sg421
-S'TODO grabbed from src/Locor/Locor/CPPassDataManager.m, line 218.'
-p481
-sg423
-I00
-sg424
-S'2013-09-05 20:16:51'
-p482
-sg426
-g474
-sg428
-g429
-saNa(dp483
+saNa(dp466
 g417
 g418
 sg419
 S'When search bar is focused, stop if being currently editing memo cells in pass edit view.'
-p484
+p467
 sg421
 S'TODO grabbed from src/Locor/Locor/CPTopBarAndSearchManager.m, line 196.'
-p485
+p468
 sg423
 I01
 sg424
 S'2013-09-05 20:16:51'
-p486
+p469
 sg426
 S'src/Locor/Locor/CPTopBarAndSearchManager.m'
-p487
+p470
 sg428
 S'done'
-p488
-sa(dp489
+p471
+sa(dp472
 S'author'
-p490
+p473
 S'TODO grabber'
-p491
+p474
 sS'text'
-p492
+p475
 S'When search bar is focused, stop if being currently editing memo cells in pass edit view.'
-p493
+p476
 sS'detail'
-p494
-S'TODO grabbed from src/Locor/Locor/CPTopBarManager.m, line 126.'
-p495
+p477
+S'TODO grabbed from src/Locor/Locor/CPTopBarManager.m, line 145.'
+p478
 sS'exported'
-p496
+p479
 I00
 sS'time'
-p497
+p480
 S'2013-09-08 18:47:13'
-p498
+p481
 sS'path'
-p499
+p482
 S'src/Locor/Locor/CPTopBarManager.m'
-p500
+p483
 sS'condition'
-p501
+p484
 g429
-sa(dp502
+sa(dp485
 S'author'
-p503
+p486
 S'wangsw'
-p504
+p487
 sS'text'
-p505
+p488
 S'Make cover images bigger and use portrait image for ipad.'
-p506
+p489
 sS'detail'
-p507
+p490
 S"Now the cover image is as big as the device screen. However, as the center point of the image is not the center of the device screen but the center of a pass cell, the image is a bit lower and the top gap above the bar is not covered. Drag a pass cell to that area and the problem will be seen.\nAlso, now the iPad image is landscape and the iPhone image is portrait, so the method 'deviceWillRotateToOrientation:' which rotate the image according to orientation only work well for iPhone. We need to change iPad image to portrait too."
-p508
+p491
 sS'exported'
-p509
+p492
 I00
 sS'time'
-p510
+p493
 S'2013-09-09 17:31:50'
-p511
+p494
 sS'condition'
-p512
+p495
 S'open'
+p496
+sa(dp497
+S'author'
+p498
+S'TODO grabber'
+p499
+sS'text'
+p500
+S'Not copy to clipboard if password is not used.'
+p501
+sS'detail'
+p502
+S'TODO grabbed from src/Locor/Locor/CPPassCellManager.m, line 132.'
+p503
+sS'exported'
+p504
+I00
+sS'time'
+p505
+S'2013-09-13 18:34:16'
+p506
+sS'path'
+p507
+S'src/Locor/Locor/CPPassCellManager.m'
+p508
+sS'condition'
+p509
+g429
+sa(dp510
+g498
+g499
+sg500
+S'Change behavior of pass cell removing view & label if cannot toggle remove state.'
+p511
+sg502
+S'TODO grabbed from src/Locor/Locor/CPPassCellManager.m, line 245.'
+p512
+sg504
+I00
+sg505
+S'2013-09-13 18:34:16'
 p513
+sg507
+g508
+sg509
+g429
+sa(dp514
+g498
+g499
+sg500
+S'When removing pass cell, use images instead of single-colored views.'
+p515
+sg502
+S'TODO grabbed from src/Locor/Locor/CPPassCellManager.m, line 494.'
+p516
+sg504
+I00
+sg505
+S'2013-09-13 18:34:16'
+p517
+sg507
+g508
+sg509
+g429
+sa(dp518
+g498
+g499
+sg500
+S'Adjust font of pass cell removing label.'
+p519
+sg502
+S'TODO grabbed from src/Locor/Locor/CPPassCellManager.m, line 544.'
+p520
+sg504
+I00
+sg505
+S'2013-09-13 18:34:16'
+p521
+sg507
+g508
+sg509
+g429
 sa.

@@ -12,7 +12,7 @@
 
 #import "CPSettingsManager.h"
 
-@interface CPTopBarManager : CPViewManager <CPSettingsManagerDelegate, UISearchBarDelegate>
+@interface CPTopBarManager : CPViewManager <CPSettingsManagerBarButtonAccessProtocol, CPSettingsManagerDelegate, UISearchBarDelegate>
 
 @property (strong, nonatomic) UISearchBar *searchBar;
 

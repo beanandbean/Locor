@@ -121,6 +121,13 @@
     }
 }
 
+
+#pragma mark - CPSettingsManagerBarButtonAccessProtocol implement
+
+- (UIView *)barButtonSuperview {
+    return self.superview;
+}
+
 #pragma mark - CPSettingsManagerDelegate implement
 
 - (void)settingsManagerClosed {
@@ -300,8 +307,8 @@
     if (!_settingsContainerConstraints) {
         _settingsContainerConstraints = [[NSArray alloc] initWithObjects:
                                          [NSLayoutConstraint constraintWithItem:self.settingsContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:BOX_SEPARATOR_SIZE],
-                                         [NSLayoutConstraint constraintWithItem:self.settingsContainer attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeLeft multiplier:1.0 constant:BOX_SEPARATOR_SIZE],
-                                         [NSLayoutConstraint constraintWithItem:self.settingsContainer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeRight multiplier:1.0 constant:-BOX_SEPARATOR_SIZE],
+                                         [NSLayoutConstraint constraintWithItem:self.settingsContainer attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0],
+                                         [NSLayoutConstraint constraintWithItem:self.settingsContainer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0],
                                          [NSLayoutConstraint constraintWithItem:self.settingsContainer attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-BOX_SEPARATOR_SIZE],
                                          nil];
     }

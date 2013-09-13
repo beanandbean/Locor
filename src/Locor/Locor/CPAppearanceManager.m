@@ -8,6 +8,8 @@
 
 #import "CPAppearanceManager.h"
 
+#import "CPHelperMacros.h"
+
 #import "CPProcessManager.h"
 
 static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *standardConstants;
@@ -19,12 +21,6 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
 @end
 
 @implementation CPAppearanceManager
-
-+ (void)runBlock:(void (^)(void))block afterDelay:(NSTimeInterval)delay {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        block();
-    });
-}
 
 + (NSMutableArray *)arrayWithInitialValue:(id)value {
     NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:CPStandardPositionCount];
@@ -46,8 +42,8 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
     [CPAppearanceManager animateWithDuration:duration delay:delay options:options preparation:nil animations:animations completion:completion];
 }
 
-+ (void)animateWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options preparation:(void (^)(void))preparation animations:(void (^)(void))animations completion:(void (^)(BOOL))completion {
-    [CPAppearanceManager runBlock:^{
++ (void)animateWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options preparation:(void (^)(void))preparation animations:(void (^)(void))animations completion:(void (^)(BOOL))completion {    
+    DELAY_BLOCK(delay, ^{
         [CPProcessManager increaseForbiddenCount];
         if (preparation) {
             preparation();
@@ -58,7 +54,7 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
             }
             [CPProcessManager decreaseForbiddenCount];
         }];
-    } afterDelay:delay];
+    });
 }
 
 #pragma mark - Constraint Helper

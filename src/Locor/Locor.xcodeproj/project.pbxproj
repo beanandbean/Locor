@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2C0D2D8D178AC72600485CE5 /* CPSearchingProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D2D8C178AC72600485CE5 /* CPSearchingProcess.m */; };
 		2C1541C517D1F1490057733D /* CPMemoCollectionViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1541C417D1F1490057733D /* CPMemoCollectionViewManager.m */; };
+		2C1CE02317E320270090F76F /* CPSettingsProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1CE02217E320270090F76F /* CPSettingsProcess.m */; };
 		2C2C2A7E17DF27D6006F9B66 /* CPIconPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2C2A7D17DF27D6006F9B66 /* CPIconPicker.m */; };
 		2C3317D217DC8697008A6A0C /* CPCoverImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3317D117DC8697008A6A0C /* CPCoverImageView.m */; };
 		2C50933317C4C51E0051A463 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C50933217C4C51E0051A463 /* Reachability.m */; };
@@ -120,6 +121,9 @@
 		2C0D2D8C178AC72600485CE5 /* CPSearchingProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPSearchingProcess.m; sourceTree = "<group>"; };
 		2C1541C317D1F1490057733D /* CPMemoCollectionViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMemoCollectionViewManager.h; sourceTree = "<group>"; };
 		2C1541C417D1F1490057733D /* CPMemoCollectionViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMemoCollectionViewManager.m; sourceTree = "<group>"; };
+		2C1CE01E17E3125E0090F76F /* CPHelperMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPHelperMacros.h; sourceTree = "<group>"; };
+		2C1CE02117E320270090F76F /* CPSettingsProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPSettingsProcess.h; sourceTree = "<group>"; };
+		2C1CE02217E320270090F76F /* CPSettingsProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPSettingsProcess.m; sourceTree = "<group>"; };
 		2C2C2A7C17DF27D6006F9B66 /* CPIconPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPIconPicker.h; sourceTree = "<group>"; };
 		2C2C2A7D17DF27D6006F9B66 /* CPIconPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPIconPicker.m; sourceTree = "<group>"; };
 		2C3317D017DC8697008A6A0C /* CPCoverImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPCoverImageView.h; sourceTree = "<group>"; };
@@ -283,6 +287,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C1CE02017E31FF00090F76F /* MemoCell */ = {
+			isa = PBXGroup;
+			children = (
+				FC03FCD8178AF99A004C2B15 /* CPMemoCell.h */,
+				FC03FCD9178AF99A004C2B15 /* CPMemoCell.m */,
+				2CF920131797F10C00637B7D /* CPMemoCellRemoving.h */,
+				2CF920141797F10C00637B7D /* CPMemoCellRemoving.m */,
+				2CD8212317D5E8EE0014199A /* CPMemoCellRemovingBackground.h */,
+				2CD8212417D5E8EF0014199A /* CPMemoCellRemovingBackground.m */,
+			);
+			name = MemoCell;
+			sourceTree = "<group>";
+		};
 		2C50932D17C4C4B10051A463 /* Reachability */ = {
 			isa = PBXGroup;
 			children = (
@@ -311,6 +328,8 @@
 				2CE543A91796A781004CF538 /* CPRemovingMemoCellProcess.m */,
 				2CD0AE9217B0FCBC0091E14D /* CPEditingPassCellProcess.h */,
 				2CD0AE9317B0FCBC0091E14D /* CPEditingPassCellProcess.m */,
+				2C1CE02117E320270090F76F /* CPSettingsProcess.h */,
+				2C1CE02217E320270090F76F /* CPSettingsProcess.m */,
 			);
 			name = Process;
 			sourceTree = "<group>";
@@ -405,8 +424,6 @@
 				FC926EC717DAFCE100E26367 /* CPRootManager.m */,
 				FCA4009F17896F000087AECF /* CPTopBarManager.h */,
 				FCA400A017896F000087AECF /* CPTopBarManager.m */,
-				FC1E514717DA12A700691F79 /* CPViewManager.h */,
-				FC1E514817DA12A700691F79 /* CPViewManager.m */,
 			);
 			name = ViewManager;
 			sourceTree = "<group>";
@@ -445,8 +462,6 @@
 		FC4F2ADF1759EB0C002D9992 /* Locor */ = {
 			isa = PBXGroup;
 			children = (
-				2C2C2A7C17DF27D6006F9B66 /* CPIconPicker.h */,
-				2C2C2A7D17DF27D6006F9B66 /* CPIconPicker.m */,
 				FC4F2AE81759EB0C002D9992 /* CPAppDelegate.h */,
 				FC4F2AE91759EB0C002D9992 /* CPAppDelegate.m */,
 				2C57A043178979A2004F1547 /* CPAppearanceManager.h */,
@@ -455,6 +470,9 @@
 				2CD4A94417D732AD00150687 /* CPBarButtonManager.m */,
 				2C3317D017DC8697008A6A0C /* CPCoverImageView.h */,
 				2C3317D117DC8697008A6A0C /* CPCoverImageView.m */,
+				2C1CE01E17E3125E0090F76F /* CPHelperMacros.h */,
+				2C2C2A7C17DF27D6006F9B66 /* CPIconPicker.h */,
+				2C2C2A7D17DF27D6006F9B66 /* CPIconPicker.m */,
 				2CBC71A817C8E663000F37B1 /* CPLocorConfig.h */,
 				2CE1EB2F17BF90C4005F32AC /* CPMainPasswordCanvas.h */,
 				2CE1EB3017BF90C4005F32AC /* CPMainPasswordCanvas.m */,
@@ -464,12 +482,6 @@
 				FC4F2B181759ECB5002D9992 /* CPMainViewController.m */,
 				FC80BE5817791438007BDC13 /* CPMemo.h */,
 				FC80BE5917791438007BDC13 /* CPMemo.m */,
-				FC03FCD8178AF99A004C2B15 /* CPMemoCell.h */,
-				FC03FCD9178AF99A004C2B15 /* CPMemoCell.m */,
-				2CF920131797F10C00637B7D /* CPMemoCellRemoving.h */,
-				2CF920141797F10C00637B7D /* CPMemoCellRemoving.m */,
-				2CD8212317D5E8EE0014199A /* CPMemoCellRemovingBackground.h */,
-				2CD8212417D5E8EF0014199A /* CPMemoCellRemovingBackground.m */,
 				2C1541C317D1F1490057733D /* CPMemoCollectionViewManager.h */,
 				2C1541C417D1F1490057733D /* CPMemoCollectionViewManager.m */,
 				FCBF1E24176966E80014E56F /* CPPassDataManager.h */,
@@ -483,8 +495,11 @@
 				2C61435F1786D1C100430C64 /* CPProcessManager.m */,
 				FC3732B617D54D0B00014998 /* CPSettingsManager.h */,
 				FC3732B717D54D0B00014998 /* CPSettingsManager.m */,
+				FC1E514717DA12A700691F79 /* CPViewManager.h */,
+				FC1E514817DA12A700691F79 /* CPViewManager.m */,
 				FCBF1E2717696C1A0014E56F /* Locor.xcdatamodeld */,
 				FC4F2AF41759EB0C002D9992 /* MainStoryboard.storyboard */,
+				2C1CE02017E31FF00090F76F /* MemoCell */,
 				2C6143621786D23000430C64 /* Process */,
 				2C50932D17C4C4B10051A463 /* Reachability */,
 				2CC756FD17CA0F2A00800E09 /* Resources */,
@@ -669,6 +684,7 @@
 				FC926EC817DAFCE100E26367 /* CPRootManager.m in Sources */,
 				2C3317D217DC8697008A6A0C /* CPCoverImageView.m in Sources */,
 				2C2C2A7E17DF27D6006F9B66 /* CPIconPicker.m in Sources */,
+				2C1CE02317E320270090F76F /* CPSettingsProcess.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

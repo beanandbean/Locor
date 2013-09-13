@@ -8,6 +8,7 @@
 
 #import "CPIconPicker.h"
 
+#import "CPHelperMacros.h"
 #import "CPLocorConfig.h"
 
 static const char *ICON_NAMES[] = {"aries", "taurus", "gemini", "cancer", "leo", "virgo", "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"};
@@ -50,7 +51,7 @@ static float FULL_WIDTH, DRAG_MULTIPLIER;
     int i = 0;
     self.offset = 0.0;
     
-    while (i < ICON_PICKER_ITEM_COUNT && ![iconName isEqualToString:[NSString stringWithCString:ICON_NAMES[i] encoding:NSASCIIStringEncoding]]) {
+    while (i < ICON_PICKER_ITEM_COUNT && ![iconName isEqualToString:CSTR_TO_OBJC(ICON_NAMES[i])]) {
         i++;
         self.offset += ICON_PICKER_ITEM_MAX_SIZE;
     }
@@ -120,7 +121,7 @@ static float FULL_WIDTH, DRAG_MULTIPLIER;
         [self setNeedsDisplay];
         
         int index = (int)(self.offset / ICON_PICKER_ITEM_MAX_SIZE) % ICON_PICKER_ITEM_COUNT;
-        [self.delegate iconSelected:[NSString stringWithCString:ICON_NAMES[index] encoding:NSASCIIStringEncoding]];
+        [self.delegate iconSelected:CSTR_TO_OBJC(ICON_NAMES[index])];
     }
 }
 
@@ -152,7 +153,7 @@ static float FULL_WIDTH, DRAG_MULTIPLIER;
             int sign = centerOffset > 0 ? 1 : -1;
             float ratio = fabsf(centerOffset) / maxOffset;
             
-            NSString *iconName = [NSString stringWithCString:ICON_NAMES[i] encoding:NSASCIIStringEncoding];
+            NSString *iconName = CSTR_TO_OBJC(ICON_NAMES[i]);
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
                 iconName = [iconName stringByAppendingString:@"_ipad"];
             }
