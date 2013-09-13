@@ -1,5 +1,5 @@
 //
-//  CPPassCell.m
+//  CPPassCellManager.m
 //  Locor
 //
 //  Created by wangyw on 6/18/13.
@@ -20,6 +20,40 @@
 #import "CPProcessManager.h"
 #import "CPDraggingPassCellProcess.h"
 #import "CPRemovingPassCellProcess.h"
+
+enum REMOVING_DIRECTION {
+    REMOVING_DIRECTION_NONE,
+    REMOVING_DIRECTION_VERTICAL,
+    REMOVING_DIRECTION_HORIZON
+};
+
+enum REMOVING_ICON_CONSTRAINTS {
+    REMOVING_ICON_CONSTRAINTS_ICON1,
+    REMOVING_ICON_CONSTRAINTS_ICON2,
+    REMOVING_ICON_CONSTRAINTS_ICON1_CENTER,
+    REMOVING_ICON_CONSTRAINTS_ICON2_CENTER,
+    REMOVING_ICON_CONSTRAINTS_ICON1_WIDTH,
+    REMOVING_ICON_CONSTRAINTS_ICON2_WIDTH,
+    REMOVING_ICON_CONSTRAINTS_ICON1_HEIGHT,
+    REMOVING_ICON_CONSTRAINTS_ICON2_HEIGHT,
+    REMOVING_ICON_CONSTRAINTS_NUMBER
+};
+
+enum REMOVING_LABEL_CONSTRAINTS {
+    REMOVING_LABEL_CONSTRAINTS_ICON1,
+    REMOVING_LABEL_CONSTRAINTS_ICON2,
+    REMOVING_LABEL_CONSTRAINTS_ICON1_CENTER,
+    REMOVING_LABEL_CONSTRAINTS_ICON2_CENTER,
+    REMOVING_LABEL_CONSTRAINTS_NUMBER
+};
+
+enum REMOVING_CONSTRAINTS {
+    REMOVING_CONSTRAINTS_TOP,
+    REMOVING_CONSTRAINTS_Left,
+    REMOVING_CONSTRAINTS_WIDTH,
+    REMOVING_CONSTRAINTS_HEIGHT,
+    REMOVING_CONSTRAINTS_NUMBER
+};
 
 @interface CPPassCellManager ()
 
@@ -44,6 +78,8 @@
 @property (strong, nonatomic) NSArray *removingLabelConstraints;
 
 - (void)createGestureRecognizers;
+
+- (void)updateRemovingConstraintsByConstant:(float)constant;
 
 - (void)handleEditingGesture:(UITapGestureRecognizer *)tapGestureRecognizer;
 - (void)handleCopyPasswordGesture:(UITapGestureRecognizer *)tapGestureRecognizer;
@@ -128,6 +164,21 @@
     [self.delegate tapPassCell:self];
 }
 
+- (void)updateRemovingConstraintsByConstant:(float)constant {
+    NSLayoutConstraint *constraint = [self.removingConstraints objectAtIndex:self.removingDirection == REMOVING_DIRECTION_HORIZON ? REMOVING_CONSTRAINTS_Left : REMOVING_CONSTRAINTS_TOP];
+    constraint.constant = constant;
+    constraint = [self.iconImagePositionConstraints objectAtIndex:self.removingDirection == REMOVING_DIRECTION_HORIZON ? REMOVING_CONSTRAINTS_TOP : REMOVING_CONSTRAINTS_Left];
+    constraint.constant = constant;
+    constraint = [self.removingIconConstraints objectAtIndex:REMOVING_ICON_CONSTRAINTS_ICON1];
+    constraint.constant = constant;
+    constraint = [self.removingIconConstraints objectAtIndex:REMOVING_ICON_CONSTRAINTS_ICON2];
+    constraint.constant = constant;
+    constraint = [self.removingLabelConstraints objectAtIndex:REMOVING_LABEL_CONSTRAINTS_ICON1];
+    constraint.constant = constant - PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE;
+    constraint = [self.removingLabelConstraints objectAtIndex:REMOVING_LABEL_CONSTRAINTS_ICON2];
+    constraint.constant = constant + PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE;
+}
+
 - (void)handleCopyPasswordGesture:(UITapGestureRecognizer *)tapGestureRecognizer {
     // TODO: Not copy to clipboard if password is not used.
     [UIPasteboard generalPasteboard].string = ((CPPassword *)[[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:self.index]).text;
@@ -158,7 +209,7 @@
             [self.passCellView addConstraints:self.removingConstraints];
             [self.passCellView layoutIfNeeded];
             
-            self.removingDirection = -1;
+            self.removingDirection = REMOVING_DIRECTION_NONE;
         }];
     } else if (panGesture.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [panGesture translationInView:panGesture.view];
@@ -168,78 +219,27 @@
             [panGesture setTranslation:CGPointZero inView:panGesture.view];
         } else if ([CPProcessManager isInProcess:REMOVING_PASS_CELL_PROCESS]) {
             if (self.removingView) {
-                if (self.removingDirection == -1) {
-                    [self.iconView addSubview:self.removingIconContainer1];
-                    [self.iconView addSubview:self.removingIconContainer2];
-                    
-                    [self.removingIconContainer1 addSubview:self.removingIcon1];
-                    [self.removingIconContainer2 addSubview:self.removingIcon2];
-                    
-                    [self.removingIconContainer1 addConstraints:[CPAppearanceManager constraintsWithView:self.removingIcon1 centerAlignToView:self.removingIconContainer1]];
-                    [self.removingIconContainer2 addConstraints:[CPAppearanceManager constraintsWithView:self.removingIcon2 centerAlignToView:self.removingIconContainer2]];
-                    
-                    NSLayoutConstraint *iconWidthConstraint1 = [CPAppearanceManager constraintWithView:self.removingIconContainer1 alignToView:self.iconView attribute:NSLayoutAttributeWidth];
-                    [self.iconView addConstraint:iconWidthConstraint1];
-                    NSLayoutConstraint *iconWidthConstraint2 = [CPAppearanceManager constraintWithView:self.removingIconContainer2 alignToView:self.iconView attribute:NSLayoutAttributeWidth];
-                    [self.iconView addConstraint:iconWidthConstraint2];
-                    NSLayoutConstraint *iconHeightConstraint1 = [CPAppearanceManager constraintWithView:self.removingIconContainer1 alignToView:self.iconView attribute:NSLayoutAttributeHeight];
-                    [self.iconView addConstraint:iconHeightConstraint1];
-                    NSLayoutConstraint *iconHeightConstraint2 = [CPAppearanceManager constraintWithView:self.removingIconContainer2 alignToView:self.iconView attribute:NSLayoutAttributeHeight];
-                    [self.iconView addConstraint:iconHeightConstraint2];
-                    
-                    [self.iconView addSubview:self.removingLabel1];
-                    [self.iconView addSubview:self.removingLabel2];
-                    
-                    NSLayoutConstraint *icon1Constraint, *icon2Constraint, *iconCenterConstraint1, *iconCenterConstraint2;
-                    
+                if (self.removingDirection == REMOVING_DIRECTION_NONE) {
                     if (fabsf(translation.x) > fabsf(translation.y)) {
-                        self.removingDirection = 1;
-                        
-                        icon1Constraint = [CPAppearanceManager constraintWithView:self.removingIconContainer1 attribute:NSLayoutAttributeRight alignToView:self.iconView attribute:NSLayoutAttributeLeft];
-                        [self.iconView addConstraint:icon1Constraint];
-                        icon2Constraint = [CPAppearanceManager constraintWithView:self.removingIconContainer2 attribute:NSLayoutAttributeLeft alignToView:self.iconView attribute:NSLayoutAttributeRight];
-                        [self.iconView addConstraint:icon2Constraint];
-                        iconCenterConstraint1 = [CPAppearanceManager constraintWithView:self.removingIconContainer1 alignToView:self.iconView attribute:NSLayoutAttributeCenterY];
-                        [self.iconView addConstraint:iconCenterConstraint1];
-                        iconCenterConstraint2 = [CPAppearanceManager constraintWithView:self.removingIconContainer2 alignToView:self.iconView attribute:NSLayoutAttributeCenterY];
-                        [self.iconView addConstraint:iconCenterConstraint2];
-                        
+                        self.removingDirection = REMOVING_DIRECTION_HORIZON;
                         [self.removingLabel1 setTransform:CGAffineTransformMakeRotation(M_PI_2)];
                         [self.removingLabel2 setTransform:CGAffineTransformMakeRotation(M_PI_2)];
                         
-                        NSLayoutConstraint *labelCenterConstraint1 = [CPAppearanceManager constraintWithView:self.removingLabel1 alignToView:self.iconView attribute:NSLayoutAttributeCenterY];
-                        [self.iconView addConstraint:labelCenterConstraint1];
-                        NSLayoutConstraint *labelCenterConstraint2 = [CPAppearanceManager constraintWithView:self.removingLabel2 alignToView:self.iconView attribute:NSLayoutAttributeCenterY];
-                        [self.iconView addConstraint:labelCenterConstraint2];
-                        NSLayoutConstraint *labelLeftConstraint = [NSLayoutConstraint constraintWithItem:self.removingLabel1 attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE];
-                        [self.iconView addConstraint:labelLeftConstraint];
-                        NSLayoutConstraint *labelRightConstraint = [NSLayoutConstraint constraintWithItem:self.removingLabel2 attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeRight multiplier:1.0 constant:PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE];
-                        [self.iconView addConstraint:labelRightConstraint];
-                        self.removingLabelConstraints = [NSArray arrayWithObjects:labelLeftConstraint, labelRightConstraint, labelCenterConstraint1, labelCenterConstraint2, nil];
                     } else {
-                        self.removingDirection = 0;
-
-                        icon1Constraint = [CPAppearanceManager constraintWithView:self.removingIconContainer1 attribute:NSLayoutAttributeBottom alignToView:self.iconView attribute:NSLayoutAttributeTop];
-                        [self.iconView addConstraint:icon1Constraint];
-                        icon2Constraint = [CPAppearanceManager constraintWithView:self.removingIconContainer2 attribute:NSLayoutAttributeTop alignToView:self.iconView attribute:NSLayoutAttributeBottom];
-                        [self.iconView addConstraint:icon2Constraint];
-                        iconCenterConstraint1 = [CPAppearanceManager constraintWithView:self.removingIconContainer1 alignToView:self.iconView attribute:NSLayoutAttributeCenterX];
-                        [self.iconView addConstraint:iconCenterConstraint1];
-                        iconCenterConstraint2 = [CPAppearanceManager constraintWithView:self.removingIconContainer2 alignToView:self.iconView attribute:NSLayoutAttributeCenterX];
-                        [self.iconView addConstraint:iconCenterConstraint2];
-                        
-                        NSLayoutConstraint *labelCenterConstraint1 = [CPAppearanceManager constraintWithView:self.removingLabel1 alignToView:self.iconView attribute:NSLayoutAttributeCenterX];
-                        [self.iconView addConstraint:labelCenterConstraint1];
-                        NSLayoutConstraint *labelCenterConstraint2 = [CPAppearanceManager constraintWithView:self.removingLabel2 alignToView:self.iconView attribute:NSLayoutAttributeCenterX];
-                        [self.iconView addConstraint:labelCenterConstraint2];
-                        NSLayoutConstraint *labelBottomConstraint = [NSLayoutConstraint constraintWithItem:self.removingLabel1 attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeTop multiplier:1.0 constant:-PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE];
-                        [self.iconView addConstraint:labelBottomConstraint];
-                        NSLayoutConstraint *labelTopConstraint = [NSLayoutConstraint constraintWithItem:self.removingLabel2 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE];
-                        [self.iconView addConstraint:labelTopConstraint];
-                        self.removingLabelConstraints = [NSArray arrayWithObjects:labelBottomConstraint, labelTopConstraint, labelCenterConstraint1, labelCenterConstraint2, nil];
+                        self.removingDirection = REMOVING_DIRECTION_VERTICAL;
                     }
                     
-                    self.removingIconConstraints = [NSArray arrayWithObjects:icon1Constraint, icon2Constraint, iconCenterConstraint1, iconCenterConstraint2, iconWidthConstraint1, iconWidthConstraint2, iconHeightConstraint1, iconHeightConstraint2, nil];
+                    [self.iconView addSubview:self.removingIconContainer1];
+                    [self.iconView addSubview:self.removingIconContainer2];
+                    [self.removingIconContainer1 addSubview:self.removingIcon1];
+                    [self.removingIconContainer2 addSubview:self.removingIcon2];
+                    [self.iconView addSubview:self.removingLabel1];
+                    [self.iconView addSubview:self.removingLabel2];
+                                        
+                    [self.removingIconContainer1 addConstraints:[CPAppearanceManager constraintsWithView:self.removingIcon1 centerAlignToView:self.removingIconContainer1]];
+                    [self.removingIconContainer2 addConstraints:[CPAppearanceManager constraintsWithView:self.removingIcon2 centerAlignToView:self.removingIconContainer2]];
+                    [self.iconView addConstraints:self.removingIconConstraints];
+                    [self.iconView addConstraints:self.removingLabelConstraints];
                 }
                 
                 // TODO: Change behavior of pass cell removing view & label if cannot toggle remove state.
@@ -254,31 +254,32 @@
                 }
                 NSString *swipe = [NSString stringWithFormat:@"Swipe to %@", action];
                 NSString *release = [NSString stringWithFormat:@"Release to %@", action];
-                if (self.removingDirection) {
-                    constant = abs(translation.x) > self.passCellView.bounds.size.width ? translation.x >= 0 ? self.passCellView.bounds.size.width : -self.passCellView.bounds.size.width : translation.x;
-                    if (abs(translation.x) < self.passCellView.bounds.size.width / 2) {
-                        self.removingLabel1.text = swipe;
-                        self.removingLabel2.text = swipe;
-                    } else {
-                        self.removingLabel1.text = release;
-                        self.removingLabel2.text = release;
-                    }
-                } else {
-                    constant = abs(translation.y) > self.passCellView.bounds.size.height ? translation.y >= 0 ? self.passCellView.bounds.size.height : -self.passCellView.bounds.size.height : translation.y;
-                    if (abs(translation.y) < self.passCellView.bounds.size.height / 2) {
-                        self.removingLabel1.text = swipe;
-                        self.removingLabel2.text = swipe;
-                    } else {
-                        self.removingLabel1.text = release;
-                        self.removingLabel2.text = release;
-                    }
+                switch (self.removingDirection) {
+                    case REMOVING_DIRECTION_HORIZON:
+                        constant = abs(translation.x) > self.passCellView.bounds.size.width ? translation.x >= 0 ? self.passCellView.bounds.size.width : -self.passCellView.bounds.size.width : translation.x;
+                        if (abs(translation.x) < self.passCellView.bounds.size.width / 2) {
+                            self.removingLabel1.text = swipe;
+                            self.removingLabel2.text = swipe;
+                        } else {
+                            self.removingLabel1.text = release;
+                            self.removingLabel2.text = release;
+                        }
+                        break;
+                    case REMOVING_DIRECTION_VERTICAL:
+                        constant = abs(translation.y) > self.passCellView.bounds.size.height ? translation.y >= 0 ? self.passCellView.bounds.size.height : -self.passCellView.bounds.size.height : translation.y;
+                        if (abs(translation.y) < self.passCellView.bounds.size.height / 2) {
+                            self.removingLabel1.text = swipe;
+                            self.removingLabel2.text = swipe;
+                        } else {
+                            self.removingLabel1.text = release;
+                            self.removingLabel2.text = release;
+                        }
+                        break;
+                    default:
+                        NSAssert(NO, @"");
+                        break;
                 }
-                ((NSLayoutConstraint *)[self.removingConstraints objectAtIndex:self.removingDirection]).constant = constant;
-                ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:1 - self.removingDirection]).constant = constant;
-                ((NSLayoutConstraint *)[self.removingIconConstraints objectAtIndex:0]).constant = constant;
-                ((NSLayoutConstraint *)[self.removingIconConstraints objectAtIndex:1]).constant = constant;
-                ((NSLayoutConstraint *)[self.removingLabelConstraints objectAtIndex:0]).constant = constant - PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE;
-                ((NSLayoutConstraint *)[self.removingLabelConstraints objectAtIndex:1]).constant = constant + PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE;
+                [self updateRemovingConstraintsByConstant:constant];
                 [self.superview.superview layoutIfNeeded];
             }
         }
@@ -291,20 +292,22 @@
         if ([CPProcessManager isInProcess:REMOVING_PASS_CELL_PROCESS] && self.removingView) {
             [CPProcessManager stopProcess:REMOVING_PASS_CELL_PROCESS withPreparation:^{
                 CGPoint translation = [panGesture translationInView:panGesture.view];
-                if ((self.removingDirection && abs(translation.x) >= self.passCellView.bounds.size.width / 2) || (!self.removingDirection && abs(translation.y) >= self.passCellView.bounds.size.height / 2)) {
+                if ((self.removingDirection == REMOVING_DIRECTION_HORIZON && abs(translation.x) >= self.passCellView.bounds.size.width / 2)
+                    || (self.removingDirection == REMOVING_DIRECTION_VERTICAL && abs(translation.y) >= self.passCellView.bounds.size.height / 2)) {
                     if ([[CPPassDataManager defaultManager] canToggleRemoveStateOfPasswordAtIndex:self.index]) {
                         float constant = 0;
-                        if (self.removingDirection) {
-                            constant = translation.x >= 0 ? self.passCellView.bounds.size.width : -self.passCellView.bounds.size.width;
-                        } else {
-                            constant = translation.y >= 0 ? self.passCellView.bounds.size.height : -self.passCellView.bounds.size.height;
+                        switch (self.removingDirection) {
+                            case REMOVING_DIRECTION_HORIZON:
+                                constant = translation.x >= 0 ? self.passCellView.bounds.size.width : -self.passCellView.bounds.size.width;
+                                break;
+                            case REMOVING_DIRECTION_VERTICAL:
+                                constant = translation.y >= 0 ? self.passCellView.bounds.size.height : -self.passCellView.bounds.size.height;
+                                break;
+                            default:
+                                NSAssert(NO, @"");
+                                break;
                         }
-                        ((NSLayoutConstraint *)[self.removingConstraints objectAtIndex:self.removingDirection]).constant = constant;
-                        ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:1 - self.removingDirection]).constant = constant;
-                        ((NSLayoutConstraint *)[self.removingIconConstraints objectAtIndex:0]).constant = constant;
-                        ((NSLayoutConstraint *)[self.removingIconConstraints objectAtIndex:1]).constant = constant;
-                        ((NSLayoutConstraint *)[self.removingLabelConstraints objectAtIndex:0]).constant = constant - PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE;
-                        ((NSLayoutConstraint *)[self.removingLabelConstraints objectAtIndex:1]).constant = constant + PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE;
+                        [self updateRemovingConstraintsByConstant:constant];
                         [CPAppearanceManager animateWithDuration:0.3 animations:^{
                             [self.superview.superview layoutIfNeeded];
                             self.removingLabel1.alpha = 0.0;
@@ -331,9 +334,9 @@
                             [self.removingView removeFromSuperview];
                             
                             self.iconImage.image = self.removingIcon1.image;
-                            ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:1 - self.removingDirection]).constant = 0.0;
+                            ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:self.removingDirection == REMOVING_DIRECTION_HORIZON ? 0 : 1]).constant = 0.0;
                             
-                            self.removingDirection = -1;
+                            self.removingDirection = REMOVING_DIRECTION_NONE;
                             self.removingView = nil;
                             self.removingIconContainer1 = nil;
                             self.removingIconContainer2 = nil;
@@ -344,12 +347,7 @@
                             self.removingConstraints = nil;
                         }];
                     } else {
-                        ((NSLayoutConstraint *)[self.removingConstraints objectAtIndex:self.removingDirection]).constant = 0.0;
-                        ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:1 - self.removingDirection]).constant = 0.0;
-                        ((NSLayoutConstraint *)[self.removingIconConstraints objectAtIndex:0]).constant = 0.0;
-                        ((NSLayoutConstraint *)[self.removingIconConstraints objectAtIndex:1]).constant = 0.0;
-                        ((NSLayoutConstraint *)[self.removingLabelConstraints objectAtIndex:0]).constant = -PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE;
-                        ((NSLayoutConstraint *)[self.removingLabelConstraints objectAtIndex:1]).constant = PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE;
+                        [self updateRemovingConstraintsByConstant:0.0];
                         [CPAppearanceManager animateWithDuration:0.3 animations:^{
                             [self.superview.superview layoutIfNeeded];
                         } completion:^(BOOL finished) {
@@ -376,7 +374,7 @@
                             
                             [self.removingView removeFromSuperview];
                             
-                            self.removingDirection = -1;
+                            self.removingDirection = REMOVING_DIRECTION_NONE;
                             self.removingView = nil;
                             self.removingIconContainer1 = nil;
                             self.removingIconContainer2 = nil;
@@ -389,12 +387,7 @@
                     }
                     [[CPPassDataManager defaultManager] toggleRemoveStateOfPasswordAtIndex:self.index];
                 } else {
-                    ((NSLayoutConstraint *)[self.removingConstraints objectAtIndex:self.removingDirection]).constant = 0.0;
-                    ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:1 - self.removingDirection]).constant = 0.0;
-                    ((NSLayoutConstraint *)[self.removingIconConstraints objectAtIndex:0]).constant = 0.0;
-                    ((NSLayoutConstraint *)[self.removingIconConstraints objectAtIndex:1]).constant = 0.0;
-                    ((NSLayoutConstraint *)[self.removingLabelConstraints objectAtIndex:0]).constant = -PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE;
-                    ((NSLayoutConstraint *)[self.removingLabelConstraints objectAtIndex:1]).constant = PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE;
+                    [self updateRemovingConstraintsByConstant:0.0];
                     [CPAppearanceManager animateWithDuration:0.3 animations:^{
                         [self.superview.superview layoutIfNeeded];
                     } completion:^(BOOL finished) {
@@ -421,7 +414,7 @@
                         
                         [self.removingView removeFromSuperview];
                         
-                        self.removingDirection = -1;
+                        self.removingDirection = REMOVING_DIRECTION_NONE;
                         self.removingView = nil;
                         self.removingIconContainer1 = nil;
                         self.removingIconContainer2 = nil;
@@ -498,13 +491,6 @@
     return _removingView;
 }
 
-- (NSArray *)removingConstraints {
-    if (!_removingConstraints) {
-        _removingConstraints = [CPAppearanceManager constraintsWithView:self.removingView edgesAlignToView:self.passCellView];
-    }
-    return _removingConstraints;
-}
-
 - (UIView *)removingIconContainer1 {
     if (!_removingIconContainer1) {
         _removingIconContainer1 = [[UIView alloc] init];
@@ -558,6 +544,77 @@
         _removingLabel2.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _removingLabel2;
+}
+
+- (NSArray *)removingConstraints {
+    if (!_removingConstraints) {
+        _removingConstraints = [CPAppearanceManager constraintsWithView:self.removingView alignToView:self.passCellView attribute:NSLayoutAttributeTop, NSLayoutAttributeLeft, NSLayoutAttributeWidth, NSLayoutAttributeHeight, ATTR_END];
+    }
+    NSAssert(_removingConstraints.count == REMOVING_CONSTRAINTS_NUMBER, @"");
+    return _removingConstraints;
+}
+
+- (NSArray *)removingIconConstraints {
+    if (!_removingIconConstraints) {
+        switch (self.removingDirection) {
+            case REMOVING_DIRECTION_HORIZON:
+                _removingIconConstraints = [NSArray arrayWithObjects:
+                                            [CPAppearanceManager constraintWithView:self.removingIconContainer1 attribute:NSLayoutAttributeRight alignToView:self.iconView attribute:NSLayoutAttributeLeft],
+                                            [CPAppearanceManager constraintWithView:self.removingIconContainer2 attribute:NSLayoutAttributeLeft alignToView:self.iconView attribute:NSLayoutAttributeRight],
+                                            [CPAppearanceManager constraintWithView:self.removingIconContainer1 alignToView:self.iconView attribute:NSLayoutAttributeCenterY],
+                                            [CPAppearanceManager constraintWithView:self.removingIconContainer2 alignToView:self.iconView attribute:NSLayoutAttributeCenterY],
+                                            [CPAppearanceManager constraintWithView:self.removingIconContainer1 alignToView:self.iconView attribute:NSLayoutAttributeWidth],
+                                            [CPAppearanceManager constraintWithView:self.removingIconContainer2 alignToView:self.iconView attribute:NSLayoutAttributeWidth],
+                                            [CPAppearanceManager constraintWithView:self.removingIconContainer1 alignToView:self.iconView attribute:NSLayoutAttributeHeight],
+                                            [CPAppearanceManager constraintWithView:self.removingIconContainer2 alignToView:self.iconView attribute:NSLayoutAttributeHeight],
+                                            nil];
+                break;
+            case REMOVING_DIRECTION_VERTICAL:
+                _removingIconConstraints = [NSArray arrayWithObjects:
+                                            [CPAppearanceManager constraintWithView:self.removingIconContainer1 attribute:NSLayoutAttributeBottom alignToView:self.iconView attribute:NSLayoutAttributeTop],
+                                            [CPAppearanceManager constraintWithView:self.removingIconContainer2 attribute:NSLayoutAttributeTop alignToView:self.iconView attribute:NSLayoutAttributeBottom],
+                                            [CPAppearanceManager constraintWithView:self.removingIconContainer1 alignToView:self.iconView attribute:NSLayoutAttributeCenterX],
+                                            [CPAppearanceManager constraintWithView:self.removingIconContainer2 alignToView:self.iconView attribute:NSLayoutAttributeCenterX],
+                                            [CPAppearanceManager constraintWithView:self.removingIconContainer1 alignToView:self.iconView attribute:NSLayoutAttributeWidth],
+                                            [CPAppearanceManager constraintWithView:self.removingIconContainer2 alignToView:self.iconView attribute:NSLayoutAttributeWidth],
+                                            [CPAppearanceManager constraintWithView:self.removingIconContainer1 alignToView:self.iconView attribute:NSLayoutAttributeHeight],
+                                            [CPAppearanceManager constraintWithView:self.removingIconContainer2 alignToView:self.iconView attribute:NSLayoutAttributeHeight],
+                                            nil];
+                break;
+            default:
+                NSAssert(NO, @"");
+                break;
+        }
+    }
+    NSAssert(_removingIconConstraints.count == REMOVING_ICON_CONSTRAINTS_NUMBER, @"");
+    return _removingIconConstraints;
+}
+
+- (NSArray *)removingLabelConstraints {
+    if (!_removingLabelConstraints) {
+        switch (self.removingDirection) {
+            case REMOVING_DIRECTION_HORIZON:
+                _removingLabelConstraints = [NSArray arrayWithObjects:
+                                             [NSLayoutConstraint constraintWithItem:self.removingLabel1 attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE],
+                                             [NSLayoutConstraint constraintWithItem:self.removingLabel2 attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeRight multiplier:1.0 constant:PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE],
+                                             [CPAppearanceManager constraintWithView:self.removingLabel1 alignToView:self.iconView attribute:NSLayoutAttributeCenterY],
+                                             [CPAppearanceManager constraintWithView:self.removingLabel2 alignToView:self.iconView attribute:NSLayoutAttributeCenterY],
+                                             nil];
+                break;
+            case REMOVING_DIRECTION_VERTICAL:
+                _removingLabelConstraints = [NSArray arrayWithObjects:
+                                             [NSLayoutConstraint constraintWithItem:self.removingLabel1 attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeTop multiplier:1.0 constant:-PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE],
+                                             [NSLayoutConstraint constraintWithItem:self.removingLabel2 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE],
+                                             [CPAppearanceManager constraintWithView:self.removingLabel1 alignToView:self.iconView attribute:NSLayoutAttributeCenterX],
+                                             [CPAppearanceManager constraintWithView:self.removingLabel2 alignToView:self.iconView attribute:NSLayoutAttributeCenterX],
+                                             nil];
+                break;
+            default:
+                break;
+        }
+    }
+    NSAssert(_removingLabelConstraints.count == REMOVING_LABEL_CONSTRAINTS_NUMBER, @"");
+    return _removingLabelConstraints;
 }
 
 @end

@@ -1,5 +1,5 @@
 //
-//  CPPassCell.h
+//  CPPassCellManager.h
 //  Locor
 //
 //  Created by wangyw on 6/18/13.
