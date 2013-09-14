@@ -153,12 +153,7 @@ static float FULL_WIDTH, DRAG_MULTIPLIER;
             int sign = centerOffset > 0 ? 1 : -1;
             float ratio = fabsf(centerOffset) / maxOffset;
             
-            NSString *iconName = CSTR_TO_OBJC(ICON_NAMES[i]);
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-                iconName = [iconName stringByAppendingString:@"_ipad"];
-            }
-            
-            UIImage *iconImage = [UIImage imageNamed:iconName];
+            UIImage *iconImage = [UIImage imageNamed:DEVICE_RELATED_PNG(CSTR_TO_OBJC(ICON_NAMES[i]))];
             
             float itemSize = ICON_PICKER_ITEM_MAX_SIZE * (1 - powf(ratio, ICON_PICKER_ITEM_SIZE_EXPONENT));
             CGRect rect = CGRectMake(xCenter + maxOffset * powf(ratio, ICON_PICKER_ITEM_POSITION_EXPONENT) * sign * ICON_PICKER_ITEM_POSITION_MULTIPLIER - itemSize / 2, yCenter - itemSize / 2, itemSize, itemSize);

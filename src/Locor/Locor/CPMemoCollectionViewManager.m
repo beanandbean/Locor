@@ -256,7 +256,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture {
     if (panGesture.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [panGesture translationInView:panGesture.view];
-        if ((![CPProcessManager isInProcess:REMOVING_MEMO_CELL_PROCESS]) && (![CPProcessManager isInProcess:SCROLLING_COLLECTION_VIEW_PROCESS])) {
+        if (!IS_IN_PROCESS(REMOVING_MEMO_CELL_PROCESS) && !IS_IN_PROCESS(SCROLLING_COLLECTION_VIEW_PROCESS)) {
             CGPoint location = [panGesture locationInView:panGesture.view];
             NSIndexPath *panningCellIndex = [self.frontCollectionView indexPathForItemAtPoint:location];
             
@@ -283,10 +283,10 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
                 }];
             }
         }
-        if ([CPProcessManager isInProcess:REMOVING_MEMO_CELL_PROCESS]) {
+        if (IS_IN_PROCESS(REMOVING_MEMO_CELL_PROCESS)) {
             self.frontRemovingCell.leftOffset = self.backRemovingCell.leftOffset = translation.x;
         }
-        if ([CPProcessManager isInProcess:SCROLLING_COLLECTION_VIEW_PROCESS]) {
+        if (IS_IN_PROCESS(SCROLLING_COLLECTION_VIEW_PROCESS)) {
             CGPoint offset = CGPointMake(self.draggingBasicOffset.x, self.draggingBasicOffset.y - translation.y);
             [self setCollectionOffset:offset animated:NO];
             
@@ -412,7 +412,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
 #pragma mark - UICollectionViewDataSource implement
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if ([CPProcessManager isInProcess:SCROLLING_COLLECTION_VIEW_PROCESS] && self.style == CPMemoCollectionViewStyleInPassCell) {
+    if (IS_IN_PROCESS(SCROLLING_COLLECTION_VIEW_PROCESS) && self.style == CPMemoCollectionViewStyleInPassCell) {
         return self.memos.count + 1;
     } else {
         return self.memos.count;
@@ -445,7 +445,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
             cell.label.backgroundColor = [UIColor clearColor];
             cell.label.textColor = [UIColor whiteColor];
             
-            if ([CPProcessManager isInProcess:SCROLLING_COLLECTION_VIEW_PROCESS] && self.style == CPMemoCollectionViewStyleInPassCell) {
+            if (IS_IN_PROCESS(SCROLLING_COLLECTION_VIEW_PROCESS) && self.style == CPMemoCollectionViewStyleInPassCell) {
                 if (indexPath.section == 0 && indexPath.row == 0) {
                     cell.label.text = @"Drag to add a new memo";
                 } else {
@@ -481,7 +481,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
             
             CPMemo *memo;
             
-            if ([CPProcessManager isInProcess:SCROLLING_COLLECTION_VIEW_PROCESS] && self.style == CPMemoCollectionViewStyleInPassCell) {
+            if (IS_IN_PROCESS(SCROLLING_COLLECTION_VIEW_PROCESS) && self.style == CPMemoCollectionViewStyleInPassCell) {
                 if (indexPath.row == 0) {
                     initializedCell.backgroundColor = self.inPasswordMemoColor;
                 } else {

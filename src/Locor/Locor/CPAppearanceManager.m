@@ -44,7 +44,7 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
 
 + (void)animateWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options preparation:(void (^)(void))preparation animations:(void (^)(void))animations completion:(void (^)(BOOL))completion {    
     DELAY_BLOCK(delay, ^{
-        [CPProcessManager increaseForbiddenCount];
+        INCREASE_FORBIDDEN_COUNT;
         if (preparation) {
             preparation();
         }
@@ -52,7 +52,7 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
             if (completion) {
                 completion(finished);
             }
-            [CPProcessManager decreaseForbiddenCount];
+            DECREASE_FORBIDDEN_COUNT;
         }];
     });
 }

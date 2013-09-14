@@ -8,6 +8,8 @@
 
 #import "CPPassword.h"
 
+#import "CPHelperMacros.h"
+
 static const CGFloat DEFAULT_COLORS[] = {
     1.000, 0.000, 0.000,
     0.000, 0.800, 0.000,
@@ -42,29 +44,15 @@ static const CGFloat DEFAULT_COLORS[] = {
 }
 
 - (NSString *)trueIcon {
-    NSString *suffix = @"";
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        suffix = @"_ipad";
-    }
-    return [NSString stringWithFormat:@"%@%@.png", self.icon, suffix];
+    return DEVICE_RELATED_PNG(self.icon);
 }
 
 - (NSString *)displayIcon {
-    NSString *iconName = self.isUsed.boolValue ? self.icon : @"add";
-    NSString *suffix = @"";
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        suffix = @"_ipad";
-    }
-    return [NSString stringWithFormat:@"%@%@.png", iconName, suffix];
+    return DEVICE_RELATED_PNG(self.isUsed.boolValue ? self.icon : @"add");
 }
 
 - (NSString *)reversedIcon {
-    NSString *iconName = self.isUsed.boolValue ? @"add" : self.icon;
-    NSString *suffix = @"";
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        suffix = @"_ipad";
-    }
-    return [NSString stringWithFormat:@"%@%@.png", iconName, suffix];
+    return DEVICE_RELATED_PNG(self.isUsed.boolValue ? @"add" : self.icon);
 }
 
 @end

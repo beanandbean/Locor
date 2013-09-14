@@ -45,11 +45,11 @@ static int forbiddenCount = 0;
 }
 
 + (bool)startProcess:(id<CPProcess>)process withPreparation:(void (^)(void))preparation {
-    if ([CPProcessManager startProcess:process]) {
+    if (START_PROCESS(process)) {
         // Preparation process provides not REQUIRED protect, so there's no need to check if it is started successfully.
-        [CPProcessManager increaseForbiddenCount];
+        INCREASE_FORBIDDEN_COUNT;
         preparation();
-        [CPProcessManager decreaseForbiddenCount];
+        DECREASE_FORBIDDEN_COUNT;
         return YES;
     } else {
         
@@ -81,10 +81,10 @@ static int forbiddenCount = 0;
 }
 
 + (bool)stopProcess:(id<CPProcess>)process withPreparation:(void (^)(void))preparation {
-    if ([CPProcessManager stopProcess:process]) {
-        [CPProcessManager increaseForbiddenCount];
+    if (STOP_PROCESS(process)) {
+        INCREASE_FORBIDDEN_COUNT;
         preparation();
-        [CPProcessManager decreaseForbiddenCount];
+        DECREASE_FORBIDDEN_COUNT;
         return YES;
     } else {
     

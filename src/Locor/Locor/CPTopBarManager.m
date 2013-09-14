@@ -78,7 +78,7 @@
 }
 
 - (void)stopSearching {
-    NSAssert([CPProcessManager isInProcess:SEARCHING_PROCESS], @"Receive an unexpected stop searching request!");
+    NSAssert(IS_IN_PROCESS(SEARCHING_PROCESS), @"Receive an unexpected stop searching request!");
     [self.resultMemoCollectionViewManager endEditing];
     [CPProcessManager stopProcess:SEARCHING_PROCESS withPreparation:^{
         [CPAppearanceManager animateWithDuration:0.3 animations:^{
@@ -138,7 +138,7 @@
 #pragma mark - UISearchBarDelegate implement
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-    if ([CPProcessManager isInProcess:SEARCHING_PROCESS]) {
+    if (IS_IN_PROCESS(SEARCHING_PROCESS)) {
         self.resultMemoCollectionViewManager.memos = [[[CPPassDataManager defaultManager] memosContainText:searchBar.text] mutableCopy];
         return YES;
     } else {

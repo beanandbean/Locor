@@ -191,7 +191,7 @@ enum REMOVING_CONSTRAINTS {
             [self.delegate startDragPassCell:self];
         }];
     } else if (longPressGesture.state == UIGestureRecognizerStateEnded || longPressGesture.state == UIGestureRecognizerStateCancelled || longPressGesture.state == UIGestureRecognizerStateFailed) {
-        if ([CPProcessManager isInProcess:DRAGGING_PASS_CELL_PROCESS] && [self.delegate canStopDragPassCell:self]) {
+        if (IS_IN_PROCESS(DRAGGING_PASS_CELL_PROCESS) && [self.delegate canStopDragPassCell:self]) {
             [CPProcessManager stopProcess:DRAGGING_PASS_CELL_PROCESS withPreparation:^{
                 [self.delegate stopDragPassCell:self];
             }];
@@ -213,11 +213,11 @@ enum REMOVING_CONSTRAINTS {
         }];
     } else if (panGesture.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [panGesture translationInView:panGesture.view];
-        if ([CPProcessManager isInProcess:DRAGGING_PASS_CELL_PROCESS]) {
+        if (IS_IN_PROCESS(DRAGGING_PASS_CELL_PROCESS)) {
             CGPoint location = [panGesture locationInView:panGesture.view];
             [self.delegate dragPassCell:self location:location translation:translation];
             [panGesture setTranslation:CGPointZero inView:panGesture.view];
-        } else if ([CPProcessManager isInProcess:REMOVING_PASS_CELL_PROCESS]) {
+        } else if (IS_IN_PROCESS(REMOVING_PASS_CELL_PROCESS)) {
             if (self.removingView) {
                 if (self.removingDirection == REMOVING_DIRECTION_NONE) {
                     if (fabsf(translation.x) > fabsf(translation.y)) {
@@ -284,12 +284,12 @@ enum REMOVING_CONSTRAINTS {
             }
         }
     } else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled || panGesture.state == UIGestureRecognizerStateFailed) {
-        if ([CPProcessManager isInProcess:DRAGGING_PASS_CELL_PROCESS] && [self.delegate canStopDragPassCell:self]) {
+        if (IS_IN_PROCESS(DRAGGING_PASS_CELL_PROCESS) && [self.delegate canStopDragPassCell:self]) {
             [CPProcessManager stopProcess:DRAGGING_PASS_CELL_PROCESS withPreparation:^{
                 [self.delegate stopDragPassCell:self];
             }];
         }
-        if ([CPProcessManager isInProcess:REMOVING_PASS_CELL_PROCESS] && self.removingView) {
+        if (IS_IN_PROCESS(REMOVING_PASS_CELL_PROCESS) && self.removingView) {
             [CPProcessManager stopProcess:REMOVING_PASS_CELL_PROCESS withPreparation:^{
                 CGPoint translation = [panGesture translationInView:panGesture.view];
                 if ((self.removingDirection == REMOVING_DIRECTION_HORIZONTAL && abs(translation.x) >= self.passCellView.bounds.size.width / 2)

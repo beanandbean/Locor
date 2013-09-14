@@ -8,6 +8,7 @@
 
 #import "CPCoverImageView.h"
 
+#import "CPHelperMacros.h"
 #import "CPLocorConfig.h"
 
 #import "CPAppearanceManager.h"
@@ -18,13 +19,7 @@ static UIImage *coverImage;
 
 - (id)init {
     if (!coverImage) {
-        NSString *coverName;
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-            coverName = @"bg-iphone";
-        } else {
-            coverName = @"bg-ipad";
-        }
-        coverImage = [UIImage imageNamed:coverName];
+        coverImage = [UIImage imageNamed:DEVICE_RELATED_PNG(@"cover")];
     }
     
     self = [super initWithImage:coverImage];

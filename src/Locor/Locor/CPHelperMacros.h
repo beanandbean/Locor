@@ -18,4 +18,7 @@
 #define DEVICE_RELATED_OBJ(phone, pad) \
     (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? phone : pad)
 
+#define DEVICE_RELATED_PNG(name) \
+    [name stringByAppendingFormat:@"%@.png", DEVICE_RELATED_OBJ(@"", @"_ipad")]
+
 #endif
