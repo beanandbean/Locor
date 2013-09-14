@@ -8,6 +8,6 @@
 
 #import "CPViewManager.h"
 
-@interface CPHelpManager : CPViewManager
+@interface CPHelpManager : CPViewManager <UIScrollViewDelegate>
 
 @end

@@ -8,6 +8,8 @@
 
 #import "CPRootManager.h"
 
+#import "CPAppearanceManager.h"
+
 #import "CPHelpManager.h"
 #import "CPMainViewManager.h"
 
@@ -17,27 +19,54 @@
 @property (strong, nonatomic) CPMainViewManager *mainViewManager;
 
 //@property (strong, nonatomic) CPMainPasswordManager *mainPasswordManager;
+
+@property (strong, nonatomic) UIView *helpView;
  
 @end
 
 @implementation CPRootManager
 
 - (void)loadAnimated:(BOOL)animated {
-    NSAssert(self.superview, @"");
-    NSAssert(!self.helpManager, @"");
-    
     [super loadAnimated:animated];
     
-    self.helpManager = [[CPHelpManager alloc] initWithSupermanager:self andSuperview:self.superview];
+    [self.superview addSubview:self.helpView];
+    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.helpView edgesAlignToView:self.superview]];
     [self.helpManager loadAnimated:animated];
 }
 
 - (void)submanagerDidUnload:(CPViewManager *)submanager {
     if (submanager == self.helpManager) {
+        [self.helpView removeFromSuperview];
+        self.helpView = nil;
         self.helpManager = nil;
-        self.mainViewManager = [[CPMainViewManager alloc] initWithSupermanager:self andSuperview:self.superview];
+        
         [self.mainViewManager loadAnimated:YES];
     }
+}
+
+#pragma mark - lazy init
+
+- (CPHelpManager *)helpManager {
+    if (!_helpManager) {
+        _helpManager = [[CPHelpManager alloc] initWithSupermanager:self andSuperview:self.helpView];
+    }
+    return _helpManager;
+}
+
+- (CPMainViewManager *)mainViewManager {
+    if (!_mainViewManager) {
+        _mainViewManager = [[CPMainViewManager alloc] initWithSupermanager:self andSuperview:self.superview];
+    }
+    return _mainViewManager;
+}
+
+- (UIView *)helpView {
+    if (!_helpView) {
+        _helpView = [[UIView alloc] init];
+        _helpView.backgroundColor = [UIColor blackColor];
+        _helpView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _helpView;
 }
 
 @end
