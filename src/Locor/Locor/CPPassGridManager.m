@@ -229,27 +229,17 @@
 #pragma mark - NSFetchedResultsControllerDelegate implement
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
-    CPPassword *password = nil;
     CPPassCellManager *cell;
     switch (type) {
-        
-        // TODO: Extract method 'refreshAppearance' into CPPassCellManager.
-        
         case NSFetchedResultsChangeUpdate:
-            password = [controller.fetchedObjects objectAtIndex:indexPath.row];
             cell = [self.passCells objectAtIndex:indexPath.row];
-            cell.passCellView.backgroundColor = password.displayColor;
-            cell.icon = password.displayIcon;
+            [cell refreshAppearance];
             break;
         case NSFetchedResultsChangeMove:
-            password = [controller.fetchedObjects objectAtIndex:indexPath.row];
             cell = [self.passCells objectAtIndex:indexPath.row];
-            cell.passCellView.backgroundColor = password.displayColor;
-            cell.icon = password.displayIcon;
-            password = [controller.fetchedObjects objectAtIndex:newIndexPath.row];
+            [cell refreshAppearance];
             cell = [self.passCells objectAtIndex:newIndexPath.row];
-            cell.passCellView.backgroundColor = password.displayColor;
-            cell.icon = password.displayIcon;
+            [cell refreshAppearance];
             break;
         default:
             NSAssert(NO, @"Unknowed change reported by NSFetchResultsController!");

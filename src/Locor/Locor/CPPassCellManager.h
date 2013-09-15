@@ -23,7 +23,7 @@
 
 @interface CPPassCellManager : CPViewManager <UIGestureRecognizerDelegate>
 
-@property (nonatomic) NSUInteger index;
+@property (readonly, nonatomic) NSUInteger index;
 
 @property (strong, nonatomic) UIView *passCellView;
 
@@ -31,10 +31,10 @@
 
 - (id)initWithSupermanager:(CPViewManager<CPPassCellDelegate> *)supermanager superview:(UIView *)superview frontLayer:(UIView *)frontLayer backLayer:(UIView *)backLayer andIndex:(NSUInteger)index;
 
+- (void)refreshAppearance;
+
 - (void)setAlpha:(CGFloat)alpha;
 
 - (void)setHidden:(BOOL)hidden;
-
-- (void)setIcon:(NSString *)icon;
 
 @end

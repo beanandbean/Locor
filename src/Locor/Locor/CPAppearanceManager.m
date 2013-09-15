@@ -60,7 +60,7 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
 #pragma mark - Constraint Helper
 
 + (NSArray *)constraintsWithView:(UIView *)view1 edgesAlignToView:(UIView *)view2 {
-    return [CPAppearanceManager constraintsWithView:view1 alignToView:view2 attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, NSLayoutAttributeTop, NSLayoutAttributeBottom, ATTR_END];
+    return [CPAppearanceManager constraintsWithView:view1 alignToView:view2 attribute:NSLayoutAttributeLeft, NSLayoutAttributeTop, NSLayoutAttributeRight, NSLayoutAttributeBottom, ATTR_END];
 }
 
 + (NSArray *)constraintsWithView:(UIView *)view1 centerAlignToView:(UIView *)view2 {
