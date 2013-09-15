@@ -111,6 +111,16 @@
     }
 }
 
+- (void)removeDragViews {
+    self.dragSourceCell.hidden = NO;
+    
+    [self.dragView removeFromSuperview];
+    
+    self.dragView = nil;
+    self.dragSourceCell = nil;
+    self.dragDestinationShadowCell = nil;
+}
+
 #pragma mark - CPPassCellDelegate
 
 - (void)tapPassCell:(CPPassCellManager *)passCell {
@@ -199,15 +209,10 @@
         } completion:^(BOOL finished) {
             [[CPPassDataManager defaultManager] exchangePasswordBetweenIndex1:self.dragSourceCell.index andIndex2:self.dragDestinationCell.index];
             
-            self.dragSourceCell.hidden = NO;
             self.dragDestinationCell.hidden = NO;
-             
-            [self.dragView removeFromSuperview];
             [self.dragDestinationShadowCell removeFromSuperview];
             
-            self.dragView = nil;
-            self.dragSourceCell = nil;
-            self.dragDestinationShadowCell = nil;
+            [self removeDragViews];
         }];
     } else {
         self.dragView.leftConstraint.constant = 0.0;
@@ -216,13 +221,7 @@
         [CPAppearanceManager animateWithDuration:0.5 animations:^{
             [self.superview layoutIfNeeded];
         } completion:^(BOOL finished) {
-            self.dragSourceCell.hidden = NO;
-            
-            [self.dragView removeFromSuperview];
-            
-            self.dragView = nil;
-            self.dragSourceCell = nil;
-            self.dragDestinationShadowCell = nil;
+            [self removeDragViews];
         }];
     }
 }
@@ -233,6 +232,9 @@
     CPPassword *password = nil;
     CPPassCellManager *cell;
     switch (type) {
+        
+        // TODO: Extract method 'refreshAppearance' into CPPassCellManager.
+        
         case NSFetchedResultsChangeUpdate:
             password = [controller.fetchedObjects objectAtIndex:indexPath.row];
             cell = [self.passCells objectAtIndex:indexPath.row];

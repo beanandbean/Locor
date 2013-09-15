@@ -1302,4 +1302,31 @@ sg507
 g508
 sg509
 g429
-saNa.
+saNa(dp522
+S'author'
+p523
+S'TODO grabber'
+p524
+sS'text'
+p525
+S"Extract method 'refreshAppearance' into CPPassCellManager."
+p526
+sS'detail'
+p527
+S'TODO grabbed from src/Locor/Locor/CPPassGridManager.m, line 236.'
+p528
+sS'exported'
+p529
+I00
+sS'time'
+p530
+S'2013-09-15 18:37:14'
+p531
+sS'path'
+p532
+S'src/Locor/Locor/CPPassGridManager.m'
+p533
+sS'condition'
+p534
+g429
+sa.

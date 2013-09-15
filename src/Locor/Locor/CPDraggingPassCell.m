@@ -62,7 +62,6 @@
         [coverContainer addSubview:cover];
         
         [view addConstraints:cover.positioningConstraints];
-        self.coverConstraints = cover.positioningConstraints;
         
         self.icon = [[UIImageView alloc] initWithImage:passCell.iconImage.image];
         self.icon.translatesAutoresizingMaskIntoConstraints = NO;
