@@ -10,6 +10,7 @@
 
 #import "CPLocorConfig.h"
 
+#import "CPDraggingPassCell.h"
 #import "CPCoverImageView.h"
 
 #import "CPPassEditViewManager.h"
@@ -31,86 +32,14 @@
 
 @property (strong, nonatomic) UIView *iconLayer;
 
-@property (strong, nonatomic) UIView *dragView;
+@property (strong, nonatomic) CPDraggingPassCell *dragView;
 @property (weak, nonatomic) CPPassCellManager *dragSourceCell;
 @property (weak, nonatomic) CPPassCellManager *dragDestinationCell;
-@property (strong, nonatomic) NSLayoutConstraint *dragViewLeftConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *dragViewTopConstraint;
-@property (strong, nonatomic) NSArray *dragViewSizeConstraints;
-@property (strong, nonatomic) NSArray *dragViewCoverConstraints;
-@property (strong, nonatomic) NSArray *dragDestinationShadowCellDetail;
+@property (strong, nonatomic) CPDraggingPassCell *dragDestinationShadowCell;
 
 @end
 
 @implementation CPPassGridManager
-
-+ (void)makeShadowOnCell:(UIView *)cell withColor:(UIColor *)color opacity:(float)opacity andRadius:(float)radius {
-    cell.layer.shadowColor = color.CGColor;
-    cell.layer.shadowOffset = CGSizeZero;
-    cell.layer.shadowOpacity = opacity;
-    cell.layer.shadowRadius = radius;
-    cell.layer.masksToBounds = NO;
-}
-
-+ (void)expandShadowOnCell:(UIView *)cell withSize:(float)size; {
-    UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRect:CGRectInset(cell.bounds, -size, -size)];
-    cell.layer.shadowPath = bezierPath.CGPath;
-}
-
-+ (void)removeShadowOnCell:(UIView *)cell {
-    cell.layer.shadowColor = [UIColor clearColor].CGColor;
-    cell.layer.shadowOffset = CGSizeZero;
-    cell.layer.shadowOpacity = 0.0;
-    cell.layer.shadowRadius = 0.0;
-}
-
-+ (NSArray *)makeDraggingCellFromCell:(CPPassCellManager *)passCell onView:(UIView *)view withShadow:(BOOL)shadow {
-    UIView *dragView = [[UIView alloc] init];
-    
-    if (shadow) {
-        [CPPassGridManager makeShadowOnCell:dragView withColor:passCell.passCellView.backgroundColor opacity:1.0 andRadius:5.0];
-    }
-    
-    dragView.translatesAutoresizingMaskIntoConstraints = NO;
-    dragView.backgroundColor = passCell.passCellView.backgroundColor;
-    
-    [view addSubview:dragView];
-
-    NSLayoutConstraint *dragViewLeftConstraint = [CPAppearanceManager constraintWithView:dragView alignToView:passCell.passCellView attribute:NSLayoutAttributeLeft];
-    [view addConstraint:dragViewLeftConstraint];
-    NSLayoutConstraint *dragViewTopConstraint = [CPAppearanceManager constraintWithView:dragView alignToView:passCell.passCellView attribute:NSLayoutAttributeTop];
-    [view addConstraint:dragViewTopConstraint];
-    
-    NSArray *dragViewSizeConstraints = [NSArray arrayWithObjects:
-                                        [CPAppearanceManager constraintWithView:dragView alignToView:passCell.passCellView attribute:NSLayoutAttributeWidth],
-                                        [CPAppearanceManager constraintWithView:dragView alignToView:passCell.passCellView attribute:NSLayoutAttributeHeight],
-                                        nil];
-    [view addConstraints:dragViewSizeConstraints];
-    
-    UIView *fakeCoverContainer = [[UIView alloc] init];
-    fakeCoverContainer.clipsToBounds = YES;
-    fakeCoverContainer.translatesAutoresizingMaskIntoConstraints = NO;
-    [dragView addSubview:fakeCoverContainer];
-    [dragView addConstraints:[CPAppearanceManager constraintsWithView:fakeCoverContainer edgesAlignToView:dragView]];
-    
-    CPCoverImageView *fakeCover = [[CPCoverImageView alloc] init];
-    [fakeCoverContainer addSubview:fakeCover];
-    [view addConstraints:fakeCover.positioningConstraints];
-    
-    UIImageView *fakeIcon = [[UIImageView alloc] initWithImage:passCell.iconImage.image];
-    fakeIcon.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [dragView addSubview:fakeIcon];
-    [dragView addConstraints:[CPAppearanceManager constraintsWithView:fakeIcon centerAlignToView:dragView]];
-
-    [view layoutIfNeeded];
-    
-    if (shadow) {
-        [CPPassGridManager expandShadowOnCell:dragView withSize:5.0];
-    }
-    
-    return [NSArray arrayWithObjects:dragView, dragViewLeftConstraint, dragViewTopConstraint, dragViewSizeConstraints, fakeCover.positioningConstraints, fakeIcon, nil];
-}
 
 - (void)loadAnimated:(BOOL)animated {
     [CPPassDataManager defaultManager].passwordsController.delegate = self;
@@ -193,28 +122,19 @@
 - (void)startDragPassCell:(CPPassCellManager *)passCell {    
     NSAssert(!self.dragSourceCell, @"Already dragging a pass cell when start dragging one!");
     NSAssert(!self.dragView, @"Already dragging a pass cell when start dragging one!");
-    NSAssert(!self.dragViewLeftConstraint, @"Already dragging a pass cell when start dragging one!");
-    NSAssert(!self.dragViewTopConstraint, @"Already dragging a pass cell when start dragging one!");
     
     self.dragSourceCell = passCell;
     self.dragSourceCell.hidden = YES;
-    
-    NSArray *dragCellDetail = [CPPassGridManager makeDraggingCellFromCell:self.dragSourceCell onView:self.superview withShadow:YES];
-    self.dragView = [dragCellDetail objectAtIndex:0];
-    self.dragViewLeftConstraint = [dragCellDetail objectAtIndex:1];
-    self.dragViewTopConstraint = [dragCellDetail objectAtIndex:2];
-    self.dragViewSizeConstraints = [dragCellDetail objectAtIndex:3];
-    self.dragViewCoverConstraints = [dragCellDetail objectAtIndex:4];
+
+    self.dragView = [[CPDraggingPassCell alloc] initWithCell:self.dragSourceCell onView:self.superview withShadow:YES];
 }
 
 - (void)dragPassCell:(CPPassCellManager *)passCell location:(CGPoint)location translation:(CGPoint)translation {
     NSAssert(self.dragView, @"Haven't started dragging pass cell when coming to the middle of dragging!");
-    NSAssert(self.dragViewLeftConstraint, @"Haven't started dragging pass cell when coming to the middle of dragging!");
-    NSAssert(self.dragViewTopConstraint, @"Haven't started dragging pass cell when coming to the middle of dragging!");
 
     if (passCell == self.dragSourceCell) {
-        self.dragViewLeftConstraint.constant += translation.x;
-        self.dragViewTopConstraint.constant += translation.y;
+        self.dragView.leftConstraint.constant += translation.x;
+        self.dragView.topConstraint.constant += translation.y;
         [self.superview layoutIfNeeded];
         
         CGPoint centerInPassGridView = [self.passGridView convertPoint:self.dragView.center fromView:self.superview];
@@ -236,17 +156,16 @@
         }
         
         if (newDragDestinationCell != self.dragDestinationCell) {
-            if (self.dragDestinationShadowCellDetail) {
-                [self.superview removeConstraint:[self.dragDestinationShadowCellDetail objectAtIndex:1]];
-                [self.superview removeConstraint:[self.dragDestinationShadowCellDetail objectAtIndex:2]];
-                [self.superview removeConstraints:[self.dragDestinationShadowCellDetail objectAtIndex:3]];
-                [self.superview removeConstraints:[self.dragDestinationShadowCellDetail objectAtIndex:4]];
-                [(UIView *)[self.dragDestinationShadowCellDetail objectAtIndex:0] removeFromSuperview];
+            if (self.dragDestinationShadowCell) {
+                [self.dragDestinationShadowCell removeFromSuperview];
             }
             
             self.dragDestinationCell = newDragDestinationCell;
-            self.dragDestinationShadowCellDetail = [CPPassGridManager makeDraggingCellFromCell:self.dragDestinationCell onView:self.superview withShadow:YES];
-            [self.superview bringSubviewToFront:self.dragView];
+            
+            if (self.dragDestinationCell) {
+                self.dragDestinationShadowCell = [[CPDraggingPassCell alloc] initWithCell:self.dragDestinationCell onView:self.superview withShadow:YES];
+                [self.superview bringSubviewToFront:self.dragView];
+            }
         }
     }
 }
@@ -258,29 +177,22 @@
 - (void)stopDragPassCell:(CPPassCellManager *)passCell {
     NSAssert(passCell == self.dragSourceCell, @"Try to stop dragging a cell while dragging another!");
     NSAssert(self.dragView, @"Haven't started dragging pass cell when to stop it!");
-    NSAssert(self.dragViewLeftConstraint, @"Haven't started dragging pass cell when to stop it!");
-    NSAssert(self.dragViewTopConstraint, @"Haven't started dragging pass cell when to stop it!");
     
     if (self.dragDestinationCell) {
-        NSMutableArray *destinationMovingCellDetail = [self.dragDestinationShadowCellDetail mutableCopy];
         [self.superview bringSubviewToFront:self.dragView];
         self.dragDestinationCell.hidden = YES;
         
-        [self.superview removeConstraint:self.dragViewLeftConstraint];
-        [self.superview removeConstraint:self.dragViewTopConstraint];
+        [self.superview removeConstraint:self.dragView.leftConstraint];
+        [self.superview removeConstraint:self.dragView.topConstraint];
         
-        self.dragViewLeftConstraint = [CPAppearanceManager constraintWithView:self.dragView alignToView:self.dragDestinationCell.passCellView attribute:NSLayoutAttributeLeft];
-        [self.superview addConstraint:self.dragViewLeftConstraint];
-        self.dragViewTopConstraint = [CPAppearanceManager constraintWithView:self.dragView alignToView:self.dragDestinationCell.passCellView attribute:NSLayoutAttributeTop];
-        [self.superview addConstraint:self.dragViewTopConstraint];
+        [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.dragView alignToView:self.dragDestinationCell.passCellView attribute:NSLayoutAttributeLeft]];
+        [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.dragView alignToView:self.dragDestinationCell.passCellView attribute:NSLayoutAttributeTop]];
         
-        [self.superview removeConstraint:[destinationMovingCellDetail objectAtIndex:1]];
-        [self.superview removeConstraint:[destinationMovingCellDetail objectAtIndex:2]];
+        [self.superview removeConstraint:self.dragDestinationShadowCell.leftConstraint];
+        [self.superview removeConstraint:self.dragDestinationShadowCell.topConstraint];
         
-        [destinationMovingCellDetail replaceObjectAtIndex:1 withObject:[CPAppearanceManager constraintWithView:[destinationMovingCellDetail objectAtIndex:0] alignToView:self.dragSourceCell.passCellView attribute:NSLayoutAttributeLeft]];
-        [self.superview addConstraint:[destinationMovingCellDetail objectAtIndex:1]];
-        [destinationMovingCellDetail replaceObjectAtIndex:2 withObject:[CPAppearanceManager constraintWithView:[destinationMovingCellDetail objectAtIndex:0] alignToView:self.dragSourceCell.passCellView attribute:NSLayoutAttributeTop]];
-        [self.superview addConstraint:[destinationMovingCellDetail objectAtIndex:2]];
+        [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.dragDestinationShadowCell alignToView:self.dragSourceCell.passCellView attribute:NSLayoutAttributeLeft]];
+        [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.dragDestinationShadowCell alignToView:self.dragSourceCell.passCellView attribute:NSLayoutAttributeTop]];
         
         [CPAppearanceManager animateWithDuration:0.5 animations:^{
             [self.superview layoutIfNeeded];
@@ -289,45 +201,28 @@
             
             self.dragSourceCell.hidden = NO;
             self.dragDestinationCell.hidden = NO;
-            
-            [self.superview removeConstraint:self.dragViewLeftConstraint];
-            [self.superview removeConstraint:self.dragViewTopConstraint];
-            [self.superview removeConstraints:self.dragViewSizeConstraints];
-            [self.superview removeConstraints:self.dragViewCoverConstraints];
-            
-            [self.superview removeConstraint:[destinationMovingCellDetail objectAtIndex:1]];
-            [self.superview removeConstraint:[destinationMovingCellDetail objectAtIndex:2]];
-            [self.superview removeConstraints:[destinationMovingCellDetail objectAtIndex:3]];
-            [self.superview removeConstraints:[destinationMovingCellDetail objectAtIndex:4]];
              
             [self.dragView removeFromSuperview];
-            [(UIView *)[destinationMovingCellDetail objectAtIndex:0] removeFromSuperview];
+            [self.dragDestinationShadowCell removeFromSuperview];
             
             self.dragView = nil;
             self.dragSourceCell = nil;
-            self.dragViewLeftConstraint = nil;
-            self.dragViewTopConstraint = nil;
-            self.dragDestinationShadowCellDetail = nil;
+            self.dragDestinationShadowCell = nil;
         }];
     } else {
-        self.dragViewLeftConstraint.constant = 0.0;
-        self.dragViewTopConstraint.constant = 0.0;
+        self.dragView.leftConstraint.constant = 0.0;
+        self.dragView.topConstraint.constant = 0.0;
         
         [CPAppearanceManager animateWithDuration:0.5 animations:^{
             [self.superview layoutIfNeeded];
         } completion:^(BOOL finished) {
             self.dragSourceCell.hidden = NO;
             
-            [self.superview removeConstraint:self.dragViewLeftConstraint];
-            [self.superview removeConstraint:self.dragViewTopConstraint];
-            [self.superview removeConstraints:self.dragViewSizeConstraints];
-            [self.superview removeConstraints:self.dragViewCoverConstraints];
             [self.dragView removeFromSuperview];
             
             self.dragView = nil;
             self.dragSourceCell = nil;
-            self.dragViewLeftConstraint = nil;
-            self.dragViewTopConstraint = nil;
+            self.dragDestinationShadowCell = nil;
         }];
     }
 }
@@ -371,7 +266,7 @@
 
 - (CPPassEditViewManager *)passEditViewManager {
     if (!_passEditViewManager) {
-        _passEditViewManager = [[CPPassEditViewManager alloc] initWithSuperView:self.superview andCells:self.passCells];
+        _passEditViewManager = [[CPPassEditViewManager alloc] initWithSuperview:self.superview andCells:self.passCells];
     }
     return _passEditViewManager;
 }

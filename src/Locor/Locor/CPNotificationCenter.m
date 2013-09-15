@@ -142,9 +142,6 @@ static CPNotificationCenter *_center;
     }completion:^(BOOL finished){        
         if (self.notification) {
             self.forceRemovedCount++;
-            [self.superview removeConstraint:oldRightConstraint];
-            [self.superview removeConstraint:widthConstraint];
-            [self.superview removeConstraint:self.bottomConstraint];
             [self.notification removeFromSuperview];
         }
         
@@ -173,9 +170,6 @@ static CPNotificationCenter *_center;
         [UIView animateWithDuration:0.5 animations:^{
             [self.superview layoutIfNeeded];
         }completion:^(BOOL finished){
-            [self.superview removeConstraint:rightConstraint];
-            [self.superview removeConstraint:widthConstraint];
-            [self.superview removeConstraint:self.bottomConstraint];
             [self.notification removeFromSuperview];
             
             self.notification = nil;

@@ -22,6 +22,7 @@
 		2C6143681786D59D00430C64 /* CPDraggingPassCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6143671786D59D00430C64 /* CPDraggingPassCellProcess.m */; };
 		2C61436B1786D7AC00430C64 /* CPRemovingPassCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C61436A1786D7AC00430C64 /* CPRemovingPassCellProcess.m */; };
 		2CBDF767177DB96E00BC9E3E /* CPNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */; };
+		2CC1C0E217E5BB05008AB924 /* CPDraggingPassCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC1C0E117E5BB05008AB924 /* CPDraggingPassCell.m */; };
 		2CC7570217CA151D00800E09 /* cover_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CC756FE17CA151D00800E09 /* cover_ipad.png */; };
 		2CC7570317CA151D00800E09 /* cover_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CC756FF17CA151D00800E09 /* cover_ipad@2x.png */; };
 		2CC7570417CA151D00800E09 /* cover.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CC7570017CA151D00800E09 /* cover.png */; };
@@ -148,6 +149,8 @@
 		2CBC71A817C8E663000F37B1 /* CPLocorConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPLocorConfig.h; sourceTree = "<group>"; };
 		2CBDF765177DB96E00BC9E3E /* CPNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPNotificationCenter.h; sourceTree = "<group>"; };
 		2CBDF766177DB96E00BC9E3E /* CPNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPNotificationCenter.m; sourceTree = "<group>"; };
+		2CC1C0E017E5BB05008AB924 /* CPDraggingPassCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPDraggingPassCell.h; sourceTree = "<group>"; };
+		2CC1C0E117E5BB05008AB924 /* CPDraggingPassCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPDraggingPassCell.m; sourceTree = "<group>"; };
 		2CC756FE17CA151D00800E09 /* cover_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover_ipad.png; sourceTree = "<group>"; };
 		2CC756FF17CA151D00800E09 /* cover_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cover_ipad@2x.png"; sourceTree = "<group>"; };
 		2CC7570017CA151D00800E09 /* cover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover.png; sourceTree = "<group>"; };
@@ -470,6 +473,8 @@
 				2CD4A94417D732AD00150687 /* CPBarButtonManager.m */,
 				2C3317D017DC8697008A6A0C /* CPCoverImageView.h */,
 				2C3317D117DC8697008A6A0C /* CPCoverImageView.m */,
+				2CC1C0E017E5BB05008AB924 /* CPDraggingPassCell.h */,
+				2CC1C0E117E5BB05008AB924 /* CPDraggingPassCell.m */,
 				2C1CE01E17E3125E0090F76F /* CPHelperMacros.h */,
 				2C2C2A7C17DF27D6006F9B66 /* CPIconPicker.h */,
 				2C2C2A7D17DF27D6006F9B66 /* CPIconPicker.m */,
@@ -685,6 +690,7 @@
 				2C3317D217DC8697008A6A0C /* CPCoverImageView.m in Sources */,
 				2C2C2A7E17DF27D6006F9B66 /* CPIconPicker.m in Sources */,
 				2C1CE02317E320270090F76F /* CPSettingsProcess.m in Sources */,
+				2CC1C0E217E5BB05008AB924 /* CPDraggingPassCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

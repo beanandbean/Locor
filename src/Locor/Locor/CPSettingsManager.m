@@ -31,8 +31,8 @@ static const char *NAMES[] = {"H", "M", "P"}, *SELECTORS[] = {"pressedHelp", "pr
 @property (strong, nonatomic) UITapGestureRecognizer *tapGesture;
 
 @property (strong, nonatomic) UIView *buttonContainer;
-@property (strong, nonatomic) NSArray *buttonContainerConstraints;
-@property (strong, nonatomic) NSArray *buttonContainerToBarButtonConstraints;
+//@property (strong, nonatomic) NSArray *buttonContainerConstraints;
+//@property (strong, nonatomic) NSArray *buttonContainerToBarButtonConstraints;
 
 @property (strong, nonatomic) NSMutableArray *buttons;
 @property (strong, nonatomic) NSMutableArray *buttonTopConstraints;
@@ -72,11 +72,8 @@ static const char *NAMES[] = {"H", "M", "P"}, *SELECTORS[] = {"pressedHelp", "pr
         self.buttonContainer.translatesAutoresizingMaskIntoConstraints = NO;
         [self.superView addSubview:self.buttonContainer];
         
-        self.buttonContainerConstraints = [CPAppearanceManager constraintsWithView:self.buttonContainer alignToView:self.superView attribute:NSLayoutAttributeTop, NSLayoutAttributeBottom, ATTR_END];
-        [self.superView addConstraints:self.buttonContainerConstraints];
-        
-        self.buttonContainerToBarButtonConstraints = [CPAppearanceManager constraintsWithView:self.buttonContainer alignToView:self.delegate.barButton attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, ATTR_END];
-        [self.delegate.barButtonSuperview addConstraints:self.buttonContainerToBarButtonConstraints];
+        [self.superView addConstraints:[CPAppearanceManager constraintsWithView:self.buttonContainer alignToView:self.superView attribute:NSLayoutAttributeTop, NSLayoutAttributeBottom, ATTR_END]];
+        [self.delegate.barButtonSuperview addConstraints:[CPAppearanceManager constraintsWithView:self.buttonContainer alignToView:self.delegate.barButton attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, ATTR_END]];
         
         self.buttons = [NSMutableArray array];
         self.buttonTopConstraints = [NSMutableArray array];
@@ -150,13 +147,10 @@ static const char *NAMES[] = {"H", "M", "P"}, *SELECTORS[] = {"pressedHelp", "pr
         for (int i = 0; i < BUTTON_COUNT; i++) {
             UIButton *button = [self.buttons objectAtIndex:i];
             [CPAppearanceManager animateWithDuration:(i + 1) * BUTTON_ANIMATION_TIME_STEP animations:^{
-                NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.buttonContainer attribute:NSLayoutAttributeTop multiplier:1.0 constant:-BOX_SEPARATOR_SIZE];
-                [self.buttonContainer addConstraint:topConstraint];
+                [self.buttonContainer addConstraint:[NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.buttonContainer attribute:NSLayoutAttributeTop multiplier:1.0 constant:-BOX_SEPARATOR_SIZE]];
                 [self.buttonContainer layoutIfNeeded];
             } completion:^(BOOL finished) {
                 if (i == BUTTON_COUNT - 1) {
-                    [self.superView removeConstraints:self.buttonContainerConstraints];
-                    [self.delegate.barButtonSuperview removeConstraints:self.buttonContainerToBarButtonConstraints];
                     [self.buttonContainer removeFromSuperview];
                 }
             }];

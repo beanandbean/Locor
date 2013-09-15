@@ -30,19 +30,15 @@
 @property (weak, nonatomic) UITextField *searchBarTextField;
 
 @property (strong, nonatomic) UIView *resultContainer;
-@property (strong, nonatomic) NSArray *resultContainerConstraints;
 
 @property (strong, nonatomic) CPCoverImageView *coverImage;
 
 @property (strong, nonatomic) UIView *frontResultContainer;
 @property (strong, nonatomic) UIView *backResultContainer;
-@property (strong, nonatomic) NSArray *frontResultContainerConstraints;
-@property (strong, nonatomic) NSArray *backResultContainerConstraints;
 
 @property (strong, nonatomic) CPMemoCollectionViewManager *resultMemoCollectionViewManager;
 
 @property (strong, nonatomic) UIView *settingsContainer;
-@property (strong, nonatomic) NSArray *settingsContainerConstraints;
 
 @property (strong, nonatomic) CPSettingsManager *settingsManager;
 
@@ -69,11 +65,21 @@
     [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.barButton attribute:NSLayoutAttributeWidth alignToView:self.barButton attribute:NSLayoutAttributeHeight]];
 }
 
+- (void)alignContentView:(UIView *)contentView {
+    [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
+    [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-BOX_SEPARATOR_SIZE]];
+    
+    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:contentView alignToView:self.superview attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, ATTR_END]];
+}
+
 - (void)openSetting {
     [self.superview addSubview:self.settingsContainer];
-    [self.superview addConstraints:self.settingsContainerConstraints];
+    
+    [self alignContentView:self.settingsContainer];
+    
     [self.superview bringSubviewToFront:self.searchBar];
     [self.superview bringSubviewToFront:self.barButton];
+    
     [self.settingsManager loadViews];
 }
 
@@ -86,7 +92,6 @@
             self.coverImage.alpha = 0.0;
             self.frontResultContainer.alpha = 0.0;
         } completion:^(BOOL finished) {
-            [self.superview removeConstraints:self.resultContainerConstraints];
             [self.resultContainer removeFromSuperview];
             
             [CPBarButtonManager popBarButtonState];
@@ -94,12 +99,9 @@
             self.backResultContainer = nil;
             self.coverImage = nil;
             self.frontResultContainer = nil;
-            self.backResultContainerConstraints = nil;
-            self.frontResultContainerConstraints = nil;
             self.resultMemoCollectionViewManager = nil;
             
             self.resultContainer = nil;
-            self.resultContainerConstraints = nil;
             
             self.searchBar.text = @"";
             if ([self.searchBar isFirstResponder]) {
@@ -121,7 +123,6 @@
     }
 }
 
-
 #pragma mark - CPSettingsManagerBarButtonAccessProtocol implement
 
 - (UIView *)barButtonSuperview {
@@ -131,7 +132,6 @@
 #pragma mark - CPSettingsManagerDelegate implement
 
 - (void)settingsManagerClosed {
-    [self.superview removeConstraints:self.settingsContainerConstraints];
     [self.settingsContainer removeFromSuperview];
 }
 
@@ -145,13 +145,14 @@
         // TODO: When search bar is focused, stop if being currently editing memo cells in pass edit view.
         return [CPProcessManager startProcess:SEARCHING_PROCESS withPreparation:^{
             [self.superview addSubview:self.resultContainer];
-            [self.superview addConstraints:self.resultContainerConstraints];
+            
+            [self alignContentView:self.resultContainer];
             
             [self.resultContainer addSubview:self.backResultContainer];
             [self.resultContainer addSubview:self.coverImage];
             [self.resultContainer addSubview:self.frontResultContainer];
-            [self.resultContainer addConstraints:self.backResultContainerConstraints];
-            [self.resultContainer addConstraints:self.frontResultContainerConstraints];
+            [self.resultContainer addConstraints:[CPAppearanceManager constraintsWithView:self.backResultContainer edgesAlignToView:self.resultContainer]];
+            [self.resultContainer addConstraints:[CPAppearanceManager constraintsWithView:self.frontResultContainer edgesAlignToView:self.resultContainer]];
             
             [self.superview addConstraints:self.coverImage.positioningConstraints];
             
@@ -240,17 +241,6 @@
     return _resultContainer;
 }
 
-- (NSArray *)resultContainerConstraints {
-    if (!_resultContainerConstraints) {
-        _resultContainerConstraints = [[NSArray alloc] initWithObjects:
-                                            [NSLayoutConstraint constraintWithItem:self.resultContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:BOX_SEPARATOR_SIZE],
-                                            [NSLayoutConstraint constraintWithItem:self.resultContainer attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-BOX_SEPARATOR_SIZE],
-                                            nil];
-        _resultContainerConstraints = [_resultContainerConstraints arrayByAddingObjectsFromArray:[CPAppearanceManager constraintsWithView:self.resultContainer alignToView:self.superview attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, ATTR_END]];
-    }
-    return _resultContainerConstraints;
-}
-
 - (UIView *)frontResultContainer {
     if (!_frontResultContainer) {
         _frontResultContainer = [[UIView alloc] init];
@@ -265,20 +255,6 @@
         _backResultContainer.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _backResultContainer;
-}
-
-- (NSArray *)frontResultContainerConstraints {
-    if (!_frontResultContainerConstraints) {
-        _frontResultContainerConstraints = [CPAppearanceManager constraintsWithView:self.frontResultContainer edgesAlignToView:self.resultContainer];
-    }
-    return _frontResultContainerConstraints;
-}
-
-- (NSArray *)backResultContainerConstraints {
-    if (!_backResultContainerConstraints) {
-        _backResultContainerConstraints = [CPAppearanceManager constraintsWithView:self.backResultContainer edgesAlignToView:self.resultContainer];
-    }
-    return _backResultContainerConstraints;
 }
 
 - (CPCoverImageView *)coverImage {
@@ -301,18 +277,6 @@
         _settingsContainer.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _settingsContainer;
-}
-
-- (NSArray *)settingsContainerConstraints {
-    if (!_settingsContainerConstraints) {
-        _settingsContainerConstraints = [[NSArray alloc] initWithObjects:
-                                         [NSLayoutConstraint constraintWithItem:self.settingsContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:BOX_SEPARATOR_SIZE],
-                                         [NSLayoutConstraint constraintWithItem:self.settingsContainer attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0],
-                                         [NSLayoutConstraint constraintWithItem:self.settingsContainer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0],
-                                         [NSLayoutConstraint constraintWithItem:self.settingsContainer attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-BOX_SEPARATOR_SIZE],
-                                         nil];
-    }
-    return _settingsContainerConstraints;
 }
 
 - (CPSettingsManager *)settingsManager {

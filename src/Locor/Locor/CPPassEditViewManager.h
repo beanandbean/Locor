@@ -14,7 +14,7 @@
 
 @property (nonatomic) NSInteger index;
 
-- (id)initWithSuperView:(UIView *)superView andCells:(NSArray *)cells;
+- (id)initWithSuperview:(UIView *)superview andCells:(NSArray *)cells;
 
 - (void)showPassEditViewForCellAtIndex:(NSUInteger)index;
 

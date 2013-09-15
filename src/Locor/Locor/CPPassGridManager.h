@@ -12,6 +12,4 @@
 
 @interface CPPassGridManager : CPViewManager <CPPassCellDelegate, NSFetchedResultsControllerDelegate>
 
-+ (NSArray *)makeDraggingCellFromCell:(CPPassCellManager *)passCell onView:(UIView *)view withShadow:(BOOL)shadow;
-
 @end
