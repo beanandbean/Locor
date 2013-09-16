@@ -102,7 +102,7 @@
         
         self.cellBackground = [[UIView alloc] init];
         self.cellBackground.hidden = YES;
-        self.cellBackground.backgroundColor = password.color;
+        self.cellBackground.backgroundColor = password.realColor;
         self.cellBackground.translatesAutoresizingMaskIntoConstraints = NO;
         [backLayer addSubview:self.cellBackground];
         
@@ -179,9 +179,9 @@
         
         [self.outerView addConstraints:[CPAppearanceManager constraintsWithView:frontMemoContainer edgesAlignToView:backMemoContainer]];
         
-        self.memoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:self.superview frontLayer:frontMemoContainer backLayer:backMemoContainer style:CPMemoCollectionViewStyleInPassCell andDelegate:self];
+        self.memoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:self.superview frontLayer:frontMemoContainer backLayer:backMemoContainer andDelegate:self];
         self.memoCollectionViewManager.enabled = password.isUsed.boolValue;
-        self.memoCollectionViewManager.inPasswordMemoColor = password.color;
+        self.memoCollectionViewManager.inPasswordMemoColor = password.realColor;
         
         if (password.isUsed.boolValue) {
             self.memoCollectionViewManager.memos = [[password.memos sortedArrayUsingDescriptors:[[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"text" ascending:NO], nil]] mutableCopy];
@@ -215,7 +215,7 @@
             [self.superview addConstraint:[CPAppearanceManager constraintWithView:draggingCell width:PASS_EDIT_VIEW_CELL_SIZE]];
             
             [self.superview layoutIfNeeded];
-            draggingCell.backgroundColor = password.color;
+            draggingCell.backgroundColor = password.realColor;
             
             if (!password.isUsed.boolValue) {
                 draggingCell.icon.alpha = 0.0;
@@ -312,7 +312,7 @@
 
         
         [self.superview layoutIfNeeded];
-        draggingCell.backgroundColor = password.color;
+        draggingCell.backgroundColor = password.realColor;
         
         if (!password.isUsed.boolValue) {
             draggingCell.icon.alpha = 0.0;

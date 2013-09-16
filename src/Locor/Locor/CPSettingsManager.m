@@ -53,7 +53,7 @@ static const char *NAMES[] = {"H", "M", "P"}, *SELECTORS[] = {"pressedHelp", "pr
 }
 
 - (void)loadViews {
-    NSAssert(self.superView, @"");
+    NSAssert(self.superView, @"Settings manager superview not specified!");
     
     [CPProcessManager startProcess:SETTINGS_PROCESS withPreparation:^{
         [CPBarButtonManager pushBarButtonStateWithTitle:@"X" target:self action:@selector(unloadViews) andControlEvents:UIControlEventTouchUpInside];

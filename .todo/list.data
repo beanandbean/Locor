@@ -1028,7 +1028,7 @@ sg419
 S'Determine if the memo cell should fall back to original position when you start removing after it is raised up when editing.'
 p436
 sg421
-S'TODO grabbed from src/Locor/Locor/CPMemoCollectionViewManager.m, line 261.'
+S'TODO grabbed from src/Locor/Locor/CPMemoCollectionViewManager.m, line 260.'
 p437
 sg423
 I00
@@ -1047,7 +1047,7 @@ sg419
 S'Improve animation for removing a memo cell.'
 p441
 sg421
-S'TODO grabbed from src/Locor/Locor/CPMemoCollectionViewManager.m, line 319.'
+S'TODO grabbed from src/Locor/Locor/CPMemoCollectionViewManager.m, line 318.'
 p442
 sg423
 I00
@@ -1065,7 +1065,7 @@ sg419
 S'Figure out why editing cell will not rise if starting edit cell just after search bar.'
 p445
 sg421
-S'TODO grabbed from src/Locor/Locor/CPMemoCollectionViewManager.m, line 363.'
+S'TODO grabbed from src/Locor/Locor/CPMemoCollectionViewManager.m, line 362.'
 p446
 sg423
 I00
@@ -1105,7 +1105,7 @@ sg421
 S'TODO grabbed from src/Locor/Locor/CPPassDataManager.m, line 63.'
 p455
 sg423
-I00
+I01
 sg424
 S'2013-09-05 20:16:51'
 p456
@@ -1113,220 +1113,222 @@ sg426
 S'src/Locor/Locor/CPPassDataManager.m'
 p457
 sg428
-g429
-sa(dp458
+S'done'
+p458
+sa(dp459
 g417
 g418
 sg419
 S'MAY ABORT! Handle the error appropriately when saving context.'
-p459
-sg421
-S'TODO grabbed from src/Locor/Locor/CPPassDataManager.m, line 181.'
 p460
+sg421
+S'TODO grabbed from src/Locor/Locor/CPPassDataManager.m, line 182.'
+p461
 sg423
 I00
 sg424
 S'2013-09-05 20:16:51'
-p461
+p462
 sg426
 g457
 sg428
 g429
-sa(dp462
+sa(dp463
 g417
 g418
 sg419
 S'MAY ABORT! Handle the error appropriately when initializing persistent store coordinator.'
-p463
-sg421
-S'TODO grabbed from src/Locor/Locor/CPPassDataManager.m, line 218.'
 p464
+sg421
+S'TODO grabbed from src/Locor/Locor/CPPassDataManager.m, line 219.'
+p465
 sg423
 I00
 sg424
 S'2013-09-05 20:16:51'
-p465
+p466
 sg426
 g457
 sg428
 g429
-saNa(dp466
+saNa(dp467
 g417
 g418
 sg419
 S'When search bar is focused, stop if being currently editing memo cells in pass edit view.'
-p467
+p468
 sg421
 S'TODO grabbed from src/Locor/Locor/CPTopBarAndSearchManager.m, line 196.'
-p468
+p469
 sg423
 I01
 sg424
 S'2013-09-05 20:16:51'
-p469
+p470
 sg426
 S'src/Locor/Locor/CPTopBarAndSearchManager.m'
-p470
+p471
 sg428
 S'done'
-p471
-sa(dp472
+p472
+sa(dp473
 S'author'
-p473
-S'TODO grabber'
 p474
-sS'text'
+S'TODO grabber'
 p475
-S'When search bar is focused, stop if being currently editing memo cells in pass edit view.'
+sS'text'
 p476
-sS'detail'
+S'When search bar is focused, stop if being currently editing memo cells in pass edit view.'
 p477
-S'TODO grabbed from src/Locor/Locor/CPTopBarManager.m, line 145.'
+sS'detail'
 p478
-sS'exported'
+S'TODO grabbed from src/Locor/Locor/CPTopBarManager.m, line 145.'
 p479
-I00
-sS'time'
+sS'exported'
 p480
-S'2013-09-08 18:47:13'
+I00
+sS'time'
 p481
-sS'path'
+S'2013-09-08 18:47:13'
 p482
-S'src/Locor/Locor/CPTopBarManager.m'
+sS'path'
 p483
-sS'condition'
+S'src/Locor/Locor/CPTopBarManager.m'
 p484
+sS'condition'
+p485
 g429
-sa(dp485
+sa(dp486
 S'author'
-p486
-S'wangsw'
 p487
-sS'text'
+S'wangsw'
 p488
-S'Make cover images bigger and use portrait image for ipad.'
+sS'text'
 p489
-sS'detail'
+S'Make cover images bigger and use portrait image for ipad.'
 p490
-S"Now the cover image is as big as the device screen. However, as the center point of the image is not the center of the device screen but the center of a pass cell, the image is a bit lower and the top gap above the bar is not covered. Drag a pass cell to that area and the problem will be seen.\nAlso, now the iPad image is landscape and the iPhone image is portrait, so the method 'deviceWillRotateToOrientation:' which rotate the image according to orientation only work well for iPhone. We need to change iPad image to portrait too."
+sS'detail'
 p491
-sS'exported'
+S"Now the cover image is as big as the device screen. However, as the center point of the image is not the center of the device screen but the center of a pass cell, the image is a bit lower and the top gap above the bar is not covered. Drag a pass cell to that area and the problem will be seen.\nAlso, now the iPad image is landscape and the iPhone image is portrait, so the method 'deviceWillRotateToOrientation:' which rotate the image according to orientation only work well for iPhone. We need to change iPad image to portrait too."
 p492
-I00
-sS'time'
+sS'exported'
 p493
-S'2013-09-09 17:31:50'
+I00
+sS'time'
 p494
-sS'condition'
+S'2013-09-09 17:31:50'
 p495
-S'open'
+sS'condition'
 p496
-sa(dp497
+S'open'
+p497
+sa(dp498
 S'author'
-p498
-S'TODO grabber'
 p499
-sS'text'
-p500
-S'Not copy to clipboard if password is not used.'
-p501
-sS'detail'
-p502
-S'TODO grabbed from src/Locor/Locor/CPPassCellManager.m, line 183.'
-p503
-sS'exported'
-p504
-I00
-sS'time'
-p505
-S'2013-09-13 18:34:16'
-p506
-sS'path'
-p507
-S'src/Locor/Locor/CPPassCellManager.m'
-p508
-sS'condition'
-p509
-g429
-sa(dp510
-g498
-g499
-sg500
-S'Change behavior of pass cell removing view & label if cannot toggle remove state.'
-p511
-sg502
-S'TODO grabbed from src/Locor/Locor/CPPassCellManager.m, line 245.'
-p512
-sg504
-I00
-sg505
-S'2013-09-13 18:34:16'
-p513
-sg507
-g508
-sg509
-g429
-sa(dp514
-g498
-g499
-sg500
-S'When removing pass cell, use images instead of single-colored views.'
-p515
-sg502
-S'TODO grabbed from src/Locor/Locor/CPPassCellManager.m, line 487.'
-p516
-sg504
-I00
-sg505
-S'2013-09-13 18:34:16'
-p517
-sg507
-g508
-sg509
-g429
-sa(dp518
-g498
-g499
-sg500
-S'Adjust font of pass cell removing label.'
-p519
-sg502
-S'TODO grabbed from src/Locor/Locor/CPPassCellManager.m, line 530.'
-p520
-sg504
-I00
-sg505
-S'2013-09-13 18:34:16'
-p521
-sg507
-g508
-sg509
-g429
-saNa(dp522
-S'author'
-p523
 S'TODO grabber'
-p524
+p500
 sS'text'
-p525
-S"Extract method 'refreshAppearance' into CPPassCellManager."
-p526
+p501
+S'Not copy to clipboard if password is not used.'
+p502
 sS'detail'
-p527
-S'TODO grabbed from src/Locor/Locor/CPPassGridManager.m, line 236.'
-p528
+p503
+S'TODO grabbed from src/Locor/Locor/CPPassCellManager.m, line 223.'
+p504
 sS'exported'
-p529
+p505
 I00
 sS'time'
-p530
-S'2013-09-15 18:37:14'
-p531
+p506
+S'2013-09-13 18:34:16'
+p507
 sS'path'
-p532
-S'src/Locor/Locor/CPPassGridManager.m'
-p533
+p508
+S'src/Locor/Locor/CPPassCellManager.m'
+p509
 sS'condition'
-p534
+p510
 g429
+sa(dp511
+g499
+g500
+sg501
+S'Change behavior of pass cell removing view & label if cannot toggle remove state.'
+p512
+sg503
+S'TODO grabbed from src/Locor/Locor/CPPassCellManager.m, line 267.'
+p513
+sg505
+I00
+sg506
+S'2013-09-13 18:34:16'
+p514
+sg508
+g509
+sg510
+g429
+sa(dp515
+g499
+g500
+sg501
+S'When removing pass cell, use images instead of single-colored views.'
+p516
+sg503
+S'TODO grabbed from src/Locor/Locor/CPPassCellManager.m, line 416.'
+p517
+sg505
+I00
+sg506
+S'2013-09-13 18:34:16'
+p518
+sg508
+g509
+sg510
+g429
+sa(dp519
+g499
+g500
+sg501
+S'Adjust font of pass cell removing label.'
+p520
+sg503
+S'TODO grabbed from src/Locor/Locor/CPPassCellManager.m, line 484.'
+p521
+sg505
+I00
+sg506
+S'2013-09-13 18:34:16'
+p522
+sg508
+g509
+sg510
+g429
+saNa(dp523
+S'author'
+p524
+S'TODO grabber'
+p525
+sS'text'
+p526
+S"Extract method 'refreshAppearance' into CPPassCellManager."
+p527
+sS'detail'
+p528
+S'TODO grabbed from src/Locor/Locor/CPPassGridManager.m, line 236.'
+p529
+sS'exported'
+p530
+I01
+sS'time'
+p531
+S'2013-09-15 18:37:14'
+p532
+sS'path'
+p533
+S'src/Locor/Locor/CPPassGridManager.m'
+p534
+sS'condition'
+p535
+S'done'
+p536
 sa.

@@ -229,17 +229,13 @@
 #pragma mark - NSFetchedResultsControllerDelegate implement
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
-    CPPassCellManager *cell;
     switch (type) {
         case NSFetchedResultsChangeUpdate:
-            cell = [self.passCells objectAtIndex:indexPath.row];
-            [cell refreshAppearance];
+            [(CPPassCellManager *)[self.passCells objectAtIndex:indexPath.row] refreshAppearance];
             break;
         case NSFetchedResultsChangeMove:
-            cell = [self.passCells objectAtIndex:indexPath.row];
-            [cell refreshAppearance];
-            cell = [self.passCells objectAtIndex:newIndexPath.row];
-            [cell refreshAppearance];
+            [(CPPassCellManager *)[self.passCells objectAtIndex:indexPath.row] refreshAppearance];
+            [(CPPassCellManager *)[self.passCells objectAtIndex:newIndexPath.row] refreshAppearance];
             break;
         default:
             NSAssert(NO, @"Unknowed change reported by NSFetchResultsController!");

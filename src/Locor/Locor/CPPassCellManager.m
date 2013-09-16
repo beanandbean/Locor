@@ -21,10 +21,10 @@
 #import "CPDraggingPassCellProcess.h"
 #import "CPRemovingPassCellProcess.h"
 
-enum REMOVING_DIRECTION {
-    REMOVING_DIRECTION_NONE = -1,
-    REMOVING_DIRECTION_HORIZONTAL = 0,
-    REMOVING_DIRECTION_VERTICAL
+enum CPPassCellRemovingDirection {
+    CPPassCellRemovingDirectionNone = -1,
+    CPPassCellRemovingDirectionHorizontal = 0,
+    CPPassCellRemovingDirectioVertical
 };
 
 @interface CPPassCellManager ()
@@ -123,6 +123,20 @@ enum REMOVING_DIRECTION {
     [self.iconView addGestureRecognizer:pan];
 }
 
+- (UIImageView *)makeRemovingIcon {
+    UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.password.reversedIcon]];
+    icon.translatesAutoresizingMaskIntoConstraints = NO;
+    return icon;
+}
+
+- (UILabel *)makeRemovingLabel {
+    UILabel *label = [[UILabel alloc] init];
+    label.textColor = [UIColor whiteColor];
+    label.backgroundColor = [UIColor clearColor];
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    return label;
+}
+
 - (void)createRemovingViews {    
     [self.passCellView addSubview:self.removingView];
     self.passCellView.backgroundColor = self.password.reversedColor;
@@ -144,7 +158,7 @@ enum REMOVING_DIRECTION {
     [self.iconView addConstraints:[CPAppearanceManager constraintsWithView:self.removingIconContainer2 alignToView:self.iconView attribute:NSLayoutAttributeWidth, NSLayoutAttributeHeight, ATTR_END]];
 
     switch (self.removingDirection) {
-        case REMOVING_DIRECTION_HORIZONTAL:
+        case CPPassCellRemovingDirectionHorizontal:
             [self.iconView addConstraints:[NSArray arrayWithObjects:
                                            [CPAppearanceManager constraintWithView:self.removingIconContainer1 alignToView:self.iconView attribute:NSLayoutAttributeCenterY],
                                            [CPAppearanceManager constraintWithView:self.removingIconContainer2 alignToView:self.iconView attribute:NSLayoutAttributeCenterY],
@@ -154,7 +168,7 @@ enum REMOVING_DIRECTION {
                                            [CPAppearanceManager constraintWithView:self.removingLabel2 alignToView:self.iconView attribute:NSLayoutAttributeCenterY],
                                            nil]];
             break;
-        case REMOVING_DIRECTION_VERTICAL:
+        case CPPassCellRemovingDirectioVertical:
             [self.iconView addConstraints:[NSArray arrayWithObjects:
                                            [CPAppearanceManager constraintWithView:self.removingIconContainer1 alignToView:self.iconView attribute:NSLayoutAttributeCenterX],
                                            [CPAppearanceManager constraintWithView:self.removingIconContainer2 alignToView:self.iconView attribute:NSLayoutAttributeCenterX],
@@ -165,7 +179,7 @@ enum REMOVING_DIRECTION {
                                            nil]];
             break;
         default:
-            NSAssert(NO, @"");
+            NSAssert(NO, @"Unknown removing direction!");
             break;
     }
 }
@@ -177,7 +191,7 @@ enum REMOVING_DIRECTION {
     [self.removingLabel1 removeFromSuperview];
     [self.removingLabel2 removeFromSuperview];
     
-    self.removingDirection = REMOVING_DIRECTION_NONE;
+    self.removingDirection = CPPassCellRemovingDirectionNone;
     self.removingView = nil;
     self.removingIconContainer1 = nil;
     self.removingIconContainer2 = nil;
@@ -191,7 +205,7 @@ enum REMOVING_DIRECTION {
 }
 
 - (void)updateRemovingConstraintsByConstant:(float)constant {
-    NSAssert(self.removingDirection == REMOVING_DIRECTION_HORIZONTAL || self.removingDirection == REMOVING_DIRECTION_VERTICAL, @"");
+    NSAssert(self.removingDirection == CPPassCellRemovingDirectionHorizontal || self.removingDirection == CPPassCellRemovingDirectioVertical, @"Unknown removing direction!");
     
     ((NSLayoutConstraint *)[self.removingViewPositionConstraints objectAtIndex:self.removingDirection]).constant = constant;
     ((NSLayoutConstraint *)[self.iconImagePositionConstraints objectAtIndex:self.removingDirection]).constant = constant;
@@ -228,7 +242,7 @@ enum REMOVING_DIRECTION {
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture {
     if (panGesture.state == UIGestureRecognizerStateBegan) {
         [CPProcessManager startProcess:REMOVING_PASS_CELL_PROCESS withPreparation:^{
-            self.removingDirection = REMOVING_DIRECTION_NONE;
+            self.removingDirection = CPPassCellRemovingDirectionNone;
         }];
     } else if (panGesture.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [panGesture translationInView:panGesture.view];
@@ -237,14 +251,14 @@ enum REMOVING_DIRECTION {
             [self.delegate dragPassCell:self location:location translation:translation];
             [panGesture setTranslation:CGPointZero inView:panGesture.view];
         } else if (IS_IN_PROCESS(REMOVING_PASS_CELL_PROCESS)) {
-            if (self.removingDirection == REMOVING_DIRECTION_NONE) {
+            if (self.removingDirection == CPPassCellRemovingDirectionNone) {
                 if (fabsf(translation.x) > fabsf(translation.y)) {
-                    self.removingDirection = REMOVING_DIRECTION_HORIZONTAL;
+                    self.removingDirection = CPPassCellRemovingDirectionHorizontal;
                     [self.removingLabel1 setTransform:CGAffineTransformMakeRotation(M_PI_2)];
                     [self.removingLabel2 setTransform:CGAffineTransformMakeRotation(M_PI_2)];
                     
                 } else {
-                    self.removingDirection = REMOVING_DIRECTION_VERTICAL;
+                    self.removingDirection = CPPassCellRemovingDirectioVertical;
                 }
                 
                 [self createRemovingViews];
@@ -262,7 +276,7 @@ enum REMOVING_DIRECTION {
             NSString *swipe = [NSString stringWithFormat:@"Swipe to %@", action];
             NSString *release = [NSString stringWithFormat:@"Release to %@", action];
             switch (self.removingDirection) {
-                case REMOVING_DIRECTION_HORIZONTAL:
+                case CPPassCellRemovingDirectionHorizontal:
                     constant = abs(translation.x) > self.passCellView.bounds.size.width ? translation.x >= 0 ? self.passCellView.bounds.size.width : -self.passCellView.bounds.size.width : translation.x;
                     if (abs(translation.x) < self.passCellView.bounds.size.width / 2) {
                         self.removingLabel1.text = swipe;
@@ -272,7 +286,7 @@ enum REMOVING_DIRECTION {
                         self.removingLabel2.text = release;
                     }
                     break;
-                case REMOVING_DIRECTION_VERTICAL:
+                case CPPassCellRemovingDirectioVertical:
                     constant = abs(translation.y) > self.passCellView.bounds.size.height ? translation.y >= 0 ? self.passCellView.bounds.size.height : -self.passCellView.bounds.size.height : translation.y;
                     if (abs(translation.y) < self.passCellView.bounds.size.height / 2) {
                         self.removingLabel1.text = swipe;
@@ -283,7 +297,7 @@ enum REMOVING_DIRECTION {
                     }
                     break;
                 default:
-                    NSAssert(NO, @"");
+                    NSAssert(NO, @"Unknown removing direction!");
                     break;
             }
             [self updateRemovingConstraintsByConstant:constant];
@@ -298,19 +312,19 @@ enum REMOVING_DIRECTION {
         if (IS_IN_PROCESS(REMOVING_PASS_CELL_PROCESS) && self.removingView) {
             [CPProcessManager stopProcess:REMOVING_PASS_CELL_PROCESS withPreparation:^{
                 CGPoint translation = [panGesture translationInView:panGesture.view];
-                if ((self.removingDirection == REMOVING_DIRECTION_HORIZONTAL && abs(translation.x) >= self.passCellView.bounds.size.width / 2)
-                    || (self.removingDirection == REMOVING_DIRECTION_VERTICAL && abs(translation.y) >= self.passCellView.bounds.size.height / 2)) {
+                if ((self.removingDirection == CPPassCellRemovingDirectionHorizontal && abs(translation.x) >= self.passCellView.bounds.size.width / 2)
+                    || (self.removingDirection == CPPassCellRemovingDirectioVertical && abs(translation.y) >= self.passCellView.bounds.size.height / 2)) {
                     if ([[CPPassDataManager defaultManager] canToggleRemoveStateOfPasswordAtIndex:self.index]) {
                         float constant = 0;
                         switch (self.removingDirection) {
-                            case REMOVING_DIRECTION_HORIZONTAL:
+                            case CPPassCellRemovingDirectionHorizontal:
                                 constant = translation.x >= 0 ? self.passCellView.bounds.size.width : -self.passCellView.bounds.size.width;
                                 break;
-                            case REMOVING_DIRECTION_VERTICAL:
+                            case CPPassCellRemovingDirectioVertical:
                                 constant = translation.y >= 0 ? self.passCellView.bounds.size.height : -self.passCellView.bounds.size.height;
                                 break;
                             default:
-                                NSAssert(NO, @"");
+                                NSAssert(NO, @"Unknown removing direction!");
                                 break;
                         }
                         [CPAppearanceManager animateWithDuration:0.3 animations:^{
@@ -358,7 +372,7 @@ enum REMOVING_DIRECTION {
     }
 }
 
-#pragma - mark mark lazy init
+#pragma mark - lazy init
 
 - (UIView *)passCellView {
     if (!_passCellView) {
@@ -430,16 +444,14 @@ enum REMOVING_DIRECTION {
 
 - (UIImageView *)removingIcon1 {
     if (!_removingIcon1) {
-        _removingIcon1 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.password.reversedIcon]];
-        _removingIcon1.translatesAutoresizingMaskIntoConstraints = NO;
+        _removingIcon1 = [self makeRemovingIcon];
     }
     return _removingIcon1;
 }
 
 - (UIImageView *)removingIcon2 {
     if (!_removingIcon2) {
-        _removingIcon2 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.password.reversedIcon]];
-        _removingIcon2.translatesAutoresizingMaskIntoConstraints = NO;
+        _removingIcon2 = [self makeRemovingIcon];
     }
     return _removingIcon2;
 }
@@ -447,20 +459,20 @@ enum REMOVING_DIRECTION {
 - (NSArray *)removingIconConstraints {
     if (!_removingIconConstraints) {
         switch (self.removingDirection) {
-            case REMOVING_DIRECTION_HORIZONTAL:
+            case CPPassCellRemovingDirectionHorizontal:
                 _removingIconConstraints = [NSArray arrayWithObjects:
                                             [CPAppearanceManager constraintWithView:self.removingIconContainer1 attribute:NSLayoutAttributeRight alignToView:self.iconView attribute:NSLayoutAttributeLeft],
                                             [CPAppearanceManager constraintWithView:self.removingIconContainer2 attribute:NSLayoutAttributeLeft alignToView:self.iconView attribute:NSLayoutAttributeRight],
                                             nil];
                 break;
-            case REMOVING_DIRECTION_VERTICAL:
+            case CPPassCellRemovingDirectioVertical:
                 _removingIconConstraints = [NSArray arrayWithObjects:
                                             [CPAppearanceManager constraintWithView:self.removingIconContainer1 attribute:NSLayoutAttributeBottom alignToView:self.iconView attribute:NSLayoutAttributeTop],
                                             [CPAppearanceManager constraintWithView:self.removingIconContainer2 attribute:NSLayoutAttributeTop alignToView:self.iconView attribute:NSLayoutAttributeBottom],
                                             nil];
                 break;
             default:
-                NSAssert(NO, @"");
+                NSAssert(NO, @"Unknown removing direction!");
                 break;
         }
     }
@@ -470,20 +482,14 @@ enum REMOVING_DIRECTION {
 - (UILabel *)removingLabel1 {
     if (!_removingLabel1) {
         // TODO: Adjust font of pass cell removing label.        
-        _removingLabel1 = [[UILabel alloc] init];
-        _removingLabel1.textColor = [UIColor whiteColor];
-        _removingLabel1.backgroundColor = [UIColor clearColor];
-        _removingLabel1.translatesAutoresizingMaskIntoConstraints = NO;
+        _removingLabel1 = [self makeRemovingLabel];
     }
     return _removingLabel1;
 }
 
 - (UILabel *)removingLabel2 {
     if (!_removingLabel2) {
-        _removingLabel2 = [[UILabel alloc] init];
-        _removingLabel2.textColor = [UIColor whiteColor];
-        _removingLabel2.backgroundColor = [UIColor clearColor];
-        _removingLabel2.translatesAutoresizingMaskIntoConstraints = NO;
+        _removingLabel2 = [self makeRemovingLabel];
     }
     return _removingLabel2;
 }
@@ -491,13 +497,13 @@ enum REMOVING_DIRECTION {
 - (NSArray *)removingLabelConstraints {
     if (!_removingLabelConstraints) {
         switch (self.removingDirection) {
-            case REMOVING_DIRECTION_HORIZONTAL:
+            case CPPassCellRemovingDirectionHorizontal:
                 _removingLabelConstraints = [NSArray arrayWithObjects:
                                              [NSLayoutConstraint constraintWithItem:self.removingLabel1 attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE],
                                              [NSLayoutConstraint constraintWithItem:self.removingLabel2 attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeRight multiplier:1.0 constant:PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE],
                                              nil];
                 break;
-            case REMOVING_DIRECTION_VERTICAL:
+            case CPPassCellRemovingDirectioVertical:
                 _removingLabelConstraints = [NSArray arrayWithObjects:
                                              [NSLayoutConstraint constraintWithItem:self.removingLabel1 attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeTop multiplier:1.0 constant:-PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE],
                                              [NSLayoutConstraint constraintWithItem:self.removingLabel2 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.iconView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE],

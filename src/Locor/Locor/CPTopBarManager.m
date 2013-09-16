@@ -266,7 +266,7 @@
 
 - (CPMemoCollectionViewManager *)resultMemoCollectionViewManager {
     if (!_resultMemoCollectionViewManager) {
-        _resultMemoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:self.superview frontLayer:self.frontResultContainer backLayer:self.backResultContainer style:CPMemoCollectionViewStyleSearch andDelegate:nil];
+        _resultMemoCollectionViewManager = [[CPMemoCollectionViewManager alloc] initWithSuperview:self.superview frontLayer:self.frontResultContainer backLayer:self.backResultContainer andDelegate:nil];
     }
     return _resultMemoCollectionViewManager;
 }
@@ -281,7 +281,6 @@
 
 - (CPSettingsManager *)settingsManager {
     if (!_settingsManager) {
-        NSAssert(self.superview, @"");
         _settingsManager = [[CPSettingsManager alloc] initWithSuperview:self.settingsContainer andDelegate:self];
     }
     return _settingsManager;

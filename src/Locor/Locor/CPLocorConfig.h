@@ -11,8 +11,11 @@
 #ifndef _CPLOCORCONFIG_h_
 #define _CPLOCORCONFIG_h_
 
+
 #define COPY_PASSWORD_TAP_NUMBER                       2
 #define EDITING_TAP_NUMBER                             1
+
+#define HELP_PAGE_DELAY_TIME                           3.0
 
 #define ICON_PICKER_ANIMATION_FRAME_PER_SECOND         50
 #define ICON_PICKER_ANIMATION_SPEED_MULTIPLIER         5.0
@@ -30,6 +33,7 @@
 #define PASS_GRID_ROW_COUNT                            3
 
 #define WATER_MARK_ALPHA                               0.7
+
 
 #define BAR_HEIGHT                              DEVICE_RELATED_OBJ(36.0, 44.0)
 
@@ -56,5 +60,6 @@
 #define PASS_EDIT_VIEW_CELL_SIZE                DEVICE_RELATED_OBJ(75.0, 150.0)
 
 #define PASS_GRID_HORIZONTAL_INDENT             DEVICE_RELATED_OBJ(23.0, 0.0)
+
 
 #endif

@@ -36,11 +36,9 @@
 
 @implementation CPHelpManager
 
-static const NSTimeInterval PAGE_DELAY_TIME = 3.0;
-
 - (void)loadAnimated:(BOOL)animated {
     [self createViews];
-    [self performSelector:@selector(autoScrollToNextPage) withObject:nil afterDelay:PAGE_DELAY_TIME];
+    [self performSelector:@selector(autoScrollToNextPage) withObject:nil afterDelay:HELP_PAGE_DELAY_TIME];
 }
 
 - (void)unloadAnimated:(BOOL)animated {
@@ -115,7 +113,7 @@ static const NSTimeInterval PAGE_DELAY_TIME = 3.0;
         int nextPage = (self.pageControl.currentPage + 1) % self.pageControl.numberOfPages;
         [self.scrollView setContentOffset:CGPointMake(nextPage * self.scrollView.bounds.size.width, 0) animated:YES];
         
-        [self performSelector:@selector(autoScrollToNextPage) withObject:nil afterDelay:PAGE_DELAY_TIME];
+        [self performSelector:@selector(autoScrollToNextPage) withObject:nil afterDelay:HELP_PAGE_DELAY_TIME];
     }
 }
 

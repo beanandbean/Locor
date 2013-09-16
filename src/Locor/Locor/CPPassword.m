@@ -31,19 +31,19 @@ static const CGFloat DEFAULT_COLORS[] = {
 @dynamic icon;
 @dynamic memos;
 
-- (UIColor *)color {
+- (UIColor *)realColor {
     return [[UIColor alloc] initWithRed:DEFAULT_COLORS[self.colorIndex.intValue * 3] green:DEFAULT_COLORS[self.colorIndex.intValue * 3 + 1] blue:DEFAULT_COLORS[self.colorIndex.intValue * 3 + 2] alpha:1.0];
 }
 
 - (UIColor *)displayColor {
-    return self.isUsed.boolValue ? self.color : [[UIColor alloc] initWithRed:0.7 green:0.7 blue:0.7 alpha:1.0];
+    return self.isUsed.boolValue ? self.realColor : [[UIColor alloc] initWithRed:0.7 green:0.7 blue:0.7 alpha:1.0];
 }
 
 - (UIColor *)reversedColor {
-    return self.isUsed.boolValue ? [[UIColor alloc] initWithRed:0.7 green:0.7 blue:0.7 alpha:1.0] : self.color;
+    return self.isUsed.boolValue ? [[UIColor alloc] initWithRed:0.7 green:0.7 blue:0.7 alpha:1.0] : self.realColor;
 }
 
-- (NSString *)trueIcon {
+- (NSString *)realIcon {
     return DEVICE_RELATED_PNG(self.icon);
 }
 

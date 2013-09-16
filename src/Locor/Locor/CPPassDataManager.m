@@ -8,12 +8,18 @@
 
 #import "CPPassDataManager.h"
 
+#import "CPHelperMacros.h"
+
 #import "CPMemo.h"
 #import "CPPassword.h"
 
 #import "CPNotificationCenter.h"
 
 //#define AUTO_ADD_NEW_MEMOS
+
+static const char *DEFAULT_ICONS[] = {"aries", "taurus", "gemini", "cancer", "leo", "virgo", "libra", "scorpio", "sagittarius"};
+
+static NSString *PASSWORD_CACHE_NAME = @"PasswordCache";
 
 @interface CPPassDataManager ()
 
@@ -27,28 +33,26 @@
 
 @implementation CPPassDataManager
 
-static CPPassDataManager *_defaultManager = nil;
-
-static NSString *_passwordCacheName = @"PasswordCache";
+static CPPassDataManager *defaultManager = nil;
 
 + (CPPassDataManager *)defaultManager {
-    if (!_defaultManager) {
-        _defaultManager = [[CPPassDataManager alloc] init];
+    if (!defaultManager) {
+        defaultManager = [[CPPassDataManager alloc] init];
         
 #ifdef AUTO_ADD_NEW_MEMOS
-        [_defaultManager addMemoText:@"Hello" intoIndex:0];
-        [_defaultManager addMemoText:@"Hello" intoIndex:1];
-        [_defaultManager addMemoText:@"Hello" intoIndex:2];
-        [_defaultManager addMemoText:@"Hello" intoIndex:3];
-        [_defaultManager addMemoText:@"Hello" intoIndex:4];
-        [_defaultManager addMemoText:@"Hello" intoIndex:5];
-        [_defaultManager addMemoText:@"Hello" intoIndex:6];
-        [_defaultManager addMemoText:@"Hello" intoIndex:7];
-        [_defaultManager addMemoText:@"Hello" intoIndex:8];
+        [defaultManager addMemoText:@"Hello" intoIndex:0];
+        [defaultManager addMemoText:@"Hello" intoIndex:1];
+        [defaultManager addMemoText:@"Hello" intoIndex:2];
+        [defaultManager addMemoText:@"Hello" intoIndex:3];
+        [defaultManager addMemoText:@"Hello" intoIndex:4];
+        [defaultManager addMemoText:@"Hello" intoIndex:5];
+        [defaultManager addMemoText:@"Hello" intoIndex:6];
+        [defaultManager addMemoText:@"Hello" intoIndex:7];
+        [defaultManager addMemoText:@"Hello" intoIndex:8];
 #endif
         
     }
-    return _defaultManager;
+    return defaultManager;
 }
 
 - (NSFetchedResultsController *)passwordsController {
@@ -56,20 +60,17 @@ static NSString *_passwordCacheName = @"PasswordCache";
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         request.entity = [NSEntityDescription entityForName:@"Password" inManagedObjectContext:self.managedObjectContext];
         request.sortDescriptors = [[NSArray alloc] initWithObjects:[[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES], nil];
-        _passwordsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:_passwordCacheName];
+        _passwordsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:PASSWORD_CACHE_NAME];
         [_passwordsController performFetch:nil];
         
         if (!_passwordsController.fetchedObjects.count) {
-            // TODO: The third and last two colors for cells are too similar, so they need to be changed.
-            NSArray *defaultIcons = [NSArray arrayWithObjects:@"aries", @"taurus", @"gemini", @"cancer", @"leo", @"virgo", @"libra", @"scorpio", @"sagittarius", nil];
-            
             for (NSUInteger index = 0; index < 9; index++) {
                 CPPassword *password = [NSEntityDescription insertNewObjectForEntityForName:@"Password" inManagedObjectContext:self.managedObjectContext];
                 password.index = [NSNumber numberWithUnsignedInteger:index];
                 password.isUsed = [NSNumber numberWithBool:NO];
                 password.text = @"";
                 password.colorIndex = [NSNumber numberWithInt:index];
-                password.icon = [defaultIcons objectAtIndex:index];
+                password.icon = CSTR_TO_OBJC(DEFAULT_ICONS[index]);
             }
             [_passwordsController performFetch:nil];
         }

@@ -17,11 +17,11 @@
 @property (nonatomic, retain) NSString *icon;
 @property (nonatomic, retain) NSSet *memos;
 
-- (UIColor *)color;
+- (UIColor *)realColor;
 - (UIColor *)displayColor;
 - (UIColor *)reversedColor;
 
-- (NSString *)trueIcon;
+- (NSString *)realIcon;
 - (NSString *)displayIcon;
 - (NSString *)reversedIcon;
 

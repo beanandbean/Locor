@@ -8,11 +8,6 @@
 
 #import "CPMemo.h"
 
-typedef enum {
-    CPMemoCollectionViewStyleSearch,
-    CPMemoCollectionViewStyleInPassCell
-} CPMemoCollectionViewStyle;
-
 @class CPMemoCell;
 
 @protocol CPMemoCollectionViewManagerDelegate <NSObject>
@@ -39,7 +34,7 @@ typedef enum {
 @property (strong, nonatomic) UIView *textFieldContainer;
 @property (strong, nonatomic) NSArray *textFieldContainerConstraints;
 
-- (id)initWithSuperview:(UIView *)superview frontLayer:(UIView *)frontLayer backLayer:(UIView *)backLayer style:(CPMemoCollectionViewStyle)style andDelegate:(id<CPMemoCollectionViewManagerDelegate>)delegate;
+- (id)initWithSuperview:(UIView *)superview frontLayer:(UIView *)frontLayer backLayer:(UIView *)backLayer andDelegate:(id<CPMemoCollectionViewManagerDelegate>)delegate;
 
 - (void)showMemoCollectionViewAnimated;
 

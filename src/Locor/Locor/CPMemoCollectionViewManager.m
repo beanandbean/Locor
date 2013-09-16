@@ -20,6 +20,7 @@
 #import "CPPassword.h"
 
 #import "CPProcessManager.h"
+#import "CPEditingPassCellProcess.h"
 #import "CPScrollingCollectionViewProcess.h"
 #import "CPRemovingMemoCellProcess.h"
 
@@ -31,8 +32,6 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING = @"removing-cell";
 static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-background";
 
 @interface CPMemoCollectionViewManager ()
-
-@property (nonatomic) CPMemoCollectionViewStyle style;
 
 @property (weak, nonatomic) UIView *superview;
 
@@ -68,11 +67,6 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
     collectionView.dataSource = self;
     collectionView.delegate = self;
     
-    [collectionView registerClass:[CPMemoCell class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_NORMAL];
-    [collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_NORMAL_BACKGROUND];
-    [collectionView registerClass:[CPMemoCellRemoving class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_REMOVING];
-    [collectionView registerClass:[CPMemoCellRemovingBackground class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND];
-    
     [collectionView addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)]];
     return collectionView;
 }
@@ -80,6 +74,9 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
 - (UICollectionView *)frontCollectionView {
     if (!_frontCollectionView) {
         _frontCollectionView = [self makeCollectionView];
+        
+        [_frontCollectionView registerClass:[CPMemoCell class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_NORMAL];
+        [_frontCollectionView registerClass:[CPMemoCellRemoving class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_REMOVING];
     }
     return _frontCollectionView;
 }
@@ -87,6 +84,9 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
 - (UICollectionView *)backCollectionView {
     if (!_backCollectionView) {
         _backCollectionView = [self makeCollectionView];
+        
+        [_backCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_NORMAL_BACKGROUND];
+        [_backCollectionView registerClass:[CPMemoCellRemovingBackground class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND];
     }
     return _backCollectionView;
 }
@@ -142,10 +142,9 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
     [self reloadCollectionData];
 }
 
-- (id)initWithSuperview:(UIView *)superview frontLayer:(UIView *)frontLayer backLayer:(UIView *)backLayer style:(CPMemoCollectionViewStyle)style andDelegate:(id<CPMemoCollectionViewManagerDelegate>)delegate {
+- (id)initWithSuperview:(UIView *)superview frontLayer:(UIView *)frontLayer backLayer:(UIView *)backLayer andDelegate:(id<CPMemoCollectionViewManagerDelegate>)delegate {
     self = [super init];
     if (self) {
-        self.style = style;
         self.memos = [NSArray array];
         self.delegate = delegate;
         self.superview = superview;
@@ -268,7 +267,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
             } else {
                 self.collectionViewOffsetBeforeEdit = nil;
                 [CPProcessManager startProcess:SCROLLING_COLLECTION_VIEW_PROCESS withPreparation:^{
-                    if (self.style == CPMemoCollectionViewStyleInPassCell) {
+                    if (IS_IN_PROCESS(EDITING_PASS_CELL_PROCESS)) {
                         self.draggingBasicOffset = CGPointMake(self.frontCollectionView.contentOffset.x, self.frontCollectionView.contentOffset.y + MEMO_CELL_HEIGHT + BOX_SEPARATOR_SIZE);
                     } else {
                         self.draggingBasicOffset = self.frontCollectionView.contentOffset;
@@ -284,7 +283,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
             CGPoint offset = CGPointMake(self.draggingBasicOffset.x, self.draggingBasicOffset.y - translation.y);
             [self setCollectionOffset:offset animated:NO];
             
-            if (self.style == CPMemoCollectionViewStyleInPassCell) {
+            if (IS_IN_PROCESS(EDITING_PASS_CELL_PROCESS)) {
                 CPMemoCell *addingCell = (CPMemoCell *)[self.frontCollectionView cellForItemAtIndexPath:NS_INDEX_PATH_ZERO];
                 if (addingCell && offset.y < 30.0) {
                     addingCell.label.text = @"Release to add a new memo";
@@ -325,7 +324,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
             CGPoint offset = CGPointMake(self.draggingBasicOffset.x, self.draggingBasicOffset.y - translation.y);
             float contentHeight = MAX(self.frontCollectionView.contentSize.height, self.frontCollectionView.frame.size.height);
             
-            if (self.style == CPMemoCollectionViewStyleInPassCell) {
+            if (IS_IN_PROCESS(EDITING_PASS_CELL_PROCESS)) {
                 if (offset.y < 30.0) {
                     self.addingCellIndex = NS_INDEX_PATH_ZERO;
                     [self.memos insertObject:[self.delegate newMemo] atIndex:0];
@@ -338,7 +337,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
             [self reloadCollectionData];
             
             // This code is strange. I don't know why it works but it indeed works and it will fail without the second line.
-            // The strange thing happens only when the style is InPassCell (that means I have to add a line to the top of collection view writting "Drag to add" and I have to adjust the offset so when it starts dragging the first line won't suddenly jump out, and the several lines before this is to fix the offset change when the top line is removed. The next two lines are used to fix the offest after I fix the offset change.)
+            // The strange thing happens only when in editing pass cell process (that means I have to add a line to the top of collection view writting "Drag to add" and I have to adjust the offset so when it starts dragging the first line won't suddenly jump out, and the several lines before this is to fix the offset change when the top line is removed. The next two lines are used to fix the offest after I fix the offset change.)
             // When you drag the last cell up too high and it need to fall back. This two lines fix it high up there and the following if-statement creates an animation to let it fall back. However, if I don't write the second line, the front collection view will simply fall back down without animation instead of stay high up. When the second line is added, the effect turns out to be what I want.
             // I hope somebody can find out what is happening and why I need to set frontCollectionView's offset twice.
             [self setCollectionOffset:offset animated:NO];
@@ -406,7 +405,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
 #pragma mark - UICollectionViewDataSource implement
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (IS_IN_PROCESS(SCROLLING_COLLECTION_VIEW_PROCESS) && self.style == CPMemoCollectionViewStyleInPassCell) {
+    if (IS_IN_PROCESS(SCROLLING_COLLECTION_VIEW_PROCESS) && IS_IN_PROCESS(EDITING_PASS_CELL_PROCESS)) {
         return self.memos.count + 1;
     } else {
         return self.memos.count;
@@ -439,7 +438,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
             cell.label.backgroundColor = [UIColor clearColor];
             cell.label.textColor = [UIColor whiteColor];
             
-            if (IS_IN_PROCESS(SCROLLING_COLLECTION_VIEW_PROCESS) && self.style == CPMemoCollectionViewStyleInPassCell) {
+            if (IS_IN_PROCESS(SCROLLING_COLLECTION_VIEW_PROCESS) && IS_IN_PROCESS(EDITING_PASS_CELL_PROCESS)) {
                 if (indexPath.section == 0 && indexPath.row == 0) {
                     cell.label.text = @"Drag to add a new memo";
                 } else {
@@ -467,7 +466,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
             
             self.backRemovingCell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND forIndexPath:indexPath];
             
-            self.backRemovingCell.color = ((CPMemo *)[self.memos objectAtIndex:indexPath.row]).password.color;
+            self.backRemovingCell.color = ((CPMemo *)[self.memos objectAtIndex:indexPath.row]).password.realColor;
             
             initializedCell = self.backRemovingCell;
         } else {
@@ -475,7 +474,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
             
             CPMemo *memo;
             
-            if (IS_IN_PROCESS(SCROLLING_COLLECTION_VIEW_PROCESS) && self.style == CPMemoCollectionViewStyleInPassCell) {
+            if (IS_IN_PROCESS(SCROLLING_COLLECTION_VIEW_PROCESS) && IS_IN_PROCESS(EDITING_PASS_CELL_PROCESS)) {
                 if (indexPath.row == 0) {
                     initializedCell.backgroundColor = self.inPasswordMemoColor;
                 } else {
@@ -486,7 +485,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
             }
             
             if (memo) {
-                initializedCell.backgroundColor = memo.password.color;
+                initializedCell.backgroundColor = memo.password.realColor;
             }
         }
     }

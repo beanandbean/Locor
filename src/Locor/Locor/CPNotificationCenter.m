@@ -24,18 +24,18 @@
 
 @implementation CPNotificationCenter
 
-static CPNotificationCenter *_center;
+static CPNotificationCenter *center;
 
 + (void)insertNotification:(NSString *)notification {
-    NSAssert(_center, @"");
-    [_center insertNotification:notification];
+    NSAssert(center, @"Notification center not initialized!");
+    [center insertNotification:notification];
 }
 
 - (id)initWithSupermanager:(CPViewManager *)supermanager andSuperview:(UIView *)superview {
     self = [super initWithSupermanager:supermanager andSuperview:superview];
     if (self) {
-        NSAssert(!_center, @"Can only create one notification center");
-        _center = self;
+        NSAssert(!center, @"Can only create one notification center");
+        center = self;
         self.bottomHeight = -BOX_SEPARATOR_SIZE;
         self.forceRemovedCount = 0;
     }
