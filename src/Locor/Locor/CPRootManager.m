@@ -36,11 +36,15 @@
 
 - (void)submanagerDidUnload:(CPViewManager *)submanager {
     if (submanager == self.helpManager) {
-        [self.helpView removeFromSuperview];
-        self.helpView = nil;
-        self.helpManager = nil;
-        
-        [self.mainViewManager loadAnimated:YES];
+        [self.mainViewManager loadAnimated:NO];
+        [self.superview bringSubviewToFront:self.helpView];
+        [CPAppearanceManager animateWithDuration:0.5 animations:^{
+            self.helpView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [self.helpView removeFromSuperview];
+            self.helpView = nil;
+            self.helpManager = nil;
+        }];
     }
 }
 

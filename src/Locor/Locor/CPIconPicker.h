@@ -6,13 +6,15 @@
 //  Copyright (c) 2013 beanandbean. All rights reserved.
 //
 
+#import "CPMainViewController.h"
+
 @protocol CPIconPickerDelegate <NSObject>
 
 - (void)iconSelected:(NSString *)iconName;
 
 @end
 
-@interface CPIconPicker : UIView
+@interface CPIconPicker : UIView <CPDeviceRotateObserver>
 
 - (id)initWithDelegate:(id<CPIconPickerDelegate>)delegate;
 

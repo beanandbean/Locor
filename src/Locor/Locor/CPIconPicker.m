@@ -40,11 +40,17 @@ static float FULL_WIDTH, DRAG_MULTIPLIER;
         
         [self addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panOnItems:)]];
         
+        [CPMainViewController registerDeviceRotateObserver:self];
+        
         // CONSTANTS that are related to device idiom and cannot be determined at compile-time:
         FULL_WIDTH = ICON_PICKER_ITEM_COUNT * ICON_PICKER_ITEM_MAX_SIZE;
         DRAG_MULTIPLIER = 1 / ICON_PICKER_ITEM_POSITION_MULTIPLIER; // A test shows that the following formula determines the best drag multiplier
     }
     return self;
+}
+
+- (void)dealloc {
+    [CPMainViewController removeDeviceRotateObserver:self];
 }
 
 - (void)setStartIcon:(NSString *)iconName {
@@ -161,6 +167,12 @@ static float FULL_WIDTH, DRAG_MULTIPLIER;
             [iconImage drawInRect:rect blendMode:kCGBlendModeNormal alpha:powf(1 - ratio, ICON_PICKER_ITEM_ALPHA_EXPONENT)];
         }
     }
+}
+
+#pragma mark - CPDeviceRotateObserver implement
+
+- (void)deviceWillRotateToOrientation:(UIInterfaceOrientation)orientation {
+    [self setNeedsDisplay];
 }
 
 @end

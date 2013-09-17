@@ -1182,7 +1182,7 @@ S'When search bar is focused, stop if being currently editing memo cells in pass
 p477
 sS'detail'
 p478
-S'TODO grabbed from src/Locor/Locor/CPTopBarManager.m, line 145.'
+S'TODO grabbed from src/Locor/Locor/CPTopBarManager.m, line 146.'
 p479
 sS'exported'
 p480

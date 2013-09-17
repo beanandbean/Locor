@@ -32,12 +32,16 @@
 #define PASS_GRID_COLUMN_COUNT                         3
 #define PASS_GRID_ROW_COUNT                            3
 
+#define SETTINGS_BUTTON_ANIMATION_BOUNCE_MULTIPLIER    2.0
+#define SETTINGS_BUTTON_ANIMATION_TIME_STEP            0.1
+#define SETTINGS_BUTTON_COUNT                          3
+
 #define WATER_MARK_ALPHA                               0.7
 
 
 #define BAR_HEIGHT                              DEVICE_RELATED_OBJ(36.0, 44.0)
 
-#define BOX_SEPARATOR_SIZE                      DEVICE_RELATED_OBJ(8.0,  12.0)
+#define BOX_SEPARATOR_SIZE                      DEVICE_RELATED_OBJ(8.0, 12.0)
 
 #define HELP_BUTTON_VIEW_HEIGHT                 DEVICE_RELATED_OBJ(60.0, 60.0)
 #define HELP_PAGE_CONTROL_HEIGHT                DEVICE_RELATED_OBJ(44.0, 44.0)
@@ -56,7 +60,7 @@
 
 #define NOTIFICATION_FONT_SIZE                  DEVICE_RELATED_OBJ(15.0, 30.0)
 
-#define PASS_EDIT_VIEW_BORDER_WIDTH             DEVICE_RELATED_OBJ(8.0,  12.0)
+#define PASS_EDIT_VIEW_BORDER_WIDTH             DEVICE_RELATED_OBJ(8.0, 12.0)
 #define PASS_EDIT_VIEW_CELL_SIZE                DEVICE_RELATED_OBJ(75.0, 150.0)
 
 #define PASS_GRID_HORIZONTAL_INDENT             DEVICE_RELATED_OBJ(23.0, 0.0)

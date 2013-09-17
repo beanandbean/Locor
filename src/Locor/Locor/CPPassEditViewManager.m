@@ -14,8 +14,6 @@
 #import "CPCoverImageView.h"
 #import "CPIconPicker.h"
 
-//#import "CPPassGridManager.h"
-
 #import "CPBarButtonManager.h"
 
 #import "CPPassDataManager.h"
@@ -79,7 +77,9 @@
         self.outerView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.superview addSubview:self.outerView];
         
-        [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.outerView edgesAlignToView:self.superview]];
+        [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.outerView alignToView:self.superview attribute:NSLayoutAttributeTop, NSLayoutAttributeBottom, ATTR_END]];
+        [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.outerView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toPosition:CPStandardMarginEdgeLeft]];
+        [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.outerView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toPosition:CPStandardMarginEdgeRight]];
         
         // - Back And Front Layers Initialization
         
@@ -96,7 +96,7 @@
         UIView *frontLayer = [[UIView alloc] init];
         frontLayer.translatesAutoresizingMaskIntoConstraints = NO;
         [self.outerView addSubview:frontLayer];
-        [self.outerView addConstraints:[CPAppearanceManager constraintsWithView:frontLayer edgesAlignToView:self.outerView]];
+        [self.superview addConstraints:[CPAppearanceManager constraintsWithView:frontLayer edgesAlignToView:backLayer]];
         
         // - Top Cell Initialization
         
@@ -131,10 +131,10 @@
         self.passwordTextFieldBackground.translatesAutoresizingMaskIntoConstraints = NO;
         [backLayer addSubview:self.passwordTextFieldBackground];
         
-        NSLayoutConstraint *textFieldBackgroundRightConstraint = [NSLayoutConstraint constraintWithItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:0.0];
-        [backLayer addConstraint:textFieldBackgroundRightConstraint];
+        NSLayoutConstraint *textFieldBackgroundWidthConstraint = [NSLayoutConstraint constraintWithItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:0.0];
+        [backLayer addConstraint:textFieldBackgroundWidthConstraint];
         
-        [backLayer addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:backLayer attribute:NSLayoutAttributeLeft multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
+        [backLayer addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:backLayer attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
         [backLayer addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.cellBackground attribute:NSLayoutAttributeBottom multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
         [backLayer addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:MEMO_CELL_HEIGHT]];
         
@@ -158,8 +158,8 @@
         
         [frontLayer addSubview:self.passwordTextField];
         
-        [self.outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeLeft multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
-        [self.outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeRight multiplier:1.0 constant:-BOX_SEPARATOR_SIZE]];
+        [self.outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeLeft multiplier:1.0 constant:10.0]];
+        [self.outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeRight multiplier:1.0 constant:-10.0]];
         [self.outerView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
                 
         // - Memo Collection View Initialization
@@ -236,8 +236,8 @@
         
         // - Text Field Animations
         [CPAppearanceManager animateWithDuration:0.4 delay:0.3 options:0 animations:^{
-            [backLayer removeConstraint:textFieldBackgroundRightConstraint];
-            [backLayer addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:backLayer attribute:NSLayoutAttributeRight multiplier:1.0 constant:-BOX_SEPARATOR_SIZE]];
+            [backLayer removeConstraint:textFieldBackgroundWidthConstraint];
+            [backLayer addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextFieldBackground attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:backLayer attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
             [backLayer layoutIfNeeded];
         } completion:nil];
         

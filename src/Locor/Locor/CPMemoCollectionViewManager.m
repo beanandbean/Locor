@@ -56,8 +56,8 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
 @implementation CPMemoCollectionViewManager
 
 - (UICollectionView *)makeCollectionView {
+    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.sectionInset = UIEdgeInsetsMake(0.0, BOX_SEPARATOR_SIZE, 0.0, BOX_SEPARATOR_SIZE);
     layout.minimumLineSpacing = BOX_SEPARATOR_SIZE;
     
     UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
@@ -390,8 +390,6 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
     }
 }
 
-#pragma mark - CPMemoCellDelegate implement
-
 - (void)memoCellAtIndexPath:(NSIndexPath *)indexPath updateText:(NSString *)text {
     NSAssert(indexPath, @"No memo cell index path specified when updating memo cell text!");
     NSAssert(text, @"No text specified when updating memo cell text!");
@@ -504,7 +502,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
 #pragma mark - UICollectionViewDelegateFlowLayout implement
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(self.frontCollectionView.frame.size.width - BOX_SEPARATOR_SIZE * 2, MEMO_CELL_HEIGHT);
+    return CGSizeMake(self.frontCollectionView.frame.size.width, MEMO_CELL_HEIGHT);
 }
 
 #pragma mark - UIScrollViewDelegate implement

@@ -24,11 +24,17 @@ static UIImage *coverImage;
     
     self = [super initWithImage:coverImage];
     if (self) {
-        [self deviceWillRotateToOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+        self.transform = CGAffineTransformMakeRotation(ORIENTATION_RELATED_OBJ(M_PI_2, 0));
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.alpha = WATER_MARK_ALPHA;
+        
+        [CPMainViewController registerDeviceRotateObserver:self];
     }
     return self;
+}
+
+- (void)dealloc {
+    [CPMainViewController removeDeviceRotateObserver:self];
 }
 
 - (NSArray *)positioningConstraints {
@@ -38,12 +44,10 @@ static UIImage *coverImage;
             nil];
 }
 
+#pragma mark - CPDeviceRotateObserver implement
+
 - (void)deviceWillRotateToOrientation:(UIInterfaceOrientation)orientation {
-    if (UIInterfaceOrientationIsLandscape(orientation)) {
-        self.transform = CGAffineTransformMakeRotation(M_PI_2);
-    } else {
-        self.transform = CGAffineTransformMakeRotation(0);
-    }
+    self.transform = CGAffineTransformMakeRotation(SPECIFIED_ORIENTATION_RELATED_OBJ(orientation, M_PI_2, 0));
 }
 
 @end
