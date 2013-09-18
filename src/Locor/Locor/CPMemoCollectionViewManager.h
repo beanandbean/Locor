@@ -8,6 +8,9 @@
 
 #import "CPMemo.h"
 
+#import "CPMainViewController.h"
+#import "CPAdManager.h"
+
 @class CPMemoCell;
 
 @protocol CPMemoCollectionViewManagerDelegate <NSObject>
@@ -16,7 +19,7 @@
 
 @end
 
-@interface CPMemoCollectionViewManager : NSObject <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
+@interface CPMemoCollectionViewManager : NSObject <CPAdResizingObserver, CPDeviceRotateObserver, UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) id<CPMemoCollectionViewManagerDelegate> delegate;
 

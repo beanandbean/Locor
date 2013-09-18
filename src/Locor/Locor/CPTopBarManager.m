@@ -253,6 +253,7 @@
 - (UIView *)backResultContainer {
     if (!_backResultContainer) {
         _backResultContainer = [[UIView alloc] init];
+        _backResultContainer.backgroundColor = [UIColor clearColor];
         _backResultContainer.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _backResultContainer;

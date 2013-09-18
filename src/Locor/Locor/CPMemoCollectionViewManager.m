@@ -14,6 +14,8 @@
 #import "CPMemoCellRemoving.h"
 #import "CPMemoCellRemovingBackground.h"
 
+#import "CPMemoCollectionViewFlowLayout.h"
+
 #import "CPAppearanceManager.h"
 
 #import "CPPassDataManager.h"
@@ -56,11 +58,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
 @implementation CPMemoCollectionViewManager
 
 - (UICollectionView *)makeCollectionView {
-    
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.minimumLineSpacing = BOX_SEPARATOR_SIZE;
-    
-    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[CPMemoCollectionViewFlowLayout alloc] init]];
     collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     collectionView.backgroundColor = [UIColor clearColor];
     collectionView.showsHorizontalScrollIndicator = NO;
@@ -139,7 +137,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
 - (void)setMemos:(NSMutableArray *)memos {
     _memos = memos;
     [self endEditing];
-    [self reloadCollectionData];
+    [self reloadData];
 }
 
 - (id)initWithSuperview:(UIView *)superview frontLayer:(UIView *)frontLayer backLayer:(UIView *)backLayer andDelegate:(id<CPMemoCollectionViewManagerDelegate>)delegate {
@@ -158,6 +156,9 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
         [self.frontLayer addConstraints:self.textFieldContainerConstraints];
         [self.backLayer addConstraints:self.backCollectionViewConstraints];
         
+        [CPMainViewController registerDeviceRotateObserver:self];
+        [CPAdManager registerAdResizingObserver:self];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidUndock:) name:UIKeyboardDidChangeFrameNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
@@ -166,6 +167,9 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
 }
 
 - (void)dealloc {
+    [CPMainViewController removeDeviceRotateObserver:self];
+    [CPAdManager registerAdResizingObserver:self];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidChangeFrameNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
@@ -236,14 +240,20 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
     }
 }
 
-- (void)setCollectionOffset:(CGPoint)offset animated:(BOOL)animated {
+- (void)setOffset:(CGPoint)offset animated:(BOOL)animated {
     [self.frontCollectionView setContentOffset:offset animated:animated];
     [self.backCollectionView setContentOffset:offset animated:animated];
 }
 
-- (void)reloadCollectionData {
+- (void)reloadData {
     [self.frontCollectionView reloadData];
     [self.backCollectionView reloadData];
+}
+
+- (void)invalidateLayout {
+    [self endEditing];
+    [self.frontCollectionView.collectionViewLayout invalidateLayout];
+    [self.backCollectionView.collectionViewLayout invalidateLayout];
 }
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture {
@@ -262,7 +272,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
             if (fabsf(translation.x) > fabsf(translation.y) && panningCellIndex) {
                 [CPProcessManager startProcess:REMOVING_MEMO_CELL_PROCESS withPreparation:^{
                     self.frontRemovingCellIndex = self.backRemovingCellIndex = panningCellIndex;
-                    [self reloadCollectionData];
+                    [self reloadData];
                 }];
             } else {
                 self.collectionViewOffsetBeforeEdit = nil;
@@ -272,7 +282,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
                     } else {
                         self.draggingBasicOffset = self.frontCollectionView.contentOffset;
                     }
-                    [self reloadCollectionData];
+                    [self reloadData];
                 }];
             }
         }
@@ -281,7 +291,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
         }
         if (IS_IN_PROCESS(SCROLLING_COLLECTION_VIEW_PROCESS)) {
             CGPoint offset = CGPointMake(self.draggingBasicOffset.x, self.draggingBasicOffset.y - translation.y);
-            [self setCollectionOffset:offset animated:NO];
+            [self setOffset:offset animated:NO];
             
             if (IS_IN_PROCESS(EDITING_PASS_CELL_PROCESS)) {
                 CPMemoCell *addingCell = (CPMemoCell *)[self.frontCollectionView cellForItemAtIndexPath:NS_INDEX_PATH_ZERO];
@@ -301,7 +311,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
                 [CPAppearanceManager animateWithDuration:0.5 animations:^{
                     [self.superview layoutIfNeeded];
                 } completion:^(BOOL finished) {
-                    [self reloadCollectionData];
+                    [self reloadData];
                 }];
                 [CPAppearanceManager animateWithDuration:0.3 delay:0.2 options:0 animations:^{
                     self.frontRemovingCell.leftLabel.alpha = 0.0;
@@ -309,13 +319,14 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
                 } completion:nil];
             } else {
                 [CPAppearanceManager animateWithDuration:0.3 animations:^{
-                    self.frontRemovingCell.alpha = self.backRemovingCell.alpha = 0.0;
+                    self.frontRemovingCell.contentView.alpha = self.backRemovingCell.contentView.alpha = 0.0;
                 }completion:^(BOOL finished) {
-                    CPMemo *memo = [self.memos objectAtIndex:[self.frontCollectionView indexPathForCell:self.frontRemovingCell].row];
+                    NSIndexPath *removingIndex = [self.frontCollectionView indexPathForCell:self.frontRemovingCell];
+                    CPMemo *memo = [self.memos objectAtIndex:removingIndex.row];
                     [self.memos removeObject:memo];
                     [[CPPassDataManager defaultManager] removeMemo:memo];
-                    [self reloadCollectionData];
-                    // TODO: Improve animation for removing a memo cell.
+                    [self.frontCollectionView deleteItemsAtIndexPaths:[NSArray arrayWithObject:removingIndex]];
+                    [self.backCollectionView deleteItemsAtIndexPaths:[NSArray arrayWithObject:removingIndex]];
                 }];
             }
         }];
@@ -334,27 +345,29 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
                 }
             }
             
-            [self reloadCollectionData];
+            [self reloadData];
             
             // This code is strange. I don't know why it works but it indeed works and it will fail without the second line.
             // The strange thing happens only when in editing pass cell process (that means I have to add a line to the top of collection view writting "Drag to add" and I have to adjust the offset so when it starts dragging the first line won't suddenly jump out, and the several lines before this is to fix the offset change when the top line is removed. The next two lines are used to fix the offest after I fix the offset change.)
             // When you drag the last cell up too high and it need to fall back. This two lines fix it high up there and the following if-statement creates an animation to let it fall back. However, if I don't write the second line, the front collection view will simply fall back down without animation instead of stay high up. When the second line is added, the effect turns out to be what I want.
             // I hope somebody can find out what is happening and why I need to set frontCollectionView's offset twice.
-            [self setCollectionOffset:offset animated:NO];
+            [self setOffset:offset animated:NO];
             [self.frontCollectionView setContentOffset:offset animated:NO];
             
             if (offset.y < 0.0) {
                 offset.y = 0.0;
-                [self setCollectionOffset:offset animated:YES];
+                [self setOffset:offset animated:YES];
             } else if (offset.y > contentHeight - self.frontCollectionView.frame.size.height) {
                 offset.y = contentHeight - self.frontCollectionView.frame.size.height;
-                [self setCollectionOffset:offset animated:YES];
+                [self setOffset:offset animated:YES];
             }
         }];
     }
 }
 
 - (void)keyboardDidShow:(NSNotification *)notification {
+    // TODO: Scrolling to show editing memo cell isn't working properly when iPad is landscape.
+    
     if (!self.collectionViewOffsetBeforeEdit) {
         self.collectionViewOffsetBeforeEdit = [NSValue valueWithCGPoint:self.frontCollectionView.contentOffset];
     }
@@ -368,24 +381,24 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
             float transformedY = [self.frontCollectionView convertPoint:rect.origin fromView:nil].y;
             if (self.editingCell.frame.origin.y + self.editingCell.frame.size.height + BOX_SEPARATOR_SIZE > transformedY) {
                 CGPoint offsetPoint = CGPointMake(self.frontCollectionView.contentOffset.x, self.frontCollectionView.contentOffset.y + self.editingCell.frame.origin.y + self.editingCell.frame.size.height + BOX_SEPARATOR_SIZE - transformedY);
-                [self setCollectionOffset:offsetPoint animated:YES];
+                [self setOffset:offsetPoint animated:YES];
             }
         } else {
-            [self setCollectionOffset:self.collectionViewOffsetBeforeEdit.CGPointValue animated:YES];
+            [self setOffset:self.collectionViewOffsetBeforeEdit.CGPointValue animated:YES];
         }
     }
 }
 
 - (void)keyboardDidUndock:(NSNotification *)notification {
     if (self.collectionViewOffsetBeforeEdit) {
-        [self setCollectionOffset:self.collectionViewOffsetBeforeEdit.CGPointValue animated:YES];
+        [self setOffset:self.collectionViewOffsetBeforeEdit.CGPointValue animated:YES];
         self.collectionViewOffsetBeforeEdit = nil;
     }
 }
 
 - (void)keyboardDidHide:(NSNotification *)notification {
     if (self.collectionViewOffsetBeforeEdit && !self.editingCell) {
-        [self setCollectionOffset:self.collectionViewOffsetBeforeEdit.CGPointValue animated:YES];
+        [self setOffset:self.collectionViewOffsetBeforeEdit.CGPointValue animated:YES];
         self.collectionViewOffsetBeforeEdit = nil;
     }
 }
@@ -491,18 +504,24 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
     return initializedCell;
 }
 
+#pragma mark - CPAdResizingObserver implement
+
+- (void)adResizingDidAffectContent {
+    [self invalidateLayout];
+}
+
+#pragma mark - CPDeviceRotateObserver implement
+
+- (void)deviceWillRotateToOrientation:(UIInterfaceOrientation)orientation {
+    [self invalidateLayout];
+}
+
 #pragma mark - UICollectionViewDelegate implement
 
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     if ([(CPMemoCell *)cell isEditing]) {
         [(CPMemoCell *)cell endEditingAtIndexPath:indexPath];
     }
-}
-
-#pragma mark - UICollectionViewDelegateFlowLayout implement
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(self.frontCollectionView.frame.size.width, MEMO_CELL_HEIGHT);
 }
 
 #pragma mark - UIScrollViewDelegate implement

@@ -10,6 +10,16 @@
 
 #import "CPViewManager.h"
 
+@protocol CPAdResizingObserver <NSObject>
+
+- (void)adResizingDidAffectContent;
+
+@end
+
 @interface CPAdManager : CPViewManager <ADBannerViewDelegate>
+
++ (void)registerAdResizingObserver:(id<CPAdResizingObserver>)observer;
++ (void)removeAdResizingObserver:(id<CPAdResizingObserver>)observer;
+
 
 @end

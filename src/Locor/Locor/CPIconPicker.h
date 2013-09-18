@@ -7,6 +7,7 @@
 //
 
 #import "CPMainViewController.h"
+#import "CPAdManager.h"
 
 @protocol CPIconPickerDelegate <NSObject>
 
@@ -14,7 +15,7 @@
 
 @end
 
-@interface CPIconPicker : UIView <CPDeviceRotateObserver>
+@interface CPIconPicker : UIView <CPAdResizingObserver, CPDeviceRotateObserver>
 
 - (id)initWithDelegate:(id<CPIconPickerDelegate>)delegate;
 

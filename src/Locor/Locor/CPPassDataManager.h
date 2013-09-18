@@ -16,7 +16,7 @@
 
 - (void)setPasswordText:(NSString *)text atIndex:(NSUInteger)index;
 
-- (CPMemo *)addMemoText:(NSString *)text intoIndex:(NSUInteger)index;
+- (CPMemo *)newMemoText:(NSString *)text inIndex:(NSUInteger)index;
 - (void)removeMemo:(CPMemo *)memo;
 
 - (BOOL)canToggleRemoveStateOfPasswordAtIndex:(NSUInteger)index;

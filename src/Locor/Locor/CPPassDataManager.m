@@ -100,7 +100,7 @@ static CPPassDataManager *defaultManager = nil;
     [self saveContext];
 }
 
-- (CPMemo *)addMemoText:(NSString *)text intoIndex:(NSUInteger)index {
+- (CPMemo *)newMemoText:(NSString *)text inIndex:(NSUInteger)index {
     CPPassword *password = [self.passwordsController.fetchedObjects objectAtIndex:index];
     NSAssert1(password, @"No password corresponding to password index %d!", index);
     

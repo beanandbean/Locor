@@ -372,7 +372,7 @@
 #pragma mark - CPMemoCollectionViewManagerDelegate implement
 
 - (CPMemo *)newMemo {
-    return [[CPPassDataManager defaultManager] addMemoText:@"" intoIndex:self.index];
+    return [[CPPassDataManager defaultManager] newMemoText:@"" inIndex:self.index];
 }
 
 #pragma mark - UITextFieldDelegate implement

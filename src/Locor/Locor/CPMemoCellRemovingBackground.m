@@ -18,6 +18,8 @@
 @implementation CPMemoCellRemovingBackground
 
 - (void)setColor:(UIColor *)color {
+    self.contentView.alpha = 1.0;
+    
     self.backgroundView = [[UIView alloc] init];
     self.backgroundView.backgroundColor = color;
     self.backgroundView.translatesAutoresizingMaskIntoConstraints = NO;

@@ -41,6 +41,7 @@ static float FULL_WIDTH, DRAG_MULTIPLIER;
         [self addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panOnItems:)]];
         
         [CPMainViewController registerDeviceRotateObserver:self];
+        [CPAdManager registerAdResizingObserver:self];
         
         // CONSTANTS that are related to device idiom and cannot be determined at compile-time:
         FULL_WIDTH = ICON_PICKER_ITEM_COUNT * ICON_PICKER_ITEM_MAX_SIZE;
@@ -51,6 +52,7 @@ static float FULL_WIDTH, DRAG_MULTIPLIER;
 
 - (void)dealloc {
     [CPMainViewController removeDeviceRotateObserver:self];
+    [CPAdManager removeAdResizingObserver:self];
 }
 
 - (void)setStartIcon:(NSString *)iconName {
@@ -167,6 +169,12 @@ static float FULL_WIDTH, DRAG_MULTIPLIER;
             [iconImage drawInRect:rect blendMode:kCGBlendModeNormal alpha:powf(1 - ratio, ICON_PICKER_ITEM_ALPHA_EXPONENT)];
         }
     }
+}
+
+#pragma mark - CPAdResizingObserver implement
+
+- (void)adResizingDidAffectContent {
+    [self setNeedsDisplay];
 }
 
 #pragma mark - CPDeviceRotateObserver implement

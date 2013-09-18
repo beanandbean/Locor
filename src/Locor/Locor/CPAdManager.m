@@ -8,9 +8,15 @@
 
 #import "CPAdManager.h"
 
+#import "CPHelperMacros.h"
+
 #import "CPAppearanceManager.h"
 
 #import "Reachability.h"
+
+#define AD_RESIZING_OBSERVERS [CPAdManager adResizingObservers]
+
+static NSMutableArray *adResizingObservers;
 
 @interface CPAdManager ()
 
@@ -23,6 +29,25 @@
 @end
 
 @implementation CPAdManager
+
++ (NSMutableArray *)adResizingObservers {
+    if (!adResizingObservers) {
+        adResizingObservers = [NSMutableArray array];
+    }
+    return adResizingObservers;
+}
+
++ (void)registerAdResizingObserver:(id<CPAdResizingObserver>)observer {
+    if ([AD_RESIZING_OBSERVERS indexOfObject:observer] == NSNotFound) {
+        [AD_RESIZING_OBSERVERS addObject:observer];
+    }
+}
+
++ (void)removeAdResizingObserver:(id<CPAdResizingObserver>)observer {
+    if ([AD_RESIZING_OBSERVERS indexOfObject:observer] != NSNotFound) {
+        [AD_RESIZING_OBSERVERS removeObject:observer];
+    }
+}
 
 - (void)loadAnimated:(BOOL)animated {
     [super loadAnimated:animated];
@@ -55,6 +80,12 @@
     } else {
         self.heightConstraint.constant = ((UIView *)[self.iAdBannerView.subviews objectAtIndex:0]).frame.size.height;
         self.iAdBannerView.hidden = NO;
+    }
+
+    if (UIInterfaceOrientationIsLandscape(CURRENT_ORIENTATION)) {
+        for (id<CPAdResizingObserver> observer in AD_RESIZING_OBSERVERS) {
+            [observer adResizingDidAffectContent];
+        }
     }
 }
 
