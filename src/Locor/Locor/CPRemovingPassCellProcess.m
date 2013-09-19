@@ -8,15 +8,15 @@
 
 #import "CPRemovingPassCellProcess.h"
 
-static CPRemovingPassCellProcess *process;
+static CPRemovingPassCellProcess *g_process;
 
 @implementation CPRemovingPassCellProcess
 
 + (id<CPProcess>)process {
-    if (!process) {
-        process = [[CPRemovingPassCellProcess alloc] init];
+    if (!g_process) {
+        g_process = [[CPRemovingPassCellProcess alloc] init];
     }
-    return process;
+    return g_process;
 }
 
 - (bool)allowSubprocess:(id<CPProcess>)process {

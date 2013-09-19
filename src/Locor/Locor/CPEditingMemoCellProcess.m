@@ -8,15 +8,15 @@
 
 #import "CPEditingMemoCellProcess.h"
 
-static CPEditingMemoCellProcess *process;
+static CPEditingMemoCellProcess *g_process;
 
 @implementation CPEditingMemoCellProcess
 
 + (id<CPProcess>)process {
-    if (!process) {
-        process = [[CPEditingMemoCellProcess alloc] init];
+    if (!g_process) {
+        g_process = [[CPEditingMemoCellProcess alloc] init];
     }
-    return process;
+    return g_process;
 }
 
 - (bool)allowSubprocess:(id<CPProcess>)process {

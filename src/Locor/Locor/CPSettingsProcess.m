@@ -8,15 +8,15 @@
 
 #import "CPSettingsProcess.h"
 
-static CPSettingsProcess *process;
+static CPSettingsProcess *g_process;
 
 @implementation CPSettingsProcess
 
 + (id<CPProcess>)process {
-    if (!process) {
-        process = [[CPSettingsProcess alloc] init];
+    if (!g_process) {
+        g_process = [[CPSettingsProcess alloc] init];
     }
-    return process;
+    return g_process;
 }
 
 - (bool)allowSubprocess:(id<CPProcess>)process {

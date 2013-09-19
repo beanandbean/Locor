@@ -12,7 +12,7 @@
 
 #import "CPProcessManager.h"
 
-static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *standardConstants;
+static NSMutableArray *g_standardViews, *g_standardAttrs, *g_standardMultipliers, *g_standardConstants;
 
 @interface CPAppearanceManager ()
 
@@ -103,36 +103,36 @@ static NSMutableArray *standardViews, *standardAttrs, *standardMultipliers, *sta
 #pragma mark - Standard Constraints Helper
 
 + (void)registerStandardForPosition:(CPStandardPosition)edge asItem:(UIView *)view attribute:(NSLayoutAttribute)attr multiplier:(CGFloat)multiplier constant:(CGFloat)c {
-    if (!standardViews) {
-        standardViews = [CPAppearanceManager arrayWithInitialValue:[NSNull null]];
+    if (!g_standardViews) {
+        g_standardViews = [CPAppearanceManager arrayWithInitialValue:[NSNull null]];
     }
-    if (!standardAttrs) {
-        standardAttrs = [CPAppearanceManager arrayWithInitialValue:[NSNumber numberWithInt:NSLayoutAttributeNotAnAttribute]];
+    if (!g_standardAttrs) {
+        g_standardAttrs = [CPAppearanceManager arrayWithInitialValue:[NSNumber numberWithInt:NSLayoutAttributeNotAnAttribute]];
     }
-    if (!standardMultipliers) {
-        standardMultipliers = [CPAppearanceManager arrayWithInitialValue:[NSNumber numberWithFloat:0.0]];
+    if (!g_standardMultipliers) {
+        g_standardMultipliers = [CPAppearanceManager arrayWithInitialValue:[NSNumber numberWithFloat:0.0]];
     }
-    if (!standardConstants) {
-        standardConstants = [CPAppearanceManager arrayWithInitialValue:[NSNumber numberWithFloat:0.0]];
+    if (!g_standardConstants) {
+        g_standardConstants = [CPAppearanceManager arrayWithInitialValue:[NSNumber numberWithFloat:0.0]];
     }
     if (view) {
-        [standardViews replaceObjectAtIndex:edge withObject:view];
+        [g_standardViews replaceObjectAtIndex:edge withObject:view];
     } else {
-        [standardViews replaceObjectAtIndex:edge withObject:[NSNull null]];
+        [g_standardViews replaceObjectAtIndex:edge withObject:[NSNull null]];
     }
-    [standardAttrs replaceObjectAtIndex:edge withObject:[NSNumber numberWithInt:attr]];
-    [standardMultipliers replaceObjectAtIndex:edge withObject:[NSNumber numberWithFloat:multiplier]];
-    [standardConstants replaceObjectAtIndex:edge withObject:[NSNumber numberWithFloat:c]];
+    [g_standardAttrs replaceObjectAtIndex:edge withObject:[NSNumber numberWithInt:attr]];
+    [g_standardMultipliers replaceObjectAtIndex:edge withObject:[NSNumber numberWithFloat:multiplier]];
+    [g_standardConstants replaceObjectAtIndex:edge withObject:[NSNumber numberWithFloat:c]];
 }
 
 + (NSLayoutConstraint *)constraintWithView:(UIView *)view attribute:(NSLayoutAttribute)attr relatedBy:(NSLayoutRelation)relation constant:(CGFloat)c toPosition:(CPStandardPosition)edge {
-    id toView = [standardViews objectAtIndex:edge];
+    id toView = [g_standardViews objectAtIndex:edge];
     if (toView == [NSNull null]) {
         toView = nil;
     }
-    NSLayoutAttribute toAttr = ((NSNumber *)[standardAttrs objectAtIndex:edge]).intValue;
-    CGFloat multiplier = ((NSNumber *)[standardMultipliers objectAtIndex:edge]).floatValue;
-    CGFloat standardConstant = ((NSNumber *)[standardConstants objectAtIndex:edge]).floatValue;
+    NSLayoutAttribute toAttr = ((NSNumber *)[g_standardAttrs objectAtIndex:edge]).intValue;
+    CGFloat multiplier = ((NSNumber *)[g_standardMultipliers objectAtIndex:edge]).floatValue;
+    CGFloat standardConstant = ((NSNumber *)[g_standardConstants objectAtIndex:edge]).floatValue;
     CGFloat finalConstant = standardConstant + c;
     return [NSLayoutConstraint constraintWithItem:view attribute:attr relatedBy:relation toItem:toView attribute:toAttr multiplier:multiplier constant:finalConstant];
 }

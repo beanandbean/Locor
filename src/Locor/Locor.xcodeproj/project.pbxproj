@@ -79,7 +79,7 @@
 		2CD0AE9417B0FCBC0091E14D /* CPEditingPassCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD0AE9317B0FCBC0091E14D /* CPEditingPassCellProcess.m */; };
 		2CD4A94517D732AD00150687 /* CPBarButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD4A94417D732AD00150687 /* CPBarButtonManager.m */; };
 		2CD8212517D5E8EF0014199A /* CPMemoCellRemovingBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD8212417D5E8EF0014199A /* CPMemoCellRemovingBackground.m */; };
-		2CE1EB3117BF90C4005F32AC /* CPMainPasswordCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1EB3017BF90C4005F32AC /* CPMainPasswordCanvas.m */; };
+		2CE1EB3117BF90C4005F32AC /* CPMainPassCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1EB3017BF90C4005F32AC /* CPMainPassCanvas.m */; };
 		2CE543A41796A207004CF538 /* CPEditingMemoCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE543A31796A207004CF538 /* CPEditingMemoCellProcess.m */; };
 		2CE543A71796A585004CF538 /* CPScrollingCollectionViewProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE543A61796A585004CF538 /* CPScrollingCollectionViewProcess.m */; };
 		2CE543AA1796A781004CF538 /* CPRemovingMemoCellProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE543A91796A781004CF538 /* CPRemovingMemoCellProcess.m */; };
@@ -213,8 +213,8 @@
 		2CD4A94417D732AD00150687 /* CPBarButtonManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPBarButtonManager.m; sourceTree = "<group>"; };
 		2CD8212317D5E8EE0014199A /* CPMemoCellRemovingBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMemoCellRemovingBackground.h; sourceTree = "<group>"; };
 		2CD8212417D5E8EF0014199A /* CPMemoCellRemovingBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMemoCellRemovingBackground.m; sourceTree = "<group>"; };
-		2CE1EB2F17BF90C4005F32AC /* CPMainPasswordCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMainPasswordCanvas.h; sourceTree = "<group>"; };
-		2CE1EB3017BF90C4005F32AC /* CPMainPasswordCanvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMainPasswordCanvas.m; sourceTree = "<group>"; };
+		2CE1EB2F17BF90C4005F32AC /* CPMainPassCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMainPassCanvas.h; sourceTree = "<group>"; };
+		2CE1EB3017BF90C4005F32AC /* CPMainPassCanvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMainPassCanvas.m; sourceTree = "<group>"; };
 		2CE543A21796A207004CF538 /* CPEditingMemoCellProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPEditingMemoCellProcess.h; sourceTree = "<group>"; };
 		2CE543A31796A207004CF538 /* CPEditingMemoCellProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPEditingMemoCellProcess.m; sourceTree = "<group>"; };
 		2CE543A51796A585004CF538 /* CPScrollingCollectionViewProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPScrollingCollectionViewProcess.h; sourceTree = "<group>"; };
@@ -352,8 +352,8 @@
 				2CC1C0E117E5BB05008AB924 /* CPDraggingPassCell.m */,
 				2C2C2A7C17DF27D6006F9B66 /* CPIconPicker.h */,
 				2C2C2A7D17DF27D6006F9B66 /* CPIconPicker.m */,
-				2CE1EB2F17BF90C4005F32AC /* CPMainPasswordCanvas.h */,
-				2CE1EB3017BF90C4005F32AC /* CPMainPasswordCanvas.m */,
+				2CE1EB2F17BF90C4005F32AC /* CPMainPassCanvas.h */,
+				2CE1EB3017BF90C4005F32AC /* CPMainPassCanvas.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -694,7 +694,7 @@
 				2CF920151797F10C00637B7D /* CPMemoCellRemoving.m in Sources */,
 				2CD0AE9417B0FCBC0091E14D /* CPEditingPassCellProcess.m in Sources */,
 				2CEB0D5217BCD506000404C2 /* CPMainPassManager.m in Sources */,
-				2CE1EB3117BF90C4005F32AC /* CPMainPasswordCanvas.m in Sources */,
+				2CE1EB3117BF90C4005F32AC /* CPMainPassCanvas.m in Sources */,
 				2C50933317C4C51E0051A463 /* Reachability.m in Sources */,
 				2C50933617C4C5660051A463 /* CPAdManager.m in Sources */,
 				2C1541C517D1F1490057733D /* CPMemoCollectionViewManager.m in Sources */,

@@ -12,7 +12,7 @@
 #define _CPLOCORCONFIG_h_
 
 #define C(obj) obj                                   // CONSTANT
-#define D(phone, pad) DEVICE_RELATED_OBJ(phone, pad) // DEVICE_RELATED
+#define D(phone, pad) DEVICE_RELATED_OBJ(phone, pad) // DEVICE RELATED
 
 
 #define BAR_HEIGHT                                     D(36.0, 44.0)
@@ -39,7 +39,8 @@
 #define ICON_PICKER_ITEM_POSITION_MULTIPLIER           D(1.2, 1.3)
 #define ICON_PICKER_ITEM_SIZE_EXPONENT                 D(1.4, 1.1)
 
-#define MAIN_PASSWORD_LINE_WIDTH                       D(10.0, 20.0)
+#define MAIN_PASSWORD_LINE_WIDTH                       D(8.0, 16.0)
+#define MAIN_PASSWORD_POINT_ANIMATION_MULTIPLIER       C(1.2)
 #define MAIN_PASSWORD_POINT_SIZE                       D(50.0, 100.0)
 
 #define MEMO_CELL_HEIGHT                               C(66.0)
@@ -50,7 +51,6 @@
 
 #define PASS_CELL_REMOVING_LABEL_DISTANCE_TO_CELL_EDGE C(5.0)
 
-#define PASS_EDIT_VIEW_BORDER_WIDTH                    D(8.0, 12.0)
 #define PASS_EDIT_VIEW_CELL_SIZE                       D(75.0, 150.0)
 
 #define PASS_GRID_COLUMN_COUNT                         C(3)

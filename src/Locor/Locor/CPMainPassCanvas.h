@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-@interface CPMainPasswordCanvas : UIView
+@interface CPMainPassCanvas : UIView
 
 @property (strong, nonatomic) NSMutableArray *points;
 

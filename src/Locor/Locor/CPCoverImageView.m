@@ -13,16 +13,16 @@
 
 #import "CPAppearanceManager.h"
 
-static UIImage *coverImage;
+static UIImage *g_coverImage;
 
 @implementation CPCoverImageView
 
 - (id)init {
-    if (!coverImage) {
-        coverImage = [UIImage imageNamed:DEVICE_RELATED_PNG(@"cover")];
+    if (!g_coverImage) {
+        g_coverImage = [UIImage imageNamed:DEVICE_RELATED_PNG(@"cover")];
     }
     
-    self = [super initWithImage:coverImage];
+    self = [super initWithImage:g_coverImage];
     if (self) {
         self.transform = CGAffineTransformMakeRotation(ORIENTATION_RELATED_OBJ(M_PI_2, 0));
         self.translatesAutoresizingMaskIntoConstraints = NO;

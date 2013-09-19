@@ -8,15 +8,15 @@
 
 #import "CPDraggingPassCellProcess.h"
 
-static CPDraggingPassCellProcess *process;
+static CPDraggingPassCellProcess *g_process;
 
 @implementation CPDraggingPassCellProcess
 
 + (id<CPProcess>)process {
-    if (!process) {
-        process = [[CPDraggingPassCellProcess alloc] init];
+    if (!g_process) {
+        g_process = [[CPDraggingPassCellProcess alloc] init];
     }
-    return process;
+    return g_process;
 }
 
 - (bool)allowSubprocess:(id<CPProcess>)process {

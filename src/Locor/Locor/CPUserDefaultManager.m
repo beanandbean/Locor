@@ -8,30 +8,29 @@
 
 #import "CPUserDefaultManager.h"
 
-static NSString *g_keyIsFirstRunning = @"IsFirstRunning";
-static NSString *g_keyMainPass = @"MainPass";
+static NSString *KEY_IS_FIRST_RUNNING = @"IsFirstRunning", *KEY_MAIN_PASS = @"MainPass";
 
 @implementation CPUserDefaultManager
 
 + (void)registerDefaults {
     [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                             [NSNumber numberWithBool:YES], g_keyIsFirstRunning,
-                                                             @"", g_keyMainPass,
+                                                             [NSNumber numberWithBool:YES], KEY_IS_FIRST_RUNNING,
+                                                             @"", KEY_MAIN_PASS,
                                                              nil]];
 }
 
 + (BOOL)isFirstRunning {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:g_keyIsFirstRunning];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_FIRST_RUNNING];
 }
 
 + (void)setFirstRuning:(BOOL)firstRunning {
-    [[NSUserDefaults standardUserDefaults] setBool:firstRunning forKey:g_keyIsFirstRunning];
+    [[NSUserDefaults standardUserDefaults] setBool:firstRunning forKey:KEY_IS_FIRST_RUNNING];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 + (NSArray *)mainPass {
     NSMutableArray *result = [NSMutableArray array];
-    NSMutableString *mainPassString = [[NSUserDefaults standardUserDefaults] objectForKey:g_keyMainPass];
+    NSMutableString *mainPassString = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_MAIN_PASS];
     for (int i = 0; i < mainPassString.length; i++) {
         int number = [mainPassString characterAtIndex:i] - '0';
         NSAssert(number >= 0 && number <= 8 , @"");
@@ -45,7 +44,7 @@ static NSString *g_keyMainPass = @"MainPass";
     for (NSNumber *number in mainPass) {
         [mainPassString appendFormat:@"%d", number.intValue];
     }
-    [[NSUserDefaults standardUserDefaults] setObject:[mainPassString copy] forKey:g_keyMainPass];
+    [[NSUserDefaults standardUserDefaults] setObject:[mainPassString copy] forKey:KEY_MAIN_PASS];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 

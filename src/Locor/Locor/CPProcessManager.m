@@ -14,16 +14,16 @@
 
 #define PROCESS_ARRAY [CPProcessManager processArray]
 
-static NSMutableArray *processArray;
-static int forbiddenCount = 0;
+static NSMutableArray *g_processArray;
+static int g_forbiddenCount = 0;
 
 @implementation CPProcessManager
 
 + (NSMutableArray *)processArray {
-    if (!processArray) {
-        processArray = [NSMutableArray arrayWithObject:APPLICATION_PROCESS];
+    if (!g_processArray) {
+        g_processArray = [NSMutableArray arrayWithObject:APPLICATION_PROCESS];
     }
-    return processArray;
+    return g_processArray;
 }
 
 + (bool)isInProcess:(id<CPProcess>)process {
@@ -31,8 +31,8 @@ static int forbiddenCount = 0;
 }
 
 + (bool)startProcess:(id<CPProcess>)process {
-    if (!forbiddenCount && [[PROCESS_ARRAY lastObject] allowSubprocess:process]) {
-        [processArray addObject:process];
+    if (!g_forbiddenCount && [[PROCESS_ARRAY lastObject] allowSubprocess:process]) {
+        [PROCESS_ARRAY addObject:process];
         return YES;
     } else {
         
@@ -62,7 +62,7 @@ static int forbiddenCount = 0;
 }
 
 + (bool)stopProcess:(id<CPProcess>)process {
-    if (!forbiddenCount && process != APPLICATION_PROCESS) {
+    if (!g_forbiddenCount && process != APPLICATION_PROCESS) {
         int index = PROCESS_ARRAY.count - 1;
         while (index > 0 && [PROCESS_ARRAY objectAtIndex:index] != process) {
             index--;
@@ -97,12 +97,12 @@ static int forbiddenCount = 0;
 }
 
 + (void)increaseForbiddenCount {
-    forbiddenCount++;
+    g_forbiddenCount++;
 }
 
 + (void)decreaseForbiddenCount {
-    if (forbiddenCount > 0) {
-        forbiddenCount--;
+    if (g_forbiddenCount > 0) {
+        g_forbiddenCount--;
     }
 }
 

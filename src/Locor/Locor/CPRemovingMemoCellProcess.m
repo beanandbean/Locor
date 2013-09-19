@@ -8,15 +8,15 @@
 
 #import "CPRemovingMemoCellProcess.h"
 
-static CPRemovingMemoCellProcess *process;
+static CPRemovingMemoCellProcess *g_process;
 
 @implementation CPRemovingMemoCellProcess
 
 + (id<CPProcess>)process {
-    if (!process) {
-        process = [[CPRemovingMemoCellProcess alloc] init];
+    if (!g_process) {
+        g_process = [[CPRemovingMemoCellProcess alloc] init];
     }
-    return process;
+    return g_process;
 }
 
 - (bool)allowSubprocess:(id<CPProcess>)process {

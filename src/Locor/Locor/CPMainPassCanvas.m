@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-#import "CPMainPasswordCanvas.h"
+#import "CPMainPassCanvas.h"
 
 #import "CPLocorConfig.h"
 
-@implementation CPMainPasswordCanvas
+@implementation CPMainPassCanvas
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -25,7 +25,7 @@
     if (self.points && self.points.count > 1) {
         CGContextRef context = UIGraphicsGetCurrentContext();
         
-        CGFloat color[4] = {0.0, 0.0, 0.0, 1.0};
+        CGFloat color[4] = {1.0, 1.0, 1.0, 1.0};
         CGContextSetStrokeColor(context, color);
         CGContextSetFillColor(context, color);
         CGContextSetLineWidth(context, MAIN_PASSWORD_LINE_WIDTH);

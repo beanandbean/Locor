@@ -8,15 +8,15 @@
 
 #import "CPScrollingCollectionViewProcess.h"
 
-static CPScrollingCollectionViewProcess *process;
+static CPScrollingCollectionViewProcess *g_process;
 
 @implementation CPScrollingCollectionViewProcess
 
 + (id<CPProcess>)process {
-    if (!process) {
-        process = [[CPScrollingCollectionViewProcess alloc] init];
+    if (!g_process) {
+        g_process = [[CPScrollingCollectionViewProcess alloc] init];
     }
-    return process;
+    return g_process;
 }
 
 - (bool)allowSubprocess:(id<CPProcess>)process {

@@ -6,16 +6,20 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-#import <QuartzCore/QuartzCore.h>
-
 #import "CPMainPassManager.h"
 
-#import "CPMainPasswordCanvas.h"
+#import "CPLocorConfig.h"
+
+#import "CPMainPassCanvas.h"
 
 #import "CPAppearanceManager.h"
-#import "CPLocorConfig.h"
+
 #import "CPNotificationCenter.h"
+
 #import "CPUserDefaultManager.h"
+
+#import "CPPassDataManager.h"
+#import "CPPassword.h"
 
 typedef enum {
     CPMainPasswordStateSetting,
@@ -34,7 +38,7 @@ typedef enum {
 
 @property (strong, nonatomic) UIView *outerView;
 
-@property (strong, nonatomic) CPMainPasswordCanvas *pointsContainer;
+@property (strong, nonatomic) CPMainPassCanvas *pointsContainer;
 
 @property (strong, nonatomic) UILabel *stateLabel;
 @property (strong, nonatomic) UIButton *redrawButton;
@@ -91,14 +95,14 @@ typedef enum {
     }
     
     self.outerView = [[UIView alloc] init];
-    self.outerView.backgroundColor = [UIColor whiteColor];
+    self.outerView.backgroundColor = [UIColor blackColor];
     self.outerView.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.superview addSubview:self.outerView];
     
     [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.outerView edgesAlignToView:self.superview]];
     
-    self.pointsContainer = [[CPMainPasswordCanvas alloc] init];
+    self.pointsContainer = [[CPMainPassCanvas alloc] init];
     
     [self.pointsContainer addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)]];
     
@@ -119,6 +123,7 @@ typedef enum {
     [self.outerView addConstraints:outerConstraints];
     
     self.stateLabel = [[UILabel alloc] init];
+    self.stateLabel.textColor = [UIColor whiteColor];
     self.stateLabel.font = [UIFont boldSystemFontOfSize:30.0];
     
     // TODO: Adjust font of label in main password input view.
@@ -152,13 +157,13 @@ typedef enum {
     
     self.redrawButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.redrawButton.translatesAutoresizingMaskIntoConstraints = NO;
-    self.redrawButton.backgroundColor = [UIColor blackColor];
+    self.redrawButton.backgroundColor = [UIColor whiteColor];
     self.redrawButton.titleLabel.font = [UIFont boldSystemFontOfSize:24.0];
     self.redrawButton.alpha = 0.0;
     self.redrawButton.enabled = NO;
     
     [self.redrawButton setTitle:@"Redraw" forState:UIControlStateNormal];
-    [self.redrawButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.redrawButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.redrawButton addTarget:self action:@selector(redrawButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     CGSize predictedSize = [@"Redraw" sizeWithFont:self.redrawButton.titleLabel.font];
@@ -198,17 +203,17 @@ typedef enum {
             
             passwordPoint.backgroundColor = [UIColor grayColor];
             
-            passwordPoint.layer.cornerRadius = MAIN_PASSWORD_POINT_SIZE / 2;
-            passwordPoint.layer.borderWidth = MAIN_PASSWORD_POINT_SIZE / 6;
-            passwordPoint.layer.borderColor = [UIColor blackColor].CGColor;
+            passwordPoint.layer.borderWidth = MAIN_PASSWORD_LINE_WIDTH;
+            passwordPoint.layer.borderColor = [UIColor whiteColor].CGColor;
             
             [passwordPoints addObject:passwordPoint];
             [self.pointsContainer addSubview:passwordPoint];
             
             [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:j] attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
             [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:[constraintViews objectAtIndex:i] attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-            [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:MAIN_PASSWORD_POINT_SIZE]];
-            [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:MAIN_PASSWORD_POINT_SIZE]];
+            
+            [passwordPoint addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:MAIN_PASSWORD_POINT_SIZE]];
+            [passwordPoint addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:MAIN_PASSWORD_POINT_SIZE]];
         }
     }
     self.passwordPointViews = passwordPoints;
@@ -223,6 +228,10 @@ typedef enum {
         self.panningPoints = [NSMutableArray array];
         self.pointsContainer.points = [NSMutableArray array];
         self.lastPointState = CPMainPasswordCanvasLastPointStatePassPoint;
+        
+        for (UIView *passwordPoint in self.passwordPointViews) {
+            passwordPoint.backgroundColor = [UIColor grayColor];
+        }
     }
     
     BOOL sign = YES;
@@ -236,9 +245,21 @@ typedef enum {
                 [CPMainPassManager addPoint:passwordPoint.center toPointArray:self.pointsContainer.points atState:self.lastPointState];
                 self.lastPointState = CPMainPasswordCanvasLastPointStatePassPoint;
                 
-                passwordPoint.backgroundColor = [UIColor yellowColor];
-                [UIView animateWithDuration:1.0 animations:^{
-                    passwordPoint.backgroundColor = [UIColor grayColor];
+                CPPassword *password = [[CPPassDataManager defaultManager].passwordsController.fetchedObjects objectAtIndex:i];
+                passwordPoint.backgroundColor = password.realColor;
+                
+                for (NSLayoutConstraint *constraint in passwordPoint.constraints) {
+                    constraint.constant = MAIN_PASSWORD_POINT_SIZE * MAIN_PASSWORD_POINT_ANIMATION_MULTIPLIER;
+                }
+                [UIView animateWithDuration:0.3 animations:^{
+                    [passwordPoint layoutIfNeeded];
+                }];
+                
+                for (NSLayoutConstraint *constraint in passwordPoint.constraints) {
+                    constraint.constant = MAIN_PASSWORD_POINT_SIZE;
+                }
+                [UIView animateWithDuration:0.3 animations:^{
+                    [passwordPoint layoutIfNeeded];
                 }];
             } else if (self.lastPointState == CPMainPasswordCanvasLastPointStateMouse) {
                 [self.pointsContainer.points removeLastObject];
@@ -322,7 +343,7 @@ typedef enum {
         self.outerView.backgroundColor = [UIColor redColor];
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:0.25 animations:^{
-            self.outerView.backgroundColor = [UIColor whiteColor];
+            self.outerView.backgroundColor = [UIColor blackColor];
         }];
     }];
 }

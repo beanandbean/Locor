@@ -12,23 +12,23 @@
 #import "CPRemovingMemoCellProcess.h"
 #import "CPScrollingCollectionViewProcess.h"
 
-static CPEditingPassCellProcess *process;
-static NSArray *allowedProcess;
+static CPEditingPassCellProcess *g_process;
+static NSArray *g_allowedProcess;
 
 @implementation CPEditingPassCellProcess
 
 + (id<CPProcess>)process {
-    if (!process) {
-        process = [[CPEditingPassCellProcess alloc] init];
+    if (!g_process) {
+        g_process = [[CPEditingPassCellProcess alloc] init];
     }
-    return process;
+    return g_process;
 }
 
 - (bool)allowSubprocess:(id<CPProcess>)process {
-    if (!allowedProcess) {
-        allowedProcess = [NSArray arrayWithObjects:EDITING_MEMO_CELL_PROCESS, REMOVING_MEMO_CELL_PROCESS, SCROLLING_COLLECTION_VIEW_PROCESS, nil];
+    if (!g_allowedProcess) {
+        g_allowedProcess = [NSArray arrayWithObjects:EDITING_MEMO_CELL_PROCESS, REMOVING_MEMO_CELL_PROCESS, SCROLLING_COLLECTION_VIEW_PROCESS, nil];
     }
-    return [allowedProcess indexOfObject:process] != NSNotFound;
+    return [g_allowedProcess indexOfObject:process] != NSNotFound;
 }
 
 @end

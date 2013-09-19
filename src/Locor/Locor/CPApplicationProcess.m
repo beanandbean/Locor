@@ -14,23 +14,23 @@
 #import "CPSearchingProcess.h"
 #import "CPSettingsProcess.h"
 
-static CPApplicationProcess *process;
-static NSArray *allowedProcess;
+static CPApplicationProcess *g_process;
+static NSArray *g_allowedProcess;
 
 @implementation CPApplicationProcess
 
 + (id<CPProcess>)process {
-    if (!process) {
-        process = [[CPApplicationProcess alloc] init];
+    if (!g_process) {
+        g_process = [[CPApplicationProcess alloc] init];
     }
-    return process;
+    return g_process;
 }
 
 - (bool)allowSubprocess:(id<CPProcess>)process {
-    if (!allowedProcess) {
-        allowedProcess = [NSArray arrayWithObjects:DRAGGING_PASS_CELL_PROCESS, EDITING_PASS_CELL_PROCESS, REMOVING_PASS_CELL_PROCESS, SEARCHING_PROCESS, SETTINGS_PROCESS, nil];
+    if (!g_allowedProcess) {
+        g_allowedProcess = [NSArray arrayWithObjects:DRAGGING_PASS_CELL_PROCESS, EDITING_PASS_CELL_PROCESS, REMOVING_PASS_CELL_PROCESS, SEARCHING_PROCESS, SETTINGS_PROCESS, nil];
     }
-    return [allowedProcess indexOfObject:process] != NSNotFound;
+    return [g_allowedProcess indexOfObject:process] != NSNotFound;
 }
 
 @end
