@@ -33,7 +33,7 @@ static NSString *KEY_IS_FIRST_RUNNING = @"IsFirstRunning", *KEY_MAIN_PASS = @"Ma
     NSMutableString *mainPassString = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_MAIN_PASS];
     for (int i = 0; i < mainPassString.length; i++) {
         int number = [mainPassString characterAtIndex:i] - '0';
-        NSAssert(number >= 0 && number <= 8 , @"");
+        NSAssert(number >= 0 && number <= 8, @"");
         [result addObject:[NSNumber numberWithInt:number]];
     }
     return [result copy];

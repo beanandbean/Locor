@@ -93,7 +93,6 @@
 		FC1E514917DA12A700691F79 /* CPViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1E514817DA12A700691F79 /* CPViewManager.m */; };
 		FC1E514D17DA132900691F79 /* CPHelpManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1E514C17DA132900691F79 /* CPHelpManager.m */; };
 		FC1E515017DA13C100691F79 /* CPMainViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1E514F17DA13C100691F79 /* CPMainViewManager.m */; };
-		FC3732B817D54D0B00014998 /* CPSettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC3732B717D54D0B00014998 /* CPSettingsManager.m */; };
 		FC3732BA17D556E900014998 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC982CED17824842009CC784 /* QuartzCore.framework */; };
 		FC4F2ADA1759EB0C002D9992 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2AD91759EB0C002D9992 /* UIKit.framework */; };
 		FC4F2ADC1759EB0C002D9992 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4F2ADB1759EB0C002D9992 /* Foundation.framework */; };
@@ -237,8 +236,6 @@
 		FC1E514C17DA132900691F79 /* CPHelpManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPHelpManager.m; sourceTree = "<group>"; };
 		FC1E514E17DA13C100691F79 /* CPMainViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMainViewManager.h; sourceTree = "<group>"; };
 		FC1E514F17DA13C100691F79 /* CPMainViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMainViewManager.m; sourceTree = "<group>"; };
-		FC3732B617D54D0B00014998 /* CPSettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPSettingsManager.h; sourceTree = "<group>"; };
-		FC3732B717D54D0B00014998 /* CPSettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPSettingsManager.m; sourceTree = "<group>"; };
 		FC4F2AD61759EB0C002D9992 /* Locor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Locor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC4F2AD91759EB0C002D9992 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FC4F2ADB1759EB0C002D9992 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -450,6 +447,7 @@
 				FC926EC717DAFCE100E26367 /* CPRootManager.m */,
 				FCA4009F17896F000087AECF /* CPTopBarManager.h */,
 				FCA400A017896F000087AECF /* CPTopBarManager.m */,
+				FC94E7D417EAD5C200026965 /* CPUserDefaultManager.h */,
 			);
 			name = ViewManagers;
 			sourceTree = "<group>";
@@ -513,9 +511,6 @@
 				2C6143611786D1E300430C64 /* CPProcess.h */,
 				2C61435E1786D1C100430C64 /* CPProcessManager.h */,
 				2C61435F1786D1C100430C64 /* CPProcessManager.m */,
-				FC3732B617D54D0B00014998 /* CPSettingsManager.h */,
-				FC3732B717D54D0B00014998 /* CPSettingsManager.m */,
-				FC94E7D417EAD5C200026965 /* CPUserDefaultManager.h */,
 				FC94E7D517EAD5C200026965 /* CPUserDefaultManager.m */,
 				FC1E514717DA12A700691F79 /* CPViewManager.h */,
 				FC1E514817DA12A700691F79 /* CPViewManager.m */,
@@ -698,7 +693,6 @@
 				2C50933317C4C51E0051A463 /* Reachability.m in Sources */,
 				2C50933617C4C5660051A463 /* CPAdManager.m in Sources */,
 				2C1541C517D1F1490057733D /* CPMemoCollectionViewManager.m in Sources */,
-				FC3732B817D54D0B00014998 /* CPSettingsManager.m in Sources */,
 				2CD8212517D5E8EF0014199A /* CPMemoCellRemovingBackground.m in Sources */,
 				2CD4A94517D732AD00150687 /* CPBarButtonManager.m in Sources */,
 				FC1E514917DA12A700691F79 /* CPViewManager.m in Sources */,
