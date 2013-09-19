@@ -6,15 +6,9 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-@protocol CPDeviceRotateObserver <NSObject>
-
-- (void)deviceWillRotateToOrientation:(UIInterfaceOrientation)orientation;
-
-@end
+// This variable is used in several files so it had better be defined in a header file. However, it is not used here.
+static NSString *CPDeviceOrientationWillChangeNotification = @"CP_Device_Orientation_Will_Change_Notification";
 
 @interface CPMainViewController : UIViewController
-
-+ (void)registerDeviceRotateObserver:(id<CPDeviceRotateObserver>)observer;
-+ (void)removeDeviceRotateObserver:(id<CPDeviceRotateObserver>)observer;
 
 @end

@@ -6,16 +6,13 @@
 //  Copyright (c) 2013 beanandbean. All rights reserved.
 //
 
-#import "CPMainViewController.h"
-#import "CPAdManager.h"
-
 @protocol CPIconPickerDelegate <NSObject>
 
 - (void)iconSelected:(NSString *)iconName;
 
 @end
 
-@interface CPIconPicker : UIView <CPAdResizingObserver, CPDeviceRotateObserver>
+@interface CPIconPicker : UIView
 
 - (id)initWithDelegate:(id<CPIconPickerDelegate>)delegate;
 

@@ -11,6 +11,8 @@
 #import "CPHelperMacros.h"
 #import "CPLocorConfig.h"
 
+#import "CPMainViewController.h"
+
 #import "CPAppearanceManager.h"
 
 static UIImage *g_coverImage;
@@ -28,13 +30,13 @@ static UIImage *g_coverImage;
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.alpha = WATER_MARK_ALPHA;
         
-        [CPMainViewController registerDeviceRotateObserver:self];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceRotated) name:CPDeviceOrientationWillChangeNotification object:nil];
     }
     return self;
 }
 
 - (void)dealloc {
-    [CPMainViewController removeDeviceRotateObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:CPDeviceOrientationWillChangeNotification object:nil];
 }
 
 - (NSArray *)positioningConstraints {
@@ -44,10 +46,8 @@ static UIImage *g_coverImage;
             nil];
 }
 
-#pragma mark - CPDeviceRotateObserver implement
-
-- (void)deviceWillRotateToOrientation:(UIInterfaceOrientation)orientation {
-    self.transform = CGAffineTransformMakeRotation(SPECIFIED_ORIENTATION_RELATED_OBJ(orientation, M_PI_2, 0));
+- (void)deviceRotated {
+    self.transform = CGAffineTransformMakeRotation(ORIENTATION_RELATED_OBJ(M_PI_2, 0));
 }
 
 @end

@@ -16,6 +16,9 @@
 
 #import "CPMemoCollectionViewFlowLayout.h"
 
+#import "CPMainViewController.h"
+#import "CPAdManager.h"
+
 #import "CPAppearanceManager.h"
 
 #import "CPPassDataManager.h"
@@ -156,23 +159,23 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
         [self.frontLayer addConstraints:self.textFieldContainerConstraints];
         [self.backLayer addConstraints:self.backCollectionViewConstraints];
         
-        [CPMainViewController registerDeviceRotateObserver:self];
-        [CPAdManager registerAdResizingObserver:self];
-        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidUndock:) name:UIKeyboardDidChangeFrameNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invalidateLayout) name:CPDeviceOrientationWillChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invalidateLayout) name:CPAdResizingDidAffectContentNotification object:nil];
     }
     return self;
 }
 
 - (void)dealloc {
-    [CPMainViewController removeDeviceRotateObserver:self];
-    [CPAdManager registerAdResizingObserver:self];
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidChangeFrameNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:CPDeviceOrientationWillChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:CPAdResizingDidAffectContentNotification object:nil];
 }
 
 - (void)showMemoCollectionViewAnimated {
@@ -502,18 +505,6 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
     }
     
     return initializedCell;
-}
-
-#pragma mark - CPAdResizingObserver implement
-
-- (void)adResizingDidAffectContent {
-    [self invalidateLayout];
-}
-
-#pragma mark - CPDeviceRotateObserver implement
-
-- (void)deviceWillRotateToOrientation:(UIInterfaceOrientation)orientation {
-    [self invalidateLayout];
 }
 
 #pragma mark - UICollectionViewDelegate implement

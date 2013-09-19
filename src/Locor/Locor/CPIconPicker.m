@@ -11,6 +11,9 @@
 #import "CPHelperMacros.h"
 #import "CPLocorConfig.h"
 
+#import "CPMainViewController.h"
+#import "CPAdManager.h"
+
 static const char *ICON_NAMES[] = {"aries", "taurus", "gemini", "cancer", "leo", "virgo", "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"};
 
 static const NSString *ANIMATION_ID_KEY = @"animationId", *OFFSET_DELTA_KEY = @"offsetDelta";
@@ -40,8 +43,8 @@ static float FULL_WIDTH, DRAG_MULTIPLIER;
         
         [self addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panOnItems:)]];
         
-        [CPMainViewController registerDeviceRotateObserver:self];
-        [CPAdManager registerAdResizingObserver:self];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setNeedsDisplay) name:CPDeviceOrientationWillChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setNeedsDisplay) name:CPAdResizingDidAffectContentNotification object:nil];
         
         // CONSTANTS that are related to device idiom and cannot be determined at compile-time:
         FULL_WIDTH = ICON_PICKER_ITEM_COUNT * ICON_PICKER_ITEM_MAX_SIZE;
@@ -51,8 +54,8 @@ static float FULL_WIDTH, DRAG_MULTIPLIER;
 }
 
 - (void)dealloc {
-    [CPMainViewController removeDeviceRotateObserver:self];
-    [CPAdManager removeAdResizingObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:CPDeviceOrientationWillChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:CPAdResizingDidAffectContentNotification object:nil];
 }
 
 - (void)setStartIcon:(NSString *)iconName {
@@ -169,18 +172,6 @@ static float FULL_WIDTH, DRAG_MULTIPLIER;
             [iconImage drawInRect:rect blendMode:kCGBlendModeNormal alpha:powf(1 - ratio, ICON_PICKER_ITEM_ALPHA_EXPONENT)];
         }
     }
-}
-
-#pragma mark - CPAdResizingObserver implement
-
-- (void)adResizingDidAffectContent {
-    [self setNeedsDisplay];
-}
-
-#pragma mark - CPDeviceRotateObserver implement
-
-- (void)deviceWillRotateToOrientation:(UIInterfaceOrientation)orientation {
-    [self setNeedsDisplay];
 }
 
 @end
