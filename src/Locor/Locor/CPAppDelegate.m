@@ -8,10 +8,12 @@
 
 #import "CPAppDelegate.h"
 
+#import "CPUserDefaultManager.h"
+
 @implementation CPAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    [CPUserDefaultManager registerDefaults];
     return YES;
 }
 

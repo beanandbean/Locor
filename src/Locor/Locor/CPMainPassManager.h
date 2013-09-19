@@ -1,13 +1,13 @@
 //
-//  CPMainPasswordManager.h
+//  CPMainPassManager.h
 //  Locor
 //
 //  Created by wangsw on 8/15/13.
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-@interface CPMainPasswordManager : NSObject
+#import "CPViewManager.h"
 
-- (id)initWithSuperview:(UIView *)superview;
+@interface CPMainPassManager : CPViewManager
 
 @end

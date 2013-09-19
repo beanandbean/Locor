@@ -1,5 +1,5 @@
 //
-//  CPMainPasswordManager.m
+//  CPMainPassManager.m
 //  Locor
 //
 //  Created by wangsw on 8/15/13.
@@ -8,15 +8,14 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-#import "CPMainPasswordManager.h"
-
-#import "CPLocorConfig.h"
+#import "CPMainPassManager.h"
 
 #import "CPMainPasswordCanvas.h"
 
 #import "CPAppearanceManager.h"
-
+#import "CPLocorConfig.h"
 #import "CPNotificationCenter.h"
+#import "CPUserDefaultManager.h"
 
 typedef enum {
     CPMainPasswordStateSetting,
@@ -29,11 +28,9 @@ typedef enum {
     CPMainPasswordCanvasLastPointStatePassPoint
 } CPMainPasswordCanvasLastPointState;
 
-@interface CPMainPasswordManager ()
+@interface CPMainPassManager ()
 
 @property (nonatomic) CPMainPasswordState state;
-
-@property (weak, nonatomic) UIView *superview;
 
 @property (strong, nonatomic) UIView *outerView;
 
@@ -42,29 +39,16 @@ typedef enum {
 @property (strong, nonatomic) UILabel *stateLabel;
 @property (strong, nonatomic) UIButton *redrawButton;
 
-@property (strong, nonatomic) NSArray *passwordPoints;
+@property (strong, nonatomic) NSArray *passwordPointViews;
 
-@property (strong, nonatomic) NSArray *correctPoints;
+@property (strong, nonatomic) NSArray *passwords;
 @property (strong, nonatomic) NSMutableArray *panningPoints;
 
 @property (nonatomic) CPMainPasswordCanvasLastPointState lastPointState;
 
-+ (BOOL)passwordPointWithCenter:(CGPoint)passCenter containsCGPoint:(CGPoint)point;
-
-+ (BOOL)intArray:(NSArray *)array1 isEqualToArray:(NSArray *)array2;
-
-+ (void)addPoint:(CGPoint)point toPointArray:(NSMutableArray *)array atState:(CPMainPasswordCanvasLastPointState)state;
-
-- (void)showPasswordInput;
-
-- (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture;
-
-- (void)passwordCheckingSucceeded;
-- (void)passwordCheckingFailed;
-
 @end
 
-@implementation CPMainPasswordManager
+@implementation CPMainPassManager
 
 + (BOOL)passwordPointWithCenter:(CGPoint)passCenter containsCGPoint:(CGPoint)point {
     return sqrtf((passCenter.x - point.x) * (passCenter.x - point.x) + (passCenter.y - point.y) * (passCenter.y - point.y)) < MAIN_PASSWORD_POINT_SIZE / 2;
@@ -99,21 +83,9 @@ typedef enum {
     }
 }
 
-- (id)initWithSuperview:(UIView *)superview {
-    self = [super init];
-    if (self) {
-        self.superview = superview;
-        [self showPasswordInput];
-    }
-    return self;
-}
-
-- (void)showPasswordInput {
-    NSString* documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString* passwordFilePath = [documentsPath stringByAppendingPathComponent:@"mainpass.plist"];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:passwordFilePath]) {
+- (void)loadAnimated:(BOOL)animated {
+    if ([CPUserDefaultManager mainPass].count) {
         self.state = CPMainPasswordStateChecking;
-        self.correctPoints = [NSArray arrayWithContentsOfFile:passwordFilePath];
     } else {
         self.state = CPMainPasswordStateSetting;
     }
@@ -239,7 +211,11 @@ typedef enum {
             [self.pointsContainer addConstraint:[NSLayoutConstraint constraintWithItem:passwordPoint attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:MAIN_PASSWORD_POINT_SIZE]];
         }
     }
-    self.passwordPoints = passwordPoints;
+    self.passwordPointViews = passwordPoints;
+}
+
+- (void)unloadAnimated:(BOOL)animated {
+    [self.supermanager submanagerDidUnload:self];
 }
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture {
@@ -252,12 +228,12 @@ typedef enum {
     BOOL sign = YES;
     CGPoint panPoint = [panGesture locationInView:panGesture.view];
     for (int i = 0; i < 9; i++) {
-        if ([CPMainPasswordManager passwordPointWithCenter:((UIView *)[self.passwordPoints objectAtIndex:i]).center containsCGPoint:panPoint]) {
+        if ([CPMainPassManager passwordPointWithCenter:((UIView *)[self.passwordPointViews objectAtIndex:i]).center containsCGPoint:panPoint]) {
             if (self.panningPoints && (!self.panningPoints.count || ((NSNumber *)self.panningPoints.lastObject).intValue != i)) {
-                UIView *passwordPoint = ((UIView *)[self.passwordPoints objectAtIndex:i]);
+                UIView *passwordPoint = ((UIView *)[self.passwordPointViews objectAtIndex:i]);
                 
                 [self.panningPoints addObject:[NSNumber numberWithInt:i]];
-                [CPMainPasswordManager addPoint:passwordPoint.center toPointArray:self.pointsContainer.points atState:self.lastPointState];
+                [CPMainPassManager addPoint:passwordPoint.center toPointArray:self.pointsContainer.points atState:self.lastPointState];
                 self.lastPointState = CPMainPasswordCanvasLastPointStatePassPoint;
                 
                 passwordPoint.backgroundColor = [UIColor yellowColor];
@@ -273,7 +249,7 @@ typedef enum {
     }
     
     if (sign) {
-        [CPMainPasswordManager addPoint:panPoint toPointArray:self.pointsContainer.points atState:self.lastPointState];
+        [CPMainPassManager addPoint:panPoint toPointArray:self.pointsContainer.points atState:self.lastPointState];
         self.lastPointState = CPMainPasswordCanvasLastPointStateMouse;
     }
     
@@ -283,7 +259,7 @@ typedef enum {
         if (self.panningPoints && self.panningPoints.count) {
             switch (self.state) {
                 case CPMainPasswordStateChecking:
-                    if ([CPMainPasswordManager intArray:self.panningPoints isEqualToArray:self.correctPoints]) {
+                    if ([CPMainPassManager intArray:self.panningPoints isEqualToArray:[CPUserDefaultManager mainPass]]) {
                         [self passwordCheckingSucceeded];
                     } else {
                         [self passwordCheckingFailed];
@@ -291,10 +267,7 @@ typedef enum {
                     break;
                     
                 case CPMainPasswordStateConfirming:
-                    if ([CPMainPasswordManager intArray:self.panningPoints isEqualToArray:self.correctPoints]) {
-                        NSString* documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                        NSString* passwordFilePath = [documentsPath stringByAppendingPathComponent:@"mainpass.plist"];
-                        [self.correctPoints writeToFile:passwordFilePath atomically:YES];
+                    if ([CPMainPassManager intArray:self.panningPoints isEqualToArray:self.passwords]) {
                         [self passwordCheckingSucceeded];
                     } else {
                         [self passwordCheckingFailed];
@@ -303,7 +276,7 @@ typedef enum {
                     
                 case CPMainPasswordStateSetting:
                 {
-                    self.correctPoints = self.panningPoints;
+                    self.passwords = self.panningPoints;
                     self.stateLabel.text = @"Please input the main password again to confirm";
                     [UIView animateWithDuration:0.5 animations:^{
                         self.redrawButton.alpha = 1.0;
@@ -335,15 +308,16 @@ typedef enum {
 }
 
 - (void)passwordCheckingSucceeded {
+    [CPUserDefaultManager setMainPass:self.passwords];
+    
     [UIView animateWithDuration:1.0 animations:^{
         self.outerView.alpha = 0.0;
     } completion:^(BOOL finished) {
-        [self.outerView removeFromSuperview];
+        [self unloadAnimated:YES];
     }];
 }
 
 - (void)passwordCheckingFailed {
-    [CPNotificationCenter insertNotification:@"Sorry, the password is wrong, please input again"];
     [UIView animateWithDuration:0.25 animations:^{
         self.outerView.backgroundColor = [UIColor redColor];
     } completion:^(BOOL finished) {
