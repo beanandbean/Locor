@@ -69,8 +69,7 @@
     [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
     [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-BOX_SEPARATOR_SIZE]];
     
-    [self.superview addConstraint:[CPAppearanceManager constraintWithView:contentView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toPosition:CPStandardMarginEdgeLeft]];
-    [self.superview addConstraint:[CPAppearanceManager constraintWithView:contentView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toPosition:CPStandardMarginEdgeRight]];
+    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:contentView alignToView:self.superview attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, ATTR_END]];
 }
 
 - (void)openSetting {
@@ -88,10 +87,8 @@
     NSAssert(IS_IN_PROCESS(SEARCHING_PROCESS), @"Receive an unexpected stop searching request!");
     [self.resultMemoCollectionViewManager endEditing];
     [CPProcessManager stopProcess:SEARCHING_PROCESS withPreparation:^{
-        [CPAppearanceManager animateWithDuration:0.3 animations:^{
-            self.backResultContainer.alpha = 0.0;
-            self.coverImage.alpha = 0.0;
-            self.frontResultContainer.alpha = 0.0;
+        [CPAppearanceManager animateWithDuration:0.5 animations:^{
+            self.resultContainer.alpha = 0.0;
         } completion:^(BOOL finished) {
             [self.resultContainer removeFromSuperview];
             
@@ -152,8 +149,16 @@
             [self.resultContainer addSubview:self.backResultContainer];
             [self.resultContainer addSubview:self.coverImage];
             [self.resultContainer addSubview:self.frontResultContainer];
-            [self.resultContainer addConstraints:[CPAppearanceManager constraintsWithView:self.backResultContainer edgesAlignToView:self.resultContainer]];
-            [self.resultContainer addConstraints:[CPAppearanceManager constraintsWithView:self.frontResultContainer edgesAlignToView:self.resultContainer]];
+            
+            [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.frontResultContainer attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toPosition:CPStandardMarginEdgeLeft]];
+            [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.frontResultContainer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toPosition:CPStandardMarginEdgeRight]];
+            
+            [self.resultContainer addConstraints:[CPAppearanceManager constraintsWithView:self.frontResultContainer alignToView:self.resultContainer attribute:NSLayoutAttributeTop, NSLayoutAttributeBottom, ATTR_END]];
+            
+            [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.backResultContainer attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual constant:0.0 toPosition:CPStandardMarginEdgeLeft]];
+            [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.backResultContainer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toPosition:CPStandardMarginEdgeRight]];
+            
+            [self.resultContainer addConstraints:[CPAppearanceManager constraintsWithView:self.backResultContainer alignToView:self.resultContainer attribute:NSLayoutAttributeTop, NSLayoutAttributeBottom, ATTR_END]];
             
             [self.superview addConstraints:self.coverImage.positioningConstraints];
             
@@ -169,7 +174,7 @@
             
             [CPAppearanceManager animateWithDuration:0.3 animations:^{
                 self.coverImage.alpha = WATER_MARK_ALPHA;
-                self.backResultContainer.backgroundColor = [UIColor blackColor];
+                self.resultContainer.backgroundColor = [UIColor blackColor];
             } completion:nil];
         }];
     }
@@ -237,6 +242,7 @@
     if (!_resultContainer) {
         _resultContainer = [[UIView alloc] init];
         _resultContainer.clipsToBounds = YES;
+        _resultContainer.backgroundColor = [UIColor clearColor];
         _resultContainer.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _resultContainer;
@@ -245,6 +251,7 @@
 - (UIView *)frontResultContainer {
     if (!_frontResultContainer) {
         _frontResultContainer = [[UIView alloc] init];
+        _frontResultContainer.backgroundColor = [UIColor clearColor];
         _frontResultContainer.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _frontResultContainer;
