@@ -24,8 +24,9 @@
 @property (strong, nonatomic) CPAdManager *adManager;
 
 @property (strong, nonatomic) UIView *outerView;
-@property (strong, nonatomic) UIView *mainView;
+@property (strong, nonatomic) UIView *statusBarView;
 @property (strong, nonatomic) UIView *adView;
+@property (strong, nonatomic) UIView *mainView;
 @property (strong, nonatomic) UIView *contentView;
 
 @end
@@ -34,13 +35,19 @@
 
 - (void)loadAnimated:(BOOL)animated {
     [self.superview addSubview:self.outerView];
+    [self.superview addSubview:self.statusBarView];
     [self.superview addSubview:self.adView];
     [self.outerView addSubview:self.mainView];
-    [self.mainView addSubview:self.contentView];    
+    [self.mainView addSubview:self.contentView];
     
-    [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.outerView attribute:NSLayoutAttributeBottom alignToView:self.adView attribute:NSLayoutAttributeTop]];
-    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.outerView alignToView:self.superview attribute:NSLayoutAttributeTop, NSLayoutAttributeLeft, NSLayoutAttributeRight, ATTR_END]];
+    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.statusBarView alignToView:self.superview attribute:NSLayoutAttributeTop, NSLayoutAttributeLeft, NSLayoutAttributeRight, ATTR_END]];
+    [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.statusBarView height:20.0]];
+    
     [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.adView alignToView:self.superview attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, NSLayoutAttributeBottom, ATTR_END]];
+    
+    [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.outerView attribute:NSLayoutAttributeTop alignToView:self.statusBarView attribute:NSLayoutAttributeBottom]];
+    [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.outerView attribute:NSLayoutAttributeBottom alignToView:self.adView attribute:NSLayoutAttributeTop]];
+    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.outerView alignToView:self.superview attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, ATTR_END]];
     
     [self.outerView addConstraints:[CPAppearanceManager constraintsWithView:self.mainView edgesAlignToView:self.outerView]];
     
@@ -50,7 +57,7 @@
     [self.notificationCenter loadAnimated:NO];
     [self.adManager loadAnimated:NO];
     
-    [self.mainView addConstraint:[CPAppearanceManager constraintWithView:self.contentView attribute:NSLayoutAttributeTop alignToView:self.topBarManager.searchBar attribute:NSLayoutAttributeBottom]];
+    [self.mainView addConstraint:[CPAppearanceManager constraintWithView:self.contentView attribute:NSLayoutAttributeTop alignToView:self.topBarManager.topBar attribute:NSLayoutAttributeBottom]];
     [self.mainView addConstraints:[CPAppearanceManager constraintsWithView:self.contentView alignToView:self.mainView attribute:NSLayoutAttributeLeft, NSLayoutAttributeRight, NSLayoutAttributeBottom]];
 }
 
@@ -92,12 +99,13 @@
     return _outerView;
 }
 
-- (UIView *)mainView {
-    if (!_mainView) {
-        _mainView = [[UIView alloc] init];
-        _mainView.translatesAutoresizingMaskIntoConstraints = NO;
+- (UIView *)statusBarView {
+    if (!_statusBarView) {
+        _statusBarView = [[UIView alloc] init];
+        _statusBarView.translatesAutoresizingMaskIntoConstraints = NO;
+        _statusBarView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:1.0];
     }
-    return _mainView;
+    return _statusBarView;
 }
 
 - (UIView *)adView {
@@ -106,6 +114,14 @@
         _adView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _adView;
+}
+
+- (UIView *)mainView {
+    if (!_mainView) {
+        _mainView = [[UIView alloc] init];
+        _mainView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _mainView;
 }
 
 - (UIView *)contentView {
