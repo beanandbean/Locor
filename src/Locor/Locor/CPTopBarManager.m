@@ -18,6 +18,7 @@
 
 #import "CPBarButtonManager.h"
 
+#import "CPIAPHelper.h"
 #import "CPPassDataManager.h"
 
 #import "CPProcessManager.h"
@@ -285,6 +286,15 @@ static const char *BUTTON_NAMES[] = {"H", "M", "P"}, *BUTTON_SELECTORS[] = {"pre
 }
 
 - (void)pressedPurchase {
+    NSArray *productList = [CPIAPHelper productList];
+    if (productList.count > 0) {
+        SKProduct *product = [productList objectAtIndex:0];
+        [CPIAPHelper buyProduct:product];
+        
+        NSString *message = [NSString stringWithFormat:@"%@:%@", product.productIdentifier, product.price];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Buy" message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alertView show];
+    }
 }
 
 #pragma mark - lazy init

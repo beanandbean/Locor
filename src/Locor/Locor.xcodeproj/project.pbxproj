@@ -116,6 +116,8 @@
 		FCBB156917709854005DC611 /* CPPassCellManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FCBB156817709854005DC611 /* CPPassCellManager.m */; };
 		FCBF1E26176966E80014E56F /* CPPassDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FCBF1E25176966E80014E56F /* CPPassDataManager.m */; };
 		FCBF1E2917696C1A0014E56F /* Locor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FCBF1E2717696C1A0014E56F /* Locor.xcdatamodeld */; };
+		FCE4F17717EC19F200C79F97 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCE4F17617EC19F200C79F97 /* StoreKit.framework */; };
+		FCE4F17A17EC1ADF00C79F97 /* CPIAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE4F17917EC1ADF00C79F97 /* CPIAPHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -273,6 +275,9 @@
 		FCBF1E24176966E80014E56F /* CPPassDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPPassDataManager.h; sourceTree = "<group>"; };
 		FCBF1E25176966E80014E56F /* CPPassDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPPassDataManager.m; sourceTree = "<group>"; };
 		FCBF1E2817696C1A0014E56F /* Locor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Locor.xcdatamodel; sourceTree = "<group>"; };
+		FCE4F17617EC19F200C79F97 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		FCE4F17817EC1ADF00C79F97 /* CPIAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPIAPHelper.h; sourceTree = "<group>"; };
+		FCE4F17917EC1ADF00C79F97 /* CPIAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPIAPHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,6 +285,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCE4F17717EC19F200C79F97 /* StoreKit.framework in Frameworks */,
 				FC3732BA17D556E900014998 /* QuartzCore.framework in Frameworks */,
 				2C50933A17C4CB410051A463 /* iAd.framework in Frameworks */,
 				2C50933817C4C8D70051A463 /* SystemConfiguration.framework in Frameworks */,
@@ -447,7 +453,6 @@
 				FC926EC717DAFCE100E26367 /* CPRootManager.m */,
 				FCA4009F17896F000087AECF /* CPTopBarManager.h */,
 				FCA400A017896F000087AECF /* CPTopBarManager.m */,
-				FC94E7D417EAD5C200026965 /* CPUserDefaultManager.h */,
 			);
 			name = ViewManagers;
 			sourceTree = "<group>";
@@ -477,6 +482,7 @@
 				FC4F2ADB1759EB0C002D9992 /* Foundation.framework */,
 				2C50933917C4CB410051A463 /* iAd.framework */,
 				FC982CED17824842009CC784 /* QuartzCore.framework */,
+				FCE4F17617EC19F200C79F97 /* StoreKit.framework */,
 				2C50933717C4C8D70051A463 /* SystemConfiguration.framework */,
 				FC4F2AD91759EB0C002D9992 /* UIKit.framework */,
 			);
@@ -493,6 +499,8 @@
 				2CD4A94317D732AD00150687 /* CPBarButtonManager.h */,
 				2CD4A94417D732AD00150687 /* CPBarButtonManager.m */,
 				2C1CE01E17E3125E0090F76F /* CPHelperMacros.h */,
+				FCE4F17817EC1ADF00C79F97 /* CPIAPHelper.h */,
+				FCE4F17917EC1ADF00C79F97 /* CPIAPHelper.m */,
 				2CBC71A817C8E663000F37B1 /* CPLocorConfig.h */,
 				FC4F2B171759ECB5002D9992 /* CPMainViewController.h */,
 				FC4F2B181759ECB5002D9992 /* CPMainViewController.m */,
@@ -511,6 +519,7 @@
 				2C6143611786D1E300430C64 /* CPProcess.h */,
 				2C61435E1786D1C100430C64 /* CPProcessManager.h */,
 				2C61435F1786D1C100430C64 /* CPProcessManager.m */,
+				FC94E7D417EAD5C200026965 /* CPUserDefaultManager.h */,
 				FC94E7D517EAD5C200026965 /* CPUserDefaultManager.m */,
 				FC1E514717DA12A700691F79 /* CPViewManager.h */,
 				FC1E514817DA12A700691F79 /* CPViewManager.m */,
@@ -570,6 +579,11 @@
 				CLASSPREFIX = CP;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = codingpotato;
+				TargetAttributes = {
+					FC4F2AD51759EB0C002D9992 = {
+						DevelopmentTeam = FY635R7KCK;
+					};
+				};
 			};
 			buildConfigurationList = FC4F2AD11759EB0C002D9992 /* Build configuration list for PBXProject "Locor" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -705,6 +719,7 @@
 				2CC1C0E217E5BB05008AB924 /* CPDraggingPassCell.m in Sources */,
 				2C4D57E717E9A5C100A262A4 /* CPMemoCollectionViewFlowLayout.m in Sources */,
 				FC94E7D617EAD5C200026965 /* CPUserDefaultManager.m in Sources */,
+				FCE4F17A17EC1ADF00C79F97 /* CPIAPHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -791,11 +806,14 @@
 		FC4F2B121759EB0C002D9992 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Locor/Locor-Prefix.pch";
 				INFOPLIST_FILE = "Locor/Locor-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = Locor;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -803,11 +821,14 @@
 		FC4F2B131759EB0C002D9992 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Locor/Locor-Prefix.pch";
 				INFOPLIST_FILE = "Locor/Locor-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = Locor;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

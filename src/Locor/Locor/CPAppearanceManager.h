@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 codingpotato. All rights reserved.
 //
 
-#define ATTR_END -1
+static const NSLayoutAttribute ATTR_END = -1;
 
 typedef enum {
     CPStandardMarginEdgeLeft,

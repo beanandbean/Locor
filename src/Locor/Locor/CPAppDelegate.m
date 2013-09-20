@@ -8,12 +8,14 @@
 
 #import "CPAppDelegate.h"
 
+#import "CPIAPHelper.h"
 #import "CPUserDefaultManager.h"
 
 @implementation CPAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [CPUserDefaultManager registerDefaults];
+    [CPIAPHelper requstProductList];
     return YES;
 }
 

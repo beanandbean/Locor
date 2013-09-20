@@ -10,10 +10,16 @@
 
 + (void)registerDefaults;
 
++ (BOOL)isCompletedTransactionsRestored;
++ (void)setCompletedTransactionsRestored:(BOOL)completedTransactionsRestored;
+
 + (BOOL)isFirstRunning;
 + (void)setFirstRuning:(BOOL)firstRunning;
 
 + (NSArray *)mainPass;
 + (void)setMainPass:(NSArray *)mainPass;
+
++ (BOOL)isProductPurchased:(NSString *)productName;
++ (void)setProduct:(NSString *)productName purchased:(BOOL)purchased;
 
 @end

@@ -146,7 +146,7 @@ static NSString *CELL_REUSE_IDENTIFIER_REMOVING_BACKGROUND = @"removing-cell-bac
 - (id)initWithSuperview:(UIView *)superview frontLayer:(UIView *)frontLayer backLayer:(UIView *)backLayer andDelegate:(id<CPMemoCollectionViewManagerDelegate>)delegate {
     self = [super init];
     if (self) {
-        self.memos = [NSArray array];
+        self.memos = [NSMutableArray array];
         self.delegate = delegate;
         self.superview = superview;
         self.frontLayer = frontLayer;
