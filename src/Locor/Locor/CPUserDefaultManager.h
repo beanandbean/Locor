@@ -10,9 +10,6 @@
 
 + (void)registerDefaults;
 
-+ (BOOL)isCompletedTransactionsRestored;
-+ (void)setCompletedTransactionsRestored:(BOOL)completedTransactionsRestored;
-
 + (BOOL)isFirstRunning;
 + (void)setFirstRuning:(BOOL)firstRunning;
 

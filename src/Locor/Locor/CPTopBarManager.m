@@ -47,6 +47,9 @@ static const char *BUTTON_NAMES[] = {"H", "M", "P"}, *BUTTON_SELECTORS[] = {"pre
 @property (strong, nonatomic) NSMutableArray *buttons;
 @property (strong, nonatomic) NSMutableArray *buttonTopConstraints;
 
+@property (strong, nonatomic) CPIAPHelper *iapHelper;
+@property (strong, nonatomic) SKProduct *removeAd;
+
 @end
 
 @implementation CPTopBarManager
@@ -219,6 +222,43 @@ static const char *BUTTON_NAMES[] = {"H", "M", "P"}, *BUTTON_SELECTORS[] = {"pre
     }
 }
 
+#pragma mark - CPIAPHelperDelegate implement
+
+- (void)helper:(CPIAPHelper *)helper didReceiveProducts:(NSArray *)products {
+    if (products.count > 0) {
+        self.removeAd = [products objectAtIndex:0];
+        
+        NSString *message = [NSString stringWithFormat:@"Buy %@ with $%@", self.removeAd.localizedTitle, self.removeAd.price];
+        UIActionSheet *buyActionSheet = [[UIActionSheet alloc] initWithTitle:@"Buy" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:message, nil];
+        [buyActionSheet showInView:self.superview];
+    }
+}
+
+- (void)helper:(CPIAPHelper *)helper didPurchaseProduct:(NSString *)productIdentifier {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Buy seccess" message:@"Buy Remove Ad seccess" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    [alertView show];
+}
+
+- (void)helper:(CPIAPHelper *)helper didRestoreProduct:(NSString *)productIdentifier {
+    
+}
+
+#pragma mark - UIActionSheetDelegate implement
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 0:
+            NSAssert(self.removeAd, @"");
+            [self.iapHelper buyProduct:self.removeAd];
+            break;
+        case 1:
+            [self.iapHelper restoreProducts];
+            break;
+        default:
+            break;
+    }
+}
+
 #pragma mark - UISearchBarDelegate implement
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
@@ -286,15 +326,7 @@ static const char *BUTTON_NAMES[] = {"H", "M", "P"}, *BUTTON_SELECTORS[] = {"pre
 }
 
 - (void)pressedPurchase {
-    NSArray *productList = [CPIAPHelper productList];
-    if (productList.count > 0) {
-        SKProduct *product = [productList objectAtIndex:0];
-        [CPIAPHelper buyProduct:product];
-        
-        NSString *message = [NSString stringWithFormat:@"%@:%@", product.productIdentifier, product.price];
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Buy" message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alertView show];
-    }
+    [self.iapHelper requstProducts];
 }
 
 #pragma mark - lazy init
@@ -412,6 +444,14 @@ static const char *BUTTON_NAMES[] = {"H", "M", "P"}, *BUTTON_SELECTORS[] = {"pre
         _buttonTopConstraints = [NSMutableArray array];
     }
     return _buttonTopConstraints;
+}
+
+- (CPIAPHelper *)iapHelper {
+    if (!_iapHelper) {
+        _iapHelper = [[CPIAPHelper alloc] init];
+        _iapHelper.delegate = self;
+    }
+    return _iapHelper;
 }
 
 @end

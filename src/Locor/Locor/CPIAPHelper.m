@@ -10,60 +10,45 @@
 
 #import "CPUserDefaultManager.h"
 
-static NSString *REMOVE_AD_NAME = @"Remove Ad";
+const NSString * const CPProductNameRemoveAd = @"codingpotato.Locor.RemoveAd";
 
 @interface CPIAPHelper ()
-
-@property (strong, nonatomic) NSArray *productList;
 
 @end
 
 @implementation CPIAPHelper
 
-static CPIAPHelper *g_helper = nil;
-
-+ (CPIAPHelper *)helper {
-    if (!g_helper) {
-        g_helper = [[CPIAPHelper alloc] init];
-    }
-    return g_helper;
-}
-
 - (id)init {
     self = [super init];
     if (self) {
-        if ([SKPaymentQueue canMakePayments]) {
-            [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
-            
-            if (![CPUserDefaultManager isCompletedTransactionsRestored]) {
-                [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
-            }
-        }
+        [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     }
     return self;
 }
 
-+ (void)requstProductList {
+- (void)dealloc {
+    [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
+}
+
+- (void)requstProducts {
     if ([SKPaymentQueue canMakePayments]) {
-        SKProductsRequest *productRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithObjects:REMOVE_AD_NAME, nil]];
-        productRequest.delegate = [CPIAPHelper helper];
+        SKProductsRequest *productRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithObjects:CPProductNameRemoveAd, nil]];
+        productRequest.delegate = self;
         [productRequest start];
     }
 }
 
-+ (NSArray *)productList {
-    return [CPIAPHelper helper].productList;
-}
-
-+ (void)buyProduct:(SKProduct *)product {
+- (void)buyProduct:(SKProduct *)product {
     if ([SKPaymentQueue canMakePayments]) {
         SKPayment *payment = [SKPayment paymentWithProduct:product];
         [[SKPaymentQueue defaultQueue] addPayment:payment];
     }
 }
 
-+ (BOOL)isRemovedAdPurchased {
-    return [CPUserDefaultManager isProductPurchased:REMOVE_AD_NAME];
+- (void)restoreProducts {
+    if ([SKPaymentQueue canMakePayments]) {
+        [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+    }
 }
 
 #pragma mark - SKPaymentTransactionObserver implement
@@ -75,15 +60,12 @@ static CPIAPHelper *g_helper = nil;
                 break;
             case SKPaymentTransactionStatePurchased:
                 [CPUserDefaultManager setProduct:transaction.payment.productIdentifier purchased:YES];
+                [self.delegate helper:self didPurchaseProduct:transaction.payment.productIdentifier];
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-            {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Removed Ad purchased" message:@"Removed Ad purchased" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-                [alertView show];
-            }
                 break;
             case SKPaymentTransactionStateRestored:
                 [CPUserDefaultManager setProduct:transaction.payment.productIdentifier purchased:YES];
-                [CPUserDefaultManager setCompletedTransactionsRestored:YES];
+                [self.delegate helper:self didRestoreProduct:transaction.payment.productIdentifier];
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 break;
             case SKPaymentTransactionStateFailed:
@@ -98,16 +80,7 @@ static CPIAPHelper *g_helper = nil;
 #pragma mark - SKProductsRequestDelegate implement
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
-    self.productList = response.products;
-}
-
-#pragma mark - lazy init
-
-- (NSArray *)productList {
-    if (!_productList) {
-        _productList = [NSArray array];
-    }
-    return _productList;
+    [self.delegate helper:self didReceiveProducts:response.products];
 }
 
 @end

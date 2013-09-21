@@ -8,9 +8,10 @@
 
 #import "CPMemoCell.h"
 
+#import "CPIAPHelper.h"
 #import "CPViewManager.h"
 
-@interface CPTopBarManager : CPViewManager <UISearchBarDelegate>
+@interface CPTopBarManager : CPViewManager <CPIAPHelperDelegate, UIActionSheetDelegate, UISearchBarDelegate>
 
 @property (strong, nonatomic) UISearchBar *searchBar;
 

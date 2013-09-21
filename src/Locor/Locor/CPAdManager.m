@@ -71,6 +71,7 @@
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
+    NSLog(@"%@", error);
     [self displayAdBanner];
 }
 
@@ -85,7 +86,7 @@
 
 - (ADBannerView *)iAdBannerView {
     if (!_iAdBannerView) {
-        _iAdBannerView = [[ADBannerView alloc] init];
+        _iAdBannerView = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
         _iAdBannerView.delegate = self;
         _iAdBannerView.translatesAutoresizingMaskIntoConstraints = NO;        
     }

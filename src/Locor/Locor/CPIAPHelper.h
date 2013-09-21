@@ -8,14 +8,28 @@
 
 #import "StoreKit/StoreKit.h"
 
+extern const NSString * const CPProductNameRemoveAd;
+
+@class CPIAPHelper;
+
+@protocol CPIAPHelperDelegate <NSObject>
+
+- (void)helper:(CPIAPHelper *)helper didReceiveProducts:(NSArray *)products;
+
+- (void)helper:(CPIAPHelper *)helper didPurchaseProduct:(NSString *)productIdentifier;
+
+- (void)helper:(CPIAPHelper *)helper didRestoreProduct:(NSString *)productIdentifier;
+
+@end
+
 @interface CPIAPHelper : NSObject <SKPaymentTransactionObserver, SKProductsRequestDelegate>
 
-+ (void)requstProductList;
+@property (weak, nonatomic) id<CPIAPHelperDelegate> delegate;
 
-+ (NSArray *)productList;
+- (void)requstProducts;
 
-+ (void)buyProduct:(SKProduct *)product;
+- (void)buyProduct:(SKProduct *)product;
 
-+ (BOOL)isRemovedAdPurchased;
+- (void)restoreProducts;
 
 @end

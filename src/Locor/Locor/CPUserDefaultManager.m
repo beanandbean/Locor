@@ -8,7 +8,6 @@
 
 #import "CPUserDefaultManager.h"
 
-static NSString *KEY_COMPLETED_TRANSACTIONS_RESTORED = @"CompletedTransactionsRestored";
 static NSString *KEY_IS_FIRST_RUNNING = @"IsFirstRunning";
 static NSString *KEY_MAIN_PASS = @"MainPass";
 
@@ -16,19 +15,9 @@ static NSString *KEY_MAIN_PASS = @"MainPass";
 
 + (void)registerDefaults {
     [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                             [NSNumber numberWithBool:NO], KEY_COMPLETED_TRANSACTIONS_RESTORED,
                                                              [NSNumber numberWithBool:YES], KEY_IS_FIRST_RUNNING,
                                                              @"", KEY_MAIN_PASS,
                                                              nil]];
-}
-
-+ (BOOL)isCompletedTransactionsRestored {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:KEY_COMPLETED_TRANSACTIONS_RESTORED];
-}
-
-+ (void)setCompletedTransactionsRestored:(BOOL)completedTransactionsRestored {
-    [[NSUserDefaults standardUserDefaults] setBool:completedTransactionsRestored forKey:KEY_COMPLETED_TRANSACTIONS_RESTORED];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 + (BOOL)isFirstRunning {
