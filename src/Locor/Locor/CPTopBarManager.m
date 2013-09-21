@@ -31,6 +31,8 @@ static const char *BUTTON_NAMES[] = {"H", "M", "P"}, *BUTTON_SELECTORS[] = {"pre
 
 @property (strong, nonatomic) UIButton *barButton;
 
+@property (strong, nonatomic) UISearchBar *searchBar;
+
 @property (weak, nonatomic) UITextField *searchBarTextField;
 
 @property (strong, nonatomic) UIView *resultContainer;
@@ -55,7 +57,32 @@ static const char *BUTTON_NAMES[] = {"H", "M", "P"}, *BUTTON_SELECTORS[] = {"pre
 @implementation CPTopBarManager
 
 - (void)loadAnimated:(BOOL)animated {
-    [self.superview addSubview:self.searchBar];
+    self.topBar = [[UIToolbar alloc] init];
+    self.topBar.translatesAutoresizingMaskIntoConstraints = NO;
+    self.topBar.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1.0];
+    
+    [self.superview addSubview:self.topBar];
+    [self.superview addConstraints:[CPAppearanceManager constraintsWithView:self.topBar alignToView:self.superview attribute:NSLayoutAttributeTop, NSLayoutAttributeLeft, NSLayoutAttributeRight, ATTR_END]];
+    [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.topBar height:BAR_HEIGHT]];
+    
+    UIBarButtonItem *search = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:nil action:nil];
+    search.tintColor = [UIColor blackColor];
+    
+    UIBarButtonItem *space1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithTitle:@"LOCOR" style:UIBarButtonItemStyleDone target:nil action:nil];
+    title.enabled = NO;
+    NSDictionary *textAttrs = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextColor, nil];
+    [title setTitleTextAttributes:textAttrs forState:UIControlStateNormal];
+    
+    UIBarButtonItem *space2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    UIBarButtonItem *setting = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:nil action:nil];
+    setting.tintColor = [UIColor blackColor];
+    
+    [self.topBar setItems:[NSArray arrayWithObjects:search, space1, title, space2, setting, nil] animated:NO];
+    
+    /*[self.superview addSubview:self.searchBar];
     [self.superview addSubview:self.barButton];
     
     [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.searchBar attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
@@ -68,7 +95,7 @@ static const char *BUTTON_NAMES[] = {"H", "M", "P"}, *BUTTON_SELECTORS[] = {"pre
     [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.barButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.searchBar attribute:NSLayoutAttributeRight multiplier:1.0 constant:BOX_SEPARATOR_SIZE]];
     [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.barButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual constant:0.0 toPosition:CPStandardMarginEdgeRight]];
     
-    [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.barButton attribute:NSLayoutAttributeWidth alignToView:self.barButton attribute:NSLayoutAttributeHeight]];
+    [self.superview addConstraint:[CPAppearanceManager constraintWithView:self.barButton attribute:NSLayoutAttributeWidth alignToView:self.barButton attribute:NSLayoutAttributeHeight]];*/
 }
 
 - (void)alignContentView:(UIView *)contentView {
@@ -335,10 +362,11 @@ static const char *BUTTON_NAMES[] = {"H", "M", "P"}, *BUTTON_SELECTORS[] = {"pre
     if (!_searchBar) {
         _searchBar = [[UISearchBar alloc] init];
         _searchBar.delegate = self;
+        _searchBar.placeholder = @"Search";
         _searchBar.translatesAutoresizingMaskIntoConstraints = NO;
         _searchBar.autocapitalizationType = NO;
         
-        UIGraphicsBeginImageContext(CGSizeMake(1.0, 34.0));
+        /*UIGraphicsBeginImageContext(CGSizeMake(1.0, 34.0));
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGContextSetRGBFillColor(context, 0.8, 0.8, 0.8, 1.0);
         CGContextFillRect(context, CGRectMake(0.0, 0.0, 1.0, 34.0));
@@ -346,7 +374,7 @@ static const char *BUTTON_NAMES[] = {"H", "M", "P"}, *BUTTON_SELECTORS[] = {"pre
         UIGraphicsEndImageContext();
         
         _searchBar.backgroundImage = backgroundImage;
-        [_searchBar setSearchFieldBackgroundImage:backgroundImage forState:UIControlStateNormal];
+        [_searchBar setSearchFieldBackgroundImage:backgroundImage forState:UIControlStateNormal];*/
         
         [self.searchBar addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapOnSearchBar:)]];
         

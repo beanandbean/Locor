@@ -33,6 +33,10 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:CPDeviceOrientationWillChangeNotification object:nil];
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 #pragma mark - lazy init
 
 - (CPRootManager *)rootManager {

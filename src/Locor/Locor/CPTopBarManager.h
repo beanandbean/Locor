@@ -13,6 +13,6 @@
 
 @interface CPTopBarManager : CPViewManager <CPIAPHelperDelegate, UIActionSheetDelegate, UISearchBarDelegate>
 
-@property (strong, nonatomic) UISearchBar *searchBar;
+@property (strong, nonatomic) UIToolbar *topBar;
 
 @end
